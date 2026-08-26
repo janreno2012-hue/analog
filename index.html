@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4d8f94">
+<link rel="manifest" href="manifest.json">
+<title>歩ログ Ver.1</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;background:#f4f7f8;color:#333}
+.container{max-width:700px;margin:auto;padding:20px 16px 40px}
+header{text-align:center;margin-bottom:22px}
+h1{margin:0 0 7px;color:#2f6f73;font-size:27px}
+header p{margin:0;color:#777;font-size:14px}
+.card{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 3px 12px rgba(0,0,0,.06)}
+.title{font-size:18px;font-weight:700;margin-bottom:15px}
+.group{margin-bottom:13px}
+label{display:block;font-size:14px;font-weight:700;margin-bottom:6px;color:#555}
+input{width:100%;padding:12px;border:1px solid #d5dddd;border-radius:10px;font-size:16px;background:#fafcfc;outline:none}
+input:focus{border-color:#5b9ea3;background:#fff}
+button{border:0;border-radius:10px;padding:12px;font-size:16px;font-weight:700;cursor:pointer}
+.save{width:100%;background:#4d8f94;color:#fff}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:#f1f7f7;border-radius:12px;padding:15px;text-align:center}
+.stat small{display:block;color:#777;margin-bottom:5px}
+.stat strong{font-size:24px;color:#39757a}
+.unit{font-size:12px;color:#666;margin-left:2px}
+.count{font-size:13px;color:#888;margin-bottom:10px}
+.record{display:flex;justify-content:space-between;align-items:center;padding:12px;background:#f8fafa;border:1px solid #edf1f1;border-radius:10px;margin-bottom:9px}
+.date{font-weight:700}.values{font-size:14px;color:#666;margin-top:4px}
+.delete{background:#e6aaaa;color:#fff;padding:7px 10px;font-size:12px;margin-left:10px}
+.empty{text-align:center;color:#999;padding:18px}
+.note{font-size:12px;color:#888;text-align:center;margin-top:12px}
+@media(max-width:480px){.container{padding:16px 12px 30px}.card{padding:16px}h1{font-size:24px}.stat strong{font-size:21px}.record{align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>🌿 歩ログ</h1>
+<p>毎日の小さな積み重ねを記録しましょう</p>
+</header>
+
+<section class="card">
+<div class="title">今日の記録</div>
+<div class="group"><label for="date">日付</label><input id="date" type="date"></div>
+<div class="group"><label for="weight">体重（kg）</label><input id="weight" type="number" min="0" step="0.1" inputmode="decimal" placeholder="例：65.5"></div>
+<div class="group"><label for="steps">歩数（歩）</label><input id="steps" type="number" min="0" step="1" inputmode="numeric" placeholder="例：8500"></div>
+<button class="save" id="save">記録を保存</button>
+</section>
+
+<section class="card">
+<div class="title">📊 これまでの平均</div>
+<div class="stats">
+<div class="stat"><small>平均体重</small><strong id="avgWeight">--</strong><span class="unit">kg</span></div>
+<div class="stat"><small>平均歩数</small><strong id="avgSteps">--</strong><span class="unit">歩</span></div>
+</div>
+</section>
+
+<section class="card">
+<div class="title">📝 記録一覧</div>
+<div class="count">記録件数：<span id="count">0</span>件</div>
+<div id="list"><div class="empty">まだ記録がありません</div></div>
+</section>
+
+<div class="note">データはこの端末のブラウザに保存されます。</div>
+</div>
+
+<script>
+const KEY="ayalog_records";
+
+function today(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+function getRecords(){
+  try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}
+}
+function setRecords(records){
+  localStorage.setItem(KEY,JSON.stringify(records));
+}
+function formatDate(s){
+  const [y,m,d]=s.split("-");
+  return `${y}年${Number(m)}月${Number(d)}日`;
+}
+function render(){
+  const records=getRecords().sort((a,b)=>b.date.localeCompare(a.date));
+  document.getElementById("count").textContent=records.length;
+
+  if(!records.length){
+    document.getElementById("avgWeight").textContent="--";
+    document.getElementById("avgSteps").textContent="--";
+    document.getElementById("list").innerHTML='<div class="empty">まだ記録がありません</div>';
+    return;
+  }
+
+  const aw=records.reduce((s,r)=>s+r.weight,0)/records.length;
+  const as=records.reduce((s,r)=>s+r.steps,0)/records.length;
+  document.getElementById("avgWeight").textContent=aw.toFixed(1);
+  document.getElementById("avgSteps").textContent=Math.round(as).toLocaleString();
+
+  document.getElementById("list").innerHTML=records.map(r=>`
+    <div class="record">
+      <div>
+        <div class="date">${formatDate(r.date)}</div>
+        <div class="values">体重：${Number(r.weight).toFixed(1)} kg　歩数：${Number(r.steps).toLocaleString()} 歩</div>
+      </div>
+      <button class="delete" onclick="removeRecord('${r.id}')">削除</button>
+    </div>
+  `).join("");
+}
+function save(){
+  const date=document.getElementById("date").value;
+  const weight=Number(document.getElementById("weight").value);
+  const steps=Number(document.getElementById("steps").value);
+
+  if(!date){alert("日付を入力してください。");return}
+  if(!Number.isFinite(weight)||weight<=0){alert("正しい体重を入力してください。");return}
+  if(!Number.isInteger(steps)||steps<0){alert("正しい歩数を入力してください。");return}
+
+  const records=getRecords();
+  const index=records.findIndex(r=>r.date===date);
+  const record={id:index>=0?records[index].id:String(Date.now()),date,weight,steps};
+  if(index>=0) records[index]=record; else records.push(record);
+  setRecords(records);
+  document.getElementById("weight").value="";
+  document.getElementById("steps").value="";
+  render();
+}
+function removeRecord(id){
+  if(!confirm("この記録を削除しますか？")) return;
+  setRecords(getRecords().filter(r=>r.id!==id));
+  render();
+}
+document.getElementById("date").value=today();
+document.getElementById("save").addEventListener("click",save);
+render();
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js").catch(()=>{}));
+}
+</script>
+</body>
+</html>
