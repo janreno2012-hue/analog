@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.1</title>
+<title>歩ログ Ver.3.2</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -17,16 +17,16 @@ label{display:block;font-size:14px;font-weight:700;margin:11px 0 5px}input,texta
 #map{height:280px;border-radius:15px;border:1px solid #d5dfdd;background:#eef5f3;position:relative;overflow:hidden}
 #map canvas{width:100%;height:100%;display:block}.mapmsg{text-align:center;padding:75px 15px;color:#6b7c79}.route{margin-top:8px}
 ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid #e5ecea}.del{float:right;padding:6px 9px;font-size:12px;background:#f5eeee;color:#b23b3b}.top{display:flex;justify-content:space-between;font-weight:700}
-.badge{display:inline-block;font-size:11px;padding:4px 8px;border-radius:20px;background:#eaf5f3;color:#0f766e;margin-top:7px}
+.badge{display:inline-block;font-size:11px;padding:4px 8px;border-radius:20px;background:#eaf5f3;color:#0f766e;margin-top:7px}.mini{font-size:12px;color:#6b7c79;margin-top:6px}.stats4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 </style>
 </head>
 <body><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.1</div><div class="sub">STARTを押してから歩数・GPSを開始</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.2</div><div class="sub">STARTを押して歩数・GPS・速度・高度を計測</div></header>
 
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
-<div id="msg" class="note">STARTはGPS捕捉を待たずに押せます。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div></section>
+<div id="msg" class="note">STARTはGPS捕捉を待たずに押せます。速度・高度・傾斜も自動計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div class="mini">※速度・高度・傾斜・カロリーはGPS等からの推定値です。</div></section>
 
 <section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
 <div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
@@ -35,7 +35,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <section class="card"><h2>📝 今日の記録</h2>
 <label>日付</label><input id="date" type="date"><label>体重（kg）</label><input id="weight" type="number" step="0.1" placeholder="例：65.5">
 <label>歩数（歩）</label><input id="recsteps" type="number" min="0" placeholder="計測後に自動入力">
-<label>歩行時間</label><input id="duration" type="text" readonly placeholder="STOP後に自動入力">
+<label>歩行時間</label><input id="duration" type="text" readonly placeholder="STOP後に自動入力"><label>距離・速度・高低差</label><input id="summary" type="text" readonly placeholder="STOP後に自動入力">
 <label>今日の一言・日記</label><textarea id="diary" placeholder="例：今日は展望台まで歩いた。鳥の声が綺麗だった。"></textarea>
 <button id="save" class="save">💾 記録を保存</button></section>
 
@@ -46,11 +46,12 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </div>
 
 <script>
-const KEY="ayalog_records_v31";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
-if(!data.length){for(const k of ["ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
+const KEY="ayalog_records_v32";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+if(!data.length){for(const k of ["ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
 const $=id=>document.getElementById(id);$("date").value=new Date().toISOString().slice(0,10);
-let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null,route=[],routeDistance=0,permissionState="unknown";
-let mapCanvas=null,ctx=null,mapPts=[];
+let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null;
+let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null;
+let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
 
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
 function pad(x){return String(x).padStart(2,"0")}
@@ -58,6 +59,7 @@ function fmt(s){return pad(Math.floor(s/3600))+":"+pad(Math.floor(s%3600/60))+":
 function tick(){if(running)$("timer").textContent=fmt(Math.floor((Date.now()-t0)/1000))}
 function hav(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
 function motion(e){if(!running||!e.accelerationIncludingGravity)return;const a=e.accelerationIncludingGravity,m=Math.hypot(a.x||0,a.y||0,a.z||0);if(prevMag===null){prevMag=m;return}const delta=m-prevMag;prevMag=m;const now=Date.now();if(delta>1.15&&m>10.2&&now-lastStep>280){n++;$("steps").textContent=n;$("recsteps").value=n;lastStep=now}}
+
 async function requestMotion(){
  if(!("DeviceMotionEvent"in window)){permissionState="unsupported";return false}
  try{
@@ -68,18 +70,81 @@ async function requestMotion(){
   handler=motion;window.addEventListener("devicemotion",handler);return true
  }catch(e){permissionState="error";return false}
 }
+
+function metFor(speed,grade){
+  let met = speed<3.2?2.8:speed<4.0?3.0:speed<4.8?3.5:speed<5.6?4.3:speed<6.4?5.0:6.0;
+  if(grade>0) met += Math.min(3, grade/3);
+  return met;
+}
+function addCalories(distanceM,seconds,weight,grade,speed){
+  if(!Number.isFinite(weight)||weight<=0||seconds<=0||distanceM<=0)return;
+  const met=metFor(speed,grade);
+  currentCalories += met*3.5*weight/200*(seconds/60);
+}
+function updateMetrics(){
+ $("speed").textContent=Number.isFinite(currentSpeed)?currentSpeed.toFixed(1)+" km/h":"-- km/h";
+ $("altitude").textContent=minAlt!==null&&lastSmoothAlt!==null?Math.round(lastSmoothAlt)+" m":"-- m";
+ $("grade").textContent=Number.isFinite(currentGrade)?(currentGrade>=0?"+":"")+currentGrade.toFixed(1)+" %":"-- %";
+ $("calories").textContent=Number.isFinite(currentCalories)?Math.round(currentCalories)+" kcal":"-- kcal";
+ const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
+ $("elevInfo").textContent="高低差："+diff+" m ／ 累積上昇："+Math.round(totalAscent)+" m ／ 累積下降："+Math.round(totalDescent)+" m";
+}
 function startGPS(){
  if(!navigator.geolocation){$("gpsmsg").textContent="📍 GPS：この端末では利用できません";return}
  $("gpsmsg").textContent="📍 GPS：取得中…";
  watchId=navigator.geolocation.watchPosition(p=>{
-  const x={lat:p.coords.latitude,lng:p.coords.longitude};const last=route[route.length-1];
-  if(last){const d=hav(last,x);if(d>=2&&d<100)routeDistance+=d}
-  route.push(x);drawRoute();
-  $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";
-  $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length
+   const now=p.timestamp||Date.now();
+   const x={lat:p.coords.latitude,lng:p.coords.longitude,alt:p.coords.altitude,speed:p.coords.speed,time:now};
+   const last=route[route.length-1];
+   let d=0,dt=0;
+   if(last){
+     d=hav(last,x);
+     dt=Math.max(0,(now-last.time)/1000);
+     if(d>=2&&d<100) routeDistance+=d;
+   }
+   // Smooth altitude to reduce GPS noise. Ignore very large single jumps.
+   if(Number.isFinite(x.alt)){
+     if(lastSmoothAlt===null) lastSmoothAlt=x.alt;
+     else {
+       const raw=x.alt-lastSmoothAlt;
+       const bounded=Math.max(-15,Math.min(15,raw));
+       const next=lastSmoothAlt+bounded*0.25;
+       if(d>=2){
+         const dh=next-lastSmoothAlt;
+         if(Math.abs(dh)>=1){
+           if(dh>0) totalAscent+=dh; else totalDescent+=-dh;
+         }
+       }
+       lastSmoothAlt=next;
+     }
+     minAlt=minAlt===null?lastSmoothAlt:Math.min(minAlt,lastSmoothAlt);
+     maxAlt=maxAlt===null?lastSmoothAlt:Math.max(maxAlt,lastSmoothAlt);
+   }
+   if(d>=2 && dt>0){
+     let sp=Number.isFinite(x.speed)&&x.speed>=0?x.speed*3.6:(d/dt)*3.6;
+     currentSpeed=Math.min(sp,20);
+     if(Number.isFinite(x.alt)&&lastSmoothAlt!==null&&last&&Number.isFinite(last.alt)&&d>0){
+       const prevAlt=Number.isFinite(last.smoothAlt)?last.smoothAlt:last.alt;
+       currentGrade=Math.max(-25,Math.min(25,((lastSmoothAlt-prevAlt)/d)*100));
+     } else currentGrade=0;
+     const w=parseFloat($("weight").value);
+     addCalories(d,dt,w,currentGrade,currentSpeed);
+   } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
+   x.smoothAlt=lastSmoothAlt;
+   route.push(x);
+   drawRoute();
+   updateMetrics();
+   $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";
+   $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length;
  },e=>$("gpsmsg").textContent="📍 GPS：取得できません（"+e.message+"）",{enableHighAccuracy:true,maximumAge:3000,timeout:10000})
 }
 function stopGPS(){if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}}
+
+function resetMap(){
+ route=[];routeDistance=0;totalAscent=0;totalDescent=0;minAlt=null;maxAlt=null;lastSmoothAlt=null;
+ currentSpeed=0;currentGrade=0;currentCalories=0;
+ $("routeInfo").textContent="距離：0 m ／ GPS点：0";updateMetrics();drawRoute()
+}
 function setupMap(){
  const el=$("map");el.innerHTML="";mapCanvas=document.createElement("canvas");el.appendChild(mapCanvas);ctx=mapCanvas.getContext("2d");
  resizeMap();window.addEventListener("resize",resizeMap)
@@ -103,34 +168,43 @@ setupMap();
 
 $("start").onclick=async()=>{
  if(running)return;
- // START itself never depends on GPS. This is the key Ver.3.1 fix.
  n=0;lastStep=0;prevMag=null;resetMap();$("steps").textContent="0";$("recsteps").value="";
+ $("summary").value="";
  t0=Date.now();running=true;tick();timer=setInterval(tick,1000);
  $("status").textContent="計測中…";$("start").disabled=true;$("stop").disabled=false;$("msg").textContent="計測開始。GPSを取得中です…";
  const motionOK=await requestMotion();
- if(motionOK)$("msg").textContent="歩数＋GPSを計測中です。";
+ if(motionOK)$("msg").textContent="歩数＋GPS＋速度・高度を計測中です。";
  else if(permissionState==="unsupported")$("msg").textContent="GPSを計測中です。歩数センサーはこのブラウザでは利用できません。";
  else $("msg").textContent="GPSを計測中です。歩数センサーの許可が得られませんでした。";
  startGPS()
 };
 $("stop").onclick=()=>{
- if(!running)return;running=false;if(handler)window.removeEventListener("devicemotion",handler);handler=null;clearInterval(timer);stopGPS();
- const s=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(s);$("status").textContent="計測終了";$("start").disabled=false;$("stop").disabled=true;
- $("msg").textContent="今回："+n.toLocaleString()+"歩 ／ GPS距離："+(routeDistance/1000).toFixed(2)+" km"
+ if(!running)return;
+ running=false;if(handler)window.removeEventListener("devicemotion",handler);handler=null;clearInterval(timer);stopGPS();
+ const sec=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(sec);
+ const km=routeDistance/1000,avg=sec>0?km/(sec/3600):0;
+ const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
+ $("summary").value=(km>=1?km.toFixed(2)+" km":Math.round(routeDistance)+" m")+" ／ 平均 "+avg.toFixed(1)+" km/h ／ 高低差 "+diff+" m";
+ $("status").textContent="計測終了";$("start").disabled=false;$("stop").disabled=true;
+ $("msg").textContent="今回："+n.toLocaleString()+"歩 ／ GPS距離："+km.toFixed(2)+" km ／ 約"+Math.round(currentCalories)+" kcal"
 };
 $("save").onclick=()=>{
  const w=parseFloat($("weight").value),s=parseInt($("recsteps").value,10);
  if(!Number.isFinite(w)||w<=0){alert("体重を入力してください。");return}
  if(!Number.isFinite(s)||s<0){alert("歩数を入力してください。");return}
- data.push({id:Date.now(),date:$("date").value,weight:w,steps:s,duration:$("duration").value,distance:Math.round(routeDistance),route:route.map(p=>({lat:p.lat,lng:p.lng})),diary:$("diary").value.trim()});
- data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();$("weight").value="";$("recsteps").value="";$("duration").value="";$("diary").value="";alert("Ver.3.1の記録を保存しました。")
+ data.push({id:Date.now(),date:$("date").value,weight:w,steps:s,duration:$("duration").value,summary:$("summary").value,distance:Math.round(routeDistance),
+ route:route.map(p=>({lat:p.lat,lng:p.lng,alt:p.alt,speed:p.speed,time:p.time})),ascent:Math.round(totalAscent),descent:Math.round(totalDescent),
+ minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
+ data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
+ $("weight").value="";$("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
+ alert("Ver.3.2の記録を保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
  const ws=data.map(x=>Number(x.weight)).filter(Number.isFinite),ss=data.map(x=>Number(x.steps)).filter(Number.isFinite);
  $("aw").textContent=ws.length?(ws.reduce((a,b)=>a+b,0)/ws.length).toFixed(1)+" kg":"-- kg";
  $("as").textContent=ss.length?Math.round(ss.reduce((a,b)=>a+b,0)/ss.length).toLocaleString()+" 歩":"-- 歩";
- $("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button><div class="top"><span>'+esc(x.date)+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(x.distance?((x.distance/1000).toFixed(2)+" km"):"--")+'</div>'+(x.diary?'<div class="note">📝 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';
+ $("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button><div class="top"><span>'+esc(x.date)+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(x.distance?((x.distance/1000).toFixed(2)+" km"):"--")+(x.calories!=null?' ／ 約'+Number(x.calories).toLocaleString()+' kcal':'')+'</div>'+(x.diary?'<div class="note">📝 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';
  $("list").querySelectorAll(".del").forEach(b=>b.onclick=()=>{data=data.filter(x=>x.id!=b.dataset.id);saveData();render()})
 }
 render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
