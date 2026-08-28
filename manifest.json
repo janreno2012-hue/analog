@@ -1,9 +1,1 @@
-{
-  "name": "歩ログ",
-  "short_name": "歩ログ",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#f4f7f8",
-  "theme_color": "#4d8f94",
-  "lang": "ja"
-}
+{"name":"歩ログ","short_name":"歩ログ","start_url":"./","display":"standalone","background_color":"#f4f8f7","theme_color":"#0f766e","lang":"ja"}
