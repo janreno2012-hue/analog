@@ -1,1 +1,1 @@
-{"name":"歩ログ","short_name":"歩ログ","start_url":"./","display":"standalone","background_color":"#f4f8f7","theme_color":"#0f766e","lang":"ja"}
+{"name":"歩ログ","short_name":"歩ログ","start_url":"./?v=22","scope":"./","display":"standalone","background_color":"#f4f8f7","theme_color":"#0f766e","lang":"ja","description":"体重と歩数を記録するウォーキングアプリ"}
