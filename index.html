@@ -1,33 +1,35 @@
-<!doctype html><html lang="ja"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0f766e"><link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f766e">
+<link rel="manifest" href="manifest.json">
+<title>歩ログ Ver.3.1</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
-.wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}
-.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
-.card{background:#fff;border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 4px 18px #174e4712}
-h2{font-size:19px;margin:0 0 12px}.status{text-align:center;background:#edf5f4;color:#0f766e;border-radius:14px;padding:11px;font-weight:700}
-.steps{text-align:center;font-size:54px;font-weight:800;margin-top:8px}.unit{text-align:center;color:#6b7c79}.time{text-align:center;font-size:22px}
-.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}button{border:0;border-radius:13px;padding:13px;font-size:16px;font-weight:700}
-.start{background:#0f766e;color:#fff}.stop{background:#f1dddd;color:#b23b3b}button:disabled{opacity:.45}
-label{display:block;font-size:14px;font-weight:700;margin:11px 0 5px}
-input,textarea{width:100%;padding:12px;border:1px solid #d5dfdd;border-radius:11px;font-size:16px}textarea{min-height:90px}
-.save{width:100%;margin-top:15px;background:#115e59;color:#fff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:#f1f7f6;border-radius:14px;text-align:center;padding:12px}.value{font-size:23px;font-weight:800}
-#map{height:280px;border-radius:15px;overflow:hidden;border:1px solid #d5dfdd}
-ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid #e5ecea}.del{float:right;padding:6px 9px;font-size:12px;background:#f5eeee;color:#b23b3b}
-.top{display:flex;justify-content:space-between;font-weight:700}.note{line-height:1.6;margin-top:10px}
-</style></head><body><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3</div><div class="sub">歩数・時間・GPS・日記を一緒に記録</div></header>
+.wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
+.card{background:#fff;border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 4px 18px #174e4712}h2{font-size:19px;margin:0 0 12px}
+.status{text-align:center;background:#edf5f4;color:#0f766e;border-radius:14px;padding:11px;font-weight:700}.steps{text-align:center;font-size:54px;font-weight:800;margin-top:8px}.unit{text-align:center;color:#6b7c79}.time{text-align:center;font-size:22px}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}button{border:0;border-radius:13px;padding:13px;font-size:16px;font-weight:700}.start{background:#0f766e;color:#fff}.stop{background:#f1dddd;color:#b23b3b}button:disabled{opacity:.45}
+label{display:block;font-size:14px;font-weight:700;margin:11px 0 5px}input,textarea{width:100%;padding:12px;border:1px solid #d5dfdd;border-radius:11px;font-size:16px}textarea{min-height:90px}
+.save{width:100%;margin-top:15px;background:#115e59;color:#fff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#f1f7f6;border-radius:14px;text-align:center;padding:12px}.value{font-size:23px;font-weight:800}
+#map{height:280px;border-radius:15px;border:1px solid #d5dfdd;background:#eef5f3;position:relative;overflow:hidden}
+#map canvas{width:100%;height:100%;display:block}.mapmsg{text-align:center;padding:75px 15px;color:#6b7c79}.route{margin-top:8px}
+ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid #e5ecea}.del{float:right;padding:6px 9px;font-size:12px;background:#f5eeee;color:#b23b3b}.top{display:flex;justify-content:space-between;font-weight:700}
+.badge{display:inline-block;font-size:11px;padding:4px 8px;border-radius:20px;background:#eaf5f3;color:#0f766e;margin-top:7px}
+</style>
+</head>
+<body><div class="wrap">
+<header><div class="logo">🌿 歩ログ Ver.3.1</div><div class="sub">STARTを押してから歩数・GPSを開始</div></header>
 
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
-<div id="msg" class="note">STARTすると歩数センサーとGPSを開始します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div></section>
+<div id="msg" class="note">STARTはGPS捕捉を待たずに押せます。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div></section>
 
-<section class="card"><h2>🗺️ 今日の歩いた軌跡</h2><div id="map"></div>
+<section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
+<div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
 <div id="routeInfo" class="route">距離：0 m ／ GPS点：0</div></section>
 
 <section class="card"><h2>📝 今日の記録</h2>
@@ -38,32 +40,98 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <button id="save" class="save">💾 記録を保存</button></section>
 
 <section class="card"><h2>📊 これまでの平均</h2><div class="grid">
-<div class="stat"><div class="label">平均体重</div><div id="aw" class="value">-- kg</div></div>
-<div class="stat"><div class="label">平均歩数</div><div id="as" class="value">-- 歩</div></div></div></section>
+<div class="stat"><div>平均体重</div><div id="aw" class="value">-- kg</div></div>
+<div class="stat"><div>平均歩数</div><div id="as" class="value">-- 歩</div></div></div></section>
 <section class="card"><h2>📚 過去の記録</h2><ul id="list"></ul></section>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const KEY="ayalog_records_v3";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
-if(!data.length){const old=JSON.parse(localStorage.getItem("ayalog_records_v21")||"[]");data=old.map(x=>({...x,duration:"",distance:0,route:[],diary:""}))}
-let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null,route=[],routeDistance=0;
-const $=x=>document.getElementById(x);$("date").value=new Date().toISOString().slice(0,10);
-function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}function pad(x){return String(x).padStart(2,"0")}
+const KEY="ayalog_records_v31";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+if(!data.length){for(const k of ["ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
+const $=id=>document.getElementById(id);$("date").value=new Date().toISOString().slice(0,10);
+let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null,route=[],routeDistance=0,permissionState="unknown";
+let mapCanvas=null,ctx=null,mapPts=[];
+
+function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
+function pad(x){return String(x).padStart(2,"0")}
 function fmt(s){return pad(Math.floor(s/3600))+":"+pad(Math.floor(s%3600/60))+":"+pad(s%60)}
 function tick(){if(running)$("timer").textContent=fmt(Math.floor((Date.now()-t0)/1000))}
-function dist(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
+function hav(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
 function motion(e){if(!running||!e.accelerationIncludingGravity)return;const a=e.accelerationIncludingGravity,m=Math.hypot(a.x||0,a.y||0,a.z||0);if(prevMag===null){prevMag=m;return}const delta=m-prevMag;prevMag=m;const now=Date.now();if(delta>1.15&&m>10.2&&now-lastStep>280){n++;$("steps").textContent=n;$("recsteps").value=n;lastStep=now}}
-async function permission(){if(typeof DeviceMotionEvent==="undefined"){return false}try{if(typeof DeviceMotionEvent.requestPermission==="function"&&await DeviceMotionEvent.requestPermission()!=="granted"){alert("モーションセンサーの許可が必要です。");return false}handler=motion;addEventListener("devicemotion",handler);return true}catch(e){return false}}
-function startGPS(){if(!navigator.geolocation){$("gpsmsg").textContent="📍 GPS：利用できません";return}$("gpsmsg").textContent="📍 GPS：取得中…";watchId=navigator.geolocation.watchPosition(p=>{const x={lat:p.coords.latitude,lng:p.coords.longitude};const last=route[route.length-1];if(last){const d=dist(last,x);if(d>=2&&d<100)routeDistance+=d}route.push(x);$("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";$("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length;const ll=[x.lat,x.lng];if(route.length===1){map.setView(ll,17);marker=L.marker(ll).addTo(map)}else marker.setLatLng(ll);polyline.setLatLngs(route.map(v=>[v.lat,v.lng]));if(route.length>1)map.fitBounds(polyline.getBounds(),{padding:[20,20],maxZoom:17})},e=>$("gpsmsg").textContent="📍 GPS：取得できません（"+e.message+"）",{enableHighAccuracy:true,maximumAge:3000,timeout:10000})}
+async function requestMotion(){
+ if(!("DeviceMotionEvent"in window)){permissionState="unsupported";return false}
+ try{
+  if(typeof DeviceMotionEvent.requestPermission==="function"){
+   const r=await DeviceMotionEvent.requestPermission(); permissionState=r;
+   if(r!=="granted")return false;
+  } else permissionState="granted";
+  handler=motion;window.addEventListener("devicemotion",handler);return true
+ }catch(e){permissionState="error";return false}
+}
+function startGPS(){
+ if(!navigator.geolocation){$("gpsmsg").textContent="📍 GPS：この端末では利用できません";return}
+ $("gpsmsg").textContent="📍 GPS：取得中…";
+ watchId=navigator.geolocation.watchPosition(p=>{
+  const x={lat:p.coords.latitude,lng:p.coords.longitude};const last=route[route.length-1];
+  if(last){const d=hav(last,x);if(d>=2&&d<100)routeDistance+=d}
+  route.push(x);drawRoute();
+  $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";
+  $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length
+ },e=>$("gpsmsg").textContent="📍 GPS：取得できません（"+e.message+"）",{enableHighAccuracy:true,maximumAge:3000,timeout:10000})
+}
 function stopGPS(){if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}}
-let map=L.map("map").setView([35.681,139.767],5),polyline=L.polyline([]).addTo(map),marker=null;
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(map);
-function resetMap(){route=[];routeDistance=0;$("routeInfo").textContent="距離：0 m ／ GPS点：0";polyline.setLatLngs([]);if(marker){map.removeLayer(marker);marker=null}}
-$("start").onclick=async()=>{if(running)return;const ok=await permission();if(typeof DeviceMotionEvent!=="undefined"&&!ok){$("msg").textContent="センサーを開始できません。HTTPSのGitHub Pagesで開いているか確認してください。";return}running=true;n=0;lastStep=0;prevMag=null;resetMap();$("steps").textContent=0;$("recsteps").value="";t0=Date.now();tick();timer=setInterval(tick,1000);$("status").textContent="計測中…";$("start").disabled=true;$("stop").disabled=false;$("msg").textContent=ok?"歩数＋GPSを計測中です。":"歩数センサーなしでGPSを計測中です。";startGPS()};
-$("stop").onclick=()=>{if(!running)return;running=false;if(handler)removeEventListener("devicemotion",handler);handler=null;clearInterval(timer);stopGPS();const s=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(s);$("status").textContent="計測終了";$("start").disabled=false;$("stop").disabled=true;$("msg").textContent="今回："+n.toLocaleString()+"歩 ／ GPS距離："+(routeDistance/1000).toFixed(2)+" km"};
-$("save").onclick=()=>{const w=parseFloat($("weight").value),s=parseInt($("recsteps").value,10);if(!Number.isFinite(w)||w<=0){alert("体重を入力してください。");return}if(!Number.isFinite(s)||s<0){alert("歩数を入力してください。");return}data.push({id:Date.now(),date:$("date").value,weight:w,steps:s,duration:$("duration").value,distance:Math.round(routeDistance),route:route.map(p=>({lat:p.lat,lng:p.lng})),diary:$("diary").value.trim()});data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();$("weight").value="";$("recsteps").value="";$("duration").value="";$("diary").value="";alert("Ver.3の記録を保存しました。")};
-function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",""":"&quot;","'":"&#39;"}[c]))}
-function render(){const ws=data.map(x=>Number(x.weight)).filter(Number.isFinite),ss=data.map(x=>Number(x.steps)).filter(Number.isFinite);$("aw").textContent=ws.length?(ws.reduce((a,b)=>a+b,0)/ws.length).toFixed(1)+" kg":"-- kg";$("as").textContent=ss.length?Math.round(ss.reduce((a,b)=>a+b,0)/ss.length).toLocaleString()+" 歩":"-- 歩";$("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button><div class="top"><span>'+x.date+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(x.distance?((x.distance/1000).toFixed(2)+" km"):"--")+'</div>'+(x.diary?'<div class="note">📝 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';$("list").querySelectorAll(".del").forEach(b=>b.onclick=()=>{data=data.filter(x=>x.id!=b.dataset.id);saveData();render()})}
+function setupMap(){
+ const el=$("map");el.innerHTML="";mapCanvas=document.createElement("canvas");el.appendChild(mapCanvas);ctx=mapCanvas.getContext("2d");
+ resizeMap();window.addEventListener("resize",resizeMap)
+}
+function resizeMap(){if(!mapCanvas)return;mapCanvas.width=$("map").clientWidth*devicePixelRatio;mapCanvas.height=$("map").clientHeight*devicePixelRatio;drawRoute()}
+function drawRoute(){
+ if(!ctx)return;const w=mapCanvas.width,h=mapCanvas.height;ctx.clearRect(0,0,w,h);
+ ctx.globalAlpha=.35;ctx.lineWidth=1*devicePixelRatio;
+ for(let x=0;x<w;x+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}
+ for(let y=0;y<h;y+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+ ctx.globalAlpha=1;
+ if(!route.length)return;
+ let minLat=Math.min(...route.map(p=>p.lat)),maxLat=Math.max(...route.map(p=>p.lat)),minLng=Math.min(...route.map(p=>p.lng)),maxLng=Math.max(...route.map(p=>p.lng));
+ const pad=35*devicePixelRatio,dx=Math.max(maxLng-minLng,0.00005),dy=Math.max(maxLat-minLat,0.00005),scale=Math.min((w-2*pad)/dx,(h-2*pad)/dy);
+ const pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]);
+ ctx.lineWidth=4*devicePixelRatio;ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();
+ const a=pts[0],b=pts[pts.length-1];ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill()
+}
+function resetMap(){route=[];routeDistance=0;$("routeInfo").textContent="距離：0 m ／ GPS点：0";drawRoute()}
+setupMap();
+
+$("start").onclick=async()=>{
+ if(running)return;
+ // START itself never depends on GPS. This is the key Ver.3.1 fix.
+ n=0;lastStep=0;prevMag=null;resetMap();$("steps").textContent="0";$("recsteps").value="";
+ t0=Date.now();running=true;tick();timer=setInterval(tick,1000);
+ $("status").textContent="計測中…";$("start").disabled=true;$("stop").disabled=false;$("msg").textContent="計測開始。GPSを取得中です…";
+ const motionOK=await requestMotion();
+ if(motionOK)$("msg").textContent="歩数＋GPSを計測中です。";
+ else if(permissionState==="unsupported")$("msg").textContent="GPSを計測中です。歩数センサーはこのブラウザでは利用できません。";
+ else $("msg").textContent="GPSを計測中です。歩数センサーの許可が得られませんでした。";
+ startGPS()
+};
+$("stop").onclick=()=>{
+ if(!running)return;running=false;if(handler)window.removeEventListener("devicemotion",handler);handler=null;clearInterval(timer);stopGPS();
+ const s=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(s);$("status").textContent="計測終了";$("start").disabled=false;$("stop").disabled=true;
+ $("msg").textContent="今回："+n.toLocaleString()+"歩 ／ GPS距離："+(routeDistance/1000).toFixed(2)+" km"
+};
+$("save").onclick=()=>{
+ const w=parseFloat($("weight").value),s=parseInt($("recsteps").value,10);
+ if(!Number.isFinite(w)||w<=0){alert("体重を入力してください。");return}
+ if(!Number.isFinite(s)||s<0){alert("歩数を入力してください。");return}
+ data.push({id:Date.now(),date:$("date").value,weight:w,steps:s,duration:$("duration").value,distance:Math.round(routeDistance),route:route.map(p=>({lat:p.lat,lng:p.lng})),diary:$("diary").value.trim()});
+ data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();$("weight").value="";$("recsteps").value="";$("duration").value="";$("diary").value="";alert("Ver.3.1の記録を保存しました。")
+};
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
+function render(){
+ const ws=data.map(x=>Number(x.weight)).filter(Number.isFinite),ss=data.map(x=>Number(x.steps)).filter(Number.isFinite);
+ $("aw").textContent=ws.length?(ws.reduce((a,b)=>a+b,0)/ws.length).toFixed(1)+" kg":"-- kg";
+ $("as").textContent=ss.length?Math.round(ss.reduce((a,b)=>a+b,0)/ss.length).toLocaleString()+" 歩":"-- 歩";
+ $("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button><div class="top"><span>'+esc(x.date)+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(x.distance?((x.distance/1000).toFixed(2)+" km"):"--")+'</div>'+(x.diary?'<div class="note">📝 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';
+ $("list").querySelectorAll(".del").forEach(b=>b.onclick=()=>{data=data.filter(x=>x.id!=b.dataset.id);saveData();render()})
+}
 render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
 </script></body></html>
