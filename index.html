@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.3.2</title>
+<title>歩ログ Ver.3.3.3</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -29,10 +29,13 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 .debug.show{display:block}.debuggrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .debugitem{background:#fff;border-radius:10px;padding:9px;font-size:13px}.debugvalue{font-size:16px;font-weight:800;margin-top:3px}
 .debugstatus{font-weight:700;color:#0f766e}
+.thresholds{margin-top:12px;padding-top:10px;border-top:1px solid #dce8e5}
+.rangeRow{margin-top:10px}.rangeTop{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
+.rangeVal{font-size:16px;color:#0f766e}.rangeRow input[type="range"]{padding:0;margin-top:7px;width:100%}
 </style>
 </head>
 <body><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.3.2</div><div class="sub">STARTを押して歩数・GPS・速度・高度を計測</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.3.3</div><div class="sub">STARTを押して歩数・GPS・速度・高度を計測</div></header>
 
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
@@ -52,7 +55,14 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <div class="debugitem">合成加速度<div id="debugMag" class="debugvalue">--</div></div>
 <div class="debugitem">変化量 Δ<div id="debugDelta" class="debugvalue">--</div></div>
 <div class="debugitem">歩数判定<div id="debugStep" class="debugvalue">待機</div></div>
-</div></div></section>
+</div>
+<div class="thresholds">
+<div class="mini">🎚️ 歩数判定しきい値（リアルタイム調整）</div>
+<div class="rangeRow"><div class="rangeTop"><span>Δしきい値</span><span id="deltaThresholdValue" class="rangeVal">1.15</span></div><input id="deltaThreshold" type="range" min="0.20" max="3.00" step="0.05" value="1.15"></div>
+<div class="rangeRow"><div class="rangeTop"><span>合成加速度しきい値</span><span id="magThresholdValue" class="rangeVal">10.20</span></div><input id="magThreshold" type="range" min="8.00" max="15.00" step="0.10" value="10.20"></div>
+<div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">280 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="280"></div>
+</div>
+</div></section>
 
 <section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
 <div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
@@ -72,12 +82,12 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </div>
 
 <script>
-const KEY="ayalog_records_v332";
-let data=JSON.parse(localStorage.getItem(KEY)||"[]");
-if(!data.length){for(const k of ["ayalog_records_v331","ayalog_records_v33","ayalog_records_v32","ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
+const KEY="ayalog_records_v333";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+if(!data.length){for(const k of ["ayalog_records_v332","ayalog_records_v331","ayalog_records_v33","ayalog_records_v32","ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
 const $=id=>document.getElementById(id);$("date").value=new Date().toISOString().slice(0,10);
 let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null;
 let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null,motionEnabled=false;
+let deltaThreshold=1.15,magThreshold=10.2,intervalThreshold=280;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
 
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
@@ -85,54 +95,35 @@ function pad(x){return String(x).padStart(2,"0")}
 function fmt(s){return pad(Math.floor(s/3600))+":"+pad(Math.floor(s%3600/60))+":"+pad(s%60)}
 function tick(){if(running)$("timer").textContent=fmt(Math.floor((Date.now()-t0)/1000))}
 function hav(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
-function setDebugStatus(text){
- $("debugStatus").textContent=text;
-}
+function setDebugStatus(text){$("debugStatus").textContent=text}
 function motion(e){
  if(!motionEnabled||!e.accelerationIncludingGravity)return;
- const a=e.accelerationIncludingGravity;
- const x=a.x||0,y=a.y||0,z=a.z||0;
- const m=Math.hypot(x,y,z);
+ const a=e.accelerationIncludingGravity,x=a.x||0,y=a.y||0,z=a.z||0,m=Math.hypot(x,y,z);
  const delta=prevMag===null?0:m-prevMag;
- $("debugX").textContent=x.toFixed(2);
- $("debugY").textContent=y.toFixed(2);
- $("debugZ").textContent=z.toFixed(2);
- $("debugMag").textContent=m.toFixed(2);
- $("debugDelta").textContent=(delta>=0?"+":"")+delta.toFixed(2);
- let judged="監視中";
- const now=Date.now();
- if(running&&prevMag!==null&&delta>1.15&&m>10.2&&now-lastStep>280){
+ $("debugX").textContent=x.toFixed(2);$("debugY").textContent=y.toFixed(2);$("debugZ").textContent=z.toFixed(2);
+ $("debugMag").textContent=m.toFixed(2);$("debugDelta").textContent=(delta>=0?"+":"")+delta.toFixed(2);
+ let judged="監視中",now=Date.now();
+ if(running&&prevMag!==null&&delta>deltaThreshold&&m>magThreshold&&now-lastStep>intervalThreshold){
    n++;$("steps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";
  }
- $("debugStep").textContent=judged;
- prevMag=m;
+ $("debugStep").textContent=judged;prevMag=m;
 }
-
 async function enableMotion(){
  if(motionEnabled)return true;
- if(!("DeviceMotionEvent"in window)){
-   permissionState="unsupported";setDebugStatus("非対応");return false;
- }
+ if(!("DeviceMotionEvent"in window)){permissionState="unsupported";setDebugStatus("非対応");return false}
  try{
-   if(typeof DeviceMotionEvent.requestPermission==="function"){
-     const r=await DeviceMotionEvent.requestPermission();permissionState=r;
-     if(r!=="granted"){setDebugStatus("許可されません");return false;}
-   }else permissionState="granted";
-   handler=motion;window.addEventListener("devicemotion",handler);
-   motionEnabled=true;prevMag=null;
-   $("debug").classList.add("show");$("motionLabel").textContent="状態：ON（センサー取得中）";
-   setDebugStatus("取得中 🟢");
-   return true;
- }catch(e){
-   permissionState="error";setDebugStatus("エラー");return false;
- }
+  if(typeof DeviceMotionEvent.requestPermission==="function"){
+   const r=await DeviceMotionEvent.requestPermission();permissionState=r;if(r!=="granted"){setDebugStatus("許可されません");return false}
+  }else permissionState="granted";
+  handler=motion;window.addEventListener("devicemotion",handler);motionEnabled=true;prevMag=null;
+  $("debug").classList.add("show");$("motionLabel").textContent="状態：ON（センサー取得中）";setDebugStatus("取得中 🟢");return true
+ }catch(e){permissionState="error";setDebugStatus("エラー");return false}
 }
 function disableMotion(){
- if(handler)window.removeEventListener("devicemotion",handler);
- handler=null;motionEnabled=false;prevMag=null;
- $("motionLabel").textContent="状態：OFF";setDebugStatus("停止中");
- $("debugStep").textContent="待機";
+ if(handler)window.removeEventListener("devicemotion",handler);handler=null;motionEnabled=false;prevMag=null;
+ $("motionLabel").textContent="状態：OFF";setDebugStatus("停止中");$("debugStep").textContent="待機";
 }
+
 
 function metFor(speed,grade){
   let met = speed<3.2?2.8:speed<4.0?3.0:speed<4.8?3.5:speed<5.6?4.3:speed<6.4?5.0:6.0;
@@ -228,11 +219,23 @@ function drawRoute(){
 }
 setupMap();
 
+function setupThresholdControls(){
+ const sync=()=>{
+  deltaThreshold=parseFloat($("deltaThreshold").value);
+  magThreshold=parseFloat($("magThreshold").value);
+  intervalThreshold=parseInt($("intervalThreshold").value,10);
+  $("deltaThresholdValue").textContent=deltaThreshold.toFixed(2);
+  $("magThresholdValue").textContent=magThreshold.toFixed(2);
+  $("intervalThresholdValue").textContent=intervalThreshold+" ms";
+ };
+ ["deltaThreshold","magThreshold","intervalThreshold"].forEach(id=>$(id).addEventListener("input",sync));
+ sync();
+}
+setupThresholdControls();
+
 $("motionSwitch").onchange=async e=>{
- if(e.target.checked){
-   const ok=await enableMotion();
-   if(!ok){e.target.checked=false;disableMotion();}
- }else disableMotion();
+ if(e.target.checked){const ok=await enableMotion();if(!ok){e.target.checked=false;disableMotion();}}
+ else disableMotion();
 };
 
 $("start").onclick=async()=>{
@@ -241,13 +244,11 @@ $("start").onclick=async()=>{
  $("summary").value="";
  t0=Date.now();running=true;tick();timer=setInterval(tick,1000);
  $("status").textContent="計測中…";$("start").disabled=true;$("stop").disabled=false;$("msg").textContent="計測開始。GPSを取得中です…";
- const motionOK=motionEnabled;
-  if(motionOK){
-    $("msg").textContent="歩数＋GPS＋速度・高度を計測中です。";
-  }else{
-    $("msg").textContent="GPSを計測中です。歩数計測はモーションセンサーをONにすると有効になります。";
-  }
-  startGPS()
+ const motionOK=await requestMotion();
+ if(motionOK)$("msg").textContent="歩数＋GPS＋速度・高度を計測中です。";
+ else if(permissionState==="unsupported")$("msg").textContent="GPSを計測中です。歩数センサーはこのブラウザでは利用できません。";
+ else $("msg").textContent="GPSを計測中です。歩数センサーの許可が得られませんでした。";
+ startGPS()
 };
 $("stop").onclick=()=>{
  if(!running)return;
@@ -268,7 +269,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("weight").value="";$("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.3.2の記録を保存しました。")
+ alert("Ver.3.3.3の記録を保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
