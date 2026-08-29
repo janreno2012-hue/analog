@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.2</title>
+<title>歩ログ Ver.3.3</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -18,15 +18,41 @@ label{display:block;font-size:14px;font-weight:700;margin:11px 0 5px}input,texta
 #map canvas{width:100%;height:100%;display:block}.mapmsg{text-align:center;padding:75px 15px;color:#6b7c79}.route{margin-top:8px}
 ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid #e5ecea}.del{float:right;padding:6px 9px;font-size:12px;background:#f5eeee;color:#b23b3b}.top{display:flex;justify-content:space-between;font-weight:700}
 .badge{display:inline-block;font-size:11px;padding:4px 8px;border-radius:20px;background:#eaf5f3;color:#0f766e;margin-top:7px}.mini{font-size:12px;color:#6b7c79;margin-top:6px}.stats4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.sensorrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
+.switch{position:relative;display:inline-block;width:58px;height:32px;flex:none}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#c8d4d2;border-radius:999px;cursor:pointer;transition:.2s}
+.slider:before{content:"";position:absolute;width:24px;height:24px;left:4px;top:4px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 4px #0003}
+.switch input:checked + .slider{background:#0f766e}
+.switch input:checked + .slider:before{transform:translateX(26px)}
+.debug{display:none;margin-top:12px;padding:12px;border:1px dashed #9db8b3;border-radius:14px;background:#f6fbfa}
+.debug.show{display:block}.debuggrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.debugitem{background:#fff;border-radius:10px;padding:9px;font-size:13px}.debugvalue{font-size:16px;font-weight:800;margin-top:3px}
+.debugstatus{font-weight:700;color:#0f766e}
 </style>
 </head>
 <body><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.2</div><div class="sub">STARTを押して歩数・GPS・速度・高度を計測</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.3</div><div class="sub">STARTを押して歩数・GPS・速度・高度を計測</div></header>
 
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
 <div id="msg" class="note">STARTはGPS捕捉を待たずに押せます。速度・高度・傾斜も自動計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div class="mini">※速度・高度・傾斜・カロリーはGPS等からの推定値です。</div></section>
+
+<section class="card"><h2>📱 モーションセンサー</h2>
+<div class="sensorrow"><div><b>モーションセンサー</b><div class="mini">ONにすると加速度の生データを表示します。</div></div>
+<label class="switch"><input id="motionSwitch" type="checkbox"><span class="slider"></span></label></div>
+<div id="motionLabel" class="mini">状態：OFF</div>
+<div id="debug" class="debug">
+<div>🐞 センサーデバッグ　<span id="debugStatus" class="debugstatus">停止中</span></div>
+<div class="debuggrid">
+<div class="debugitem">X<div id="debugX" class="debugvalue">--</div></div>
+<div class="debugitem">Y<div id="debugY" class="debugvalue">--</div></div>
+<div class="debugitem">Z<div id="debugZ" class="debugvalue">--</div></div>
+<div class="debugitem">合成加速度<div id="debugMag" class="debugvalue">--</div></div>
+<div class="debugitem">変化量 Δ<div id="debugDelta" class="debugvalue">--</div></div>
+<div class="debugitem">歩数判定<div id="debugStep" class="debugvalue">待機</div></div>
+</div></div></section>
 
 <section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
 <div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
@@ -46,11 +72,12 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </div>
 
 <script>
-const KEY="ayalog_records_v32";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
-if(!data.length){for(const k of ["ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
+const KEY="ayalog_records_v33";
+let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+if(!data.length){for(const k of ["ayalog_records_v32","ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
 const $=id=>document.getElementById(id);$("date").value=new Date().toISOString().slice(0,10);
 let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null;
-let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null;
+let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null,motionEnabled=false;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
 
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
@@ -58,17 +85,53 @@ function pad(x){return String(x).padStart(2,"0")}
 function fmt(s){return pad(Math.floor(s/3600))+":"+pad(Math.floor(s%3600/60))+":"+pad(s%60)}
 function tick(){if(running)$("timer").textContent=fmt(Math.floor((Date.now()-t0)/1000))}
 function hav(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
-function motion(e){if(!running||!e.accelerationIncludingGravity)return;const a=e.accelerationIncludingGravity,m=Math.hypot(a.x||0,a.y||0,a.z||0);if(prevMag===null){prevMag=m;return}const delta=m-prevMag;prevMag=m;const now=Date.now();if(delta>1.15&&m>10.2&&now-lastStep>280){n++;$("steps").textContent=n;$("recsteps").value=n;lastStep=now}}
+function setDebugStatus(text){
+ $("debugStatus").textContent=text;
+}
+function motion(e){
+ if(!motionEnabled||!e.accelerationIncludingGravity)return;
+ const a=e.accelerationIncludingGravity;
+ const x=a.x||0,y=a.y||0,z=a.z||0;
+ const m=Math.hypot(x,y,z);
+ const delta=prevMag===null?0:m-prevMag;
+ $("debugX").textContent=x.toFixed(2);
+ $("debugY").textContent=y.toFixed(2);
+ $("debugZ").textContent=z.toFixed(2);
+ $("debugMag").textContent=m.toFixed(2);
+ $("debugDelta").textContent=(delta>=0?"+":"")+delta.toFixed(2);
+ let judged="監視中";
+ const now=Date.now();
+ if(running&&prevMag!==null&&delta>1.15&&m>10.2&&now-lastStep>280){
+   n++;$("steps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";
+ }
+ $("debugStep").textContent=judged;
+ prevMag=m;
+}
 
-async function requestMotion(){
- if(!("DeviceMotionEvent"in window)){permissionState="unsupported";return false}
+async function enableMotion(){
+ if(motionEnabled)return true;
+ if(!("DeviceMotionEvent"in window)){
+   permissionState="unsupported";setDebugStatus("非対応");return false;
+ }
  try{
-  if(typeof DeviceMotionEvent.requestPermission==="function"){
-   const r=await DeviceMotionEvent.requestPermission(); permissionState=r;
-   if(r!=="granted")return false;
-  } else permissionState="granted";
-  handler=motion;window.addEventListener("devicemotion",handler);return true
- }catch(e){permissionState="error";return false}
+   if(typeof DeviceMotionEvent.requestPermission==="function"){
+     const r=await DeviceMotionEvent.requestPermission();permissionState=r;
+     if(r!=="granted"){setDebugStatus("許可されません");return false;}
+   }else permissionState="granted";
+   handler=motion;window.addEventListener("devicemotion",handler);
+   motionEnabled=true;prevMag=null;
+   $("debug").classList.add("show");$("motionLabel").textContent="状態：ON（センサー取得中）";
+   setDebugStatus("取得中 🟢");
+   return true;
+ }catch(e){
+   permissionState="error";setDebugStatus("エラー");return false;
+ }
+}
+function disableMotion(){
+ if(handler)window.removeEventListener("devicemotion",handler);
+ handler=null;motionEnabled=false;prevMag=null;
+ $("motionLabel").textContent="状態：OFF";setDebugStatus("停止中");
+ $("debugStep").textContent="待機";
 }
 
 function metFor(speed,grade){
@@ -163,8 +226,14 @@ function drawRoute(){
  ctx.lineWidth=4*devicePixelRatio;ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();
  const a=pts[0],b=pts[pts.length-1];ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill()
 }
-function resetMap(){route=[];routeDistance=0;$("routeInfo").textContent="距離：0 m ／ GPS点：0";drawRoute()}
 setupMap();
+
+$("motionSwitch").onchange=async e=>{
+ if(e.target.checked){
+   const ok=await enableMotion();
+   if(!ok){e.target.checked=false;disableMotion();}
+ }else disableMotion();
+};
 
 $("start").onclick=async()=>{
  if(running)return;
@@ -172,15 +241,15 @@ $("start").onclick=async()=>{
  $("summary").value="";
  t0=Date.now();running=true;tick();timer=setInterval(tick,1000);
  $("status").textContent="計測中…";$("start").disabled=true;$("stop").disabled=false;$("msg").textContent="計測開始。GPSを取得中です…";
- const motionOK=await requestMotion();
+ const motionOK=motionEnabled;
  if(motionOK)$("msg").textContent="歩数＋GPS＋速度・高度を計測中です。";
- else if(permissionState==="unsupported")$("msg").textContent="GPSを計測中です。歩数センサーはこのブラウザでは利用できません。";
+ else $("msg").textContent="GPSを計測中です。歩数計測はモーションセンサーをONにすると有効になります。";
  else $("msg").textContent="GPSを計測中です。歩数センサーの許可が得られませんでした。";
  startGPS()
 };
 $("stop").onclick=()=>{
  if(!running)return;
- running=false;if(handler)window.removeEventListener("devicemotion",handler);handler=null;clearInterval(timer);stopGPS();
+ running=false;clearInterval(timer);stopGPS();
  const sec=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(sec);
  const km=routeDistance/1000,avg=sec>0?km/(sec/3600):0;
  const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
@@ -197,7 +266,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("weight").value="";$("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.2の記録を保存しました。")
+ alert("Ver.3.3の記録を保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
