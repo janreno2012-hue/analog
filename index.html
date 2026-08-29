@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.3.4</title>
+<title>歩ログ Ver.3.3.5</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -35,7 +35,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.3.4</div><div class="sub">STARTを押して歩数・GPS・速度・高度を計測</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.3.5</div><div class="sub">STARTを押して歩数・GPS・速度・高度を計測</div></header>
 
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
@@ -58,8 +58,8 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </div>
 <div class="thresholds">
 <div class="mini">🎚️ 歩数判定しきい値（リアルタイム調整）</div>
-<div class="rangeRow"><div class="rangeTop"><span>Δしきい値</span><span id="deltaThresholdValue" class="rangeVal">0.85</span></div><input id="deltaThreshold" type="range" min="0.20" max="3.00" step="0.05" value="0.85"></div>
-<div class="rangeRow"><div class="rangeTop"><span>合成加速度しきい値</span><span id="magThresholdValue" class="rangeVal">10.00</span></div><input id="magThreshold" type="range" min="8.00" max="15.00" step="0.10" value="10.00"></div>
+<div class="rangeRow"><div class="rangeTop"><span>Δしきい値</span><span id="deltaThresholdValue" class="rangeVal">0.30</span></div><input id="deltaThreshold" type="range" min="0.20" max="3.00" step="0.05" value="0.30"></div>
+<div class="rangeRow"><div class="rangeTop"><span>合成加速度しきい値</span><span id="magThresholdValue" class="rangeVal">11.00</span></div><input id="magThreshold" type="range" min="8.00" max="15.00" step="0.10" value="11.00"></div>
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
@@ -82,12 +82,12 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </div>
 
 <script>
-const KEY="ayalog_records_v334";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
-if(!data.length){for(const k of ["ayalog_records_v333","ayalog_records_v332","ayalog_records_v331","ayalog_records_v33","ayalog_records_v32","ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
+const KEY="ayalog_records_v335";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+if(!data.length){for(const k of ["ayalog_records_v334","ayalog_records_v333","ayalog_records_v332","ayalog_records_v331","ayalog_records_v33","ayalog_records_v32","ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
 const $=id=>document.getElementById(id);$("date").value=new Date().toISOString().slice(0,10);
 let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null;
 let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null,motionEnabled=false;
-let deltaThreshold=0.85,magThreshold=10.0,intervalThreshold=270;
+let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
 
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
@@ -268,7 +268,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("weight").value="";$("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.3.4の記録を保存しました。")
+ alert("Ver.3.3.5の記録を保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
