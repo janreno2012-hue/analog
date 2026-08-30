@@ -203,25 +203,44 @@ function drawRoute(){
  let minLat=Math.min(...route.map(p=>p.lat)),maxLat=Math.max(...route.map(p=>p.lat)),minLng=Math.min(...route.map(p=>p.lng)),maxLng=Math.max(...route.map(p=>p.lng));
  const pad=35*devicePixelRatio,dx=Math.max(maxLng-minLng,0.00005),dy=Math.max(maxLat-minLat,0.00005),scale=Math.min((w-2*pad)/dx,(h-2*pad)/dy);
  const pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]);
- ctx.lineWidth=4*devicePixelRatio;ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();
- const a=pts[0],b=pts[pts.length-1];ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();
- // Ver.3.3.6: 軌跡の進行方向を示す矢印
+ // Ver.3.3.6: 軌跡を細い点線にして歩行感を出す
+ ctx.save();
+ ctx.lineWidth=2*devicePixelRatio;ctx.lineCap="round";ctx.lineJoin="round";ctx.setLineDash([5*devicePixelRatio,6*devicePixelRatio]);
+ ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();
+ ctx.setLineDash([]);
+ const a=pts[0],b=pts[pts.length-1];ctx.beginPath();ctx.arc(a[0],a[1],6*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(b[0],b[1],6*devicePixelRatio,0,Math.PI*2);ctx.fill();
+ // 小さな足跡：一定間隔で左右交互に配置
+ const footCount=Math.min(12,Math.max(0,Math.floor(pts.length/4)));
+ if(footCount>0){
+   const footStep=Math.max(2,Math.floor((pts.length-1)/(footCount+1)));
+   for(let k=1;k<=footCount;k++){
+     const i=Math.min(pts.length-1,k*footStep), p1=pts[Math.max(0,i-1)],p2=pts[i];
+     const ang=Math.atan2(p2[1]-p1[1],p2[0]-p1[0]);
+     ctx.save();ctx.translate(p2[0],p2[1]);ctx.rotate(ang);ctx.globalAlpha=.7;
+     const side=(k%2?1:-1)*2.5*devicePixelRatio, fw=3*devicePixelRatio, fh=6*devicePixelRatio;
+     ctx.beginPath();ctx.ellipse(side,-fh*.2,fw,fh,0,0,Math.PI*2);ctx.fill();
+     ctx.beginPath();ctx.ellipse(-side+1*devicePixelRatio,fh*.9,fw*.85,fh*.75,0,0,Math.PI*2);ctx.fill();
+     ctx.restore();
+   }
+ }
+ // 進行方向矢印：細身で先端を少し大きく
  if(pts.length>=2){
    const arrowCount=8;
    const step=Math.max(1,Math.floor((pts.length-1)/(arrowCount+1)));
    ctx.save();ctx.fillStyle=ctx.strokeStyle;
    for(let i=step;i<pts.length-1;i+=step){
      let j=i+1;
-     while(j<pts.length && Math.hypot(pts[j][0]-pts[i][0],pts[j][1]-pts[i][1])<8*devicePixelRatio)j++;
+     while(j<pts.length && Math.hypot(pts[j][0]-pts[i][0],pts[j][1]-pts[i][1])<10*devicePixelRatio)j++;
      if(j>=pts.length)continue;
      const p1=pts[i],p2=pts[j],dx2=p2[0]-p1[0],dy2=p2[1]-p1[1];
-     const angle=Math.atan2(dy2,dx2),size=7*devicePixelRatio;
+     const angle=Math.atan2(dy2,dx2),size=10*devicePixelRatio;
      ctx.save();ctx.translate(p1[0],p1[1]);ctx.rotate(angle);
-     ctx.beginPath();ctx.moveTo(size,0);ctx.lineTo(-size*0.7,-size*0.6);ctx.lineTo(-size*0.7,size*0.6);ctx.closePath();ctx.fill();
+     ctx.beginPath();ctx.moveTo(size,0);ctx.lineTo(-size*.62,-size*.38);ctx.lineTo(-size*.62,size*.38);ctx.closePath();ctx.fill();
      ctx.restore();
    }
    ctx.restore();
  }
+ ctx.restore();
 }
 setupMap();
 function setupThresholdControls(){
