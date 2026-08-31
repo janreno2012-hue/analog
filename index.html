@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.3.6</title>
+<title>歩ログ Ver.3.3.7</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -32,10 +32,12 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 .thresholds{margin-top:12px;padding-top:10px;border-top:1px solid #dce8e5}
 .rangeRow{margin-top:10px}.rangeTop{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
 .rangeVal{font-size:16px;color:#0f766e}.rangeRow input[type="range"]{padding:0;margin-top:7px;width:100%}
+
+.bellRow{display:flex;justify-content:space-between;align-items:center;gap:12px}.bellControls{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.bellTest{margin-top:10px;width:100%;padding:10px;border:0;border-radius:10px;background:#0f766e;color:#fff;font-weight:800}.bellStatus{margin-top:8px;font-size:13px;color:#6b7c79}
 </style>
 </head>
 <body><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.3.6</div><div class="sub">STARTを押して歩数・GPS・速度・高度を計測</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.3.7</div><div class="sub">STARTを押して歩数・GPS・速度・高度を計測</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -61,7 +63,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
+<section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に一定間隔で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><button id="bellTest" class="bellTest" type="button">🔔 試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
 <div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
 <div id="routeInfo" class="route">距離：0 m ／ GPS点：0</div></section>
 <section class="card"><h2>📝 今日の記録</h2>
@@ -203,44 +205,25 @@ function drawRoute(){
  let minLat=Math.min(...route.map(p=>p.lat)),maxLat=Math.max(...route.map(p=>p.lat)),minLng=Math.min(...route.map(p=>p.lng)),maxLng=Math.max(...route.map(p=>p.lng));
  const pad=35*devicePixelRatio,dx=Math.max(maxLng-minLng,0.00005),dy=Math.max(maxLat-minLat,0.00005),scale=Math.min((w-2*pad)/dx,(h-2*pad)/dy);
  const pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]);
- // Ver.3.3.6: 軌跡を細い点線にして歩行感を出す
- ctx.save();
- ctx.lineWidth=2*devicePixelRatio;ctx.lineCap="round";ctx.lineJoin="round";ctx.setLineDash([5*devicePixelRatio,6*devicePixelRatio]);
- ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();
- ctx.setLineDash([]);
- const a=pts[0],b=pts[pts.length-1];ctx.beginPath();ctx.arc(a[0],a[1],6*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(b[0],b[1],6*devicePixelRatio,0,Math.PI*2);ctx.fill();
- // 小さな足跡：一定間隔で左右交互に配置
- const footCount=Math.min(12,Math.max(0,Math.floor(pts.length/4)));
- if(footCount>0){
-   const footStep=Math.max(2,Math.floor((pts.length-1)/(footCount+1)));
-   for(let k=1;k<=footCount;k++){
-     const i=Math.min(pts.length-1,k*footStep), p1=pts[Math.max(0,i-1)],p2=pts[i];
-     const ang=Math.atan2(p2[1]-p1[1],p2[0]-p1[0]);
-     ctx.save();ctx.translate(p2[0],p2[1]);ctx.rotate(ang);ctx.globalAlpha=.7;
-     const side=(k%2?1:-1)*2.5*devicePixelRatio, fw=3*devicePixelRatio, fh=6*devicePixelRatio;
-     ctx.beginPath();ctx.ellipse(side,-fh*.2,fw,fh,0,0,Math.PI*2);ctx.fill();
-     ctx.beginPath();ctx.ellipse(-side+1*devicePixelRatio,fh*.9,fw*.85,fh*.75,0,0,Math.PI*2);ctx.fill();
-     ctx.restore();
-   }
- }
- // 進行方向矢印：細身で先端を少し大きく
+ ctx.lineWidth=4*devicePixelRatio;ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();
+ const a=pts[0],b=pts[pts.length-1];ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();
+ // Ver.3.3.7: 軌跡の進行方向を示す矢印
  if(pts.length>=2){
    const arrowCount=8;
    const step=Math.max(1,Math.floor((pts.length-1)/(arrowCount+1)));
    ctx.save();ctx.fillStyle=ctx.strokeStyle;
    for(let i=step;i<pts.length-1;i+=step){
      let j=i+1;
-     while(j<pts.length && Math.hypot(pts[j][0]-pts[i][0],pts[j][1]-pts[i][1])<10*devicePixelRatio)j++;
+     while(j<pts.length && Math.hypot(pts[j][0]-pts[i][0],pts[j][1]-pts[i][1])<8*devicePixelRatio)j++;
      if(j>=pts.length)continue;
      const p1=pts[i],p2=pts[j],dx2=p2[0]-p1[0],dy2=p2[1]-p1[1];
-     const angle=Math.atan2(dy2,dx2),size=10*devicePixelRatio;
+     const angle=Math.atan2(dy2,dx2),size=7*devicePixelRatio;
      ctx.save();ctx.translate(p1[0],p1[1]);ctx.rotate(angle);
-     ctx.beginPath();ctx.moveTo(size,0);ctx.lineTo(-size*.62,-size*.38);ctx.lineTo(-size*.62,size*.38);ctx.closePath();ctx.fill();
+     ctx.beginPath();ctx.moveTo(size,0);ctx.lineTo(-size*0.7,-size*0.6);ctx.lineTo(-size*0.7,size*0.6);ctx.closePath();ctx.fill();
      ctx.restore();
    }
    ctx.restore();
  }
- ctx.restore();
 }
 setupMap();
 function setupThresholdControls(){
@@ -260,6 +243,18 @@ $("motionSwitch").onchange=async e=>{
  if(e.target.checked){const ok=await enableMotion();if(!ok){e.target.checked=false;disableMotion();}}
  else disableMotion();
 };
+// Ver.3.3.7 熊鈴モード
+let bellEnabled=false,bellTimer=null,audioCtx=null;
+function ensureAudio(){const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return null;if(!audioCtx)audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
+function playBearBell(){const ctx=ensureAudio();if(!ctx)return;const volume=parseInt($("bellVolume").value,10)/100,now=ctx.currentTime;[0,0.11].forEach((offset,i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain(),f=i===0?1760:1320;osc.type='sine';osc.frequency.setValueAtTime(f,now+offset);osc.frequency.exponentialRampToValueAtTime(f*0.82,now+offset+0.35);gain.gain.setValueAtTime(0.0001,now+offset);gain.gain.exponentialRampToValueAtTime(Math.max(0.0001,volume*0.16),now+offset+0.01);gain.gain.exponentialRampToValueAtTime(0.0001,now+offset+0.5);osc.connect(gain).connect(ctx.destination);osc.start(now+offset);osc.stop(now+offset+0.52);});}
+function stopBellTimer(){if(bellTimer){clearInterval(bellTimer);bellTimer=null;}}
+function startBellTimer(){stopBellTimer();if(!bellEnabled||!running)return;const ms=parseInt($("bellInterval").value,10)*1000;bellTimer=setInterval(()=>{if(bellEnabled&&running)playBearBell();},ms);}
+function updateBellStatus(){$("bellStatus").textContent=!bellEnabled?'状態：OFF':(running?'状態：ON（ウォーキング中）':'状態：ON（STARTで自動開始）');}
+$("bellSwitch").onchange=e=>{bellEnabled=e.target.checked;ensureAudio();if(bellEnabled&&running){playBearBell();startBellTimer();}else stopBellTimer();updateBellStatus();};
+$("bellInterval").onchange=()=>{if(bellEnabled&&running)startBellTimer();};
+$("bellVolume").oninput=()=>{$("bellVolumeValue").textContent=$("bellVolume").value;};
+$("bellTest").onclick=()=>{ensureAudio();playBearBell();};
+
 $("start").onclick=()=>{
  if(running)return;
  n=0;lastStep=0;prevMag=null;resetMap();$("steps").textContent="0";$("recsteps").value="";
@@ -289,7 +284,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("weight").value="";$("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.3.6の記録を保存しました。")
+ alert("Ver.3.3.7の記録を保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
