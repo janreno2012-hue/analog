@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.3.8</title>
+<title>歩ログ Ver.3.3.9</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -37,7 +37,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.3.8</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.3.9</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -99,7 +99,7 @@ function motion(e){
  $("debugMag").textContent=m.toFixed(2);$("debugDelta").textContent=(delta>=0?"+":"")+delta.toFixed(2);
  let judged="監視中",now=Date.now();
  if(running&&prevMag!==null&&delta>deltaThreshold&&m>magThreshold&&now-lastStep>intervalThreshold){
-   n++;$("steps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";
+   n++;$("steps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
  }
  $("debugStep").textContent=judged;prevMag=m;
 }
@@ -207,7 +207,7 @@ function drawRoute(){
  const pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]);
  ctx.lineWidth=4*devicePixelRatio;ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();
  const a=pts[0],b=pts[pts.length-1];ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();
- // Ver.3.3.8: 軌跡の進行方向を示す矢印
+ // Ver.3.3.9: 軌跡の進行方向を示す矢印
  if(pts.length>=2){
    const arrowCount=8;
    const step=Math.max(1,Math.floor((pts.length-1)/(arrowCount+1)));
@@ -239,35 +239,38 @@ function setupThresholdControls(){
  sync();
 }
 setupThresholdControls();
-$("motionSwitch").onchange=async e=>{
- if(e.target.checked){const ok=await enableMotion();if(!ok){e.target.checked=false;disableMotion();}}
- else disableMotion();
+$("motionSwitch").onchange=e=>{
+ debugEnabled=e.target.checked;$("debug").classList.toggle("show",debugEnabled);
+ $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF")+(motionEnabled?"（センサー取得中）":"");
 };
-// Ver.3.3.8 熊鈴モード
-let bellEnabled=false,bellTimer=null,audioCtx=null;
+// Ver.3.3.9 熊鈴モード（歩数連動＋ランダム）
+let bellEnabled=false,audioCtx=null,nextBellStep=Infinity;
 function ensureAudio(){const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return null;if(!audioCtx)audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
-function playBearBell(){const ctx=ensureAudio();if(!ctx)return;const volume=parseInt($("bellVolume").value,10)/100,now=ctx.currentTime;const partials=[[1568,0.20],[2349,0.11],[3136,0.07]];partials.forEach(([freq,level],i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=i===0?'sine':'triangle';osc.frequency.setValueAtTime(freq,now);osc.frequency.exponentialRampToValueAtTime(freq*0.985,now+0.9);gain.gain.setValueAtTime(0.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(0.0001,volume*level),now+0.008);gain.gain.exponentialRampToValueAtTime(Math.max(0.0001,volume*level*0.28),now+0.16);gain.gain.exponentialRampToValueAtTime(0.0001,now+0.95);osc.connect(gain).connect(ctx.destination);osc.start(now);osc.stop(now+1.0)});const osc2=ctx.createOscillator(),gain2=ctx.createGain();osc2.type='sine';osc2.frequency.setValueAtTime(1046,now+0.08);osc2.frequency.exponentialRampToValueAtTime(860,now+0.55);gain2.gain.setValueAtTime(0.0001,now+0.08);gain2.gain.exponentialRampToValueAtTime(Math.max(0.0001,volume*0.08),now+0.09);gain2.gain.exponentialRampToValueAtTime(0.0001,now+0.65);osc2.connect(gain2).connect(ctx.destination);osc2.start(now+0.08);osc2.stop(now+0.7);}
-function stopBellTimer(){if(bellTimer){clearInterval(bellTimer);bellTimer=null;}}
-function startBellTimer(){stopBellTimer();if(!bellEnabled||!running)return;const ms=parseInt($("bellInterval").value,10)*1000;bellTimer=setInterval(()=>{if(bellEnabled&&running)playBearBell();},ms);}
-function updateBellStatus(){$("bellStatus").textContent=!bellEnabled?'状態：OFF':(running?'状態：ON（ウォーキング中）':'状態：ON（STARTで自動開始）');}
-$("bellSwitch").onchange=e=>{bellEnabled=e.target.checked;ensureAudio();if(bellEnabled&&running){playBearBell();startBellTimer();}else stopBellTimer();updateBellStatus();};
-$("bellInterval").onchange=()=>{if(bellEnabled&&running)startBellTimer();};
+function playMetalStrike(offset,base,volume){const ctx=ensureAudio();if(!ctx)return;const now=ctx.currentTime+offset;[[base,.22],[base*1.49,.12],[base*2.03,.08],[base*2.68,.045]].forEach(([freq,level],i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=i===0?'sine':'triangle';osc.frequency.setValueAtTime(freq,now);osc.frequency.exponentialRampToValueAtTime(freq*.965,now+.72);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,volume*level),now+.006);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,volume*level*.25),now+.13);gain.gain.exponentialRampToValueAtTime(.0001,now+.82);osc.connect(gain).connect(ctx.destination);osc.start(now);osc.stop(now+.85);});}
+function playBearBellPattern(){const volume=parseInt($("bellVolume").value,10)/100;const count=2+Math.floor(Math.random()*3);let offset=0;for(let i=0;i<count;i++){playMetalStrike(offset,1450+Math.random()*350,volume);offset+=.11+Math.random()*.13;}}
+function scheduleNextBell(){nextBellStep=n+5+Math.floor(Math.random()*11);}
+function updateBellStatus(){$("bellStatus").textContent=!bellEnabled?'状態：OFF':(running?'状態：ON（歩数連動・ランダム）':'状態：ON（STARTで歩数連動開始）');}
+$("bellSwitch").onchange=e=>{bellEnabled=e.target.checked;ensureAudio();if(bellEnabled&&running){scheduleNextBell();}else nextBellStep=Infinity;updateBellStatus();};
+$("bellInterval").onchange=()=>{};
 $("bellVolume").oninput=()=>{$("bellVolumeValue").textContent=$("bellVolume").value;};
-$("bellTest").onclick=()=>{ensureAudio();playBearBell();};
+$("bellTest").onclick=()=>{ensureAudio();playBearBellPattern();};
 
-$("start").onclick=()=>{
+$("start").onclick=async ()=>{
  if(running)return;
  n=0;lastStep=0;prevMag=null;resetMap();$("steps").textContent="0";$("recsteps").value="";
  $("summary").value="";
  t0=Date.now();running=true;tick();timer=setInterval(tick,1000);
  $("status").textContent="計測中…";$("start").disabled=true;$("stop").disabled=false;
- if(motionEnabled)$("msg").textContent="歩数＋GPS＋速度・高度を計測中です。";
- else $("msg").textContent="GPS＋速度・高度を計測中です。モーションセンサーはOFFです。";
+ const ok=await enableMotion();
+ if(ok){$("msg").textContent="歩数＋GPS＋速度・高度を計測中です。デバッグ表示は任意です。";}
+ else {$("msg").textContent="GPS＋速度・高度を計測中です。モーションセンサーを利用できないため歩数計測は停止しています。";}
+ if(debugEnabled)$("debug").classList.add("show");
+ if(bellEnabled)scheduleNextBell();
  startGPS();
 };
 $("stop").onclick=()=>{
  if(!running)return;
- running=false;clearInterval(timer);stopGPS();
+ running=false;clearInterval(timer);stopGPS();disableMotion();nextBellStep=Infinity;$("debug").classList.toggle("show",debugEnabled);updateBellStatus();
  const sec=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(sec);
  const km=routeDistance/1000,avg=sec>0?km/(sec/3600):0;
  const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
@@ -284,7 +287,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("weight").value="";$("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.3.8の記録を保存しました。")
+ alert("Ver.3.3.9の記録を保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
