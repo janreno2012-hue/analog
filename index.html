@@ -43,9 +43,9 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
 <div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div class="mini">※速度・高度・傾斜・カロリーはGPS等からの推定値です。</div></section>
 <section class="card"><h2>📱 モーションセンサー</h2>
-<div class="sensorrow"><div><b>モーションセンサー</b><div class="mini">ONにすると加速度の生データを表示します。</div></div>
+<div class="sensorrow"><div><b>モーションセンサー</b><div class="mini">ONにするとセンサーデバッグ表示を表示します。歩数計測はSTART中は常時動作します。</div></div>
 <label class="switch"><input id="motionSwitch" type="checkbox"><span class="slider"></span></label></div>
-<div id="motionLabel" class="mini">状態：OFF</div>
+<div id="motionLabel" class="mini">デバッグ表示：OFF</div>
 <div id="debug" class="debug">
 <div>🐞 センサーデバッグ　<span id="debugStatus" class="debugstatus">停止中</span></div>
 <div class="debuggrid">
@@ -78,11 +78,11 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <section class="card"><h2>📚 過去の記録</h2><ul id="list"></ul></section>
 </div>
 <script>
-const KEY="ayalog_records_v335";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+const KEY="ayalog_records_v339";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
 if(!data.length){for(const k of ["ayalog_records_v334","ayalog_records_v333","ayalog_records_v332","ayalog_records_v331","ayalog_records_v33","ayalog_records_v32","ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
 const $=id=>document.getElementById(id);$("date").value=new Date().toISOString().slice(0,10);
 let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null;
-let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null,motionEnabled=false;
+let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null,motionEnabled=false,debugEnabled=false;
 let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
@@ -92,7 +92,7 @@ function tick(){if(running)$("timer").textContent=fmt(Math.floor((Date.now()-t0)
 function hav(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
 function setDebugStatus(text){$("debugStatus").textContent=text}
 function motion(e){
- if(!motionEnabled||!e.accelerationIncludingGravity)return;
+ if(!e.accelerationIncludingGravity)return;
  const a=e.accelerationIncludingGravity,x=a.x||0,y=a.y||0,z=a.z||0,m=Math.hypot(x,y,z);
  const delta=prevMag===null?0:m-prevMag;
  $("debugX").textContent=x.toFixed(2);$("debugY").textContent=y.toFixed(2);$("debugZ").textContent=z.toFixed(2);
@@ -111,12 +111,12 @@ async function enableMotion(){
    const r=await DeviceMotionEvent.requestPermission();permissionState=r;if(r!=="granted"){setDebugStatus("許可されません");return false}
   }else permissionState="granted";
   handler=motion;window.addEventListener("devicemotion",handler);motionEnabled=true;prevMag=null;
-  $("debug").classList.add("show");$("motionLabel").textContent="状態：ON（センサー取得中）";setDebugStatus("取得中 🟢");return true
+  $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF")+"（センサー取得中）";setDebugStatus("取得中 🟢");return true
  }catch(e){permissionState="error";setDebugStatus("エラー");return false}
 }
 function disableMotion(){
- if(handler)window.removeEventListener("devicemotion",handler);handler=null;motionEnabled=false;prevMag=null;
- $("motionLabel").textContent="状態：OFF";setDebugStatus("停止中");$("debugStep").textContent="待機";
+ if(handler)window.removeEventListener("devicemotion",handler);handler=null;motionEnabled=false,debugEnabled=false;prevMag=null;
+ $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF");setDebugStatus("停止中");$("debugStep").textContent="待機";
 }
 function metFor(speed,grade){
  let met = speed<3.2?2.8:speed<4.0?3.0:speed<4.8?3.5:speed<5.6?4.3:speed<6.4?5.0:6.0;
@@ -264,19 +264,16 @@ $("start").onclick=()=>{
  if(motionEnabled)$("msg").textContent="歩数＋GPS＋速度・高度を計測中です。";
  else $("msg").textContent="GPS＋速度・高度を計測中です。モーションセンサーはOFFです。";
  startGPS();
- if(bellEnabled){playBearBell();startBellTimer();}
- updateBellStatus();
 };
 $("stop").onclick=()=>{
  if(!running)return;
- running=false;clearInterval(timer);stopGPS();stopBellTimer();
+ running=false;clearInterval(timer);stopGPS();
  const sec=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(sec);
  const km=routeDistance/1000,avg=sec>0?km/(sec/3600):0;
  const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
  $("summary").value=(km>=1?km.toFixed(2)+" km":Math.round(routeDistance)+" m")+" ／ 平均 "+avg.toFixed(1)+" km/h ／ 高低差 "+diff+" m";
  $("status").textContent="計測終了";$("start").disabled=false;$("stop").disabled=true;
  $("msg").textContent="今回："+n.toLocaleString()+"歩 ／ GPS距離："+km.toFixed(2)+" km ／ 約"+Math.round(currentCalories)+" kcal"
- updateBellStatus();
 };
 $("save").onclick=()=>{
  const w=parseFloat($("weight").value),s=parseInt($("recsteps").value,10);
