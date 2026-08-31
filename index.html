@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.3.7</title>
+<title>歩ログ Ver.3.3.8</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -37,11 +37,11 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.3.7</div><div class="sub">STARTを押して歩数・GPS・速度・高度を計測</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.3.8</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
-<div id="msg" class="note">STARTはGPS捕捉を待たずに押せます。速度・高度・傾斜も自動計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div class="mini">※速度・高度・傾斜・カロリーはGPS等からの推定値です。</div></section>
+<div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div class="mini">※速度・高度・傾斜・カロリーはGPS等からの推定値です。</div></section>
 <section class="card"><h2>📱 モーションセンサー</h2>
 <div class="sensorrow"><div><b>モーションセンサー</b><div class="mini">ONにすると加速度の生データを表示します。</div></div>
 <label class="switch"><input id="motionSwitch" type="checkbox"><span class="slider"></span></label></div>
@@ -207,7 +207,7 @@ function drawRoute(){
  const pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]);
  ctx.lineWidth=4*devicePixelRatio;ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();
  const a=pts[0],b=pts[pts.length-1];ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();
- // Ver.3.3.7: 軌跡の進行方向を示す矢印
+ // Ver.3.3.8: 軌跡の進行方向を示す矢印
  if(pts.length>=2){
    const arrowCount=8;
    const step=Math.max(1,Math.floor((pts.length-1)/(arrowCount+1)));
@@ -243,10 +243,10 @@ $("motionSwitch").onchange=async e=>{
  if(e.target.checked){const ok=await enableMotion();if(!ok){e.target.checked=false;disableMotion();}}
  else disableMotion();
 };
-// Ver.3.3.7 熊鈴モード
+// Ver.3.3.8 熊鈴モード
 let bellEnabled=false,bellTimer=null,audioCtx=null;
 function ensureAudio(){const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return null;if(!audioCtx)audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
-function playBearBell(){const ctx=ensureAudio();if(!ctx)return;const volume=parseInt($("bellVolume").value,10)/100,now=ctx.currentTime;[0,0.11].forEach((offset,i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain(),f=i===0?1760:1320;osc.type='sine';osc.frequency.setValueAtTime(f,now+offset);osc.frequency.exponentialRampToValueAtTime(f*0.82,now+offset+0.35);gain.gain.setValueAtTime(0.0001,now+offset);gain.gain.exponentialRampToValueAtTime(Math.max(0.0001,volume*0.16),now+offset+0.01);gain.gain.exponentialRampToValueAtTime(0.0001,now+offset+0.5);osc.connect(gain).connect(ctx.destination);osc.start(now+offset);osc.stop(now+offset+0.52);});}
+function playBearBell(){const ctx=ensureAudio();if(!ctx)return;const volume=parseInt($("bellVolume").value,10)/100,now=ctx.currentTime;const partials=[[1568,0.20],[2349,0.11],[3136,0.07]];partials.forEach(([freq,level],i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=i===0?'sine':'triangle';osc.frequency.setValueAtTime(freq,now);osc.frequency.exponentialRampToValueAtTime(freq*0.985,now+0.9);gain.gain.setValueAtTime(0.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(0.0001,volume*level),now+0.008);gain.gain.exponentialRampToValueAtTime(Math.max(0.0001,volume*level*0.28),now+0.16);gain.gain.exponentialRampToValueAtTime(0.0001,now+0.95);osc.connect(gain).connect(ctx.destination);osc.start(now);osc.stop(now+1.0)});const osc2=ctx.createOscillator(),gain2=ctx.createGain();osc2.type='sine';osc2.frequency.setValueAtTime(1046,now+0.08);osc2.frequency.exponentialRampToValueAtTime(860,now+0.55);gain2.gain.setValueAtTime(0.0001,now+0.08);gain2.gain.exponentialRampToValueAtTime(Math.max(0.0001,volume*0.08),now+0.09);gain2.gain.exponentialRampToValueAtTime(0.0001,now+0.65);osc2.connect(gain2).connect(ctx.destination);osc2.start(now+0.08);osc2.stop(now+0.7);}
 function stopBellTimer(){if(bellTimer){clearInterval(bellTimer);bellTimer=null;}}
 function startBellTimer(){stopBellTimer();if(!bellEnabled||!running)return;const ms=parseInt($("bellInterval").value,10)*1000;bellTimer=setInterval(()=>{if(bellEnabled&&running)playBearBell();},ms);}
 function updateBellStatus(){$("bellStatus").textContent=!bellEnabled?'状態：OFF':(running?'状態：ON（ウォーキング中）':'状態：ON（STARTで自動開始）');}
@@ -264,16 +264,19 @@ $("start").onclick=()=>{
  if(motionEnabled)$("msg").textContent="歩数＋GPS＋速度・高度を計測中です。";
  else $("msg").textContent="GPS＋速度・高度を計測中です。モーションセンサーはOFFです。";
  startGPS();
+ if(bellEnabled){playBearBell();startBellTimer();}
+ updateBellStatus();
 };
 $("stop").onclick=()=>{
  if(!running)return;
- running=false;clearInterval(timer);stopGPS();
+ running=false;clearInterval(timer);stopGPS();stopBellTimer();
  const sec=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(sec);
  const km=routeDistance/1000,avg=sec>0?km/(sec/3600):0;
  const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
  $("summary").value=(km>=1?km.toFixed(2)+" km":Math.round(routeDistance)+" m")+" ／ 平均 "+avg.toFixed(1)+" km/h ／ 高低差 "+diff+" m";
  $("status").textContent="計測終了";$("start").disabled=false;$("stop").disabled=true;
  $("msg").textContent="今回："+n.toLocaleString()+"歩 ／ GPS距離："+km.toFixed(2)+" km ／ 約"+Math.round(currentCalories)+" kcal"
+ updateBellStatus();
 };
 $("save").onclick=()=>{
  const w=parseFloat($("weight").value),s=parseInt($("recsteps").value,10);
@@ -284,7 +287,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("weight").value="";$("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.3.7の記録を保存しました。")
+ alert("Ver.3.3.8の記録を保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
