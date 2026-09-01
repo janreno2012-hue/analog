@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.4</title>
+<title>歩ログ Ver.3.5</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -37,11 +37,11 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.4</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.5</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
-<div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div class="mini">※速度・高度・傾斜・カロリーはGPS等からの推定値です。</div></section>
+<div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div id="calorieNote" class="mini">※体重を設定するとGPSの速度・傾斜・時間から推定消費カロリーを計算します。</div></section>
 <section class="card"><h2>📱 モーションセンサー</h2>
 <div class="sensorrow"><div><b>モーションセンサー</b><div class="mini">ONにするとセンサーデバッグ表示を表示します。歩数計測はSTART中は常時動作します。</div></div>
 <label class="switch"><input id="motionSwitch" type="checkbox"><span class="slider"></span></label></div>
@@ -74,13 +74,17 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <button id="save" class="save">💾 記録を保存</button></section>
 <section class="card"><h2>📊 これまでの平均</h2><div class="grid">
 <div class="stat"><div>平均体重</div><div id="aw" class="value">-- kg</div></div>
-<div class="stat"><div>平均歩数</div><div id="as" class="value">-- 歩</div></div></div></section>
+<div class="stat"><div>平均歩数</div><div id="as" class="value">-- 歩</div></div><div class="stat"><div>総消費カロリー</div><div id="totalCal" class="value">-- kcal</div></div><div class="stat"><div>歩ログ件数</div><div id="countLogs" class="value">0</div></div></div></section>
 <section class="card"><h2>📚 過去の記録</h2><ul id="list"></ul></section>
 </div>
 <script>
-const KEY="ayalog_records_v34";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
-if(!data.length){for(const k of ["ayalog_records_v334","ayalog_records_v333","ayalog_records_v332","ayalog_records_v331","ayalog_records_v33","ayalog_records_v32","ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
+const KEY="ayalog_records_v35", SETTINGS_KEY="ayalog_settings_v35";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+if(!data.length){for(const k of ["ayalog_records_v34","ayalog_records_v339","ayalog_records_v334","ayalog_records_v333","ayalog_records_v332","ayalog_records_v331","ayalog_records_v33","ayalog_records_v32","ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
 const $=id=>document.getElementById(id);$("date").value=new Date().toISOString().slice(0,10);
+const settings=JSON.parse(localStorage.getItem(SETTINGS_KEY)||"{}");
+if(Number.isFinite(Number(settings.weight))&&Number(settings.weight)>0)$("weight").value=Number(settings.weight);
+$("weight").addEventListener("change",()=>{const w=parseFloat($("weight").value);if(Number.isFinite(w)&&w>0)localStorage.setItem(SETTINGS_KEY,JSON.stringify({weight:w}));});
+$("weight").addEventListener("input",()=>{if(running)$("calories").textContent=Math.round(currentCalories)+" kcal";});
 let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null;
 let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null,motionEnabled=false,debugEnabled=false;
 let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
@@ -286,14 +290,16 @@ $("save").onclick=()=>{
  route:route.map(p=>({lat:p.lat,lng:p.lng,alt:p.alt,speed:p.speed,time:p.time})),ascent:Math.round(totalAscent),descent:Math.round(totalDescent),
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
- $("weight").value="";$("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.3.9の記録を保存しました。")
+ $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
+ alert("Ver.3.5の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
+ const walks=data.length;
  const ws=data.map(x=>Number(x.weight)).filter(Number.isFinite),ss=data.map(x=>Number(x.steps)).filter(Number.isFinite);
  $("aw").textContent=ws.length?(ws.reduce((a,b)=>a+b,0)/ws.length).toFixed(1)+" kg":"-- kg";
  $("as").textContent=ss.length?Math.round(ss.reduce((a,b)=>a+b,0)/ss.length).toLocaleString()+" 歩":"-- 歩";
+ const tc=data.map(x=>Number(x.calories)).filter(Number.isFinite).reduce((a,b)=>a+b,0);$("totalCal").textContent=tc?Math.round(tc).toLocaleString()+" kcal":"-- kcal";$("countLogs").textContent=walks.toLocaleString()+" 回";
  $("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button><div class="top"><span>'+esc(x.date)+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(x.distance?((x.distance/1000).toFixed(2)+" km"):"--")+(x.calories!=null?' ／ 約'+Number(x.calories).toLocaleString()+" kcal":'')+'</div>'+(x.diary?'<div class="note">📝 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';
  $("list").querySelectorAll(".del").forEach(b=>b.onclick=()=>{data=data.filter(x=>x.id!=b.dataset.id);saveData();render()})
 }
