@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.7</title>
+<title>歩ログ Ver.3.7.1</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -42,7 +42,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.7</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.7.1</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -257,7 +257,7 @@ $("motionSwitch").onchange=e=>{
  debugEnabled=e.target.checked;$("debug").classList.toggle("show",debugEnabled);
  $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF")+(motionEnabled?"（センサー取得中）":"");
 };
-// Ver.3.7 熊鈴音響モデル（非整数倍の金属倍音＋個別減衰＋微小揺らぎ）
+// Ver.3.7.1 熊鈴音響モデル（不協和感を抑えた安定倍音＋自然な余韻）
 let bellEnabled=false,audioCtx=null,nextBellStep=Infinity;
 function ensureAudio(){
  const Ctx=window.AudioContext||window.webkitAudioContext;
@@ -282,15 +282,16 @@ function playMetalStrike(offset,base,volume){
  ];
  harmonics.forEach((h,i)=>{
   const osc=ctx.createOscillator(),gain=ctx.createGain();
-  const freq=base*h.r*(.992+Math.random()*.016);
-  const amp=volume*.22*h.a*(.90+Math.random()*.20);
-  const thisDecay=decay*h.d*(.90+Math.random()*.18);
+  // 音程のランダム変動を控えめにして、音の中心を安定化
+  const freq=base*h.r*(.997+Math.random()*.006);
+  const amp=volume*.22*h.a*(.94+Math.random()*.12);
+  const thisDecay=decay*h.d*(.94+Math.random()*.12);
   osc.type=i===0?'triangle':'sine';
   osc.frequency.setValueAtTime(freq,now);
   // 歩行・空気振動を模した、ごく弱いランダムなピッチ揺らぎ
   const lfo=ctx.createOscillator(),lfoGain=ctx.createGain();
-  lfo.frequency.setValueAtTime(2+Math.random()*3,now);
-  lfoGain.gain.setValueAtTime(freq*(.00025+Math.random()*.00035),now);
+  lfo.frequency.setValueAtTime(2.2+Math.random()*1.6,now);
+  lfoGain.gain.setValueAtTime(freq*(.00008+Math.random()*.00010),now);
   lfo.connect(lfoGain).connect(osc.frequency);
   gain.gain.setValueAtTime(.0001,now);
   gain.gain.exponentialRampToValueAtTime(Math.max(.0002,amp),now+attack);
@@ -306,8 +307,8 @@ function playBearBellPattern(){
  let offset=0;
  for(let i=0;i<count;i++){
   // 3〜4kHz帯を中心に、毎回少しだけ個体差を作る
-  playMetalStrike(offset,3000+Math.random()*1000,volume*(.90+Math.random()*.18));
-  offset+=.13+Math.random()*.18;
+  playMetalStrike(offset,3200+Math.random()*500,volume*(.94+Math.random()*.12));
+  offset+=.065+Math.random()*.09;
  }
 }
 function scheduleNextBell(){nextBellStep=n+5+Math.floor(Math.random()*11);}
@@ -368,7 +369,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.7の歩ログを保存しました。")
+ alert("Ver.3.7.1の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
