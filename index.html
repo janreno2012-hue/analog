@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.6</title>
+<title>歩ログ Ver.3.6.1</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -42,11 +42,16 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.6</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.6.1</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
 <div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div id="calorieNote" class="mini">※体重を設定するとGPSの速度・傾斜・時間から推定消費カロリーを計算します。</div></section>
+<section class="card"><h2>🌙 OLEDポケットモード</h2>
+<div class="sensorrow"><div><b>ポケットモード</b><div class="mini">ONにするとSTART後に黒画面主体の省電力表示へ移行します。</div></div>
+<label class="switch"><input id="pocketSwitch" type="checkbox" checked><span class="slider"></span></label></div>
+<div id="pocketLabel" class="mini">ポケットモード：ON</div>
+</section>
 <section class="card"><h2>📱 モーションセンサー</h2>
 <div class="sensorrow"><div><b>モーションセンサー</b><div class="mini">ONにするとセンサーデバッグ表示を表示します。歩数計測はSTART中は常時動作します。</div></div>
 <label class="switch"><input id="motionSwitch" type="checkbox"><span class="slider"></span></label></div>
@@ -269,7 +274,16 @@ let wakeLock=null;
 async function requestWakeLock(){try{if("wakeLock" in navigator){wakeLock=await navigator.wakeLock.request("screen");wakeLock.addEventListener("release",()=>{wakeLock=null;});}}catch(e){console.log("Wake Lock取得失敗",e);}}
 async function releaseWakeLock(){try{if(wakeLock){await wakeLock.release();wakeLock=null;}}catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(running&&document.visibilityState==="visible")requestWakeLock();});
-function enterPocketMode(){$("pocketSteps").textContent=n;$("pocketTime").textContent=$("timer").textContent;$("pocketMode").classList.add("show");}
+let pocketModeEnabled=true;
+function updatePocketSetting(){
+ pocketModeEnabled=$("pocketSwitch").checked;
+ $("pocketLabel").textContent="ポケットモード："+(pocketModeEnabled?"ON":"OFF");
+}
+$("pocketSwitch").onchange=updatePocketSetting;
+function enterPocketMode(){
+ if(!pocketModeEnabled)return;
+ $("pocketSteps").textContent=n;$("pocketTime").textContent=$("timer").textContent;$("pocketMode").classList.add("show");
+}
 function exitPocketMode(){$("pocketMode").classList.remove("show");}
 $("pocketMode").addEventListener("click",exitPocketMode);
 
