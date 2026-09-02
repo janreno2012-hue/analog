@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.5</title>
+<title>歩ログ Ver.3.6</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -34,10 +34,15 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 .rangeVal{font-size:16px;color:#0f766e}.rangeRow input[type="range"]{padding:0;margin-top:7px;width:100%}
 
 .bellRow{display:flex;justify-content:space-between;align-items:center;gap:12px}.bellControls{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.bellTest{margin-top:10px;width:100%;padding:10px;border:0;border-radius:10px;background:#0f766e;color:#fff;font-weight:800}.bellStatus{margin-top:8px;font-size:13px;color:#6b7c79}
+
+/* Ver.3.6 OLEDポケットモード */
+#pocketMode{display:none;position:fixed;inset:0;z-index:9999;background:#000;color:#fff;align-items:center;justify-content:center;text-align:center;padding:24px;touch-action:manipulation}
+#pocketMode.show{display:flex}
+.pocketInner{width:100%;max-width:360px}.pocketTitle{font-size:14px;letter-spacing:.08em;color:#888;margin-bottom:20px}.pocketSteps{font-size:68px;font-weight:800;line-height:1}.pocketUnit{font-size:18px;color:#aaa;margin-top:7px}.pocketTime{font-size:30px;margin-top:24px;font-variant-numeric:tabular-nums}.pocketGps{font-size:14px;color:#888;margin-top:18px}.pocketHint{position:absolute;bottom:28px;left:0;right:0;font-size:12px;color:#555}
 </style>
 </head>
-<body><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.5</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
+<header><div class="logo">🌿 歩ログ Ver.3.6</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -78,10 +83,10 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <section class="card"><h2>📚 過去の記録</h2><ul id="list"></ul></section>
 </div>
 <script>
-const KEY="ayalog_records_v35", SETTINGS_KEY="ayalog_settings_v35";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
-if(!data.length){for(const k of ["ayalog_records_v34","ayalog_records_v339","ayalog_records_v334","ayalog_records_v333","ayalog_records_v332","ayalog_records_v331","ayalog_records_v33","ayalog_records_v32","ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
+const KEY="ayalog_records_v36", SETTINGS_KEY="ayalog_settings_v36";let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+if(!data.length){for(const k of ["ayalog_records_v35","ayalog_records_v34","ayalog_records_v339","ayalog_records_v334","ayalog_records_v333","ayalog_records_v332","ayalog_records_v331","ayalog_records_v33","ayalog_records_v32","ayalog_records_v31","ayalog_records_v3","ayalog_records_v21"]){try{const old=JSON.parse(localStorage.getItem(k)||"[]");if(old.length){data=old.map(x=>({...x}));break}}catch(e){}}}
 const $=id=>document.getElementById(id);$("date").value=new Date().toISOString().slice(0,10);
-const settings=JSON.parse(localStorage.getItem(SETTINGS_KEY)||"{}");
+const settings=JSON.parse(localStorage.getItem(SETTINGS_KEY)||localStorage.getItem("ayalog_settings_v35")||"{}");
 if(Number.isFinite(Number(settings.weight))&&Number(settings.weight)>0)$("weight").value=Number(settings.weight);
 $("weight").addEventListener("change",()=>{const w=parseFloat($("weight").value);if(Number.isFinite(w)&&w>0)localStorage.setItem(SETTINGS_KEY,JSON.stringify({weight:w}));});
 $("weight").addEventListener("input",()=>{if(running)$("calories").textContent=Math.round(currentCalories)+" kcal";});
@@ -92,7 +97,7 @@ let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentG
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
 function pad(x){return String(x).padStart(2,"0")}
 function fmt(s){return pad(Math.floor(s/3600))+":"+pad(Math.floor(s%3600/60))+":"+pad(s%60)}
-function tick(){if(running)$("timer").textContent=fmt(Math.floor((Date.now()-t0)/1000))}
+function tick(){if(running){const v=fmt(Math.floor((Date.now()-t0)/1000));$("timer").textContent=v;$("pocketTime").textContent=v}}
 function hav(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
 function setDebugStatus(text){$("debugStatus").textContent=text}
 function motion(e){
@@ -103,7 +108,7 @@ function motion(e){
  $("debugMag").textContent=m.toFixed(2);$("debugDelta").textContent=(delta>=0?"+":"")+delta.toFixed(2);
  let judged="監視中",now=Date.now();
  if(running&&prevMag!==null&&delta>deltaThreshold&&m>magThreshold&&now-lastStep>intervalThreshold){
-   n++;$("steps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
+   n++;$("steps").textContent=n;$("pocketSteps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
  }
  $("debugStep").textContent=judged;prevMag=m;
 }
@@ -184,7 +189,7 @@ function startGPS(){
    route.push(x);
    drawRoute();
    updateMetrics();
-   $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";
+   $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";$("pocketGps").textContent="📍 GPS：精度 "+Math.round(p.coords.accuracy)+" m";
    $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length;
  },e=>$("gpsmsg").textContent="📍 GPS：取得できません（"+e.message+"）",{enableHighAccuracy:true,maximumAge:3000,timeout:10000})
 }
@@ -250,8 +255,8 @@ $("motionSwitch").onchange=e=>{
 // Ver.3.3.9 熊鈴モード（歩数連動＋ランダム）
 let bellEnabled=false,audioCtx=null,nextBellStep=Infinity;
 function ensureAudio(){const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return null;if(!audioCtx)audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
-function playMetalStrike(offset,base,volume){const ctx=ensureAudio();if(!ctx)return;const now=ctx.currentTime+offset;[[base,.24],[base*1.72,.13],[base*2.41,.09],[base*3.18,.055],[base*4.05,.028]].forEach(([freq,level],i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=i===0?'triangle':'sine';osc.frequency.setValueAtTime(freq,now);osc.frequency.exponentialRampToValueAtTime(freq*.972,now+.60);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,volume*level),now+.004);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,volume*level*.32),now+.10);gain.gain.exponentialRampToValueAtTime(.0001,now+.68);osc.connect(gain).connect(ctx.destination);osc.start(now);osc.stop(now+.72);});}
-function playBearBellPattern(){const volume=parseInt($("bellVolume").value,10)/100;const count=2+Math.floor(Math.random()*3);let offset=0;for(let i=0;i<count;i++){playMetalStrike(offset,1850+Math.random()*450,volume);offset+=.11+Math.random()*.13;}}
+function playMetalStrike(offset,base,volume){const ctx=ensureAudio();if(!ctx)return;const now=ctx.currentTime+offset;const freqs=[base,base*(1.08+Math.random()*.035),base*(1.19+Math.random()*.045),base*(.84+Math.random()*.035)];freqs.forEach((freq,i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=i===0?'triangle':'sine';const det=(Math.random()-.5)*18;osc.frequency.setValueAtTime(freq+det,now);osc.frequency.exponentialRampToValueAtTime((freq+det)*(.992+Math.random()*.006),now+1.05);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,volume*(i===0?.22:.12)/(1+i*.35)),now+.0025+Math.random()*.003);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,volume*.035),now+.16+Math.random()*.08);gain.gain.exponentialRampToValueAtTime(.0001,now+1.15+Math.random()*.35);osc.connect(gain).connect(ctx.destination);osc.start(now);osc.stop(now+1.55);});}
+function playBearBellPattern(){const volume=parseInt($("bellVolume").value,10)/100;const count=2+Math.floor(Math.random()*2);let offset=0;for(let i=0;i<count;i++){playMetalStrike(offset,3000+Math.random()*950,volume*(.92+Math.random()*.16));offset+=.13+Math.random()*.16;}}
 function scheduleNextBell(){nextBellStep=n+5+Math.floor(Math.random()*11);}
 function updateBellStatus(){$("bellStatus").textContent=!bellEnabled?'状態：OFF':(running?'状態：ON（歩数連動・ランダム）':'状態：ON（STARTで歩数連動開始）');}
 $("bellSwitch").onchange=e=>{bellEnabled=e.target.checked;ensureAudio();if(bellEnabled&&running){scheduleNextBell();}else nextBellStep=Infinity;updateBellStatus();};
@@ -259,11 +264,20 @@ $("bellInterval").onchange=()=>{};
 $("bellVolume").oninput=()=>{$("bellVolumeValue").textContent=$("bellVolume").value;};
 $("bellTest").onclick=()=>{ensureAudio();playBearBellPattern();};
 
+// Ver.3.6 Wake Lock
+let wakeLock=null;
+async function requestWakeLock(){try{if("wakeLock" in navigator){wakeLock=await navigator.wakeLock.request("screen");wakeLock.addEventListener("release",()=>{wakeLock=null;});}}catch(e){console.log("Wake Lock取得失敗",e);}}
+async function releaseWakeLock(){try{if(wakeLock){await wakeLock.release();wakeLock=null;}}catch(e){}}
+document.addEventListener("visibilitychange",()=>{if(running&&document.visibilityState==="visible")requestWakeLock();});
+function enterPocketMode(){$("pocketSteps").textContent=n;$("pocketTime").textContent=$("timer").textContent;$("pocketMode").classList.add("show");}
+function exitPocketMode(){$("pocketMode").classList.remove("show");}
+$("pocketMode").addEventListener("click",exitPocketMode);
+
 $("start").onclick=async ()=>{
  if(running)return;
  n=0;lastStep=0;prevMag=null;resetMap();$("steps").textContent="0";$("recsteps").value="";
  $("summary").value="";
- t0=Date.now();running=true;tick();timer=setInterval(tick,1000);
+ t0=Date.now();running=true;tick();timer=setInterval(tick,1000);requestWakeLock();
  $("status").textContent="計測中…";$("start").disabled=true;$("stop").disabled=false;
  const ok=await enableMotion();
  if(ok){$("msg").textContent="歩数＋GPS＋速度・高度を計測中です。デバッグ表示は任意です。";}
@@ -271,11 +285,12 @@ $("start").onclick=async ()=>{
  if(debugEnabled)$("debug").classList.add("show");
  if(bellEnabled)scheduleNextBell();
  startGPS();
+ enterPocketMode();
 };
 $("stop").onclick=()=>{
  if(!running)return;
- running=false;clearInterval(timer);stopGPS();disableMotion();nextBellStep=Infinity;$("debug").classList.toggle("show",debugEnabled);updateBellStatus();
- const sec=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(sec);
+ running=false;clearInterval(timer);stopGPS();disableMotion();releaseWakeLock();exitPocketMode();nextBellStep=Infinity;$("debug").classList.toggle("show",debugEnabled);updateBellStatus();
+ const sec=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(sec);$("recsteps").value=n;
  const km=routeDistance/1000,avg=sec>0?km/(sec/3600):0;
  const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
  $("summary").value=(km>=1?km.toFixed(2)+" km":Math.round(routeDistance)+" m")+" ／ 平均 "+avg.toFixed(1)+" km/h ／ 高低差 "+diff+" m";
@@ -291,7 +306,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.5の歩ログを保存しました。")
+ alert("Ver.3.6の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
