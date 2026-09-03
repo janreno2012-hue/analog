@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.7.2</title>
+<title>歩ログ Ver.3.8</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -15,7 +15,7 @@
 label{display:block;font-size:14px;font-weight:700;margin:11px 0 5px}input,textarea{width:100%;padding:12px;border:1px solid #d5dfdd;border-radius:11px;font-size:16px}textarea{min-height:90px}
 .save{width:100%;margin-top:15px;background:#115e59;color:#fff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#f1f7f6;border-radius:14px;text-align:center;padding:12px}.value{font-size:23px;font-weight:800}
 #map{height:280px;border-radius:15px;border:1px solid #d5dfdd;background:#eef5f3;position:relative;overflow:hidden}
-#map canvas{width:100%;height:100%;display:block}.mapmsg{text-align:center;padding:75px 15px;color:#6b7c79}.route{margin-top:8px}
+#map canvas{width:100%;height:100%;display:block}.mapmsg{text-align:center;padding:75px 15px;color:#6b7c79}.route{margin-top:8px}.elevationCanvas{width:100%;height:190px;display:block;border:1px solid #d5dfdd;border-radius:14px;background:#fbfdfc;margin-top:14px}.elevationLegend{display:flex;justify-content:space-between;font-size:12px;color:#6b7c79;margin-top:7px}.elevationStats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.elevStat{background:#f1f7f6;border-radius:12px;text-align:center;padding:9px;font-size:12px}.elevStat b{display:block;font-size:17px;margin-top:3px}
 ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid #e5ecea}.del{float:right;padding:6px 9px;font-size:12px;background:#f5eeee;color:#b23b3b}.top{display:flex;justify-content:space-between;font-weight:700}
 .badge{display:inline-block;font-size:11px;padding:4px 8px;border-radius:20px;background:#eaf5f3;color:#0f766e;margin-top:7px}.mini{font-size:12px;color:#6b7c79;margin-top:6px}.stats4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 .sensorrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
@@ -42,7 +42,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.7.2</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.8</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -75,7 +75,11 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </div></section>
 <section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="6" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
 <div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
-<div id="routeInfo" class="route">距離：0 m ／ GPS点：0</div></section>
+<div id="routeInfo" class="route">距離：0 m ／ GPS点：0</div>
+<h2 style="margin-top:18px">📈 高低差プロフィール</h2>
+<canvas id="elevationCanvas" class="elevationCanvas"></canvas>
+<div class="elevationLegend"><span>🔵 低い</span><span>標高カラー軌跡と連動</span><span>🔴 高い</span></div>
+<div class="elevationStats"><div class="elevStat">最低標高<b id="minAltitudeStat">-- m</b></div><div class="elevStat">最高標高<b id="maxAltitudeStat">-- m</b></div><div class="elevStat">累積上昇<b id="ascentStat">0 m</b></div><div class="elevStat">累積下降<b id="descentStat">0 m</b></div></div></section>
 <section class="card"><h2>📝 今日の記録</h2>
 <label>日付</label><input id="date" type="date"><label>体重（kg）</label><input id="weight" type="number" step="0.1" placeholder="例：65.5">
 <label>歩数（歩）</label><input id="recsteps" type="number" min="0" placeholder="計測後に自動入力">
@@ -96,7 +100,7 @@ if(Number.isFinite(Number(settings.weight))&&Number(settings.weight)>0)$("weight
 $("weight").addEventListener("change",()=>{const w=parseFloat($("weight").value);if(Number.isFinite(w)&&w>0)localStorage.setItem(SETTINGS_KEY,JSON.stringify({weight:w}));});
 $("weight").addEventListener("input",()=>{if(running)$("calories").textContent=Math.round(currentCalories)+" kcal";});
 let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null;
-let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null,motionEnabled=false,debugEnabled=false;
+let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null,elevationCanvas=null,elevationCtx=null,motionEnabled=false,debugEnabled=false;
 let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
@@ -208,37 +212,10 @@ function setupMap(){
  const el=$("map");el.innerHTML="";mapCanvas=document.createElement("canvas");el.appendChild(mapCanvas);ctx=mapCanvas.getContext("2d");
  resizeMap();window.addEventListener("resize",resizeMap)
 }
-function resizeMap(){if(!mapCanvas)return;mapCanvas.width=$("map").clientWidth*devicePixelRatio;mapCanvas.height=$("map").clientHeight*devicePixelRatio;drawRoute()}
-function drawRoute(){
- if(!ctx)return;const w=mapCanvas.width,h=mapCanvas.height;ctx.clearRect(0,0,w,h);
- ctx.globalAlpha=.35;ctx.lineWidth=1*devicePixelRatio;
- for(let x=0;x<w;x+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}
- for(let y=0;y<h;y+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
- ctx.globalAlpha=1;
- if(!route.length)return;
- let minLat=Math.min(...route.map(p=>p.lat)),maxLat=Math.max(...route.map(p=>p.lat)),minLng=Math.min(...route.map(p=>p.lng)),maxLng=Math.max(...route.map(p=>p.lng));
- const pad=35*devicePixelRatio,dx=Math.max(maxLng-minLng,0.00005),dy=Math.max(maxLat-minLat,0.00005),scale=Math.min((w-2*pad)/dx,(h-2*pad)/dy);
- const pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]);
- ctx.lineWidth=2*devicePixelRatio;ctx.lineCap="round";ctx.lineJoin="round";ctx.setLineDash([7*devicePixelRatio,7*devicePixelRatio]);ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();ctx.setLineDash([]);
- const a=pts[0],b=pts[pts.length-1];ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();
- // Ver.3.3.9: 軌跡の進行方向を示す矢印
- if(pts.length>=2){
-   const arrowCount=8;
-   const step=Math.max(1,Math.floor((pts.length-1)/(arrowCount+1)));
-   ctx.save();ctx.fillStyle=ctx.strokeStyle;
-   for(let i=step;i<pts.length-1;i+=step){
-     let j=i+1;
-     while(j<pts.length && Math.hypot(pts[j][0]-pts[i][0],pts[j][1]-pts[i][1])<8*devicePixelRatio)j++;
-     if(j>=pts.length)continue;
-     const p1=pts[i],p2=pts[j],dx2=p2[0]-p1[0],dy2=p2[1]-p1[1];
-     const angle=Math.atan2(dy2,dx2),size=7*devicePixelRatio;
-     ctx.save();ctx.translate(p1[0],p1[1]);ctx.rotate(angle);
-     ctx.beginPath();ctx.moveTo(size,0);ctx.lineTo(-size*0.7,-size*0.6);ctx.lineTo(-size*0.7,size*0.6);ctx.closePath();ctx.fill();
-     ctx.restore();
-   }
-   ctx.restore();
- }
-}
+function resizeMap(){if(mapCanvas){mapCanvas.width=$("map").clientWidth*devicePixelRatio;mapCanvas.height=$("map").clientHeight*devicePixelRatio;}if(elevationCanvas){elevationCanvas.width=elevationCanvas.clientWidth*devicePixelRatio;elevationCanvas.height=elevationCanvas.clientHeight*devicePixelRatio;}drawRoute();drawElevationProfile()}
+function thermalColor(t){t=Math.max(0,Math.min(1,t));const s=[[0,[30,80,220]],[.2,[0,180,255]],[.4,[30,190,110]],[.6,[255,220,0]],[.8,[255,130,0]],[1,[220,40,40]]];for(let i=1;i<s.length;i++){if(t<=s[i][0]){const a=s[i-1],b=s[i],u=(t-a[0])/(b[0]-a[0]),c=a[1].map((v,j)=>Math.round(v+(b[1][j]-v)*u));return"rgb("+c.join(",")+")"}}return"rgb(220,40,40)"}
+function drawRoute(){if(!ctx)return;const w=mapCanvas.width,h=mapCanvas.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle="#aab9b6";ctx.globalAlpha=.35;ctx.lineWidth=devicePixelRatio;for(let x=0;x<w;x+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=0;y<h;y+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}ctx.globalAlpha=1;if(!route.length)return;const minLat=Math.min(...route.map(p=>p.lat)),maxLat=Math.max(...route.map(p=>p.lat)),minLng=Math.min(...route.map(p=>p.lng)),maxLng=Math.max(...route.map(p=>p.lng)),pad=35*devicePixelRatio,dx=Math.max(maxLng-minLng,.00005),dy=Math.max(maxLat-minLat,.00005),scale=Math.min((w-2*pad)/dx,(h-2*pad)/dy),pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]),alts=route.map(p=>p.smoothAlt).filter(Number.isFinite),lo=alts.length?Math.min(...alts):0,hi=alts.length?Math.max(...alts):1;ctx.lineWidth=3*devicePixelRatio;ctx.lineCap="round";ctx.setLineDash([7*devicePixelRatio,7*devicePixelRatio]);for(let i=1;i<pts.length;i++){const t=Number.isFinite(route[i].smoothAlt)&&hi>lo?(route[i].smoothAlt-lo)/(hi-lo):.5;ctx.strokeStyle=thermalColor(t);ctx.beginPath();ctx.moveTo(...pts[i-1]);ctx.lineTo(...pts[i]);ctx.stroke()}ctx.setLineDash([]);const a=pts[0],b=pts.at(-1);ctx.fillStyle="#0f766e";ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.fillStyle=thermalColor(hi>lo&&Number.isFinite(route.at(-1).smoothAlt)?(route.at(-1).smoothAlt-lo)/(hi-lo):.5);ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill()}
+function drawElevationProfile(){if(!elevationCtx||!elevationCanvas)return;const c=elevationCanvas,g=elevationCtx,w=c.width,h=c.height;g.clearRect(0,0,w,h);g.fillStyle="#fbfdfc";g.fillRect(0,0,w,h);if(!route.length){g.fillStyle="#6b7c79";g.font=(14*devicePixelRatio)+"px sans-serif";g.textAlign="center";g.fillText("GPS高度を取得すると高低差プロフィールを表示します",w/2,h/2);return}let d=0;const a=[];for(let i=0;i<route.length;i++){if(i)d+=hav(route[i-1],route[i]);if(Number.isFinite(route[i].smoothAlt))a.push({d,alt:route[i].smoothAlt})}if(!a.length)return;const lo=Math.min(...a.map(p=>p.alt)),hi=Math.max(...a.map(p=>p.alt)),pad=32*devicePixelRatio,pw=w-pad*2,ph=h-pad*2,span=Math.max(hi-lo,1),total=Math.max(d,1);g.strokeStyle="#dbe5e2";for(let i=0;i<=4;i++){const y=pad+ph*i/4;g.beginPath();g.moveTo(pad,y);g.lineTo(w-pad,y);g.stroke()}for(let i=1;i<a.length;i++){const p=a[i-1],q=a[i],x1=pad+p.d/total*pw,y1=pad+(1-(p.alt-lo)/span)*ph,x2=pad+q.d/total*pw,y2=pad+(1-(q.alt-lo)/span)*ph;g.strokeStyle=thermalColor((q.alt-lo)/span);g.lineWidth=2.5*devicePixelRatio;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke()}g.fillStyle="#6b7c79";g.font=(11*devicePixelRatio)+"px sans-serif";g.textAlign="left";g.fillText(Math.round(hi)+" m",5,pad+4*devicePixelRatio);g.fillText(Math.round(lo)+" m",5,h-pad);g.fillText("0 km",pad,h-7*devicePixelRatio);g.textAlign="right";g.fillText((d/1000).toFixed(2)+" km",w-pad,h-7*devicePixelRatio)}
 setupMap();
 function setupThresholdControls(){
  const sync=()=>{
@@ -257,7 +234,7 @@ $("motionSwitch").onchange=e=>{
  debugEnabled=e.target.checked;$("debug").classList.toggle("show",debugEnabled);
  $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF")+(motionEnabled?"（センサー取得中）":"");
 };
-// Ver.3.7.2 熊鈴中心ピッチ探索（C〜Bの音階比率を約3〜4kHz帯へ適用）
+// Ver.3.8 熊鈴中心ピッチ探索（C〜Bの音階比率を約3〜4kHz帯へ適用）
 const bellNotes=["C","D","E","F","G","A","B"];
 const bellSemitones=[0,2,4,5,7,9,11];
 const bellCenterHz=3300;
@@ -390,7 +367,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.7.2の歩ログを保存しました。")
+ alert("Ver.3.8の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
