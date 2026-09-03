@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.7.1</title>
+<title>歩ログ Ver.3.7.2</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -33,7 +33,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 .rangeRow{margin-top:10px}.rangeTop{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
 .rangeVal{font-size:16px;color:#0f766e}.rangeRow input[type="range"]{padding:0;margin-top:7px;width:100%}
 
-.bellRow{display:flex;justify-content:space-between;align-items:center;gap:12px}.bellControls{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.bellTest{margin-top:10px;width:100%;padding:10px;border:0;border-radius:10px;background:#0f766e;color:#fff;font-weight:800}.bellStatus{margin-top:8px;font-size:13px;color:#6b7c79}
+.bellRow{display:flex;justify-content:space-between;align-items:center;gap:12px}.bellControls{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.bellPitchControls{margin-top:10px;padding-top:10px;border-top:1px solid #dce8e5}.bellTest{margin-top:10px;width:100%;padding:10px;border:0;border-radius:10px;background:#0f766e;color:#fff;font-weight:800}.bellStatus{margin-top:8px;font-size:13px;color:#6b7c79}
 
 /* Ver.3.6 OLEDポケットモード */
 #pocketMode{display:none;position:fixed;inset:0;z-index:9999;background:#000;color:#fff;align-items:center;justify-content:center;text-align:center;padding:24px;touch-action:manipulation}
@@ -42,7 +42,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.7.1</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.7.2</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -73,7 +73,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に一定間隔で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><button id="bellTest" class="bellTest" type="button">🔔 試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
+<section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="6" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
 <div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
 <div id="routeInfo" class="route">距離：0 m ／ GPS点：0</div></section>
 <section class="card"><h2>📝 今日の記録</h2>
@@ -257,7 +257,23 @@ $("motionSwitch").onchange=e=>{
  debugEnabled=e.target.checked;$("debug").classList.toggle("show",debugEnabled);
  $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF")+(motionEnabled?"（センサー取得中）":"");
 };
-// Ver.3.7.1 熊鈴音響モデル（不協和感を抑えた安定倍音＋自然な余韻）
+// Ver.3.7.2 熊鈴中心ピッチ探索（C〜Bの音階比率を約3〜4kHz帯へ適用）
+const bellNotes=["C","D","E","F","G","A","B"];
+const bellSemitones=[0,2,4,5,7,9,11];
+const bellCenterHz=3300;
+let bellNoteIndex=0,bellCents=0;
+function currentBellBase(){
+  const semitone=bellSemitones[bellNoteIndex];
+  return bellCenterHz*Math.pow(2,semitone/12)*Math.pow(2,bellCents/1200);
+}
+function updateBellPitchUI(){
+  bellNoteIndex=parseInt($("bellNote").value,10);
+  bellCents=parseInt($("bellCents").value,10);
+  $("bellNoteValue").textContent=bellNotes[bellNoteIndex];
+  $("bellCentsValue").textContent=(bellCents>=0?"+":"")+bellCents+" cents";
+  $("bellPitchInfo").textContent="中心周波数：約 "+(currentBellBase()/1000).toFixed(2)+" kHz（"+bellNotes[bellNoteIndex]+"系）";
+}
+
 let bellEnabled=false,audioCtx=null,nextBellStep=Infinity;
 function ensureAudio(){
  const Ctx=window.AudioContext||window.webkitAudioContext;
@@ -269,29 +285,28 @@ function ensureAudio(){
 function playMetalStrike(offset,base,volume){
  const ctx=ensureAudio();if(!ctx)return;
  const now=ctx.currentTime+offset;
- const attack=.001+Math.random()*.002;
- const decay=1.5+Math.random()*1.5;
- // 熊鈴らしい非整数倍の金属モード。高域ほど短く減衰させる。
+ const attack=.0015+Math.random()*.001;
+ const decay=1.7+Math.random()*1.0;
+ // 3.7.1: 金属感は維持しつつ、強すぎる不協和を避けた穏やかなモード構成。
  const harmonics=[
   {r:1.00,a:1.00,d:1.00},
-  {r:1.17,a:.68,d:.82},
-  {r:1.43,a:.50,d:.68},
-  {r:1.86,a:.34,d:.54},
-  {r:2.31,a:.22,d:.42},
-  {r:2.78,a:.14,d:.32}
+  {r:1.26,a:.42,d:.78},
+  {r:1.50,a:.28,d:.62},
+  {r:2.02,a:.16,d:.48},
+  {r:2.52,a:.08,d:.34}
  ];
  harmonics.forEach((h,i)=>{
   const osc=ctx.createOscillator(),gain=ctx.createGain();
-  // 音程のランダム変動を控えめにして、音の中心を安定化
-  const freq=base*h.r*(.997+Math.random()*.006);
-  const amp=volume*.22*h.a*(.94+Math.random()*.12);
-  const thisDecay=decay*h.d*(.94+Math.random()*.12);
+  // ランダム性は音程感を崩さない程度に限定
+  const freq=base*h.r*(.996+Math.random()*.008);
+  const amp=volume*.20*h.a*(.96+Math.random()*.08);
+  const thisDecay=decay*h.d*(.94+Math.random()*.10);
   osc.type=i===0?'triangle':'sine';
   osc.frequency.setValueAtTime(freq,now);
-  // 歩行・空気振動を模した、ごく弱いランダムなピッチ揺らぎ
+  // ごく弱い揺らぎだけを残す
   const lfo=ctx.createOscillator(),lfoGain=ctx.createGain();
-  lfo.frequency.setValueAtTime(2.2+Math.random()*1.6,now);
-  lfoGain.gain.setValueAtTime(freq*(.00008+Math.random()*.00010),now);
+  lfo.frequency.setValueAtTime(2.5+Math.random()*1.5,now);
+  lfoGain.gain.setValueAtTime(freq*(.00010+Math.random()*.00010),now);
   lfo.connect(lfoGain).connect(osc.frequency);
   gain.gain.setValueAtTime(.0001,now);
   gain.gain.exponentialRampToValueAtTime(Math.max(.0002,amp),now+attack);
@@ -306,8 +321,11 @@ function playBearBellPattern(){
  const count=2+Math.floor(Math.random()*3); // 2〜4打
  let offset=0;
  for(let i=0;i<count;i++){
-  // 3〜4kHz帯を中心に、毎回少しだけ個体差を作る
-  playMetalStrike(offset,3200+Math.random()*500,volume*(.94+Math.random()*.12));
+  // 音程の中心を安定させ、打音ごとのばらつきを控えめに
+  const center=currentBellBase();
+   // 3.7.2: 打音ごとのランダム性は中心ピッチ周辺に限定し、選択した音階比率を維持
+   playMetalStrike(offset,center*(.985+Math.random()*.030),volume*(.94+Math.random()*.12));
+  // 3.7の約1/2を目標に、チリン・チリンのテンポを速くする
   offset+=.065+Math.random()*.09;
  }
 }
@@ -316,6 +334,9 @@ function updateBellStatus(){$("bellStatus").textContent=!bellEnabled?'状態：O
 $("bellSwitch").onchange=e=>{bellEnabled=e.target.checked;ensureAudio();if(bellEnabled&&running){scheduleNextBell();}else nextBellStep=Infinity;updateBellStatus();};
 $("bellInterval").onchange=()=>{};
 $("bellVolume").oninput=()=>{$("bellVolumeValue").textContent=$("bellVolume").value;};
+$("bellNote").oninput=updateBellPitchUI;
+$("bellCents").oninput=updateBellPitchUI;
+updateBellPitchUI();
 $("bellTest").onclick=()=>{ensureAudio();playBearBellPattern();};
 
 // Ver.3.6 Wake Lock
@@ -369,7 +390,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.7.1の歩ログを保存しました。")
+ alert("Ver.3.7.2の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
