@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.8</title>
+<title>歩ログ Ver.3.8.1</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -42,7 +42,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.8</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.8.1</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -206,10 +206,11 @@ function stopGPS(){if(watchId!==null){navigator.geolocation.clearWatch(watchId);
 function resetMap(){
  route=[];routeDistance=0;totalAscent=0;totalDescent=0;minAlt=null;maxAlt=null;lastSmoothAlt=null;
  currentSpeed=0;currentGrade=0;currentCalories=0;
- $("routeInfo").textContent="距離：0 m ／ GPS点：0";updateMetrics();drawRoute()
+ $("routeInfo").textContent="距離：0 m ／ GPS点：0";updateMetrics();drawRoute();drawElevationProfile()
 }
 function setupMap(){
  const el=$("map");el.innerHTML="";mapCanvas=document.createElement("canvas");el.appendChild(mapCanvas);ctx=mapCanvas.getContext("2d");
+ elevationCanvas=$("elevationCanvas");elevationCtx=elevationCanvas?elevationCanvas.getContext("2d"):null;
  resizeMap();window.addEventListener("resize",resizeMap)
 }
 function resizeMap(){if(mapCanvas){mapCanvas.width=$("map").clientWidth*devicePixelRatio;mapCanvas.height=$("map").clientHeight*devicePixelRatio;}if(elevationCanvas){elevationCanvas.width=elevationCanvas.clientWidth*devicePixelRatio;elevationCanvas.height=elevationCanvas.clientHeight*devicePixelRatio;}drawRoute();drawElevationProfile()}
@@ -234,7 +235,7 @@ $("motionSwitch").onchange=e=>{
  debugEnabled=e.target.checked;$("debug").classList.toggle("show",debugEnabled);
  $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF")+(motionEnabled?"（センサー取得中）":"");
 };
-// Ver.3.8 熊鈴中心ピッチ探索（C〜Bの音階比率を約3〜4kHz帯へ適用）
+// Ver.3.8.1 熊鈴中心ピッチ探索（C〜Bの音階比率を約3〜4kHz帯へ適用）
 const bellNotes=["C","D","E","F","G","A","B"];
 const bellSemitones=[0,2,4,5,7,9,11];
 const bellCenterHz=3300;
@@ -367,7 +368,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.8の歩ログを保存しました。")
+ alert("Ver.3.8.1の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
