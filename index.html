@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.8.6</title>
+<title>歩ログ Ver.3.8.7</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -42,7 +42,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.8.6</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.8.7</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -73,7 +73,10 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="7" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B / RANDOM</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
+<section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="7" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B / RANDOM</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellRandomBtn" type="button" style="margin-bottom:10px">🎲 RANDOM：OFF</button>
+<button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
+<div id="routeViewStatus" class="mini" style="margin-bottom:8px">現在のウォーキングを表示中</div>
+<button id="returnLiveRoute" type="button" style="display:none;margin-bottom:10px">↩️ 今日の表示に戻る</button>
 <div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
 <div id="routeInfo" class="route">距離：0 m ／ GPS点：0</div>
 <h2 style="margin-top:18px">📈 高低差プロフィール</h2>
@@ -100,7 +103,7 @@ if(Number.isFinite(Number(settings.weight))&&Number(settings.weight)>0)$("weight
 $("weight").addEventListener("change",()=>{const w=parseFloat($("weight").value);if(Number.isFinite(w)&&w>0)localStorage.setItem(SETTINGS_KEY,JSON.stringify({weight:w}));});
 $("weight").addEventListener("input",()=>{if(running)$("calories").textContent=Math.round(currentCalories)+" kcal";});
 let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null;
-let route=[],routeDistance=0,lastDistancePoint=null,permissionState="unknown",mapCanvas=null,ctx=null,elevationCanvas=null,elevationCtx=null,motionEnabled=false,debugEnabled=false;
+let route=[],routeDistance=0,lastDistancePoint=null,liveRouteSnapshot=null,viewingHistory=false,permissionState="unknown",mapCanvas=null,ctx=null,elevationCanvas=null,elevationCtx=null,motionEnabled=false,debugEnabled=false;
 let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
@@ -315,7 +318,7 @@ $("motionSwitch").onchange=e=>{
  debugEnabled=e.target.checked;$("debug").classList.toggle("show",debugEnabled);
  $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF")+(motionEnabled?"（センサー取得中）":"");
 };
-// Ver.3.8.6 熊鈴：固定基準音 + 制御付きRANDOM
+// Ver.3.8.7 熊鈴：固定基準音 + 制御付きRANDOM
 const bellNotes=["C","D","E","F","G","A","B","RANDOM"];
 const bellSemitones=[0,2,4,5,7,9,11];
 const bellCenterHz=3300;
@@ -369,6 +372,18 @@ $("bellSwitch").onchange=e=>{bellEnabled=e.target.checked;ensureAudio();if(bellE
 $("bellInterval").onchange=()=>{};$("bellVolume").oninput=()=>{$("bellVolumeValue").textContent=$("bellVolume").value;};
 $("bellNote").oninput=updateBellPitchUI;$("bellCents").oninput=updateBellPitchUI;updateBellPitchUI();
 $("bellTest").onclick=()=>{ensureAudio();playBearBellPattern();};
+let bellRandomDedicated=false,bellFixedBeforeRandom=bellNoteIndex;
+function syncRandomButton(){
+ $("bellRandomBtn").textContent=bellRandomDedicated?"🎲 RANDOM：ON":"🎲 RANDOM：OFF";
+ $("bellRandomBtn").style.opacity=bellRandomDedicated?"1":".72";
+}
+$("bellRandomBtn").onclick=()=>{
+ if(!bellRandomDedicated){bellFixedBeforeRandom=Math.min(6,bellNoteIndex);bellRandomDedicated=true;$("bellNote").value="7";updateBellPitchUI();}
+ else{bellRandomDedicated=false;$("bellNote").value=String(bellFixedBeforeRandom);updateBellPitchUI();}
+ syncRandomButton();ensureAudio();
+};
+$("bellNote").addEventListener("input",()=>{bellRandomDedicated=parseInt($("bellNote").value,10)===7;syncRandomButton();});
+syncRandomButton();
 
 // Ver.3.6 Wake Lock
 let wakeLock=null;
@@ -446,16 +461,47 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.8.6の歩ログを保存しました。")
+ alert("Ver.3.8.7の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
+function snapshotLiveRoute(){
+ return {route:route.slice(),routeDistance,totalAscent,totalDescent,minAlt,maxAlt,lastSmoothAlt};
+}
+function applyRouteView(rec){
+ if(!rec||!Array.isArray(rec.route)||!rec.route.length){alert("この記録には保存されたGPS軌跡がありません。");return false;}
+ if(running){alert("計測中は過去ログを表示できません。STOP後にお試しください。");return false;}
+ if(!viewingHistory)liveRouteSnapshot=snapshotLiveRoute();
+ viewingHistory=true;
+ route=rec.route.map(p=>({...p,dist:Number.isFinite(Number(p.dist))?Number(p.dist):0}));
+ routeDistance=Number(rec.distance)||Math.max(0,...route.map(p=>Number(p.dist)||0));
+ totalAscent=Number(rec.ascent)||0;totalDescent=Number(rec.descent)||0;
+ minAlt=Number.isFinite(Number(rec.minAlt))?Number(rec.minAlt):null;
+ maxAlt=Number.isFinite(Number(rec.maxAlt))?Number(rec.maxAlt):null;
+ lastSmoothAlt=route.length&&Number.isFinite(Number(route[route.length-1].smoothAlt))?Number(route[route.length-1].smoothAlt):null;
+ $("routeViewStatus").textContent="📚 過去ログ表示中："+(rec.date||"保存記録");
+ $("returnLiveRoute").style.display="";
+ $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length;
+ updateMetrics();drawRoute();drawElevationProfile();
+ $("map").scrollIntoView({behavior:"smooth",block:"center"});return true;
+}
+function returnToLiveRoute(){
+ if(!viewingHistory)return;
+ const s=liveRouteSnapshot||{route:[],routeDistance:0,totalAscent:0,totalDescent:0,minAlt:null,maxAlt:null,lastSmoothAlt:null};
+ route=s.route;routeDistance=s.routeDistance;totalAscent=s.totalAscent;totalDescent=s.totalDescent;minAlt=s.minAlt;maxAlt=s.maxAlt;lastSmoothAlt=s.lastSmoothAlt;
+ viewingHistory=false;liveRouteSnapshot=null;
+ $("routeViewStatus").textContent="現在のウォーキングを表示中";$("returnLiveRoute").style.display="none";
+ $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length;
+ updateMetrics();drawRoute();drawElevationProfile();
+}
+$("returnLiveRoute").onclick=returnToLiveRoute;
 function render(){
  const walks=data.length;
  const ws=data.map(x=>Number(x.weight)).filter(Number.isFinite),ss=data.map(x=>Number(x.steps)).filter(Number.isFinite);
  $("aw").textContent=ws.length?(ws.reduce((a,b)=>a+b,0)/ws.length).toFixed(1)+" kg":"-- kg";
  $("as").textContent=ss.length?Math.round(ss.reduce((a,b)=>a+b,0)/ss.length).toLocaleString()+" 歩":"-- 歩";
  const tc=data.map(x=>Number(x.calories)).filter(Number.isFinite).reduce((a,b)=>a+b,0);$("totalCal").textContent=tc?Math.round(tc).toLocaleString()+" kcal":"-- kcal";$("countLogs").textContent=walks.toLocaleString()+" 回";
- $("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button><div class="top"><span>'+esc(x.date)+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(Number.isFinite(Number(x.distance))?((Number(x.distance)/1000).toFixed(2)+" km"):"--")+(x.calories!=null?' ／ 約'+Number(x.calories).toLocaleString()+" kcal":'')+'</div>'+(x.diary?'<div class="note">📝 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';
+ $("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button>'+(Array.isArray(x.route)&&x.route.length?'<button class="loadRouteBtn" data-id="'+x.id+'" type="button" style="margin:0 8px 6px 0;padding:7px 10px">🗺️ 軌跡を表示</button>':'')+'<div class="top"><span>'+esc(x.date)+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(Number.isFinite(Number(x.distance))?((Number(x.distance)/1000).toFixed(2)+" km"):"--")+(x.calories!=null?' ／ 約'+Number(x.calories).toLocaleString()+" kcal":'')+'</div>'+(x.diary?'<div class="note">📝 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';
+ $("list").querySelectorAll(".loadRouteBtn").forEach(b=>b.onclick=()=>{const rec=data.find(x=>String(x.id)===String(b.dataset.id));if(rec)applyRouteView(rec)});
  $("list").querySelectorAll(".del").forEach(b=>b.onclick=()=>{data=data.filter(x=>x.id!=b.dataset.id);saveData();render()})
 }
 render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
