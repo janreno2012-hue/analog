@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.8.5</title>
+<title>歩ログ Ver.3.8.6</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -42,7 +42,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.8.5</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.8.6</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -73,7 +73,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="6" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
+<section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="7" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B / RANDOM</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
 <div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
 <div id="routeInfo" class="route">距離：0 m ／ GPS点：0</div>
 <h2 style="margin-top:18px">📈 高低差プロフィール</h2>
@@ -100,7 +100,7 @@ if(Number.isFinite(Number(settings.weight))&&Number(settings.weight)>0)$("weight
 $("weight").addEventListener("change",()=>{const w=parseFloat($("weight").value);if(Number.isFinite(w)&&w>0)localStorage.setItem(SETTINGS_KEY,JSON.stringify({weight:w}));});
 $("weight").addEventListener("input",()=>{if(running)$("calories").textContent=Math.round(currentCalories)+" kcal";});
 let running=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null;
-let route=[],routeDistance=0,permissionState="unknown",mapCanvas=null,ctx=null,elevationCanvas=null,elevationCtx=null,motionEnabled=false,debugEnabled=false;
+let route=[],routeDistance=0,lastDistancePoint=null,permissionState="unknown",mapCanvas=null,ctx=null,elevationCanvas=null,elevationCtx=null,motionEnabled=false,debugEnabled=false;
 let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
@@ -165,19 +165,29 @@ function startGPS(){
    const now=p.timestamp||Date.now();
    const x={lat:p.coords.latitude,lng:p.coords.longitude,alt:p.coords.altitude,speed:p.coords.speed,time:now};
    const last=route[route.length-1];
-   let d=0,dt=0;
-   if(last){
-     d=hav(last,x);
-     dt=Math.max(0,(now-last.time)/1000);
-     if(d>=2&&d<100) routeDistance+=d;
+   let dt=0,acceptedD=0;
+   if(last)dt=Math.max(0,(now-last.time)/1000);
+
+   if(!lastDistancePoint){
+     lastDistancePoint={lat:x.lat,lng:x.lng,time:now};
+   }else{
+     const fromAnchor=hav(lastDistancePoint,x);
+     if(fromAnchor>=2&&fromAnchor<100){
+       acceptedD=fromAnchor;
+       routeDistance+=fromAnchor;
+       lastDistancePoint={lat:x.lat,lng:x.lng,time:now};
+     }else if(fromAnchor>=100){
+       lastDistancePoint={lat:x.lat,lng:x.lng,time:now};
+     }
    }
+
    if(Number.isFinite(x.alt)){
      if(lastSmoothAlt===null) lastSmoothAlt=x.alt;
      else {
        const raw=x.alt-lastSmoothAlt;
        const bounded=Math.max(-15,Math.min(15,raw));
        const next=lastSmoothAlt+bounded*0.25;
-       if(d>=2){
+       if(acceptedD>0){
          const dh=next-lastSmoothAlt;
          if(Math.abs(dh)>=1){
            if(dh>0) totalAscent+=dh; else totalDescent+=-dh;
@@ -188,17 +198,19 @@ function startGPS(){
      minAlt=minAlt===null?lastSmoothAlt:Math.min(minAlt,lastSmoothAlt);
      maxAlt=maxAlt===null?lastSmoothAlt:Math.max(maxAlt,lastSmoothAlt);
    }
-   if(d>=2 && dt>0){
-     let sp=Number.isFinite(x.speed)&&x.speed>=0?x.speed*3.6:(d/dt)*3.6;
+
+   if(acceptedD>0 && dt>0){
+     let sp=Number.isFinite(x.speed)&&x.speed>=0?x.speed*3.6:(acceptedD/dt)*3.6;
      currentSpeed=Math.min(sp,20);
-     if(Number.isFinite(x.alt)&&lastSmoothAlt!==null&&last&&Number.isFinite(last.alt)&&d>0){
-       const prevAlt=Number.isFinite(last.smoothAlt)?last.smoothAlt:last.alt;
-       currentGrade=Math.max(-25,Math.min(25,((lastSmoothAlt-prevAlt)/d)*100));
+     if(lastSmoothAlt!==null&&last&&Number.isFinite(last.smoothAlt)){
+       currentGrade=Math.max(-25,Math.min(25,((lastSmoothAlt-last.smoothAlt)/acceptedD)*100));
      } else currentGrade=0;
      const w=parseFloat($("weight").value);
-     addCalories(d,dt,w,currentGrade,currentSpeed);
+     addCalories(acceptedD,dt,w,currentGrade,currentSpeed);
    } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
+
    x.smoothAlt=lastSmoothAlt;
+   x.dist=routeDistance;
    route.push(x);
    drawRoute();
    drawElevationProfile();
@@ -209,7 +221,7 @@ function startGPS(){
 }
 function stopGPS(){if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}}
 function resetMap(){
- route=[];routeDistance=0;totalAscent=0;totalDescent=0;minAlt=null;maxAlt=null;lastSmoothAlt=null;
+ route=[];routeDistance=0;lastDistancePoint=null;totalAscent=0;totalDescent=0;minAlt=null;maxAlt=null;lastSmoothAlt=null;
  currentSpeed=0;currentGrade=0;currentCalories=0;
  $("routeInfo").textContent="距離：0 m ／ GPS点：0";updateMetrics();drawRoute();drawElevationProfile()
 }
@@ -239,87 +251,51 @@ function drawElevationProfile(){
  const c=elevationCanvas,g=elevationCtx,w=c.width,h=c.height,dpr=devicePixelRatio;
  g.clearRect(0,0,w,h);g.fillStyle="#fbfdfc";g.fillRect(0,0,w,h);
 
- const valid=route.filter(p=>Number.isFinite(p.smoothAlt));
- if(!valid.length){
+ const a=route.filter(p=>Number.isFinite(p.smoothAlt)).map(p=>({d:Number.isFinite(p.dist)?p.dist:0,alt:p.smoothAlt}));
+ if(!a.length){
    g.fillStyle="#6b7c79";g.font=(14*dpr)+"px sans-serif";g.textAlign="center";
    g.fillText("GPS高度を取得すると高低差プロフィールを表示します",w/2,h/2);return;
  }
 
- let dist=0;const a=[];
- for(let i=0;i<route.length;i++){
-   if(i){
-     const seg=hav(route[i-1],route[i]);
-     if(seg>=2&&seg<100)dist+=seg;
-   }
-   if(Number.isFinite(route[i].smoothAlt))a.push({d:dist,alt:route[i].smoothAlt});
- }
-
- const rawLo=Math.min(...a.map(p=>p.alt));
- const rawHi=Math.max(...a.map(p=>p.alt));
+ const rawLo=Math.min(...a.map(p=>p.alt)),rawHi=Math.max(...a.map(p=>p.alt));
  const rawSpan=Math.max(0,rawHi-rawLo);
-
- // 縦軸オートスケール：
- // 実測範囲 + 上下12%の余白、ただし最低4mの表示幅を確保。
  const targetSpan=Math.max(rawSpan*1.24,4);
- let lo=(rawLo+rawHi)/2-targetSpan/2;
- let hi=(rawLo+rawHi)/2+targetSpan/2;
-
- // 目盛りを人間に読みやすい "nice number" に丸める。
+ let lo=(rawLo+rawHi)/2-targetSpan/2,hi=(rawLo+rawHi)/2+targetSpan/2;
  function niceStep(range){
-   const rough=range/4;
-   const p=Math.pow(10,Math.floor(Math.log10(Math.max(rough,0.0001))));
-   const n=rough/p;
-   let m=1;
-   if(n>5)m=10; else if(n>2)m=5; else if(n>1)m=2;
-   return m*p;
+   const rough=range/4,p=Math.pow(10,Math.floor(Math.log10(Math.max(rough,0.0001)))),n=rough/p;
+   let m=1;if(n>5)m=10;else if(n>2)m=5;else if(n>1)m=2;return m*p;
  }
  const step=niceStep(hi-lo);
- lo=Math.floor(lo/step)*step;
- hi=Math.ceil(hi/step)*step;
- if(hi<=lo)hi=lo+step*4;
+ lo=Math.floor(lo/step)*step;hi=Math.ceil(hi/step)*step;if(hi<=lo)hi=lo+step*4;
 
- const span=hi-lo;
- const padL=46*dpr,padR=18*dpr,padT=18*dpr,padB=30*dpr;
- const pw=Math.max(1,w-padL-padR),ph=Math.max(1,h-padT-padB);
- const total=Math.max(routeDistance,1);
+ const span=hi-lo,padL=46*dpr,padR=18*dpr,padT=18*dpr,padB=30*dpr;
+ const pw=Math.max(1,w-padL-padR),ph=Math.max(1,h-padT-padB),total=Math.max(routeDistance,1);
 
- // Grid + auto-scaled Y labels.
- g.strokeStyle="#dbe5e2";g.lineWidth=1*dpr;
- g.fillStyle="#6b7c79";g.font=(11*dpr)+"px sans-serif";g.textAlign="right";
+ g.strokeStyle="#dbe5e2";g.lineWidth=1*dpr;g.fillStyle="#6b7c79";g.font=(11*dpr)+"px sans-serif";g.textAlign="right";
  const ticks=4;
  for(let i=0;i<=ticks;i++){
-   const y=padT+ph*i/ticks;
-   const v=hi-span*i/ticks;
+   const y=padT+ph*i/ticks,v=hi-span*i/ticks;
    g.beginPath();g.moveTo(padL,y);g.lineTo(w-padR,y);g.stroke();
-   const decimals=step<1?1:0;
-   g.fillText(v.toFixed(decimals)+" m",padL-5*dpr,y+4*dpr);
+   g.fillText(v.toFixed(step<1?1:0)+" m",padL-5*dpr,y+4*dpr);
  }
 
- // Profile line with the same thermal altitude scale used by the route.
  const colorLo=rawLo,colorSpan=Math.max(rawHi-rawLo,0.5);
  if(a.length===1){
    const y=padT+(1-(a[0].alt-lo)/span)*ph;
-   g.fillStyle=thermalColor(.5);
-   g.beginPath();g.arc(padL,y,3*dpr,0,Math.PI*2);g.fill();
+   g.fillStyle=thermalColor(.5);g.beginPath();g.arc(padL,y,3*dpr,0,Math.PI*2);g.fill();
  }else{
    g.lineWidth=3*dpr;g.lineCap="round";
    for(let i=1;i<a.length;i++){
      const p=a[i-1],q=a[i];
-     const x1=padL+Math.min(p.d,total)/total*pw;
-     const y1=padT+(1-(p.alt-lo)/span)*ph;
-     const x2=padL+Math.min(q.d,total)/total*pw;
-     const y2=padT+(1-(q.alt-lo)/span)*ph;
+     const x1=padL+Math.min(p.d,total)/total*pw,y1=padT+(1-(p.alt-lo)/span)*ph;
+     const x2=padL+Math.min(q.d,total)/total*pw,y2=padT+(1-(q.alt-lo)/span)*ph;
      const t=Math.max(0,Math.min(1,(q.alt-colorLo)/colorSpan));
-     g.strokeStyle=thermalColor(t);
-     g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();
+     g.strokeStyle=thermalColor(t);g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();
    }
  }
 
- // X axis labels.
- g.fillStyle="#6b7c79";g.font=(11*dpr)+"px sans-serif";g.textAlign="left";
- g.fillText("0 km",padL,h-7*dpr);
- g.textAlign="right";
- g.fillText((routeDistance/1000).toFixed(2)+" km",w-padR,h-7*dpr);
+ g.fillStyle="#6b7c79";g.font=(11*dpr)+"px sans-serif";g.textAlign="left";g.fillText("0 km",padL,h-7*dpr);
+ g.textAlign="right";g.fillText((routeDistance/1000).toFixed(2)+" km",w-padR,h-7*dpr);
 }
 setupMap();
 function setupThresholdControls(){
@@ -339,86 +315,59 @@ $("motionSwitch").onchange=e=>{
  debugEnabled=e.target.checked;$("debug").classList.toggle("show",debugEnabled);
  $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF")+(motionEnabled?"（センサー取得中）":"");
 };
-// Ver.3.8.5 熊鈴中心ピッチ探索（C〜Bの音階比率を約3〜4kHz帯へ適用）
-const bellNotes=["C","D","E","F","G","A","B"];
+// Ver.3.8.6 熊鈴：固定基準音 + 制御付きRANDOM
+const bellNotes=["C","D","E","F","G","A","B","RANDOM"];
 const bellSemitones=[0,2,4,5,7,9,11];
 const bellCenterHz=3300;
-let bellNoteIndex=0,bellCents=0;
-function currentBellBase(){
-  const semitone=bellSemitones[bellNoteIndex];
-  return bellCenterHz*Math.pow(2,semitone/12)*Math.pow(2,bellCents/1200);
+let bellNoteIndex=0,bellCents=0,lastRandomBellIndex=0;
+function bellBaseFor(index){
+  const safe=Math.max(0,Math.min(6,index));
+  return bellCenterHz*Math.pow(2,bellSemitones[safe]/12)*Math.pow(2,bellCents/1200);
+}
+function chooseRandomBellIndex(){
+  const pool=[0,3,4,5].filter(i=>i!==lastRandomBellIndex);
+  const idx=pool[Math.floor(Math.random()*pool.length)];
+  lastRandomBellIndex=idx;return idx;
 }
 function updateBellPitchUI(){
   bellNoteIndex=parseInt($("bellNote").value,10);
   bellCents=parseInt($("bellCents").value,10);
   $("bellNoteValue").textContent=bellNotes[bellNoteIndex];
   $("bellCentsValue").textContent=(bellCents>=0?"+":"")+bellCents+" cents";
-  $("bellPitchInfo").textContent="中心周波数：約 "+(currentBellBase()/1000).toFixed(2)+" kHz（"+bellNotes[bellNoteIndex]+"系）";
+  $("bellPitchInfo").textContent=bellNoteIndex===7
+   ?"RANDOM：C / F / G / A 系から、イベントごとに穏やかに切替"
+   :"中心周波数：約 "+(bellBaseFor(bellNoteIndex)/1000).toFixed(2)+" kHz（"+bellNotes[bellNoteIndex]+"系）";
 }
 
 let bellEnabled=false,audioCtx=null,nextBellStep=Infinity;
 function ensureAudio(){
- const Ctx=window.AudioContext||window.webkitAudioContext;
- if(!Ctx)return null;
- if(!audioCtx)audioCtx=new Ctx();
- if(audioCtx.state==='suspended')audioCtx.resume();
- return audioCtx;
+ const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return null;
+ if(!audioCtx)audioCtx=new Ctx();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;
 }
 function playMetalStrike(offset,base,volume){
- const ctx=ensureAudio();if(!ctx)return;
- const now=ctx.currentTime+offset;
- const attack=.0015+Math.random()*.001;
- const decay=1.7+Math.random()*1.0;
- // 3.7.1: 金属感は維持しつつ、強すぎる不協和を避けた穏やかなモード構成。
- const harmonics=[
-  {r:1.00,a:1.00,d:1.00},
-  {r:1.26,a:.42,d:.78},
-  {r:1.50,a:.28,d:.62},
-  {r:2.02,a:.16,d:.48},
-  {r:2.52,a:.08,d:.34}
- ];
+ const ctx=ensureAudio();if(!ctx)return;const now=ctx.currentTime+offset;
+ const attack=.0015+Math.random()*.001,decay=1.7+Math.random()*1.0;
+ const harmonics=[{r:1.00,a:1.00,d:1.00},{r:1.26,a:.42,d:.78},{r:1.50,a:.28,d:.62},{r:2.02,a:.16,d:.48},{r:2.52,a:.08,d:.34}];
  harmonics.forEach((h,i)=>{
-  const osc=ctx.createOscillator(),gain=ctx.createGain();
-  // ランダム性は音程感を崩さない程度に限定
-  const freq=base*h.r*(.996+Math.random()*.008);
-  const amp=volume*.20*h.a*(.96+Math.random()*.08);
-  const thisDecay=decay*h.d*(.94+Math.random()*.10);
-  osc.type=i===0?'triangle':'sine';
-  osc.frequency.setValueAtTime(freq,now);
-  // ごく弱い揺らぎだけを残す
-  const lfo=ctx.createOscillator(),lfoGain=ctx.createGain();
-  lfo.frequency.setValueAtTime(2.5+Math.random()*1.5,now);
-  lfoGain.gain.setValueAtTime(freq*(.00010+Math.random()*.00010),now);
-  lfo.connect(lfoGain).connect(osc.frequency);
-  gain.gain.setValueAtTime(.0001,now);
-  gain.gain.exponentialRampToValueAtTime(Math.max(.0002,amp),now+attack);
-  gain.gain.setTargetAtTime(.0001,now+attack,thisDecay/5);
-  osc.connect(gain).connect(ctx.destination);
-  lfo.start(now);osc.start(now);
-  lfo.stop(now+thisDecay+1.0);osc.stop(now+thisDecay+1.0);
+  const osc=ctx.createOscillator(),gain=ctx.createGain(),freq=base*h.r*(.996+Math.random()*.008),amp=volume*.20*h.a*(.96+Math.random()*.08),thisDecay=decay*h.d*(.94+Math.random()*.10);
+  osc.type=i===0?'triangle':'sine';osc.frequency.setValueAtTime(freq,now);
+  const lfo=ctx.createOscillator(),lfoGain=ctx.createGain();lfo.frequency.setValueAtTime(2.5+Math.random()*1.5,now);lfoGain.gain.setValueAtTime(freq*(.00010+Math.random()*.00010),now);
+  lfo.connect(lfoGain).connect(osc.frequency);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,amp),now+attack);gain.gain.setTargetAtTime(.0001,now+attack,thisDecay/5);
+  osc.connect(gain).connect(ctx.destination);lfo.start(now);osc.start(now);lfo.stop(now+thisDecay+1.0);osc.stop(now+thisDecay+1.0);
  });
 }
 function playBearBellPattern(){
  const volume=parseInt($("bellVolume").value,10)/100;
- const count=2+Math.floor(Math.random()*3); // 2〜4打
- let offset=0;
- for(let i=0;i<count;i++){
-  // 音程の中心を安定させ、打音ごとのばらつきを控えめに
-  const center=currentBellBase();
-   // 3.7.2: 打音ごとのランダム性は中心ピッチ周辺に限定し、選択した音階比率を維持
-   playMetalStrike(offset,center*(.985+Math.random()*.030),volume*(.94+Math.random()*.12));
-  // 3.7の約1/2を目標に、チリン・チリンのテンポを速くする
-  offset+=.065+Math.random()*.09;
- }
+ const eventIndex=bellNoteIndex===7?chooseRandomBellIndex():bellNoteIndex;
+ const eventBase=bellBaseFor(eventIndex),count=2+Math.floor(Math.random()*3);let offset=0;
+ for(let i=0;i<count;i++){playMetalStrike(offset,eventBase*(.985+Math.random()*.030),volume*(.94+Math.random()*.12));offset+=.065+Math.random()*.09;}
+ if(bellNoteIndex===7)$("bellPitchInfo").textContent="RANDOM：今回 "+bellNotes[eventIndex]+" 系 ／ 次回は別系統へ穏やかに切替";
 }
 function scheduleNextBell(){nextBellStep=n+5+Math.floor(Math.random()*11);}
-function updateBellStatus(){$("bellStatus").textContent=!bellEnabled?'状態：OFF':(running?'状態：ON（歩数連動・ランダム）':'状態：ON（STARTで歩数連動開始）');}
-$("bellSwitch").onchange=e=>{bellEnabled=e.target.checked;ensureAudio();if(bellEnabled&&running){scheduleNextBell();}else nextBellStep=Infinity;updateBellStatus();};
-$("bellInterval").onchange=()=>{};
-$("bellVolume").oninput=()=>{$("bellVolumeValue").textContent=$("bellVolume").value;};
-$("bellNote").oninput=updateBellPitchUI;
-$("bellCents").oninput=updateBellPitchUI;
-updateBellPitchUI();
+function updateBellStatus(){$("bellStatus").textContent=!bellEnabled?'状態：OFF':(running?'状態：ON（歩数連動）':'状態：ON（STARTで歩数連動開始）');}
+$("bellSwitch").onchange=e=>{bellEnabled=e.target.checked;ensureAudio();if(bellEnabled&&running)scheduleNextBell();else nextBellStep=Infinity;updateBellStatus();};
+$("bellInterval").onchange=()=>{};$("bellVolume").oninput=()=>{$("bellVolumeValue").textContent=$("bellVolume").value;};
+$("bellNote").oninput=updateBellPitchUI;$("bellCents").oninput=updateBellPitchUI;updateBellPitchUI();
 $("bellTest").onclick=()=>{ensureAudio();playBearBellPattern();};
 
 // Ver.3.6 Wake Lock
@@ -426,18 +375,28 @@ let wakeLock=null;
 async function requestWakeLock(){try{if("wakeLock" in navigator){wakeLock=await navigator.wakeLock.request("screen");wakeLock.addEventListener("release",()=>{wakeLock=null;});}}catch(e){console.log("Wake Lock取得失敗",e);}}
 async function releaseWakeLock(){try{if(wakeLock){await wakeLock.release();wakeLock=null;}}catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(running&&document.visibilityState==="visible")requestWakeLock();});
-let pocketModeEnabled=true;
+let pocketModeEnabled=true,pocketReturnTimer=null;
+function clearPocketReturn(){if(pocketReturnTimer){clearTimeout(pocketReturnTimer);pocketReturnTimer=null;}}
+function schedulePocketReturn(){
+ clearPocketReturn();
+ if(!running||!pocketModeEnabled||$("pocketMode").classList.contains("show"))return;
+ pocketReturnTimer=setTimeout(()=>{if(running&&pocketModeEnabled)enterPocketMode();},10000);
+}
 function updatePocketSetting(){
  pocketModeEnabled=$("pocketSwitch").checked;
  $("pocketLabel").textContent="ポケットモード："+(pocketModeEnabled?"ON":"OFF");
+ if(!pocketModeEnabled){clearPocketReturn();exitPocketMode(false);}else if(running)schedulePocketReturn();
 }
 $("pocketSwitch").onchange=updatePocketSetting;
 function enterPocketMode(){
- if(!pocketModeEnabled)return;
- $("pocketSteps").textContent=n;$("pocketTime").textContent=$("timer").textContent;$("pocketMode").classList.add("show");
+ if(!pocketModeEnabled||!running)return;
+ clearPocketReturn();$("pocketSteps").textContent=n;$("pocketTime").textContent=$("timer").textContent;$("pocketMode").classList.add("show");
 }
-function exitPocketMode(){$("pocketMode").classList.remove("show");}
-$("pocketMode").addEventListener("click",exitPocketMode);
+function exitPocketMode(schedule=true){$("pocketMode").classList.remove("show");if(schedule)schedulePocketReturn();}
+$("pocketMode").addEventListener("click",()=>exitPocketMode(true));
+["pointerdown","keydown","input","change"].forEach(ev=>document.addEventListener(ev,()=>{
+ if(running&&pocketModeEnabled&&!$("pocketMode").classList.contains("show"))schedulePocketReturn();
+},true));
 
 $("start").onclick=async ()=>{
  if(running)return;
@@ -455,7 +414,7 @@ $("start").onclick=async ()=>{
 };
 $("stop").onclick=()=>{
  if(!running)return;
- running=false;clearInterval(timer);stopGPS();disableMotion();releaseWakeLock();exitPocketMode();nextBellStep=Infinity;$("debug").classList.toggle("show",debugEnabled);updateBellStatus();
+ running=false;clearInterval(timer);stopGPS();disableMotion();releaseWakeLock();clearPocketReturn();exitPocketMode(false);nextBellStep=Infinity;$("debug").classList.toggle("show",debugEnabled);updateBellStatus();
  const sec=Math.floor((Date.now()-t0)/1000);$("duration").value=fmt(sec);$("recsteps").value=n;
  const km=routeDistance/1000,avg=sec>0?km/(sec/3600):0;
  const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
@@ -463,16 +422,31 @@ $("stop").onclick=()=>{
  $("status").textContent="計測終了";$("start").disabled=false;$("stop").disabled=true;
  $("msg").textContent="今回："+n.toLocaleString()+"歩 ／ GPS距離："+km.toFixed(2)+" km ／ 約"+Math.round(currentCalories)+" kcal"
 };
+function compactRouteForSave(){
+ if(!route.length)return [];
+ const out=[];let lastKept=null;
+ for(const p of route){
+   const item={lat:p.lat,lng:p.lng,alt:p.alt,smoothAlt:p.smoothAlt,speed:p.speed,time:p.time,dist:Number.isFinite(p.dist)?Math.round(p.dist*10)/10:0};
+   if(!lastKept){out.push(item);lastKept=item;continue}
+   const moved=item.dist-lastKept.dist,elapsed=(item.time-lastKept.time)/1000;
+   const altChanged=Number.isFinite(item.smoothAlt)&&Number.isFinite(lastKept.smoothAlt)&&Math.abs(item.smoothAlt-lastKept.smoothAlt)>=1;
+   if(moved>=3||elapsed>=10||altChanged){out.push(item);lastKept=item}
+ }
+ const last=route[route.length-1];
+ const tail={lat:last.lat,lng:last.lng,alt:last.alt,smoothAlt:last.smoothAlt,speed:last.speed,time:last.time,dist:Number.isFinite(last.dist)?Math.round(last.dist*10)/10:Math.round(routeDistance*10)/10};
+ if(!out.length||out[out.length-1].time!==tail.time)out.push(tail);
+ return out;
+}
 $("save").onclick=()=>{
  const w=parseFloat($("weight").value),s=parseInt($("recsteps").value,10);
  if(!Number.isFinite(w)||w<=0){alert("体重を入力してください。");return}
  if(!Number.isFinite(s)||s<0){alert("歩数を入力してください。");return}
  data.push({id:Date.now(),date:$("date").value,weight:w,steps:s,duration:$("duration").value,summary:$("summary").value,distance:Math.round(routeDistance),
- route:route.map(p=>({lat:p.lat,lng:p.lng,alt:p.alt,speed:p.speed,time:p.time})),ascent:Math.round(totalAscent),descent:Math.round(totalDescent),
+ route:compactRouteForSave(),ascent:Math.round(totalAscent),descent:Math.round(totalDescent),
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.8.5の歩ログを保存しました。")
+ alert("Ver.3.8.6の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function render(){
@@ -481,7 +455,7 @@ function render(){
  $("aw").textContent=ws.length?(ws.reduce((a,b)=>a+b,0)/ws.length).toFixed(1)+" kg":"-- kg";
  $("as").textContent=ss.length?Math.round(ss.reduce((a,b)=>a+b,0)/ss.length).toLocaleString()+" 歩":"-- 歩";
  const tc=data.map(x=>Number(x.calories)).filter(Number.isFinite).reduce((a,b)=>a+b,0);$("totalCal").textContent=tc?Math.round(tc).toLocaleString()+" kcal":"-- kcal";$("countLogs").textContent=walks.toLocaleString()+" 回";
- $("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button><div class="top"><span>'+esc(x.date)+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(x.distance?((x.distance/1000).toFixed(2)+" km"):"--")+(x.calories!=null?' ／ 約'+Number(x.calories).toLocaleString()+" kcal":'')+'</div>'+(x.diary?'<div class="note">📝 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';
+ $("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button><div class="top"><span>'+esc(x.date)+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(Number.isFinite(Number(x.distance))?((Number(x.distance)/1000).toFixed(2)+" km"):"--")+(x.calories!=null?' ／ 約'+Number(x.calories).toLocaleString()+" kcal":'')+'</div>'+(x.diary?'<div class="note">📝 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';
  $("list").querySelectorAll(".del").forEach(b=>b.onclick=()=>{data=data.filter(x=>x.id!=b.dataset.id);saveData();render()})
 }
 render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
