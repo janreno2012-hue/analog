@@ -178,7 +178,7 @@ background-position:0 0;will-change:background-position}
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 7</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 8</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -209,8 +209,8 @@ background-position:0 0;will-change:background-position}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 7</h2>
-<div class="mini">機能検証版：旧版で安定していた2D体幹バランス描画を中央へ直接重ねます。STEPごとの地面線送りと万歩計ロジックはそのまま維持します。</div>
+<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 8</h2>
+<div class="mini">機能検証版：2D体幹バランス描画を中央へ直接重ね、人型の塗りを半透明化して重心分布を見やすくしました。STEPごとの地面線送りと万歩計ロジックはそのまま維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
  <div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><canvas id="sceneBalanceCanvas"></canvas>
@@ -398,7 +398,7 @@ function drawBalanceMap(){if(!balanceCtx||!balanceCanvas)return;const g=balanceC
  // guide axes
  g.strokeStyle="#b8c9c6";g.lineWidth=1*dpr;g.setLineDash([5*dpr,5*dpr]);g.beginPath();g.moveTo(cx,16*dpr);g.lineTo(cx,h-16*dpr);g.moveTo(18*dpr,cy);g.lineTo(w-18*dpr,cy);g.stroke();g.setLineDash([]);
  // top-view body silhouette
- g.save();g.translate(cx,cy);g.strokeStyle="#49615e";g.fillStyle="#f3f7f6";g.lineWidth=1.8*dpr;g.lineJoin="round";g.lineCap="round";
+ g.save();g.translate(cx,cy);g.strokeStyle="#49615e";g.fillStyle="rgba(243,247,246,.34)";g.lineWidth=1.8*dpr;g.lineJoin="round";g.lineCap="round";
  // head / neck
  g.beginPath();g.ellipse(0,-86*dpr,22*dpr,27*dpr,0,0,Math.PI*2);g.fill();g.stroke();
  g.beginPath();g.moveTo(-12*dpr,-61*dpr);g.quadraticCurveTo(-11*dpr,-55*dpr,-18*dpr,-51*dpr);g.quadraticCurveTo(-31*dpr,-49*dpr,-39*dpr,-40*dpr);
@@ -786,7 +786,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.4.0 FIELD TEST 7の歩ログを保存しました。")
+ alert("Ver.4.0 FIELD TEST 8の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
