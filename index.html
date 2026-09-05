@@ -119,7 +119,7 @@ mix-blend-mode:screen;filter:blur(1px) drop-shadow(0 0 9px #00eaff);opacity:.82;
 @keyframes particleFlow{0%{opacity:0;transform:translateY(-180px) scale(.45)}20%{opacity:.65}100%{opacity:0;transform:translateY(50px) scale(1.45)}}
 
 
-/* FIELD TEST 6: STEP-driven ground pulse + live balance point */
+/* FIELD TEST 7: STEP-driven ground pulse + live balance point */
 .walkScene{--groundY:0px}
 .perspectiveGrid{transition:transform .18s ease-out,background-position .18s ease-out}
 .walkScene.stepGround .perspectiveGrid{
@@ -140,7 +140,7 @@ transform:translate(-50%,-50%);transition:transform .10s linear}
 }
 
 
-/* FIELD TEST 6: deterministic JS-driven ground and live CoG */
+/* FIELD TEST 7: deterministic JS-driven ground and live CoG */
 .groundTrack{position:absolute;left:5%;right:5%;bottom:-95px;height:360px;z-index:2;pointer-events:none;
  transform:perspective(310px) rotateX(62deg) translateY(0);
  transform-origin:bottom;will-change:transform;
@@ -153,7 +153,7 @@ transform:translate(-50%,-50%);transition:transform .10s linear}
 .cogTrail i{position:absolute;width:7px;height:7px;border-radius:50%;background:#63f5ff88;box-shadow:0 0 6px #00eaff}
 
 
-/* FIELD TEST 6: functionality-first reset */
+/* FIELD TEST 7: functionality-first reset */
 .walkScene{height:420px;background:linear-gradient(180deg,#8fd3ea 0%,#d9f2e8 38%,#6fa66f 39%,#315c43 100%)!important;overflow:hidden}
 .walkScene:before{content:"";position:absolute;left:0;right:0;bottom:0;height:58%;
 background:linear-gradient(145deg,transparent 0 18%,#244d38 18% 19%,transparent 19% 34%,#244d38 34% 35%,transparent 35% 100%);opacity:.28}
@@ -169,10 +169,16 @@ background-position:0 0;will-change:background-position}
 .balanceReadout{left:12px;right:12px;bottom:12px;text-align:center;z-index:8}
 .sceneStatus,.restBubble{z-index:9}
 
+
+/* FIELD TEST 7: ensure proven 2D balance renderer is visible over the scene */
+#sceneBalanceCanvas{z-index:6!important}
+.simpleGround{z-index:2!important;opacity:.42}
+.sceneStatus,.restBubble,.balanceReadout{z-index:9!important}
+
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 6</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 7</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -203,8 +209,8 @@ background-position:0 0;will-change:background-position}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 6</h2>
-<div class="mini">機能検証版：旧版で安定していた体幹バランス描画を中央へ重ね、STEPごとに地面線を送ります。架空の目的地・数値表示は使いません。</div>
+<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 7</h2>
+<div class="mini">機能検証版：旧版で安定していた2D体幹バランス描画を中央へ直接重ねます。STEPごとの地面線送りと万歩計ロジックはそのまま維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
  <div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><canvas id="sceneBalanceCanvas"></canvas>
@@ -354,7 +360,15 @@ function disableMotion(){
  $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF");setDebugStatus("停止中");$("debugStep").textContent="待機";
 }
 function setupBalanceCanvas(){balanceCanvas=$("balanceCanvas");balanceCtx=balanceCanvas?balanceCanvas.getContext("2d"):null;resizeBalanceCanvas();window.addEventListener("resize",resizeBalanceCanvas)}
-function resizeBalanceCanvas(){if(!balanceCanvas)return;balanceCanvas.width=balanceCanvas.clientWidth*devicePixelRatio;balanceCanvas.height=balanceCanvas.clientHeight*devicePixelRatio;drawBalanceMap()}
+function resizeBalanceCanvas(){
+ if(!balanceCanvas)return;
+ const cssW=balanceCanvas.clientWidth||320;
+ const cssH=balanceCanvas.clientHeight||300;
+ balanceCanvas.width=Math.max(1,Math.round(cssW*devicePixelRatio));
+ balanceCanvas.height=Math.max(1,Math.round(cssH*devicePixelRatio));
+ drawBalanceMap();
+ copyBalanceToScene();
+}
 let sceneBalanceCanvas=null,sceneBalanceCtx=null;
 function setupSceneBalanceCanvas(){
  sceneBalanceCanvas=$("sceneBalanceCanvas");
@@ -373,9 +387,9 @@ function copyBalanceToScene(){
  if(!sceneBalanceCtx||!sceneBalanceCanvas||!balanceCanvas||!balanceCanvas.width||!balanceCanvas.height)return;
  const g=sceneBalanceCtx,w=sceneBalanceCanvas.width,h=sceneBalanceCanvas.height;
  g.clearRect(0,0,w,h);
- const targetH=h*.78,targetW=targetH*(balanceCanvas.width/balanceCanvas.height);
- g.globalAlpha=.94;
- g.drawImage(balanceCanvas,(w-targetW)/2,h*.08,targetW,targetH);
+ const targetH=h*.88,targetW=targetH*(balanceCanvas.width/balanceCanvas.height);
+ g.globalAlpha=.96;
+ g.drawImage(balanceCanvas,(w-targetW)/2,h*.045,targetW,targetH);
  g.globalAlpha=1;
 }
 
@@ -569,7 +583,7 @@ function drawElevationProfile(){
  g.textAlign="right";g.fillText((routeDistance/1000).toFixed(2)+" km",w-padR,h-7*dpr);
 }
 setupMap();
-setInterval(()=>{try{updateWalkScene();}catch(e){}},250);setupBalanceCanvas();setupSceneBalanceCanvas();
+setInterval(()=>{try{updateWalkScene();if(running){drawBalanceMap();copyBalanceToScene();}}catch(e){}},250);setupBalanceCanvas();setupSceneBalanceCanvas();drawBalanceMap();copyBalanceToScene();
 function setupThresholdControls(){
  const sync=()=>{
   deltaThreshold=parseFloat($("deltaThreshold").value);
@@ -772,7 +786,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.4.0 FIELD TEST 6の歩ログを保存しました。")
+ alert("Ver.4.0 FIELD TEST 7の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
