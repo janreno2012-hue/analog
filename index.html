@@ -76,10 +76,28 @@ filter:drop-shadow(0 0 10px #a8ffff);transition:transform .22s ease,opacity .3s 
 @keyframes notePop{0%{opacity:0;transform:translate(0,8px) scale(.7)}20%{opacity:1}100%{opacity:0;transform:translate(34px,-72px) scale(1.3)}}
 @keyframes footL{0%{opacity:.9;transform:translate(-36px,0) scale(.8)}100%{opacity:0;transform:translate(-55px,70px) scale(1.15)}}
 @keyframes footR{0%{opacity:.9;transform:translate(10px,0) scale(.8)}100%{opacity:0;transform:translate(30px,70px) scale(1.15)}}
+
+/* Ver.4.0 FIELD TEST: 2.5D depth + moving ground + integrated balance glow */
+.walkScene{perspective:700px}
+.perspectiveGrid{animation:none;will-change:background-position,transform}
+.walkScene.walking .perspectiveGrid{animation:groundFlow .58s linear infinite}
+.walkScene.walking{background-size:112% auto;animation:bgWalk 3.2s ease-in-out infinite alternate}
+.walker3d{transform-style:preserve-3d}
+.walker3d svg{filter:drop-shadow(0 10px 7px #001b1a66)}
+.walker3d.stepL{transform:translateX(-50%) rotateY(-4deg) rotateZ(-1deg) translateY(-2px)}
+.walker3d.stepR{transform:translateX(-50%) rotateY(4deg) rotateZ(1deg) translateY(-2px)}
+.walker3d:before{content:"";position:absolute;left:22px;right:22px;bottom:-13px;height:18px;border-radius:50%;background:#001d1a66;filter:blur(6px);transform:rotateX(72deg)}
+.balanceHalo{position:absolute;left:50%;top:52%;width:94px;height:94px;transform:translate(-50%,-50%);border-radius:50%;
+background:radial-gradient(circle,#ff3b30 0 7%,#ffd60a 12%,#34c75988 28%,#00d9ff55 48%,transparent 68%);
+mix-blend-mode:screen;filter:blur(1px) drop-shadow(0 0 9px #00eaff);opacity:.82;transition:transform .12s ease,width .18s,height .18s}
+.walkScene.resting .perspectiveGrid{animation:none}.walkScene.resting{animation:none}
+@keyframes groundFlow{from{background-position:0 0,0 0}to{background-position:0 0,0 68px}}
+@keyframes bgWalk{from{background-position:49% center}to{background-position:51% center}}
+
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.0 TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -110,7 +128,7 @@ filter:drop-shadow(0 0 10px #a8ffff);transition:transform .22s ease,opacity .3s 
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー TEST</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST</h2>
 <div class="mini">歩数と同期して透過ウォーカーが前進。重心傾向を身体中央の発光で重ね、熊鈴発音時は腰から♪を表示します。</div>
 <div class="walkScene">
  <div class="perspectiveGrid"></div><div class="forwardArrow">△</div>
@@ -130,10 +148,10 @@ filter:drop-shadow(0 0 10px #a8ffff);transition:transform .22s ease,opacity .3s 
    <path d="M75 58 L75 216" stroke="#76ffff" stroke-width="2" stroke-dasharray="5 5" opacity=".9"/>
    <circle class="coreGlow" cx="75" cy="132" r="44" fill="url(#coreG)" opacity=".9"/>
   </svg>
-  <div id="walkerBell" class="bellIcon" style="display:none">🔔</div>
+  <div id="balanceHalo" class="balanceHalo"></div><div id="walkerBell" class="bellIcon" style="display:none">🔔</div>
  </div>
  <div id="musicNote" class="musicNote">♪</div><div id="footprint" class="footprint">👣</div><div id="groundStripe" class="groundStripe"></div>
-</div></section>
+</div><div class="mini" id="fieldSync">同期：待機中 ／ 地面：停止 ／ 重心：キャリブレーション待ち</div></section>
 <section class="card"><h2>🧭 体幹バランス・重心分布 β</h2><div class="mini">端末の加速度から体幹の偏り・揺れを試験的に推定します。START後の最初の約20歩を基準に自動キャリブレーションします。</div><div class="stats4"><div class="stat"><div>左右バランス</div><div id="balanceRatio" class="value">-- : --</div></div><div class="stat"><div>左右差</div><div id="balanceDiff" class="value">-- %</div></div></div><div class="balanceViz"><canvas id="balanceCanvas" class="balanceCanvas"></canvas><div class="balanceLegend"><span>← 左</span><span>前 ↑　端末センサー推定　↓ 後</span><span>右 →</span></div><div class="balanceGrid"><div class="balanceMini">左右平均<b id="balanceMeanLR">--</b></div><div class="balanceMini">前後平均<b id="balanceMeanFB">--</b></div><div class="balanceMini">安定度<b id="balanceStability">-- %</b></div></div><div class="balanceHint">色が濃い場所ほど、その方向への揺れが多かったことを示します。人体の厳密な重心位置ではなく、スマホセンサーから見た体幹傾向です。</div></div><div id="balanceStatus" class="mini">待機中</div></section>
 <section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="7" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B / RANDOM</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellRandomBtn" type="button" style="margin-bottom:10px">🎲 RANDOM：OFF</button>
 <button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
@@ -179,8 +197,8 @@ function tick(){if(running){const v=fmt(Math.floor(activeElapsedMs()/1000));$("t
 
 function animateWalkerStep(){const w=$("walker");if(!w)return;walkSide=!walkSide;w.classList.remove("rest","stepL","stepR");w.classList.add(walkSide?"stepL":"stepR");$("sceneStatus").textContent="前進中："+n.toLocaleString()+"歩";const fp=$("footprint");if(fp){fp.className="footprint";void fp.offsetWidth;fp.classList.add(walkSide?"popL":"popR");}clearTimeout(walkAnimTimer);walkAnimTimer=setTimeout(()=>{if(w)w.classList.remove("stepL","stepR");},230);}
 function showBellNote(){const el=$("musicNote");if(!el)return;el.classList.remove("pop");void el.offsetWidth;el.textContent=Math.random()>.55?"♫":"♪";el.classList.add("pop");}
-function updateWalkerBalanceGlow(){const core=document.querySelector("#walker .coreGlow");if(!core)return;let dx=0,dy=0;if(typeof balanceMeanX!=="undefined"&&Number.isFinite(balanceMeanX))dx=Math.max(-10,Math.min(10,balanceMeanX*3));if(typeof balanceMeanY!=="undefined"&&Number.isFinite(balanceMeanY))dy=Math.max(-8,Math.min(8,balanceMeanY*3));core.setAttribute("transform","translate("+dx+" "+dy+")");}
-function updateWalkScene(){updateWalkerBalanceGlow();const w=$("walker");if(!w)return;$("walkerBell").style.display=bellEnabled?"":"none";if(!running){w.classList.remove("rest");$("sceneStatus").textContent="待機中";$("restBubble").classList.remove("show");return}if(paused||stationaryMs>=30000){w.classList.add("rest");$("groundStripe").classList.remove("move");$("sceneStatus").textContent=paused?"PAUSE：休憩中":"停止中：休憩中";$("restBubble").classList.add("show")}else{w.classList.remove("rest");$("restBubble").classList.remove("show");$("sceneStatus").textContent=stationaryMs>=10000?"立ち止まり中":"計測中";}}
+function updateWalkerBalanceGlow(){const core=document.querySelector("#walker .coreGlow"),halo=$("balanceHalo");let dx=0,dy=0,spread=94;if(typeof balanceMeanX!=="undefined"&&Number.isFinite(balanceMeanX))dx=Math.max(-18,Math.min(18,balanceMeanX*4.5));if(typeof balanceMeanY!=="undefined"&&Number.isFinite(balanceMeanY))dy=Math.max(-14,Math.min(14,balanceMeanY*4.5));if(typeof balanceDiffPct!=="undefined"&&Number.isFinite(balanceDiffPct))spread=Math.max(78,Math.min(122,88+balanceDiffPct*.9));if(core)core.setAttribute("transform","translate("+(dx*.55)+" "+(dy*.55)+")");if(halo){halo.style.transform="translate(calc(-50% + "+dx+"px),calc(-50% + "+dy+"px))";halo.style.width=spread+"px";halo.style.height=spread+"px";}}
+function updateWalkScene(){updateWalkerBalanceGlow();const w=$("walker"),scene=document.querySelector(".walkScene");if(scene){scene.classList.toggle("walking",running&&!paused&&currentSpeed>0.25);scene.classList.toggle("resting",!running||paused||currentSpeed<=0.25);}const fs=$("fieldSync");if(fs)fs.textContent="同期："+(running?(paused?"一時停止":(currentSpeed>0.25?"歩行中":"停止判定中")):"待機中")+" ／ 地面："+(running&&!paused&&currentSpeed>0.25?"前進":"停止")+" ／ 重心："+((typeof balanceCalibrated!=="undefined"&&balanceCalibrated)?"追従中":"キャリブレーション中");if(!w)return;$("walkerBell").style.display=bellEnabled?"":"none";if(!running){w.classList.remove("rest");$("sceneStatus").textContent="待機中";$("restBubble").classList.remove("show");return}if(paused||stationaryMs>=30000){w.classList.add("rest");$("groundStripe").classList.remove("move");$("sceneStatus").textContent=paused?"PAUSE：休憩中":"停止中：休憩中";$("restBubble").classList.add("show")}else{w.classList.remove("rest");$("restBubble").classList.remove("show");$("sceneStatus").textContent=stationaryMs>=10000?"立ち止まり中":"計測中";}}
 function hav(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
 function setDebugStatus(text){$("debugStatus").textContent=text}
 function motion(e){
@@ -410,7 +428,8 @@ function drawElevationProfile(){
  g.fillStyle="#6b7c79";g.font=(11*dpr)+"px sans-serif";g.textAlign="left";g.fillText("0 km",padL,h-7*dpr);
  g.textAlign="right";g.fillText((routeDistance/1000).toFixed(2)+" km",w-padR,h-7*dpr);
 }
-setupMap();setupBalanceCanvas();
+setupMap();
+setInterval(()=>{try{updateWalkScene();}catch(e){}},250);setupBalanceCanvas();
 function setupThresholdControls(){
  const sync=()=>{
   deltaThreshold=parseFloat($("deltaThreshold").value);
@@ -613,7 +632,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.4.0 TESTの歩ログを保存しました。")
+ alert("Ver.4.0 FIELD TESTの歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
