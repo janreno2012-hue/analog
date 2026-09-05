@@ -175,10 +175,30 @@ background-position:0 0;will-change:background-position}
 .simpleGround{z-index:2!important;opacity:.42}
 .sceneStatus,.restBubble,.balanceReadout{z-index:9!important}
 
+
+/* FIELD TEST 10: STEP-synchronized pseudo-3D walk cycle */
+.walker3d.ft10-step-left  { animation: ft10BodyL .34s ease-out; transform-origin: 50% 58%; }
+.walker3d.ft10-step-right { animation: ft10BodyR .34s ease-out; transform-origin: 50% 58%; }
+.walker3d.ft10-step-left .armL  { transform-origin: 38px 68px; animation: ft10ArmBack .34s ease-out; }
+.walker3d.ft10-step-left .armR  { transform-origin: 112px 68px; animation: ft10ArmFront .34s ease-out; }
+.walker3d.ft10-step-left .legL  { transform-origin: 61px 143px; animation: ft10LegFront .34s ease-out; }
+.walker3d.ft10-step-left .legR  { transform-origin: 89px 143px; animation: ft10LegBack .34s ease-out; }
+.walker3d.ft10-step-right .armL { transform-origin: 38px 68px; animation: ft10ArmFront .34s ease-out; }
+.walker3d.ft10-step-right .armR { transform-origin: 112px 68px; animation: ft10ArmBack .34s ease-out; }
+.walker3d.ft10-step-right .legL { transform-origin: 61px 143px; animation: ft10LegBack .34s ease-out; }
+.walker3d.ft10-step-right .legR { transform-origin: 89px 143px; animation: ft10LegFront .34s ease-out; }
+
+@keyframes ft10BodyL  { 0%{transform:translateY(0) rotate(0)} 45%{transform:translate(-2px,-2px) rotate(-1.2deg)} 100%{transform:translateY(0) rotate(0)} }
+@keyframes ft10BodyR  { 0%{transform:translateY(0) rotate(0)} 45%{transform:translate( 2px,-2px) rotate( 1.2deg)} 100%{transform:translateY(0) rotate(0)} }
+@keyframes ft10ArmFront { 0%{transform:rotate(0)} 45%{transform:rotate(10deg)} 100%{transform:rotate(0)} }
+@keyframes ft10ArmBack  { 0%{transform:rotate(0)} 45%{transform:rotate(-8deg)} 100%{transform:rotate(0)} }
+@keyframes ft10LegFront { 0%{transform:rotate(0)} 45%{transform:rotate(6deg)} 100%{transform:rotate(0)} }
+@keyframes ft10LegBack  { 0%{transform:rotate(0)} 45%{transform:rotate(-5deg)} 100%{transform:rotate(0)} }
+
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 9</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 10</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -209,7 +229,7 @@ background-position:0 0;will-change:background-position}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 9</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 10</h2>
 <div class="mini">機能検証版：2D体幹バランス描画を中央へ直接重ね、人型の塗りを半透明化して重心分布を見やすくしました。STEPごとの地面線送りと万歩計ロジックはそのまま維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
@@ -280,6 +300,20 @@ function tick(){if(running){const v=fmt(Math.floor(activeElapsedMs()/1000));$("t
 
 let groundPhase=0;
 let simpleGroundPhase=0;
+
+// FIELD TEST 10: alternate left/right walk poses on real STEP events.
+let ft10WalkSide = 0;
+function animateFieldTest10Walk(){
+  const w = $("walker");
+  if(!w) return;
+  ft10WalkSide ^= 1;
+  w.classList.remove("ft10-step-left","ft10-step-right");
+  void w.offsetWidth;
+  const cls = ft10WalkSide ? "ft10-step-left" : "ft10-step-right";
+  w.classList.add(cls);
+  setTimeout(()=>w.classList.remove(cls),360);
+}
+
 function animateWalkerStep(){
  const sg=$("simpleGround");
  if(sg){
@@ -340,7 +374,7 @@ function motion(e){
   }
  let judged="監視中",now=Date.now();
  if(running&&!paused&&prevMag!==null&&delta>deltaThreshold&&m>magThreshold&&now-lastStep>intervalThreshold){
-   n++;balanceCalSteps++;lastWalkStepAt=now;continuousStationaryMs=0;animateWalkerStep();$("steps").textContent=n;$("pocketSteps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
+   n++;balanceCalSteps++;lastWalkStepAt=now;continuousStationaryMs=0;animateWalkerStep();animateFieldTest10Walk();$("steps").textContent=n;$("pocketSteps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
  }
  $("debugStep").textContent=judged;prevMag=m;try{updateWalkerBalanceGlow();}catch(e){};
 }
@@ -786,7 +820,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.4.0 FIELD TEST 9の歩ログを保存しました。")
+ alert("Ver.4.0 FIELD TEST 10の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
