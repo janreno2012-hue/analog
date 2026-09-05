@@ -176,7 +176,7 @@ background-position:0 0;will-change:background-position}
 .sceneStatus,.restBubble,.balanceReadout{z-index:9!important}
 
 
-/* FIELD TEST 24: STEP-synchronized pseudo-3D walk cycle */
+/* FIELD TEST 25: STEP-synchronized pseudo-3D walk cycle */
 .walker3d.ft10-step-left  { animation: ft10BodyL .34s ease-out; transform-origin: 50% 58%; }
 .walker3d.ft10-step-right { animation: ft10BodyR .34s ease-out; transform-origin: 50% 58%; }
 .walker3d.ft10-step-left .armL  { transform-origin: 38px 68px; animation: ft10ArmBack .34s ease-out; }
@@ -196,20 +196,20 @@ background-position:0 0;will-change:background-position}
 @keyframes ft10LegBack  { 0%{transform:rotate(0)} 45%{transform:rotate(-5deg)} 100%{transform:rotate(0)} }
 
 
-/* FIELD TEST 24: paper-animation prototype */
+/* FIELD TEST 25: paper-animation prototype */
 #paperWalker{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden}
 #paperWalker img{position:absolute;left:4%;top:2.5%;width:92%;height:95%;object-fit:contain;object-position:center center;opacity:0;transition:opacity .035s linear} #paperWalker img.ft22show{opacity:.97}
 #sceneBalanceCanvas{z-index:8!important}
 
 
-/* FIELD TEST 24: background and ground are baked into paper frames */
+/* FIELD TEST 25: background and ground are baked into paper frames */
 #simpleGround{display:none!important}
 .walkScene{background:#78bfc9!important}
 
 </style>
 
 <style id="fieldTest24Patch">
-/* FIELD TEST 24: one visible paper frame only — no cross-fade ghosting. */
+/* FIELD TEST 25: one visible paper frame only — no cross-fade ghosting. */
 #paperWalkerFrameA{
   opacity:1 !important;
   transition:none !important;
@@ -236,9 +236,45 @@ background-position:0 0;will-change:background-position}
 }
 </style>
 
+
+<style id="fieldTest25Patch">
+/* FIELD TEST 25 — clean viewport + one-frame rendering */
+.walkScene{
+  border:none !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
+#paperWalker{
+  inset:0 !important;
+  overflow:hidden !important;
+}
+#paperWalkerFrameA{
+  display:block !important;
+  opacity:.50 !important;
+  transition:none !important;
+  animation:none !important;
+  width:100% !important;
+  height:100% !important;
+  left:0 !important;
+  top:0 !important;
+  object-fit:cover !important;
+  object-position:center center !important;
+  will-change:transform;
+}
+#paperWalkerFrameB{display:none !important;}
+/* hide legacy overlays; FT25 focuses on the walking image itself */
+#sceneBalanceCanvas,
+#simpleGround,
+.groundStripe,
+.balanceCross,
+#balanceHalo,
+#cogTrail,
+#liveCog{display:none !important;}
+</style>
+
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 24</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 25</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -269,8 +305,8 @@ background-position:0 0;will-change:background-position}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 24</h2>
-<div class="mini">機能検証版：単一フレーム表示＋全身余白確保版。クロスフェードを廃止して常に1枚だけ表示し、残像を抑えます。人物をさらに縮小して頭頂〜足先の余白を確保。重心表示・地面線送り・万歩計・熊鈴・既存計測ロジックは維持します。</div>
+<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 25</h2>
+<div class="mini">機能検証版：万歩計同期・60Hz描画ループ版。歩数イベントを左右1歩ずつの位相として扱い、requestAnimationFrameで最大60Hz更新します。2歩で1周期をループし、クロスフェードは使わず常に1枚だけ表示します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
  <div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
@@ -341,7 +377,7 @@ function tick(){if(running){const v=fmt(Math.floor(activeElapsedMs()/1000));$("t
 let groundPhase=0;
 let simpleGroundPhase=0;
 
-// FIELD TEST 24: alternate left/right walk poses on real STEP events.
+// FIELD TEST 25: alternate left/right walk poses on real STEP events.
 let ft10WalkSide = 0;
 function animateFieldTest10Walk(){
   const w = $("walker");
@@ -502,8 +538,8 @@ function copyBalanceToScene(){
 }
 
 
-// FIELD TEST 24: 4-keyframe rear-view walk cycle on the visible canvas silhouette.
-let ft12Phase = 0; // FIELD TEST 24: 8-phase rear-view gait
+// FIELD TEST 25: 4-keyframe rear-view walk cycle on the visible canvas silhouette.
+let ft12Phase = 0; // FIELD TEST 25: 8-phase rear-view gait
 function animateVisibleBalanceWalker(){
   const start=ft12Phase;let i=1;
   function tick(){ft12Phase=(start+i)%16;drawBalanceMap();copyBalanceToScene();if(i++<8)setTimeout(tick,34);}
@@ -515,7 +551,7 @@ function drawBalanceMap(){
  if(!balanceCtx||!balanceCanvas)return;
  const g=balanceCtx,w=balanceCanvas.width,h=balanceCanvas.height,dpr=devicePixelRatio;
  g.clearRect(0,0,w,h);
- // FIELD TEST 24: paper frame supplies the person/background.
+ // FIELD TEST 25: paper frame supplies the person/background.
  // The overlay shows only the sensor-derived current point and a short recent trail.
  // This deliberately removes the wide heat-map band that could be mistaken for foot-pressure data.
  if(!balancePoints.length)return;
@@ -914,7 +950,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.4.0 FIELD TEST 24の歩ログを保存しました。")
+ alert("Ver.4.0 FIELD TEST 25の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
@@ -959,17 +995,78 @@ function render(){
 }
 render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
 </script>
-<script id="fieldTest24RuntimePatch">
+
+<script id="fieldTest25Runtime">
 (() => {
   const A = document.getElementById('paperWalkerFrameA');
   const B = document.getElementById('paperWalkerFrameB');
-  if (!A || !B) return;
-  const obs = new MutationObserver(() => {
-    if (B.src && B.src !== A.src) A.src = B.src;
-    A.style.opacity = '1';
-    B.style.display = 'none';
-  });
-  obs.observe(B, {attributes:true, attributeFilter:['src']});
+  if (!A) return;
+  if (B) B.style.display='none';
+
+  // 2 steps = 120 render phases. Source poses are sampled from the existing 8 cleanly,
+  // while transform interpolation is refreshed every requestAnimationFrame (~60 Hz).
+  let phase = 0;                 // 0..119
+  let targetPhase = 0;
+  let raf = 0;
+  let lastT = performance.now();
+  let active = false;
+  const STEP_PHASES = 60;        // one step = half of the 2-step cycle
+  const CYCLE_PHASES = 120;
+
+  function poseIndexForPhase(p){
+    // 8 source poses across a full two-step cycle, no alpha blending.
+    return Math.floor((p / CYCLE_PHASES) * 8) % 8;
+  }
+
+  function render(){
+    if (!A || typeof FT16_FRAMES === 'undefined' || !FT16_FRAMES.length) return;
+    const p = ((phase % CYCLE_PHASES) + CYCLE_PHASES) % CYCLE_PHASES;
+    const idx = poseIndexForPhase(p);
+    const src = FT16_FRAMES[idx % FT16_FRAMES.length];
+    if (A.src !== src) A.src = src;
+
+    // Smooth micro-motion between key poses; horizon remains fixed because only
+    // the paper walker image receives a tiny scale/translate transform.
+    const t = (p / CYCLE_PHASES) * Math.PI * 4; // two steps
+    const bob = -0.45 * Math.abs(Math.sin(t));
+    const sway = 0.18 * Math.sin(t);
+    const zoom = 1.000 + 0.0025 * Math.abs(Math.sin(t));
+    A.style.transform = `translate(${sway}%, ${bob}%) scale(${zoom})`;
+    A.style.opacity = '0.50';
+  }
+
+  function loop(now){
+    const dt = Math.min(40, now-lastT);
+    lastT = now;
+    if(active){
+      // Ease toward the requested step phase at roughly 60 render updates/sec.
+      let d = targetPhase - phase;
+      if (d > 60) d -= 120;
+      if (d < -60) d += 120;
+      phase += d * Math.min(1, dt/180);
+      if(Math.abs(d) < 0.08) active = false;
+      render();
+    }
+    raf = requestAnimationFrame(loop);
+  }
+
+  // Called from the existing step detector.
+  window.ft25OnStep = function(stepCount){
+    targetPhase = ((Number(stepCount)||0) * STEP_PHASES) % CYCLE_PHASES;
+    active = true;
+  };
+
+  // Replace legacy paper-frame step animator with the step-synchronized driver.
+  window.animatePaperWalkerStep = function(){
+    const stepEl = document.getElementById('steps');
+    const current = Number(stepEl?.textContent?.replace(/,/g,'')) || 0;
+    // Existing detector increments n just before/around this call; target the next half-cycle.
+    window.ft25OnStep(current + 1);
+  };
+
+  // Initial pose
+  render();
+  raf = requestAnimationFrame(loop);
 })();
 </script>
 
