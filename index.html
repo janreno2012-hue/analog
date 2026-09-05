@@ -374,20 +374,21 @@ $("bellNote").oninput=updateBellPitchUI;$("bellCents").oninput=updateBellPitchUI
 $("bellTest").onclick=()=>{ensureAudio();playBearBellPattern();};
 let bellRandomDedicated=false,bellFixedBeforeRandom=Math.min(6,bellNoteIndex);
 function syncRandomUI(){
- bellNoteIndex=parseInt($("bellNote").value,10);
- bellRandomDedicated=(bellNoteIndex===7);
+ const v=parseInt($("bellNote").value,10);
+ bellNoteIndex=v;
+ bellRandomDedicated=(v===7);
  $("bellRandomBtn").textContent=bellRandomDedicated?"🎲 RANDOM：ON":"🎲 RANDOM：OFF";
  $("bellRandomBtn").style.opacity=bellRandomDedicated?"1":".72";
  updateBellPitchUI();
 }
 $("bellRandomBtn").onclick=()=>{
  const slider=$("bellNote");
- const now=parseInt(slider.value,10);
- if(now===7){
-   slider.value=String(bellFixedBeforeRandom);
+ const v=parseInt(slider.value,10);
+ if(v===7){
+  slider.value=String(bellFixedBeforeRandom);
  }else{
-   bellFixedBeforeRandom=Math.min(6,now);
-   slider.value="7";
+  bellFixedBeforeRandom=Math.min(6,v);
+  slider.value="7";
  }
  syncRandomUI();
  ensureAudio();
@@ -397,9 +398,6 @@ $("bellNote").addEventListener("input",()=>{
  if(v!==7)bellFixedBeforeRandom=v;
  syncRandomUI();
 });
-syncRandomUI();ensureAudio();
-};
-$("bellNote").addEventListener("input",()=>{bellRandomDedicated=parseInt($("bellNote").value,10)===7;syncRandomUI();});
 syncRandomUI();
 
 // Ver.3.6 Wake Lock
