@@ -176,7 +176,7 @@ background-position:0 0;will-change:background-position}
 .sceneStatus,.restBubble,.balanceReadout{z-index:9!important}
 
 
-/* FIELD TEST 12: STEP-synchronized pseudo-3D walk cycle */
+/* FIELD TEST 13: STEP-synchronized pseudo-3D walk cycle */
 .walker3d.ft10-step-left  { animation: ft10BodyL .34s ease-out; transform-origin: 50% 58%; }
 .walker3d.ft10-step-right { animation: ft10BodyR .34s ease-out; transform-origin: 50% 58%; }
 .walker3d.ft10-step-left .armL  { transform-origin: 38px 68px; animation: ft10ArmBack .34s ease-out; }
@@ -198,7 +198,7 @@ background-position:0 0;will-change:background-position}
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 12</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 13</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -229,8 +229,8 @@ background-position:0 0;will-change:background-position}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 12</h2>
-<div class="mini">機能検証版：実STEPごとに4キーフレームの歩行姿勢へ進み、肩・肘・股関節・膝を連動させます。重心分布、地面線送り、万歩計ロジックはそのまま維持します。</div>
+<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 13</h2>
+<div class="mini">機能検証版：背面歩行資料を基に8キーフレーム化。脚の横振りを抑え、膝の屈曲・脚の重なり・身体の上下動を中心に歩行を表現します。重心分布、地面線送り、万歩計ロジックはそのまま維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
  <div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><canvas id="sceneBalanceCanvas"></canvas>
@@ -301,7 +301,7 @@ function tick(){if(running){const v=fmt(Math.floor(activeElapsedMs()/1000));$("t
 let groundPhase=0;
 let simpleGroundPhase=0;
 
-// FIELD TEST 12: alternate left/right walk poses on real STEP events.
+// FIELD TEST 13: alternate left/right walk poses on real STEP events.
 let ft10WalkSide = 0;
 function animateFieldTest10Walk(){
   const w = $("walker");
@@ -428,10 +428,10 @@ function copyBalanceToScene(){
 }
 
 
-// FIELD TEST 12: 4-keyframe rear-view walk cycle on the visible canvas silhouette.
-let ft12Phase = 0; // 0=left contact, 1=passing, 2=right contact, 3=passing
+// FIELD TEST 13: 4-keyframe rear-view walk cycle on the visible canvas silhouette.
+let ft12Phase = 0; // FIELD TEST 13: 8-phase rear-view gait
 function animateVisibleBalanceWalker(){
-  ft12Phase = (ft12Phase + 1) % 4;
+  ft12Phase = (ft12Phase + 1) % 8;
   drawBalanceMap();
   copyBalanceToScene();
 }
@@ -440,13 +440,17 @@ function balanceStats(){if(!balancePoints.length)return {mx:0,my:0,spread:0};con
 function drawBalanceMap(){if(!balanceCtx||!balanceCanvas)return;const g=balanceCtx,w=balanceCanvas.width,h=balanceCanvas.height,dpr=devicePixelRatio,cx=w/2,cy=h*.52;g.clearRect(0,0,w,h);
  // guide axes
  g.strokeStyle="#b8c9c6";g.lineWidth=1*dpr;g.setLineDash([5*dpr,5*dpr]);g.beginPath();g.moveTo(cx,16*dpr);g.lineTo(cx,h-16*dpr);g.moveTo(18*dpr,cy);g.lineTo(w-18*dpr,cy);g.stroke();g.setLineDash([]);
- // FIELD TEST 12: articulated rear-view walk-cycle silhouette
+ // FIELD TEST 13: articulated rear-view walk-cycle silhouette
  const phase = running ? ft12Phase : 1;
  const P = [
-   {side:-1,   lift:0.5, torso:-0.7, pelvis: 1.0, arm: 1.0, kneeL:4,  kneeR:14},
-   {side:-0.25,lift:1.8, torso:-0.2, pelvis: 0.35,arm: 0.25,kneeL:8,  kneeR:8},
-   {side: 1,   lift:0.5, torso: 0.7, pelvis:-1.0, arm:-1.0, kneeL:14, kneeR:4},
-   {side: 0.25,lift:1.8, torso: 0.2, pelvis:-0.35,arm:-0.25,kneeL:8, kneeR:8}
+ {side:-.45,lift:.5,torso:-.35,pelvis:.5,arm:.8,kneeL:4,kneeR:12},
+ {side:-.30,lift:1.8,torso:-.25,pelvis:.35,arm:.6,kneeL:5,kneeR:15},
+ {side:-.10,lift:3.0,torso:-.10,pelvis:.15,arm:.25,kneeL:7,kneeR:18},
+ {side:.08,lift:1.7,torso:.08,pelvis:-.12,arm:-.2,kneeL:10,kneeR:12},
+ {side:.45,lift:.5,torso:.35,pelvis:-.5,arm:-.8,kneeL:12,kneeR:4},
+ {side:.30,lift:1.8,torso:.25,pelvis:-.35,arm:-.6,kneeL:15,kneeR:5},
+ {side:.10,lift:3.0,torso:.10,pelvis:-.15,arm:-.25,kneeL:18,kneeR:7},
+ {side:-.08,lift:1.7,torso:-.08,pelvis:.12,arm:.2,kneeL:12,kneeR:10}
  ][phase];
 
  function strokeLimb(points, outerW, innerW){
@@ -490,11 +494,11 @@ function drawBalanceMap(){if(!balanceCtx||!balanceCanvas)return;const g=balanceC
  strokeLimb([[ 38,-34],[ 45-a*.35,0-a*.18],[ 43-a,38-a*.42]],14,10);
 
  // legs: hip -> knee -> ankle. Trailing leg bends at the knee.
- const stride=7.0*P.side;
+ const stride=3.0*P.side;
  let kneeL=[-15-stride*.30,61-P.kneeL*.12], ankleL=[-16-stride,91];
  let kneeR=[ 15-stride*.30,61-P.kneeR*.12], ankleR=[ 16-stride,91];
- if(P.kneeL>10){ankleL[0]+=3;ankleL[1]-=6;}
- if(P.kneeR>10){ankleR[0]-=3;ankleR[1]-=6;}
+ if(P.kneeL>10){ankleL[0]+=1;ankleL[1]-=9;}
+ if(P.kneeR>10){ankleR[0]-=1;ankleR[1]-=9;}
  strokeLimb([[-13,35],kneeL,ankleL],18,14);
  strokeLimb([[ 13,35],kneeR,ankleR],18,14);
 
@@ -880,7 +884,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.4.0 FIELD TEST 12の歩ログを保存しました。")
+ alert("Ver.4.0 FIELD TEST 13の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
