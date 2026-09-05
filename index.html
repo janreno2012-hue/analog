@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.3.9</title>
+<title>歩ログ Ver.3.9.1</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -33,6 +33,8 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 .rangeRow{margin-top:10px}.rangeTop{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
 .rangeVal{font-size:16px;color:#0f766e}.rangeRow input[type="range"]{padding:0;margin-top:7px;width:100%}
 
+.balanceViz{margin-top:12px;border:1px solid #d5dfdd;border-radius:16px;background:#fbfdfc;padding:10px}.balanceCanvas{width:100%;height:300px;display:block;border-radius:12px;background:#fff}.balanceLegend{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#6b7c79;margin-top:7px}.balanceHint{margin-top:8px;padding:9px 10px;border-radius:11px;background:#f1f7f6;font-size:12px;color:#46605c}.balanceGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}.balanceMini{background:#f1f7f6;border-radius:12px;text-align:center;padding:8px;font-size:11px}.balanceMini b{display:block;font-size:15px;margin-top:3px}
+
 .bellRow{display:flex;justify-content:space-between;align-items:center;gap:12px}.bellControls{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.bellPitchControls{margin-top:10px;padding-top:10px;border-top:1px solid #dce8e5}.bellTest{margin-top:10px;width:100%;padding:10px;border:0;border-radius:10px;background:#0f766e;color:#fff;font-weight:800}.bellStatus{margin-top:8px;font-size:13px;color:#6b7c79}
 
 /* Ver.3.6 OLEDポケットモード */
@@ -42,7 +44,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.3.9</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.3.9.1</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -73,7 +75,7 @@ ul{list-style:none;padding:0;margin:0}li{padding:12px 0;border-bottom:1px solid 
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🧭 体幹バランス β</h2><div class="mini">スマホの左右方向の揺れを試験的に解析します。START後の最初の約20歩を基準に自動キャリブレーションします。</div><div class="stats4"><div class="stat"><div>左右バランス</div><div id="balanceRatio" class="value">-- : --</div></div><div class="stat"><div>左右差</div><div id="balanceDiff" class="value">-- %</div></div></div><div id="balanceStatus" class="mini">待機中</div></section>
+<section class="card"><h2>🧭 体幹バランス・重心分布 β</h2><div class="mini">端末の加速度から体幹の偏り・揺れを試験的に推定します。START後の最初の約20歩を基準に自動キャリブレーションします。</div><div class="stats4"><div class="stat"><div>左右バランス</div><div id="balanceRatio" class="value">-- : --</div></div><div class="stat"><div>左右差</div><div id="balanceDiff" class="value">-- %</div></div></div><div class="balanceViz"><canvas id="balanceCanvas" class="balanceCanvas"></canvas><div class="balanceLegend"><span>← 左</span><span>前 ↑　端末センサー推定　↓ 後</span><span>右 →</span></div><div class="balanceGrid"><div class="balanceMini">左右平均<b id="balanceMeanLR">--</b></div><div class="balanceMini">前後平均<b id="balanceMeanFB">--</b></div><div class="balanceMini">安定度<b id="balanceStability">-- %</b></div></div><div class="balanceHint">色が濃い場所ほど、その方向への揺れが多かったことを示します。人体の厳密な重心位置ではなく、スマホセンサーから見た体幹傾向です。</div></div><div id="balanceStatus" class="mini">待機中</div></section>
 <section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="7" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B / RANDOM</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellRandomBtn" type="button" style="margin-bottom:10px">🎲 RANDOM：OFF</button>
 <button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
 <div id="routeViewStatus" class="mini" style="margin-bottom:8px">現在のウォーキングを表示中</div>
@@ -107,7 +109,7 @@ let running=false,paused=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handl
 let route=[],routeDistance=0,lastDistancePoint=null,liveRouteSnapshot=null,viewingHistory=false,permissionState="unknown",mapCanvas=null,ctx=null,elevationCanvas=null,elevationCtx=null,motionEnabled=false,debugEnabled=false;
 let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
-let balanceBaseX=null,balancePos=0,balanceNeg=0,balanceSamples=0,balanceCalSteps=0;
+let balanceBaseX=null,balanceBaseY=null,balancePos=0,balanceNeg=0,balanceSamples=0,balanceCalSteps=0,balancePoints=[],balanceLastSample=0,balanceCanvas=null,balanceCtx=null;
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
 function pad(x){return String(x).padStart(2,"0")}
 function fmt(s){return pad(Math.floor(s/3600))+":"+pad(Math.floor(s%3600/60))+":"+pad(s%60)}
@@ -122,7 +124,15 @@ function motion(e){
  const delta=prevMag===null?0:m-prevMag;
  $("debugX").textContent=x.toFixed(2);$("debugY").textContent=y.toFixed(2);$("debugZ").textContent=z.toFixed(2);
  $("debugMag").textContent=m.toFixed(2);$("debugDelta").textContent=(delta>=0?"+":"")+delta.toFixed(2);
-  if(running&&!paused){if(balanceBaseX===null)balanceBaseX=x;balanceBaseX=balanceBaseX*0.96+x*0.04;const dx=x-balanceBaseX;if(dx>0)balancePos+=Math.abs(dx);else balanceNeg+=Math.abs(dx);balanceSamples++;updateBalanceUI();}
+  if(running&&!paused){
+   if(balanceBaseX===null){balanceBaseX=x;balanceBaseY=y;}
+   const calibrating=balanceCalSteps<20;
+   if(calibrating){balanceBaseX=balanceBaseX*0.94+x*0.06;balanceBaseY=balanceBaseY*0.94+y*0.06;}
+   const dx=x-balanceBaseX,dy=y-balanceBaseY;
+   if(dx>0)balancePos+=Math.abs(dx);else balanceNeg+=Math.abs(dx);balanceSamples++;
+   const sampleNow=Date.now();if(!calibrating&&sampleNow-balanceLastSample>=100){balanceLastSample=sampleNow;balancePoints.push({x:Math.max(-4,Math.min(4,dx)),y:Math.max(-4,Math.min(4,dy))});if(balancePoints.length>600)balancePoints.shift();}
+   updateBalanceUI();
+  }
  let judged="監視中",now=Date.now();
  if(running&&!paused&&prevMag!==null&&delta>deltaThreshold&&m>magThreshold&&now-lastStep>intervalThreshold){
    n++;balanceCalSteps++;$("steps").textContent=n;$("pocketSteps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
@@ -144,8 +154,22 @@ function disableMotion(){
  if(handler)window.removeEventListener("devicemotion",handler);handler=null;motionEnabled=false,debugEnabled=false;prevMag=null;
  $("motionLabel").textContent="デバッグ表示："+(debugEnabled?"ON":"OFF");setDebugStatus("停止中");$("debugStep").textContent="待機";
 }
-function updateBalanceUI(){const total=balancePos+balanceNeg;if(!total||balanceSamples<10){$("balanceRatio").textContent="-- : --";$("balanceDiff").textContent="-- %";$("balanceStatus").textContent=running?(balanceCalSteps<20?"キャリブレーション中… "+balanceCalSteps+" / 20歩":"解析中") : "待機中";return;}const l=balancePos/total*100,r=balanceNeg/total*100,d=Math.abs(l-r);$("balanceRatio").textContent=Math.round(l)+" : "+Math.round(r);$("balanceDiff").textContent=d.toFixed(1)+" %";$("balanceStatus").textContent=balanceCalSteps<20?"キャリブレーション中… "+balanceCalSteps+" / 20歩":"β解析中（端末の向きにより左右は入れ替わる場合があります）";}
-function resetBalance(){balanceBaseX=null;balancePos=0;balanceNeg=0;balanceSamples=0;balanceCalSteps=0;updateBalanceUI()}
+function setupBalanceCanvas(){balanceCanvas=$("balanceCanvas");balanceCtx=balanceCanvas?balanceCanvas.getContext("2d"):null;resizeBalanceCanvas();window.addEventListener("resize",resizeBalanceCanvas)}
+function resizeBalanceCanvas(){if(!balanceCanvas)return;balanceCanvas.width=balanceCanvas.clientWidth*devicePixelRatio;balanceCanvas.height=balanceCanvas.clientHeight*devicePixelRatio;drawBalanceMap()}
+function balanceStats(){if(!balancePoints.length)return {mx:0,my:0,spread:0};const mx=balancePoints.reduce((a,p)=>a+p.x,0)/balancePoints.length,my=balancePoints.reduce((a,p)=>a+p.y,0)/balancePoints.length;const spread=Math.sqrt(balancePoints.reduce((a,p)=>a+(p.x-mx)**2+(p.y-my)**2,0)/balancePoints.length);return {mx,my,spread}}
+function drawBalanceMap(){if(!balanceCtx||!balanceCanvas)return;const g=balanceCtx,w=balanceCanvas.width,h=balanceCanvas.height,dpr=devicePixelRatio,cx=w/2,cy=h*.52;g.clearRect(0,0,w,h);g.fillStyle="#ffffff";g.fillRect(0,0,w,h);
+ // guide axes
+ g.strokeStyle="#b8c9c6";g.lineWidth=1*dpr;g.setLineDash([5*dpr,5*dpr]);g.beginPath();g.moveTo(cx,16*dpr);g.lineTo(cx,h-16*dpr);g.moveTo(18*dpr,cy);g.lineTo(w-18*dpr,cy);g.stroke();g.setLineDash([]);
+ // top-view body silhouette
+ g.save();g.translate(cx,cy);g.strokeStyle="#49615e";g.fillStyle="#f3f7f6";g.lineWidth=2*dpr;g.beginPath();g.ellipse(0,-82*dpr,24*dpr,30*dpr,0,0,Math.PI*2);g.fill();g.stroke();g.beginPath();g.moveTo(-24*dpr,-52*dpr);g.quadraticCurveTo(-52*dpr,-38*dpr,-48*dpr,14*dpr);g.lineTo(-35*dpr,72*dpr);g.quadraticCurveTo(-20*dpr,90*dpr,-12*dpr,54*dpr);g.lineTo(0,28*dpr);g.lineTo(12*dpr,54*dpr);g.quadraticCurveTo(20*dpr,90*dpr,35*dpr,72*dpr);g.lineTo(48*dpr,14*dpr);g.quadraticCurveTo(52*dpr,-38*dpr,24*dpr,-52*dpr);g.closePath();g.fill();g.stroke();g.restore();
+ // heat dots; older samples fade, newer samples stronger
+ const scale=22*dpr;for(let i=0;i<balancePoints.length;i++){const p=balancePoints[i],age=(i+1)/balancePoints.length,px=cx+p.x*scale,py=cy-p.y*scale,r=(10+12*age)*dpr;const grad=g.createRadialGradient(px,py,0,px,py,r);grad.addColorStop(0,`rgba(255,70,20,${0.025+0.055*age})`);grad.addColorStop(.45,`rgba(255,200,0,${0.018+0.035*age})`);grad.addColorStop(1,"rgba(0,180,140,0)");g.fillStyle=grad;g.beginPath();g.arc(px,py,r,0,Math.PI*2);g.fill();}
+ // trajectory + mean marker
+ if(balancePoints.length){g.strokeStyle="rgba(15,118,110,.45)";g.lineWidth=1.3*dpr;g.beginPath();balancePoints.forEach((p,i)=>{const px=cx+p.x*scale,py=cy-p.y*scale;if(i===0)g.moveTo(px,py);else g.lineTo(px,py)});g.stroke();const st=balanceStats(),mx=cx+st.mx*scale,my=cy-st.my*scale;g.fillStyle="#d9482b";g.beginPath();g.arc(mx,my,5*dpr,0,Math.PI*2);g.fill();g.strokeStyle="#fff";g.lineWidth=2*dpr;g.stroke();}
+ g.fillStyle="#536a67";g.font=(12*dpr)+"px sans-serif";g.textAlign="center";g.fillText("前",cx,13*dpr);g.fillText("後",cx,h-5*dpr);g.textAlign="left";g.fillText("左",5*dpr,cy+4*dpr);g.textAlign="right";g.fillText("右",w-5*dpr,cy+4*dpr);
+}
+function updateBalanceUI(){const total=balancePos+balanceNeg;if(!total||balanceSamples<10){$("balanceRatio").textContent="-- : --";$("balanceDiff").textContent="-- %";$("balanceMeanLR").textContent="--";$("balanceMeanFB").textContent="--";$("balanceStability").textContent="-- %";$("balanceStatus").textContent=running?(balanceCalSteps<20?"キャリブレーション中… "+balanceCalSteps+" / 20歩":"解析中") : "待機中";drawBalanceMap();return;}const l=balancePos/total*100,r=balanceNeg/total*100,d=Math.abs(l-r);$("balanceRatio").textContent=Math.round(l)+" : "+Math.round(r);$("balanceDiff").textContent=d.toFixed(1)+" %";const st=balanceStats(),lr=Math.abs(st.mx)<.08?"中央":(st.mx>0?"右寄り":"左寄り"),fb=Math.abs(st.my)<.08?"中央":(st.my>0?"前寄り":"後寄り"),stability=Math.max(0,Math.min(100,100-st.spread*22));$("balanceMeanLR").textContent=lr;$("balanceMeanFB").textContent=fb;$("balanceStability").textContent=balancePoints.length?Math.round(stability)+" %":"-- %";$("balanceStatus").textContent=balanceCalSteps<20?"キャリブレーション中… "+balanceCalSteps+" / 20歩":"β解析中（端末の向き・収納位置で前後左右は変わる場合があります）";drawBalanceMap();}
+function resetBalance(){balanceBaseX=null;balanceBaseY=null;balancePos=0;balanceNeg=0;balanceSamples=0;balanceCalSteps=0;balancePoints=[];balanceLastSample=0;updateBalanceUI()}
 function metFor(speed,grade){
  let met = speed<3.2?2.8:speed<4.0?3.0:speed<4.8?3.5:speed<5.6?4.3:speed<6.4?5.0:6.0;
  if(grade>0) met += Math.min(3, grade/3);
@@ -310,7 +334,7 @@ function drawElevationProfile(){
  g.fillStyle="#6b7c79";g.font=(11*dpr)+"px sans-serif";g.textAlign="left";g.fillText("0 km",padL,h-7*dpr);
  g.textAlign="right";g.fillText((routeDistance/1000).toFixed(2)+" km",w-padR,h-7*dpr);
 }
-setupMap();
+setupMap();setupBalanceCanvas();
 function setupThresholdControls(){
  const sync=()=>{
   deltaThreshold=parseFloat($("deltaThreshold").value);
@@ -509,10 +533,10 @@ $("save").onclick=()=>{
  if(!Number.isFinite(s)||s<0){alert("歩数を入力してください。");return}
  data.push({id:Date.now(),date:$("date").value,weight:w,steps:s,duration:$("duration").value,summary:$("summary").value,distance:Math.round(routeDistance),
  route:compactRouteForSave(),ascent:Math.round(totalAscent),descent:Math.round(totalDescent),
- minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,diary:$("diary").value.trim()});
+ minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.3.9の歩ログを保存しました。")
+ alert("Ver.3.9.1の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
