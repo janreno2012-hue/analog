@@ -176,7 +176,7 @@ background-position:0 0;will-change:background-position}
 .sceneStatus,.restBubble,.balanceReadout{z-index:9!important}
 
 
-/* FIELD TEST 26: STEP-synchronized pseudo-3D walk cycle */
+/* FIELD TEST 26.1: STEP-synchronized pseudo-3D walk cycle */
 .walker3d.ft10-step-left  { animation: ft10BodyL .34s ease-out; transform-origin: 50% 58%; }
 .walker3d.ft10-step-right { animation: ft10BodyR .34s ease-out; transform-origin: 50% 58%; }
 .walker3d.ft10-step-left .armL  { transform-origin: 38px 68px; animation: ft10ArmBack .34s ease-out; }
@@ -196,20 +196,20 @@ background-position:0 0;will-change:background-position}
 @keyframes ft10LegBack  { 0%{transform:rotate(0)} 45%{transform:rotate(-5deg)} 100%{transform:rotate(0)} }
 
 
-/* FIELD TEST 26: paper-animation prototype */
+/* FIELD TEST 26.1: paper-animation prototype */
 #paperWalker{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden}
 #paperWalker img{position:absolute;left:4%;top:2.5%;width:92%;height:95%;object-fit:contain;object-position:center center;opacity:0;transition:opacity .035s linear} #paperWalker img.ft22show{opacity:.97}
 #sceneBalanceCanvas{z-index:8!important}
 
 
-/* FIELD TEST 26: background and ground are baked into paper frames */
+/* FIELD TEST 26.1: background and ground are baked into paper frames */
 #simpleGround{display:none!important}
 .walkScene{background:#78bfc9!important}
 
 </style>
 
 <style id="fieldTest24Patch">
-/* FIELD TEST 26: one visible paper frame only — no cross-fade ghosting. */
+/* FIELD TEST 26.1: one visible paper frame only — no cross-fade ghosting. */
 #paperWalkerFrameA{
   opacity:1 !important;
   transition:none !important;
@@ -238,7 +238,7 @@ background-position:0 0;will-change:background-position}
 
 
 <style id="fieldTest25Patch">
-/* FIELD TEST 26 — clean viewport + one-frame rendering */
+/* FIELD TEST 26.1 — clean viewport + one-frame rendering */
 .walkScene{
   border:none !important;
   box-shadow:none !important;
@@ -305,7 +305,7 @@ object-fit:cover!important;object-position:center center!important}
 
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 26</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 26.1</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -336,7 +336,7 @@ object-fit:cover!important;object-position:center center!important}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 26</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 26.1</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
@@ -408,7 +408,7 @@ function tick(){if(running){const v=fmt(Math.floor(activeElapsedMs()/1000));$("t
 let groundPhase=0;
 let simpleGroundPhase=0;
 
-// FIELD TEST 26: alternate left/right walk poses on real STEP events.
+// FIELD TEST 26.1: alternate left/right walk poses on real STEP events.
 let ft10WalkSide = 0;
 function animateFieldTest10Walk(){
   const w = $("walker");
@@ -581,8 +581,8 @@ function copyBalanceToScene(){
 }
 
 
-// FIELD TEST 26: 4-keyframe rear-view walk cycle on the visible canvas silhouette.
-let ft12Phase = 0; // FIELD TEST 26: 8-phase rear-view gait
+// FIELD TEST 26.1: 4-keyframe rear-view walk cycle on the visible canvas silhouette.
+let ft12Phase = 0; // FIELD TEST 26.1: 8-phase rear-view gait
 function animateVisibleBalanceWalker(){
   const start=ft12Phase;let i=1;
   function tick(){ft12Phase=(start+i)%16;drawBalanceMap();copyBalanceToScene();if(i++<8)setTimeout(tick,34);}
@@ -594,7 +594,7 @@ function drawBalanceMap(){
  if(!balanceCtx||!balanceCanvas)return;
  const g=balanceCtx,w=balanceCanvas.width,h=balanceCanvas.height,dpr=devicePixelRatio;
  g.clearRect(0,0,w,h);
- // FIELD TEST 26: paper frame supplies the person/background.
+ // FIELD TEST 26.1: paper frame supplies the person/background.
  // The overlay shows only the sensor-derived current point and a short recent trail.
  // This deliberately removes the wide heat-map band that could be mistaken for foot-pressure data.
  if(!balancePoints.length)return;
@@ -993,7 +993,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.4.0 FIELD TEST 26の歩ログを保存しました。")
+ alert("Ver.4.0 FIELD TEST 26.1の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
@@ -1037,6 +1037,42 @@ function render(){
  $("list").querySelectorAll(".del").forEach(b=>b.onclick=()=>{data=data.filter(x=>x.id!=b.dataset.id);saveData();render()})
 }
 render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+</script>
+
+
+<style id="ft261Patch">
+/* FT26.1 architecture test: fixed scenery + scrolling ground + stable SVG walker */
+.walkScene{background:linear-gradient(#83cbea 0 48%,#6b9d67 48% 100%)!important;overflow:hidden!important;position:relative}
+.walkScene:after{content:"";position:absolute;left:0;right:0;top:34%;height:20%;z-index:1;opacity:.75;pointer-events:none;background:linear-gradient(150deg,transparent 0 14%,#557e76 14% 25%,transparent 25% 33%,#416d67 33% 47%,transparent 47% 56%,#50776f 56% 72%,transparent 72%)}
+#paperWalker{z-index:5!important;display:flex!important;align-items:flex-end;justify-content:center;bottom:7%!important;top:auto!important;height:68%!important;overflow:visible!important}
+#paperWalkerFrameA,#paperWalkerFrameB{display:none!important}
+#ft261Walker{height:100%;width:auto;opacity:.50;overflow:visible;filter:drop-shadow(0 5px 4px #0005)}
+#ft261Ground{position:absolute;z-index:2;left:-18%;right:-18%;bottom:-34%;height:72%;transform:perspective(340px) rotateX(58deg);transform-origin:bottom;background:repeating-linear-gradient(0deg,#41683d 0 18px,#547b48 18px 34px,#7f9160 34px 48px);will-change:background-position;opacity:.9}
+#ft261Ground:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 42px,#d7d0a42e 42px 45px,transparent 45px 88px)}
+#ft261Badge{position:absolute;z-index:10;left:10px;top:10px;padding:5px 8px;border-radius:8px;background:#062c38cc;color:#bffcff;font:700 11px system-ui}
+</style>
+<script id="ft261Script">
+(()=>{
+const poses=[
+ {dy:-3,la:-14,ra:14,ll:17,rl:-17},
+ {dy:0, la:-9, ra:9, ll:9, rl:-9},
+ {dy:4, la:-3, ra:3, ll:2, rl:-2},
+ {dy:0, la:8, ra:-8,ll:-10,rl:10},
+ {dy:-3,la:14,ra:-14,ll:-17,rl:17},
+ {dy:0, la:9, ra:-9,ll:-9,rl:9},
+ {dy:4, la:3, ra:-3,ll:-2,rl:2},
+ {dy:0, la:-8,ra:8,ll:10,rl:-10}
+];
+let phase=0,last=0,raf=0,ground=0;
+function svg(){return `<svg id="ft261Walker" viewBox="0 0 160 300" aria-label="8-frame walking figure"><g id="ftBody"><circle cx="80" cy="34" r="18" fill="#26343b"/><path d="M55 58 Q80 48 105 58 L110 145 Q80 158 50 145Z" fill="#2377a8"/><rect x="59" y="62" width="42" height="70" rx="9" fill="#203a48"/><path d="M63 68 Q80 58 97 68" fill="none" stroke="#607b89" stroke-width="5"/><g id="ftLA" transform-origin="55px 70px"><path d="M55 70 L43 132 L39 166" fill="none" stroke="#d6a77e" stroke-width="14" stroke-linecap="round"/></g><g id="ftRA" transform-origin="105px 70px"><path d="M105 70 L117 132 L121 166" fill="none" stroke="#d6a77e" stroke-width="14" stroke-linecap="round"/></g><g id="ftLL" transform-origin="68px 145px"><path d="M68 145 L64 213 L59 270" fill="none" stroke="#d6a77e" stroke-width="19" stroke-linecap="round"/><path d="M58 268 l-8 18 h25" fill="#1e66a0"/></g><g id="ftRL" transform-origin="92px 145px"><path d="M92 145 L96 213 L101 270" fill="none" stroke="#d6a77e" stroke-width="19" stroke-linecap="round"/><path d="M102 268 l8 18 H85" fill="#1e66a0"/></g><path d="M51 142 Q80 151 109 142 L105 174 Q80 184 55 174Z" fill="#5d6670"/></g></svg>`}
+function apply(i){phase=(i+8)%8;let p=poses[phase],q=id=>document.getElementById(id);let b=q('ftBody');if(!b)return;b.setAttribute('transform',`translate(0 ${p.dy})`);q('ftLA').setAttribute('transform',`rotate(${p.la} 55 70)`);q('ftRA').setAttribute('transform',`rotate(${p.ra} 105 70)`);q('ftLL').setAttribute('transform',`rotate(${p.ll} 68 145)`);q('ftRL').setAttribute('transform',`rotate(${p.rl} 92 145)`)}
+function build(){let pw=document.getElementById('paperWalker'),sc=document.querySelector('.walkScene');if(!pw||!sc)return;pw.insertAdjacentHTML('beforeend',svg());let g=document.createElement('div');g.id='ft261Ground';sc.prepend(g);let b=document.createElement('div');b.id='ft261Badge';b.textContent='FT26.1 8コマ / レイヤー分離';sc.appendChild(b);apply(0)}
+function step(){let now=performance.now(),dt=last?Math.max(320,Math.min(1400,now-last)):650;last=now;let start=phase,frames=4,dur=Math.max(260,Math.min(900,dt*.92)),t0=performance.now();cancelAnimationFrame(raf);function tick(t){let x=Math.min(1,(t-t0)/dur),k=Math.min(frames,Math.floor(x*frames));apply(start+k);ground+=1.7;let g=document.getElementById('ft261Ground');if(g)g.style.backgroundPosition=`0 ${ground}px`;if(x<1)raf=requestAnimationFrame(tick)}raf=requestAnimationFrame(tick)}
+window.ft261Step=step;
+document.addEventListener('DOMContentLoaded',()=>setTimeout(build,100));
+// Hook existing step animation without disturbing GPS/pedometer logic.
+const hook=setInterval(()=>{if(typeof window.animatePaperWalkerStep==='function'&&!window.__ft261hook){window.__ft261hook=1;window.animatePaperWalkerStep=step;clearInterval(hook)}},100);
+})();
 </script>
 
 </body></html>
