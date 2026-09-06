@@ -307,7 +307,7 @@ object-fit:cover!important;object-position:center center!important}
 
 
 <style id="fieldTest262HumanRestore">
-/* FIELD TEST 28 TRANSPARENT — EARTH RESTORE
+/* Ver.4.1 — EARTH RESTORE
    FT26.4 person animation is frozen.
    Fixed natural vista + depth-graded independent trail. */
 .walkScene{
@@ -423,9 +423,21 @@ object-fit:cover!important;object-position:center center!important}
 }
 </style>
 
+
+<style id="ver41cg">
+/* Ver.4.1: front-most sensor-derived CoG visualization. Walking assets untouched. */
+#sceneBalanceCanvas{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:20!important;pointer-events:none!important}
+#cgDetail41{position:absolute;right:10px;top:48px;width:132px;z-index:21;background:rgba(244,252,255,.82);
+backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.9);border-radius:13px;padding:8px;color:#123b3a;
+box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
+.cg41title{font-size:12px;font-weight:900;text-align:center;margin-bottom:3px}
+#cgDetailCanvas41{display:block;width:116px;height:104px;margin:auto;border-radius:7px}
+.cg41labels{display:flex;justify-content:space-between;font-size:9px;font-weight:800;margin-top:2px}
+.cg41small{font-size:9px;line-height:1.25;text-align:center;margin-top:3px}
+</style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 28 TRANSPARENT</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.0 Ver.4.1</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -456,11 +468,17 @@ object-fit:cover!important;object-position:center center!important}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 28 TRANSPARENT</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">FT28 TRANSPARENT</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1 CG</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="cgDetail41">
+  <div class="cg41title">重心分布（2D）</div>
+  <canvas id="cgDetailCanvas41"></canvas>
+  <div class="cg41labels"><span>左</span><span>前 ↑</span><span>右</span></div>
+  <div class="cg41small" id="cgDetailText41">キャリブレーション中</div>
+</div>
  <div id="walker" class="walker3d">
   <svg viewBox="0 0 150 245" aria-label="透過3D風ウォーカー">
    <defs>
@@ -691,13 +709,79 @@ function resizeSceneBalanceCanvas(){
  copyBalanceToScene();
 }
 function copyBalanceToScene(){
- if(!sceneBalanceCtx||!sceneBalanceCanvas||!balanceCanvas||!balanceCanvas.width||!balanceCanvas.height)return;
- const g=sceneBalanceCtx,w=sceneBalanceCanvas.width,h=sceneBalanceCanvas.height;
+ if(!sceneBalanceCtx||!sceneBalanceCanvas)return;
+ const g=sceneBalanceCtx,w=sceneBalanceCanvas.width,h=sceneBalanceCanvas.height,dpr=devicePixelRatio;
  g.clearRect(0,0,w,h);
- const targetH=h*.88,targetW=targetH*(balanceCanvas.width/balanceCanvas.height);
- g.globalAlpha=.96;
- g.drawImage(balanceCanvas,(w-targetW)/2,h*.045,targetW,targetH);
- g.globalAlpha=1;
+
+ // Body reference origin: waist/pelvis. X=left/right, Y=up/down, Z=forward/back.
+ const ox=w*.50, oy=h*.555;
+ const pts=(typeof balancePoints!=="undefined"&&Array.isArray(balancePoints))?balancePoints.slice(-36):[];
+ const live=getLiveBalanceXY();
+ const sx=9*dpr, sy=8*dpr;
+ const px=ox+Math.max(-3.2,Math.min(3.2,live.x))*sx;
+ const py=oy+Math.max(-2.7,Math.min(2.7,live.y))*sy;
+
+ g.save();
+ g.globalCompositeOperation="source-over";
+
+ // translucent distribution from recent real sensor samples
+ pts.forEach((p,i)=>{
+   const x=ox+Math.max(-3.2,Math.min(3.2,Number(p.x)||0))*sx;
+   const y=oy+Math.max(-2.7,Math.min(2.7,Number(p.y)||0))*sy;
+   const rr=(15+10*i/Math.max(1,pts.length))*dpr;
+   const gr=g.createRadialGradient(x,y,0,x,y,rr);
+   gr.addColorStop(0,"rgba(255,65,35,.10)");
+   gr.addColorStop(.28,"rgba(255,220,20,.08)");
+   gr.addColorStop(.58,"rgba(20,230,180,.055)");
+   gr.addColorStop(1,"rgba(0,180,255,0)");
+   g.fillStyle=gr;g.beginPath();g.arc(x,y,rr,0,Math.PI*2);g.fill();
+ });
+
+ // current point halo
+ const rr=34*dpr, halo=g.createRadialGradient(px,py,0,px,py,rr);
+ halo.addColorStop(0,"rgba(255,45,25,.62)");halo.addColorStop(.23,"rgba(255,215,15,.38)");
+ halo.addColorStop(.55,"rgba(20,225,190,.22)");halo.addColorStop(1,"rgba(0,180,255,0)");
+ g.fillStyle=halo;g.beginPath();g.arc(px,py,rr,0,Math.PI*2);g.fill();
+
+ // XYZ axes, deliberately semi-transparent and aligned to the person.
+ g.lineWidth=1.5*dpr;g.font=(10*dpr)+"px sans-serif";g.textAlign="center";
+ function arrow(x1,y1,x2,y2,color,label,lx,ly){
+   g.strokeStyle=color;g.fillStyle=color;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();
+   const a=Math.atan2(y2-y1,x2-x1),s=6*dpr;
+   g.beginPath();g.moveTo(x2,y2);g.lineTo(x2-s*Math.cos(a-.55),y2-s*Math.sin(a-.55));g.lineTo(x2-s*Math.cos(a+.55),y2-s*Math.sin(a+.55));g.closePath();g.fill();
+   g.fillText(label,lx,ly);
+ }
+ arrow(ox-46*dpr,oy,ox+46*dpr,oy,"rgba(255,85,70,.76)","X",ox+54*dpr,oy+3*dpr);
+ arrow(ox,oy+58*dpr,ox,oy-72*dpr,"rgba(80,255,120,.72)","Y",ox+7*dpr,oy-77*dpr);
+ // Z points visually forward: slightly down-left in rear-view perspective.
+ arrow(ox,oy,ox-31*dpr,oy+43*dpr,"rgba(65,115,255,.82)","Z 前",ox-39*dpr,oy+51*dpr);
+
+ g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,5*dpr,0,Math.PI*2);g.fill();
+ g.strokeStyle="rgba(255,255,255,.9)";g.lineWidth=1.5*dpr;g.stroke();
+ g.restore();
+ drawCgDetail41();
+}
+
+let cgDetailCanvas41=null,cgDetailCtx41=null;
+function setupCgDetail41(){
+ cgDetailCanvas41=document.getElementById("cgDetailCanvas41");
+ cgDetailCtx41=cgDetailCanvas41?cgDetailCanvas41.getContext("2d"):null;
+ if(cgDetailCanvas41){cgDetailCanvas41.width=232;cgDetailCanvas41.height=208;}
+}
+function drawCgDetail41(){
+ if(!cgDetailCtx41||!cgDetailCanvas41)return;
+ const g=cgDetailCtx41,w=cgDetailCanvas41.width,h=cgDetailCanvas41.height;
+ g.clearRect(0,0,w,h);g.fillStyle="rgba(8,70,150,.78)";g.fillRect(18,10,w-36,h-30);
+ g.strokeStyle="rgba(255,255,255,.38)";g.lineWidth=1;
+ for(let i=1;i<4;i++){let x=18+(w-36)*i/4;g.beginPath();g.moveTo(x,10);g.lineTo(x,h-20);g.stroke();let y=10+(h-30)*i/4;g.beginPath();g.moveTo(18,y);g.lineTo(w-18,y);g.stroke();}
+ const pts=(typeof balancePoints!=="undefined"&&Array.isArray(balancePoints))?balancePoints.slice(-50):[];
+ const cx=w/2,cy=(h-10)/2,s=18;
+ pts.forEach((p,i)=>{const x=cx+Math.max(-3,Math.min(3,+p.x||0))*s,y=cy-Math.max(-3,Math.min(3,+p.y||0))*s,r=18+10*i/Math.max(1,pts.length);
+   const q=g.createRadialGradient(x,y,0,x,y,r);q.addColorStop(0,"rgba(255,70,20,.12)");q.addColorStop(.35,"rgba(255,235,20,.10)");q.addColorStop(.7,"rgba(20,255,190,.07)");q.addColorStop(1,"rgba(0,190,255,0)");g.fillStyle=q;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.fill();});
+ const v=getLiveBalanceXY(),x=cx+Math.max(-3,Math.min(3,v.x))*s,y=cy-Math.max(-3,Math.min(3,v.y))*s;
+ g.fillStyle="#ff3b30";g.beginPath();g.arc(x,y,8,0,Math.PI*2);g.fill();g.strokeStyle="#fff";g.lineWidth=3;g.stroke();
+ const t=document.getElementById("cgDetailText41");
+ if(t){const st=balanceStats();t.textContent=(balanceCalSteps<20?"校正中 "+balanceCalSteps+"/20歩":"現在位置＋直近の滞在分布");}
 }
 
 
@@ -910,7 +994,7 @@ function drawElevationProfile(){
  g.textAlign="right";g.fillText((routeDistance/1000).toFixed(2)+" km",w-padR,h-7*dpr);
 }
 setupMap();
-setInterval(()=>{try{updateWalkScene();if(running){drawBalanceMap();copyBalanceToScene();}}catch(e){}},250);setupBalanceCanvas();setupSceneBalanceCanvas();drawBalanceMap();copyBalanceToScene();
+setInterval(()=>{try{updateWalkScene();if(running){drawBalanceMap();copyBalanceToScene();}}catch(e){}},250);setupBalanceCanvas();setupSceneBalanceCanvas();setupCgDetail41();drawBalanceMap();copyBalanceToScene();
 function setupThresholdControls(){
  const sync=()=>{
   deltaThreshold=parseFloat($("deltaThreshold").value);
@@ -1113,7 +1197,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.4.0 FIELD TEST 28 TRANSPARENTの歩ログを保存しました。")
+ alert("Ver.4.0 Ver.4.1の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
@@ -1181,7 +1265,7 @@ render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./serv
 <script id="fieldTest263SoftMotion">
 (function(){
   /*
-    FIELD TEST 28 TRANSPARENT — SMOOTH TIMING
+    Ver.4.1 — SMOOTH TIMING
     The approved 8 real-person frames are UNCHANGED.
     Improvement is timing-only:
       - cadence estimate is filtered
