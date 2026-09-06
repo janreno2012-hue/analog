@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.1.3 BALANCE HUD — G-ball/legacy 2D panel removed. */
+/* Ver.4.1.4 GUI-1 — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -475,7 +475,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.1.3 BALANCE HUD</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.1.4 GUI-1</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -506,12 +506,12 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.3</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.4</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.3 BALANCE HUD</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">BALANCE HUD / Ver.4.1.3</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.4 GUI-1</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GUI-1 / Ver.4.1.4</div></div>
 <div id="hudIndicators412"><div class="hudInd412">📍<b id="hudGps412" class="off">GPS</b></div><div class="hudInd412">🐻<b id="hudBell412" class="off">OFF</b></div><div class="hudInd412">🔋<b id="hudBattery412">--%</b></div></div>
 <div id="cgAvgPanel412" class="hudGlass"><div class="ttl">重心の平均ズレ</div><div class="cgAvgRow412"><span>前後 (Z)</span><b id="cgAvgZ412" class="z">--</b></div><div class="cgAvgRow412"><span>左右 (X)</span><b id="cgAvgX412" class="x">--</b></div><div class="cgAvgRow412"><span>上下 (Y)</span><b id="cgAvgY412" class="y">--</b></div><div class="cgAvgRow412"><span>安定度</span><b id="cgStable412">--%</b></div><div class="note">端末センサーの校正基準からの平均偏差。cm換算はせず実測センサー値で表示。</div></div>
 <div id="sideBalance412" class="hudGlass"><div class="ttl">側面からのバランス（リアルタイム）</div><canvas id="sideBalanceCanvas412"></canvas><div class="foot">後 ← Z → 前</div></div>
@@ -836,16 +836,51 @@ function updateBalanceHud412(){
  const bat=document.getElementById("hudBattery412");if(bat){if(batteryObj412){bat.textContent=Math.round(batteryObj412.level*100)+"%";bat.className=batteryObj412.level<.2?"warn":"";}else bat.textContent="--%";}
 }
 function drawSideBalance412(){
- if(!sideBalanceCtx412||!sideBalanceCanvas412)return;const g=sideBalanceCtx412,w=sideBalanceCanvas412.width,h=sideBalanceCanvas412.height,dpr=devicePixelRatio;g.clearRect(0,0,w,h);
- const live=getLiveBalanceXY(),fb=Math.max(-2.8,Math.min(2.8,Number(live.y)||0));const cx=w*.50,ground=h*.80,lean=fb*3.0*dpr;
- g.strokeStyle="rgba(255,255,255,.30)";g.lineWidth=1*dpr;g.beginPath();g.moveTo(w*.12,ground);g.lineTo(w*.88,ground);g.stroke();
- // profile walker, with slight sensor-driven lean
- g.save();g.translate(lean,0);g.strokeStyle="rgba(235,255,255,.88)";g.fillStyle="rgba(80,220,220,.32)";g.lineWidth=2*dpr;
- g.beginPath();g.arc(cx,h*.24,8*dpr,0,Math.PI*2);g.fill();g.stroke();g.beginPath();g.moveTo(cx,h*.33);g.lineTo(cx,h*.58);g.lineTo(cx-10*dpr,ground);g.moveTo(cx,h*.58);g.lineTo(cx+13*dpr,ground);g.moveTo(cx,h*.39);g.lineTo(cx+12*dpr,h*.50);g.stroke();g.restore();
- // forward/back axis and live point
- g.strokeStyle="rgba(100,145,255,.90)";g.fillStyle="rgba(100,145,255,.95)";g.lineWidth=1.2*dpr;g.beginPath();g.moveTo(w*.18,h*.57);g.lineTo(w*.82,h*.57);g.stroke();
- const px=cx+fb*13*dpr,py=h*.57;const rg=g.createRadialGradient(px,py,0,px,py,15*dpr);rg.addColorStop(0,"rgba(255,55,35,.75)");rg.addColorStop(.35,"rgba(255,220,20,.35)");rg.addColorStop(1,"rgba(0,220,190,0)");g.fillStyle=rg;g.beginPath();g.arc(px,py,15*dpr,0,Math.PI*2);g.fill();g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,3.5*dpr,0,Math.PI*2);g.fill();g.strokeStyle="#fff";g.lineWidth=1*dpr;g.stroke();
- g.fillStyle="rgba(255,255,255,.92)";g.font=(7*dpr)+"px sans-serif";g.textAlign="center";g.fillText("後",w*.12,h*.60);g.fillText("前",w*.88,h*.60);
+ if(!sideBalanceCtx412||!sideBalanceCanvas412)return;
+ const g=sideBalanceCtx412,w=sideBalanceCanvas412.width,h=sideBalanceCanvas412.height,dpr=devicePixelRatio;
+ g.clearRect(0,0,w,h);
+ const live=getLiveBalanceXY(),fb=Math.max(-2.8,Math.min(2.8,Number(live.y)||0));
+ const cx=w*.50,ground=h*.84,lean=fb*2.5*dpr;
+ g.strokeStyle="rgba(255,255,255,.28)";g.lineWidth=1*dpr;
+ g.beginPath();g.moveTo(w*.10,ground);g.lineTo(w*.90,ground);g.stroke();
+
+ // Human side silhouette: head, neck, torso/backpack, pelvis, arms and two legs.
+ g.save();g.translate(lean,0);
+ g.lineCap="round";g.lineJoin="round";
+ g.fillStyle="rgba(215,250,248,.32)";g.strokeStyle="rgba(240,255,255,.92)";g.lineWidth=1.5*dpr;
+ g.beginPath();g.ellipse(cx+2*dpr,h*.20,7.5*dpr,9*dpr,-.08,0,Math.PI*2);g.fill();g.stroke();
+ g.beginPath();
+ g.moveTo(cx,h*.29);g.quadraticCurveTo(cx-3*dpr,h*.40,cx-1*dpr,h*.54);
+ g.quadraticCurveTo(cx+7*dpr,h*.59,cx+9*dpr,h*.48);
+ g.quadraticCurveTo(cx+10*dpr,h*.37,cx+5*dpr,h*.29);g.closePath();g.fill();g.stroke();
+ // backpack
+ g.fillStyle="rgba(25,72,86,.62)";
+ g.beginPath();g.roundRect(cx-10*dpr,h*.31,9*dpr,h*.22,4*dpr);g.fill();g.stroke();
+ // pelvis
+ g.fillStyle="rgba(100,220,210,.28)";
+ g.beginPath();g.ellipse(cx+2*dpr,h*.57,9*dpr,6*dpr,0,0,Math.PI*2);g.fill();g.stroke();
+ // arms and gait legs
+ g.beginPath();g.moveTo(cx+4*dpr,h*.34);g.lineTo(cx+12*dpr,h*.47);g.lineTo(cx+8*dpr,h*.59);
+ g.moveTo(cx,h*.60);g.lineTo(cx-10*dpr,h*.72);g.lineTo(cx-16*dpr,ground);
+ g.moveTo(cx+5*dpr,h*.60);g.lineTo(cx+16*dpr,h*.71);g.lineTo(cx+23*dpr,ground);
+ g.stroke();
+ // shoes
+ g.lineWidth=2.4*dpr;g.beginPath();g.moveTo(cx-17*dpr,ground);g.lineTo(cx-8*dpr,ground);
+ g.moveTo(cx+22*dpr,ground);g.lineTo(cx+31*dpr,ground);g.stroke();
+ g.restore();
+
+ // Forward/back axis and sensor-driven center point.
+ const py=h*.57,px=cx+fb*13*dpr;
+ g.strokeStyle="rgba(105,155,255,.95)";g.fillStyle="rgba(105,155,255,.95)";g.lineWidth=1.2*dpr;
+ g.beginPath();g.moveTo(w*.16,py);g.lineTo(w*.84,py);g.stroke();
+ const rg=g.createRadialGradient(px,py,0,px,py,16*dpr);
+ rg.addColorStop(0,"rgba(255,55,35,.85)");rg.addColorStop(.30,"rgba(255,220,20,.48)");
+ rg.addColorStop(.62,"rgba(30,220,145,.20)");rg.addColorStop(1,"rgba(0,220,190,0)");
+ g.fillStyle=rg;g.beginPath();g.arc(px,py,16*dpr,0,Math.PI*2);g.fill();
+ g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,3.7*dpr,0,Math.PI*2);g.fill();
+ g.strokeStyle="#fff";g.lineWidth=1*dpr;g.stroke();
+ g.fillStyle="rgba(255,255,255,.94)";g.font=(7*dpr)+"px sans-serif";g.textAlign="center";
+ g.fillText("後",w*.10,h*.60);g.fillText("前",w*.90,h*.60);
 }
 function drawElevMini412(){
  if(!elevMiniCtx412||!elevMiniCanvas412)return;const g=elevMiniCtx412,w=elevMiniCanvas412.width,h=elevMiniCanvas412.height,dpr=devicePixelRatio;g.clearRect(0,0,w,h);const a=(typeof route!=="undefined"?route:[]).filter(p=>Number.isFinite(p.smoothAlt));
@@ -1442,5 +1477,35 @@ render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./serv
 })();
 </script>
 
+
+
+<script id="ver414gui1layout">
+(function(){
+  function applyGui1Layout(){
+    const cards=[...document.querySelectorAll("section.card")];
+    const walkCard=cards.find(c=>c.querySelector("#start"));
+    const viewCard=cards.find(c=>{
+      const h=c.querySelector("h2");
+      return h && h.textContent.includes("3Dウォーキングビュー");
+    });
+    if(walkCard && viewCard && walkCard.nextElementSibling!==viewCard){
+      walkCard.parentNode.insertBefore(viewCard,walkCard.nextElementSibling);
+    }
+    if(viewCard){
+      viewCard.classList.add("gui1PrimaryView");
+      const intro=viewCard.querySelector(":scope > .mini");
+      if(intro) intro.textContent="リアルタイム体幹バランス表示。背面ビューで左右・上下・前後、側面ビューで前後バランスを確認します。";
+    }
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",applyGui1Layout);
+  else applyGui1Layout();
+})();
+</script>
+<style id="ver414gui1style">
+.gui1PrimaryView{border:2px solid rgba(17,145,125,.20)}
+.gui1PrimaryView>h2{margin-bottom:4px}
+.gui1PrimaryView>.mini{margin-bottom:10px}
+#sideBalance412 .ttl{font-size:9px!important}
+</style>
 
 </body></html>
