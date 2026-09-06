@@ -305,7 +305,7 @@ object-fit:cover!important;object-position:center center!important}
 
 
 <style id="fieldTest262HumanRestore">
-/* FIELD TEST 26.2 — HUMAN RESTORE / three independent layers */
+/* FIELD TEST 26.3 — HUMAN RESTORE / three independent layers */
 .walkScene{
   position:relative!important;
   overflow:hidden!important;
@@ -354,7 +354,7 @@ object-fit:cover!important;object-position:center center!important}
 
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 26.2</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.0 FIELD TEST 26.3</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -385,11 +385,11 @@ object-fit:cover!important;object-position:center center!important}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 26.2</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー FIELD TEST 26.3</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft262Ground"></div><div id="ft262Badge">FT26.2 REAL 8 FRAME</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+ <div id="ft262Ground"></div><div id="ft262Badge">FT26.3 SOFT START / COAST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
  <div id="walker" class="walker3d">
   <svg viewBox="0 0 150 245" aria-label="透過3D風ウォーカー">
    <defs>
@@ -1042,7 +1042,7 @@ $("save").onclick=()=>{
  minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.4.0 FIELD TEST 26.2の歩ログを保存しました。")
+ alert("Ver.4.0 FIELD TEST 26.3の歩ログを保存しました。")
 };
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
@@ -1102,6 +1102,134 @@ render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./serv
     }
     return oldAnimate && oldAnimate.apply(this,arguments);
   };
+})();
+</script>
+
+
+<script id="fieldTest263SoftMotion">
+(function(){
+  /*
+    FIELD TEST 26.3
+    - First detected step: soft acceleration instead of an instant 4-frame burst.
+    - While walking: cadence is smoothed from real step intervals.
+    - If steps temporarily stop: animation coasts and decelerates for a short time.
+    - Explicit app Stop still returns to the standing pose.
+  */
+  let phase = (typeof window.ft16Frame === "number" ? window.ft16Frame : 0);
+  let velocity = 0;          // animation frames per second
+  let targetVelocity = 0;
+  let lastDetectedStep = 0;
+  let previousDetectedStep = 0;
+  let expectedStepMs = 650;
+  let raf = 0;
+  let lastTick = performance.now();
+  let groundPhase = 0;
+  let active = false;
+
+  const MAX_FPS = 12.5;
+  const MIN_WALK_FPS = 4.4;
+  const START_ACCEL = 3.2;   // seconds^-1 response
+  const WALK_ACCEL  = 5.0;
+  const COAST_DECEL = 2.3;   // softer = longer inertia
+  const COAST_DELAY_FACTOR = 1.05;
+  const SETTLE_FPS = 0.20;
+
+  function frameSetter(idx){
+    if(typeof setPaperFrame16 === "function") setPaperFrame16(idx);
+  }
+
+  function applyGround(speed, dt){
+    const g = document.getElementById("ft262Ground");
+    if(!g) return;
+    // Ground movement is proportional to the SAME smoothed walking speed.
+    groundPhase = (groundPhase + speed * dt * 10.5) % 168;
+    g.style.backgroundPosition =
+      "0 "+groundPhase.toFixed(1)+"px,"+
+      "0 "+(groundPhase*1.23).toFixed(1)+"px,"+
+      "0 "+groundPhase.toFixed(1)+"px,0 0";
+  }
+
+  function loop(t){
+    const dt = Math.min(0.05, Math.max(0.001, (t-lastTick)/1000));
+    lastTick = t;
+
+    const now = performance.now();
+    const sinceStep = lastDetectedStep ? now-lastDetectedStep : 99999;
+    const coastDelay = Math.max(360, Math.min(1050, expectedStepMs*COAST_DELAY_FACTOR));
+
+    if(active && sinceStep > coastDelay){
+      targetVelocity = 0; // begin coasting after one expected step interval
+    }
+
+    const accel = targetVelocity > velocity
+      ? (velocity < 1 ? START_ACCEL : WALK_ACCEL)
+      : COAST_DECEL;
+
+    // Exponential easing gives natural fade-in / fade-out of movement.
+    const blend = 1 - Math.exp(-accel * dt);
+    velocity += (targetVelocity - velocity) * blend;
+
+    if(velocity > 0.03){
+      phase = (phase + velocity*dt) % 8;
+      frameSetter(Math.floor(phase) % 8);
+      applyGround(velocity, dt);
+    }
+
+    // After the coast is essentially finished, gently settle to the standing frame.
+    if(targetVelocity === 0 && velocity < SETTLE_FPS){
+      velocity = 0;
+      if(active){
+        active = false;
+        phase = 0;
+        frameSetter(0);
+      }
+    }
+
+    raf = requestAnimationFrame(loop);
+  }
+
+  // Override the old per-step burst. A step now "feeds" the smooth motion controller.
+  window.animatePaperWalkerStep = function(){
+    const now = performance.now();
+
+    if(lastDetectedStep){
+      const raw = now-lastDetectedStep;
+      if(raw > 250 && raw < 1800){
+        expectedStepMs = previousDetectedStep
+          ? expectedStepMs*0.68 + raw*0.32
+          : raw;
+        previousDetectedStep = lastDetectedStep;
+      }
+    }
+
+    lastDetectedStep = now;
+    active = true;
+
+    // 4 visual frames per physical step, converted into frames/sec.
+    const cadenceFps = 4000 / Math.max(320, Math.min(1400, expectedStepMs));
+    targetVelocity = Math.max(MIN_WALK_FPS, Math.min(MAX_FPS, cadenceFps));
+
+    // On the very first step, deliberately begin below target for a soft launch.
+    if(velocity === 0) velocity = Math.min(1.0, targetVelocity*0.16);
+  };
+
+  // Explicit Stop button remains decisive. Natural step gaps use the coast above.
+  const originalRest = window.ft26RestPose;
+  window.ft26RestPose = function(){
+    targetVelocity = 0;
+    velocity = 0;
+    active = false;
+    phase = 0;
+    lastDetectedStep = 0;
+    previousDetectedStep = 0;
+    frameSetter(0);
+    if(typeof originalRest === "function"){
+      try { originalRest(); } catch(e){}
+    }
+  };
+
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(loop);
 })();
 </script>
 
