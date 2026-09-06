@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.1.2 BALANCE HUD — G-ball/legacy 2D panel removed. */
+/* Ver.4.1.3 BALANCE HUD — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -475,7 +475,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.1.2 BALANCE HUD</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.1.3 BALANCE HUD</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -506,12 +506,12 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.2</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.3</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.2 BALANCE HUD</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">BALANCE HUD / Ver.4.1.2</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.3 BALANCE HUD</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">BALANCE HUD / Ver.4.1.3</div></div>
 <div id="hudIndicators412"><div class="hudInd412">📍<b id="hudGps412" class="off">GPS</b></div><div class="hudInd412">🐻<b id="hudBell412" class="off">OFF</b></div><div class="hudInd412">🔋<b id="hudBattery412">--%</b></div></div>
 <div id="cgAvgPanel412" class="hudGlass"><div class="ttl">重心の平均ズレ</div><div class="cgAvgRow412"><span>前後 (Z)</span><b id="cgAvgZ412" class="z">--</b></div><div class="cgAvgRow412"><span>左右 (X)</span><b id="cgAvgX412" class="x">--</b></div><div class="cgAvgRow412"><span>上下 (Y)</span><b id="cgAvgY412" class="y">--</b></div><div class="cgAvgRow412"><span>安定度</span><b id="cgStable412">--%</b></div><div class="note">端末センサーの校正基準からの平均偏差。cm換算はせず実測センサー値で表示。</div></div>
 <div id="sideBalance412" class="hudGlass"><div class="ttl">側面からのバランス（リアルタイム）</div><canvas id="sideBalanceCanvas412"></canvas><div class="foot">後 ← Z → 前</div></div>
@@ -832,7 +832,7 @@ function updateBalanceHud412(){
  if(ey)ey.textContent=cal?"校正中":signedDir412(st.mz,"上","下")+" m/s²";
  if(es)es.textContent=cal?"--%":Math.round(st.stability)+"%";
  const gps=document.getElementById("hudGps412");if(gps){const ok=running&&latestGpsPoint;gps.textContent=ok?"GPS":"GPS";gps.className=ok?"on":"off";}
- const bell=document.getElementById("hudBell412");if(bell){bell.textContent=bellEnabled?"ON":"OFF";bell.className=bellEnabled?"on":"off";}
+ const bell=document.getElementById("hudBell412");if(bell){const bellCtl=document.getElementById("bellSwitch");const bellOn=!!(bellCtl&&bellCtl.checked);bell.textContent=bellOn?"ON":"OFF";bell.className=bellOn?"on":"off";}
  const bat=document.getElementById("hudBattery412");if(bat){if(batteryObj412){bat.textContent=Math.round(batteryObj412.level*100)+"%";bat.className=batteryObj412.level<.2?"warn":"";}else bat.textContent="--%";}
 }
 function drawSideBalance412(){
