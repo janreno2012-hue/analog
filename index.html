@@ -445,9 +445,37 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 #cgDetailCanvas41{width:96px!important;height:82px!important}
 .cg41labels,.cg41small{font-size:8px!important}
 </style>
+
+<style id="ver412balancehud">
+/* Ver.4.1.2 BALANCE HUD — G-ball/legacy 2D panel removed. */
+#cgDetail41,#ft262Badge{display:none!important}
+#sceneBalanceCanvas{z-index:20!important}
+.walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
+#hudBrand412{left:8px;top:8px;width:150px;padding:7px 9px;line-height:1.18}
+#hudBrand412 .t1{font-size:14px;font-weight:900;letter-spacing:.02em}
+#hudBrand412 .t2{font-size:9px;font-weight:800;margin-top:2px;opacity:.95}
+#hudBrand412 .t3{font-size:8px;margin-top:2px;opacity:.82}
+#hudIndicators412{right:8px;top:8px;display:flex;gap:4px;z-index:24;position:absolute;pointer-events:none}
+.hudInd412{min-width:42px;padding:5px 5px 4px;text-align:center;border-radius:10px;background:rgba(0,61,65,.70);border:1px solid rgba(121,245,236,.68);color:#fff;font-size:8px;font-weight:800;line-height:1.1;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.hudInd412 b{display:block;font-size:11px;margin-top:2px}.hudInd412 .on{color:#83ff7a}.hudInd412 .off{color:#d7e5e3}.hudInd412 .warn{color:#ffe36b}
+#cgAvgPanel412{right:8px;top:54px;width:148px;padding:7px 8px}
+#cgAvgPanel412 .ttl{font-size:10px;font-weight:900;border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:4px;margin-bottom:4px}
+.cgAvgRow412{display:grid;grid-template-columns:44px 1fr;gap:4px;align-items:center;padding:2px 0;font-size:9px}.cgAvgRow412 b{text-align:right;font-size:10px}.cgAvgRow412 .x{color:#ff9e98}.cgAvgRow412 .z{color:#91b7ff}.cgAvgRow412 .y{color:#9cffad}
+#cgAvgPanel412 .note{font-size:7px;opacity:.76;margin-top:4px;line-height:1.25}
+#sideBalance412{right:8px;bottom:49px;width:150px;padding:6px}
+#sideBalance412 .ttl{font-size:9px;font-weight:900;margin-bottom:3px;text-align:center}
+#sideBalanceCanvas412{display:block;width:138px;height:92px;border-radius:8px;background:rgba(235,252,250,.12)}
+#sideBalance412 .foot{font-size:7px;text-align:center;opacity:.86;margin-top:2px}
+#elevMini412{left:8px;bottom:49px;width:132px;padding:6px 7px}
+#elevMini412 .ttl{font-size:9px;font-weight:900;margin-bottom:2px}
+#elevMiniCanvas412{display:block;width:118px;height:38px}
+#balanceReadout{z-index:25!important;left:8px!important;right:8px!important;bottom:8px!important;background:rgba(0,76,70,.76)!important;border-color:rgba(104,255,237,.72)!important;padding:7px 9px!important;font-size:10px!important}
+@media (max-width:430px){#hudBrand412{width:134px}.hudInd412{min-width:36px;padding-left:3px;padding-right:3px}#cgAvgPanel412{width:132px}#sideBalance412{width:134px}#sideBalanceCanvas412{width:122px}#elevMini412{width:116px}#elevMiniCanvas412{width:102px}}
+</style>
+
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.0 Ver.4.1</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.1.2 BALANCE HUD</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -478,17 +506,16 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.1</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.2</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.1 G-BALL</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="cgDetail41">
-  <div class="cg41title">重心分布（2D）</div>
-  <canvas id="cgDetailCanvas41"></canvas>
-  <div class="cg41labels"><span>左</span><span>前 ↑</span><span>右</span></div>
-  <div class="cg41small" id="cgDetailText41">キャリブレーション中</div>
-</div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.2 BALANCE HUD</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">BALANCE HUD / Ver.4.1.2</div></div>
+<div id="hudIndicators412"><div class="hudInd412">📍<b id="hudGps412" class="off">GPS</b></div><div class="hudInd412">🐻<b id="hudBell412" class="off">OFF</b></div><div class="hudInd412">🔋<b id="hudBattery412">--%</b></div></div>
+<div id="cgAvgPanel412" class="hudGlass"><div class="ttl">重心の平均ズレ</div><div class="cgAvgRow412"><span>前後 (Z)</span><b id="cgAvgZ412" class="z">--</b></div><div class="cgAvgRow412"><span>左右 (X)</span><b id="cgAvgX412" class="x">--</b></div><div class="cgAvgRow412"><span>上下 (Y)</span><b id="cgAvgY412" class="y">--</b></div><div class="cgAvgRow412"><span>安定度</span><b id="cgStable412">--%</b></div><div class="note">端末センサーの校正基準からの平均偏差。cm換算はせず実測センサー値で表示。</div></div>
+<div id="sideBalance412" class="hudGlass"><div class="ttl">側面からのバランス（リアルタイム）</div><canvas id="sideBalanceCanvas412"></canvas><div class="foot">後 ← Z → 前</div></div>
+<div id="elevMini412" class="hudGlass"><div class="ttl">⛰ 高低差プロフィール</div><canvas id="elevMiniCanvas412"></canvas></div>
  <div id="walker" class="walker3d">
   <svg viewBox="0 0 150 245" aria-label="透過3D風ウォーカー">
    <defs>
@@ -544,7 +571,7 @@ let running=false,paused=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handl
 let route=[],routeDistance=0,lastDistancePoint=null,liveRouteSnapshot=null,viewingHistory=false,permissionState="unknown",mapCanvas=null,ctx=null,elevationCanvas=null,elevationCtx=null,motionEnabled=false,debugEnabled=false;
 let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
-let balanceBaseX=null,balanceBaseY=null,balancePos=0,balanceNeg=0,balanceSamples=0,balanceCalSteps=0,balancePoints=[],balanceLastSample=0,balanceCanvas=null,balanceCtx=null;
+let balanceBaseX=null,balanceBaseY=null,balanceBaseZ=null,balancePos=0,balanceNeg=0,balanceSamples=0,balanceCalSteps=0,balancePoints=[],balanceLastSample=0,balanceCanvas=null,balanceCtx=null;
 let walkSide=false,walkAnimTimer=null;
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
 function pad(x){return String(x).padStart(2,"0")}
@@ -653,7 +680,7 @@ function updateWalkerBalanceGlow(){
    const pts=balancePoints.slice(-18);tr.innerHTML=pts.map(p=>{const px=55+Math.max(-4,Math.min(4,Number(p.x)||0))*8,py=55+Math.max(-4,Math.min(4,Number(p.y)||0))*8;return '<i style="left:'+px+'px;top:'+py+'px"></i>';}).join("");
  }
  const br=$("balanceReadout");
- if(br){let txt="体幹バランス：";if(typeof balanceCalibrated!=="undefined"&&balanceCalibrated){let lr=(typeof balanceLeftPct!=="undefined"&&typeof balanceRightPct!=="undefined")?Math.round(balanceLeftPct)+" : "+Math.round(balanceRightPct):"計測中";let st=(typeof balanceStability!=="undefined"&&Number.isFinite(balanceStability))?Math.round(balanceStability)+"%":"--";txt+="左右 "+lr+" ／ 安定度 "+st;}else txt+="キャリブレーション中";br.textContent=txt;}
+ if(br){const st412=balanceStats412();let txt="体幹バランス：";if(balanceCalSteps>=20&&balancePoints.length){txt+=(st412.stability>=75?"良好（安定しています）":st412.stability>=50?"やや揺れあり":"揺れ大")+" ／ 安定度 "+Math.round(st412.stability)+"%";}else txt+="キャリブレーション中";br.textContent=txt;}
 }
 function updateWalkScene(){updateWalkerBalanceGlow();const w=$("walker"),scene=document.querySelector(".walkScene");if(scene){scene.classList.toggle("walking",running&&!paused);scene.classList.toggle("resting",!running||paused);}const fs=$("fieldSync");if(fs)fs.textContent="同期："+(running?(paused?"一時停止":(currentSpeed>0.25?"歩行中":"停止判定中")):"待機中")+" ／ 地面："+(running&&!paused&&currentSpeed>0.25?"前進":"停止")+" ／ 重心："+((typeof balanceCalibrated!=="undefined"&&balanceCalibrated)?"追従中":"キャリブレーション中");if(!w)return;$("walkerBell").style.display=bellEnabled?"":"none";if(!running){w.classList.remove("rest");$("sceneStatus").textContent="待機中";$("restBubble").classList.remove("show");return}if(paused||continuousStationaryMs>=30000){w.classList.add("rest");$("groundStripe").classList.remove("move");$("sceneStatus").textContent=paused?"PAUSE：休憩中":"停止中：休憩中";$("restBubble").classList.add("show")}else{w.classList.remove("rest");$("restBubble").classList.remove("show");$("sceneStatus").textContent=continuousStationaryMs>=10000?"立ち止まり中":"計測中";}}
 function hav(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
@@ -665,12 +692,12 @@ function motion(e){
  $("debugX").textContent=x.toFixed(2);$("debugY").textContent=y.toFixed(2);$("debugZ").textContent=z.toFixed(2);
  $("debugMag").textContent=m.toFixed(2);$("debugDelta").textContent=(delta>=0?"+":"")+delta.toFixed(2);
   if(running&&!paused){
-   if(balanceBaseX===null){balanceBaseX=x;balanceBaseY=y;}
+   if(balanceBaseX===null){balanceBaseX=x;balanceBaseY=y;balanceBaseZ=z;}
    const calibrating=balanceCalSteps<20;
-   if(calibrating){balanceBaseX=balanceBaseX*0.94+x*0.06;balanceBaseY=balanceBaseY*0.94+y*0.06;}
-   const dx=x-balanceBaseX,dy=y-balanceBaseY;window.__liveBalanceX=Math.max(-4,Math.min(4,dx));window.__liveBalanceY=Math.max(-4,Math.min(4,dy));
+   if(calibrating){balanceBaseX=balanceBaseX*0.94+x*0.06;balanceBaseY=balanceBaseY*0.94+y*0.06;balanceBaseZ=(balanceBaseZ===null?z:balanceBaseZ*0.94+z*0.06);}
+   const dx=x-balanceBaseX,dy=y-balanceBaseY,dz=z-(balanceBaseZ===null?z:balanceBaseZ);window.__liveBalanceX=Math.max(-4,Math.min(4,dx));window.__liveBalanceY=Math.max(-4,Math.min(4,dy));window.__liveBalanceZ=Math.max(-4,Math.min(4,dz));
    if(dx>0)balancePos+=Math.abs(dx);else balanceNeg+=Math.abs(dx);balanceSamples++;
-   const sampleNow=Date.now();if(!calibrating&&sampleNow-balanceLastSample>=100){balanceLastSample=sampleNow;balancePoints.push({x:Math.max(-4,Math.min(4,dx)),y:Math.max(-4,Math.min(4,dy))});if(balancePoints.length>600)balancePoints.shift();}
+   const sampleNow=Date.now();if(!calibrating&&sampleNow-balanceLastSample>=100){balanceLastSample=sampleNow;balancePoints.push({x:Math.max(-4,Math.min(4,dx)),y:Math.max(-4,Math.min(4,dy)),z:Math.max(-4,Math.min(4,dz))});if(balancePoints.length>600)balancePoints.shift();}
    updateBalanceUI();
   }
  let judged="監視中",now=Date.now();
@@ -722,71 +749,34 @@ function copyBalanceToScene(){
  if(!sceneBalanceCtx||!sceneBalanceCanvas)return;
  const g=sceneBalanceCtx,w=sceneBalanceCanvas.width,h=sceneBalanceCanvas.height,dpr=devicePixelRatio;
  g.clearRect(0,0,w,h);
-
- // Body reference origin: waist/pelvis. X=left/right, Y=up/down, Z=forward/back.
+ // Waist-centered heat distribution + axes. No 3D G-ball sphere.
  const ox=w*.50, oy=h*.555;
- const pts=(typeof balancePoints!=="undefined"&&Array.isArray(balancePoints))?balancePoints.slice(-36):[];
+ const pts=(typeof balancePoints!=="undefined"&&Array.isArray(balancePoints))?balancePoints.slice(-42):[];
  const live=getLiveBalanceXY();
- const sx=9*dpr, sy=8*dpr;
+ const sx=8.2*dpr, sy=7.2*dpr;
  const px=ox+Math.max(-3.2,Math.min(3.2,live.x))*sx;
  const py=oy+Math.max(-2.7,Math.min(2.7,live.y))*sy;
-
- g.save();
- g.globalCompositeOperation="source-over";
-
- // translucent distribution from recent real sensor samples
+ g.save();g.globalCompositeOperation="source-over";
  pts.forEach((p,i)=>{
    const x=ox+Math.max(-3.2,Math.min(3.2,Number(p.x)||0))*sx;
    const y=oy+Math.max(-2.7,Math.min(2.7,Number(p.y)||0))*sy;
-   const rr=(15+10*i/Math.max(1,pts.length))*dpr;
+   const rr=(14+12*i/Math.max(1,pts.length))*dpr;
    const gr=g.createRadialGradient(x,y,0,x,y,rr);
-   gr.addColorStop(0,"rgba(255,65,35,.10)");
-   gr.addColorStop(.28,"rgba(255,220,20,.08)");
-   gr.addColorStop(.58,"rgba(20,230,180,.055)");
-   gr.addColorStop(1,"rgba(0,180,255,0)");
+   gr.addColorStop(0,"rgba(255,55,35,.14)");gr.addColorStop(.28,"rgba(255,222,20,.10)");gr.addColorStop(.58,"rgba(24,220,150,.07)");gr.addColorStop(1,"rgba(0,190,255,0)");
    g.fillStyle=gr;g.beginPath();g.arc(x,y,rr,0,Math.PI*2);g.fill();
  });
-
- // Ver.4.1.1 G-BALL: translucent sphere centered at the live CoG.
- const rr=39*dpr;
- const halo=g.createRadialGradient(px-8*dpr,py-10*dpr,2*dpr,px,py,rr);
- halo.addColorStop(0,"rgba(255,248,120,.72)");
- halo.addColorStop(.18,"rgba(255,70,30,.60)");
- halo.addColorStop(.42,"rgba(255,220,20,.35)");
- halo.addColorStop(.68,"rgba(20,225,190,.22)");
- halo.addColorStop(1,"rgba(40,120,255,.08)");
- g.fillStyle=halo;g.beginPath();g.arc(px,py,rr,0,Math.PI*2);g.fill();
-
- // sphere outline and latitude/longitude grid
- g.save(); g.strokeStyle="rgba(235,250,255,.48)"; g.lineWidth=.8*dpr;
- g.beginPath();g.arc(px,py,rr,0,Math.PI*2);g.stroke();
- [-.55,0,.55].forEach(k=>{
-   g.beginPath();g.ellipse(px,py+k*rr,rr*Math.sqrt(1-k*k),rr*.18,0,0,Math.PI*2);g.stroke();
- });
- [-.62,0,.62].forEach(k=>{
-   g.beginPath();g.ellipse(px+k*rr*.45,py,rr*.20,rr*Math.sqrt(1-k*k),0,0,Math.PI*2);g.stroke();
- });
- g.restore();
-
- // XYZ axes, semi-transparent and aligned to the person/G-ball origin.
- g.lineWidth=1.5*dpr;g.font=(10*dpr)+"px sans-serif";g.textAlign="center";
- function arrow(x1,y1,x2,y2,color,label,lx,ly){
-   g.strokeStyle=color;g.fillStyle=color;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();
-   const a=Math.atan2(y2-y1,x2-x1),s=6*dpr;
-   g.beginPath();g.moveTo(x2,y2);g.lineTo(x2-s*Math.cos(a-.55),y2-s*Math.sin(a-.55));g.lineTo(x2-s*Math.cos(a+.55),y2-s*Math.sin(a+.55));g.closePath();g.fill();
-   g.fillText(label,lx,ly);
- }
- arrow(ox-46*dpr,oy,ox+46*dpr,oy,"rgba(255,85,70,.76)","X",ox+54*dpr,oy+3*dpr);
- arrow(ox,oy+58*dpr,ox,oy-72*dpr,"rgba(80,255,120,.72)","Y",ox+7*dpr,oy-77*dpr);
- // Z points visually forward: slightly down-left in rear-view perspective.
- arrow(ox,oy,ox-31*dpr,oy+43*dpr,"rgba(65,115,255,.82)","Z 前",ox-39*dpr,oy+51*dpr);
-
- g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,5*dpr,0,Math.PI*2);g.fill();
- g.strokeStyle="rgba(255,255,255,.9)";g.lineWidth=1.5*dpr;g.stroke();
- g.restore();
- drawCgDetail41();
+ // Live waist heat spot — intentionally flat, not spherical.
+ const rg=g.createRadialGradient(px,py,0,px,py,34*dpr);
+ rg.addColorStop(0,"rgba(255,55,35,.72)");rg.addColorStop(.20,"rgba(255,205,20,.48)");rg.addColorStop(.52,"rgba(34,210,120,.25)");rg.addColorStop(1,"rgba(0,190,255,0)");
+ g.fillStyle=rg;g.beginPath();g.arc(px,py,34*dpr,0,Math.PI*2);g.fill();
+ g.lineWidth=1.35*dpr;g.font=(9*dpr)+"px sans-serif";g.textAlign="center";
+ function arrow(x1,y1,x2,y2,color,label,lx,ly){g.strokeStyle=color;g.fillStyle=color;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();const a=Math.atan2(y2-y1,x2-x1),ss=5*dpr;g.beginPath();g.moveTo(x2,y2);g.lineTo(x2-ss*Math.cos(a-.55),y2-ss*Math.sin(a-.55));g.lineTo(x2-ss*Math.cos(a+.55),y2-ss*Math.sin(a+.55));g.closePath();g.fill();g.fillText(label,lx,ly);}
+ arrow(ox-43*dpr,oy,ox+43*dpr,oy,"rgba(255,80,70,.82)","X",ox+49*dpr,oy+3*dpr);
+ arrow(ox,oy+54*dpr,ox,oy-67*dpr,"rgba(70,255,115,.78)","Y",ox+6*dpr,oy-72*dpr);
+ arrow(ox,oy,ox-29*dpr,oy+38*dpr,"rgba(70,120,255,.88)","Z 前",ox-37*dpr,oy+46*dpr);
+ g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,4.5*dpr,0,Math.PI*2);g.fill();g.strokeStyle="rgba(255,255,255,.96)";g.lineWidth=1.5*dpr;g.stroke();g.restore();
+ drawSideBalance412();drawElevMini412();updateBalanceHud412();
 }
-
 let cgDetailCanvas41=null,cgDetailCtx41=null;
 function setupCgDetail41(){
  cgDetailCanvas41=document.getElementById("cgDetailCanvas41");
@@ -809,6 +799,59 @@ function drawCgDetail41(){
  if(t){const st=balanceStats();t.textContent=(balanceCalSteps<20?"校正中 "+balanceCalSteps+"/20歩":"現在位置＋直近の滞在分布");}
 }
 
+
+
+let sideBalanceCanvas412=null,sideBalanceCtx412=null,elevMiniCanvas412=null,elevMiniCtx412=null,batteryObj412=null;
+function setupBalanceHud412(){
+ sideBalanceCanvas412=document.getElementById("sideBalanceCanvas412");sideBalanceCtx412=sideBalanceCanvas412?sideBalanceCanvas412.getContext("2d"):null;
+ elevMiniCanvas412=document.getElementById("elevMiniCanvas412");elevMiniCtx412=elevMiniCanvas412?elevMiniCanvas412.getContext("2d"):null;
+ resizeBalanceHud412();window.addEventListener("resize",resizeBalanceHud412);
+ if(navigator.getBattery){navigator.getBattery().then(b=>{batteryObj412=b;const u=()=>updateBalanceHud412();b.addEventListener("levelchange",u);b.addEventListener("chargingchange",u);u();}).catch(()=>{});}
+ updateBalanceHud412();
+}
+function resizeBalanceHud412(){
+ [sideBalanceCanvas412,elevMiniCanvas412].forEach(c=>{if(!c)return;const r=c.getBoundingClientRect();c.width=Math.max(1,Math.round(r.width*devicePixelRatio));c.height=Math.max(1,Math.round(r.height*devicePixelRatio));});
+ drawSideBalance412();drawElevMini412();
+}
+function signedDir412(v,pos,neg){if(!Number.isFinite(v)||Math.abs(v)<.03)return "中央 0.00";return (v>0?pos:neg)+" "+Math.abs(v).toFixed(2);}
+function balanceStats412(){
+ const pts=(typeof balancePoints!=="undefined"&&Array.isArray(balancePoints))?balancePoints:[];
+ if(!pts.length)return {mx:0,my:0,mz:0,spread:0,stability:0};
+ const mx=pts.reduce((a,p)=>a+(Number(p.x)||0),0)/pts.length;
+ const my=pts.reduce((a,p)=>a+(Number(p.y)||0),0)/pts.length;
+ const mz=pts.reduce((a,p)=>a+(Number(p.z)||0),0)/pts.length;
+ const spread=Math.sqrt(pts.reduce((a,p)=>a+(Number(p.x||0)-mx)**2+(Number(p.y||0)-my)**2+(Number(p.z||0)-mz)**2,0)/pts.length);
+ return {mx,my,mz,spread,stability:Math.max(0,Math.min(100,100-spread*18))};
+}
+function updateBalanceHud412(){
+ const st=balanceStats412(),cal=(typeof balanceCalSteps!=="undefined"?balanceCalSteps:0)<20;
+ const ex=document.getElementById("cgAvgX412"),ez=document.getElementById("cgAvgZ412"),ey=document.getElementById("cgAvgY412"),es=document.getElementById("cgStable412");
+ // App convention: sensor X=left/right, sensor Y is shown as forward/back trend, sensor Z as vertical trend.
+ if(ex)ex.textContent=cal?"校正中":signedDir412(st.mx,"右","左")+" m/s²";
+ if(ez)ez.textContent=cal?"校正中":signedDir412(st.my,"前","後")+" m/s²";
+ if(ey)ey.textContent=cal?"校正中":signedDir412(st.mz,"上","下")+" m/s²";
+ if(es)es.textContent=cal?"--%":Math.round(st.stability)+"%";
+ const gps=document.getElementById("hudGps412");if(gps){const ok=running&&latestGpsPoint;gps.textContent=ok?"GPS":"GPS";gps.className=ok?"on":"off";}
+ const bell=document.getElementById("hudBell412");if(bell){bell.textContent=bellEnabled?"ON":"OFF";bell.className=bellEnabled?"on":"off";}
+ const bat=document.getElementById("hudBattery412");if(bat){if(batteryObj412){bat.textContent=Math.round(batteryObj412.level*100)+"%";bat.className=batteryObj412.level<.2?"warn":"";}else bat.textContent="--%";}
+}
+function drawSideBalance412(){
+ if(!sideBalanceCtx412||!sideBalanceCanvas412)return;const g=sideBalanceCtx412,w=sideBalanceCanvas412.width,h=sideBalanceCanvas412.height,dpr=devicePixelRatio;g.clearRect(0,0,w,h);
+ const live=getLiveBalanceXY(),fb=Math.max(-2.8,Math.min(2.8,Number(live.y)||0));const cx=w*.50,ground=h*.80,lean=fb*3.0*dpr;
+ g.strokeStyle="rgba(255,255,255,.30)";g.lineWidth=1*dpr;g.beginPath();g.moveTo(w*.12,ground);g.lineTo(w*.88,ground);g.stroke();
+ // profile walker, with slight sensor-driven lean
+ g.save();g.translate(lean,0);g.strokeStyle="rgba(235,255,255,.88)";g.fillStyle="rgba(80,220,220,.32)";g.lineWidth=2*dpr;
+ g.beginPath();g.arc(cx,h*.24,8*dpr,0,Math.PI*2);g.fill();g.stroke();g.beginPath();g.moveTo(cx,h*.33);g.lineTo(cx,h*.58);g.lineTo(cx-10*dpr,ground);g.moveTo(cx,h*.58);g.lineTo(cx+13*dpr,ground);g.moveTo(cx,h*.39);g.lineTo(cx+12*dpr,h*.50);g.stroke();g.restore();
+ // forward/back axis and live point
+ g.strokeStyle="rgba(100,145,255,.90)";g.fillStyle="rgba(100,145,255,.95)";g.lineWidth=1.2*dpr;g.beginPath();g.moveTo(w*.18,h*.57);g.lineTo(w*.82,h*.57);g.stroke();
+ const px=cx+fb*13*dpr,py=h*.57;const rg=g.createRadialGradient(px,py,0,px,py,15*dpr);rg.addColorStop(0,"rgba(255,55,35,.75)");rg.addColorStop(.35,"rgba(255,220,20,.35)");rg.addColorStop(1,"rgba(0,220,190,0)");g.fillStyle=rg;g.beginPath();g.arc(px,py,15*dpr,0,Math.PI*2);g.fill();g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,3.5*dpr,0,Math.PI*2);g.fill();g.strokeStyle="#fff";g.lineWidth=1*dpr;g.stroke();
+ g.fillStyle="rgba(255,255,255,.92)";g.font=(7*dpr)+"px sans-serif";g.textAlign="center";g.fillText("後",w*.12,h*.60);g.fillText("前",w*.88,h*.60);
+}
+function drawElevMini412(){
+ if(!elevMiniCtx412||!elevMiniCanvas412)return;const g=elevMiniCtx412,w=elevMiniCanvas412.width,h=elevMiniCanvas412.height,dpr=devicePixelRatio;g.clearRect(0,0,w,h);const a=(typeof route!=="undefined"?route:[]).filter(p=>Number.isFinite(p.smoothAlt));
+ if(a.length<2){g.fillStyle="rgba(255,255,255,.72)";g.font=(7*dpr)+"px sans-serif";g.fillText("GPS標高待機中",5*dpr,h*.62);return;}
+ const lo=Math.min(...a.map(p=>p.smoothAlt)),hi=Math.max(...a.map(p=>p.smoothAlt)),span=Math.max(1,hi-lo);g.strokeStyle="rgba(220,255,255,.95)";g.lineWidth=1.2*dpr;g.beginPath();a.forEach((p,i)=>{const x=i/(a.length-1)*(w-4*dpr)+2*dpr,y=h-3*dpr-(p.smoothAlt-lo)/span*(h-8*dpr);if(i)g.lineTo(x,y);else g.moveTo(x,y);});g.stroke();
+}
 
 // FIELD TEST 26: 4-keyframe rear-view walk cycle on the visible canvas silhouette.
 let ft12Phase = 0; // FIELD TEST 26: 8-phase rear-view gait
@@ -853,7 +896,7 @@ function drawBalanceMap(){
  g.strokeStyle='#fff';g.lineWidth=2*dpr;g.stroke();
 }
 function updateBalanceUI(){const total=balancePos+balanceNeg;if(!total||balanceSamples<10){$("balanceRatio").textContent="-- : --";$("balanceDiff").textContent="-- %";$("balanceMeanLR").textContent="--";$("balanceMeanFB").textContent="--";$("balanceStability").textContent="-- %";$("balanceStatus").textContent=running?(balanceCalSteps<20?"キャリブレーション中… "+balanceCalSteps+" / 20歩":"解析中") : "待機中";drawBalanceMap();copyBalanceToScene();return;}const l=balancePos/total*100,r=balanceNeg/total*100,d=Math.abs(l-r);$("balanceRatio").textContent=Math.round(l)+" : "+Math.round(r);$("balanceDiff").textContent=d.toFixed(1)+" %";const st=balanceStats(),lr=Math.abs(st.mx)<.08?"中央":(st.mx>0?"右寄り":"左寄り"),fb=Math.abs(st.my)<.08?"中央":(st.my>0?"前寄り":"後寄り"),stability=Math.max(0,Math.min(100,100-st.spread*22));$("balanceMeanLR").textContent=lr;$("balanceMeanFB").textContent=fb;$("balanceStability").textContent=balancePoints.length?Math.round(stability)+" %":"-- %";$("balanceStatus").textContent=balanceCalSteps<20?"キャリブレーション中… "+balanceCalSteps+" / 20歩":"β解析中（端末の向き・収納位置で前後左右は変わる場合があります）";drawBalanceMap();copyBalanceToScene();}
-function resetBalance(){balanceBaseX=null;balanceBaseY=null;balancePos=0;balanceNeg=0;balanceSamples=0;balanceCalSteps=0;balancePoints=[];balanceLastSample=0;updateBalanceUI()}
+function resetBalance(){balanceBaseX=null;balanceBaseY=null;balanceBaseZ=null;window.__liveBalanceZ=0;balancePos=0;balanceNeg=0;balanceSamples=0;balanceCalSteps=0;balancePoints=[];balanceLastSample=0;updateBalanceUI()}
 function metFor(speed,grade){
  let met = speed<3.2?2.8:speed<4.0?3.0:speed<4.8?3.5:speed<5.6?4.3:speed<6.4?5.0:6.0;
  if(grade>0) met += Math.min(3, grade/3);
@@ -1019,7 +1062,7 @@ function drawElevationProfile(){
  g.textAlign="right";g.fillText((routeDistance/1000).toFixed(2)+" km",w-padR,h-7*dpr);
 }
 setupMap();
-setInterval(()=>{try{updateWalkScene();if(running){drawBalanceMap();copyBalanceToScene();}}catch(e){}},250);setupBalanceCanvas();setupSceneBalanceCanvas();setupCgDetail41();drawBalanceMap();copyBalanceToScene();
+setInterval(()=>{try{updateWalkScene();if(running){drawBalanceMap();copyBalanceToScene();}}catch(e){}},250);setupBalanceCanvas();setupSceneBalanceCanvas();setupBalanceHud412();drawBalanceMap();copyBalanceToScene();
 function setupThresholdControls(){
  const sync=()=>{
   deltaThreshold=parseFloat($("deltaThreshold").value);
