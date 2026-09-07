@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.1.5 GUI POSITION FIX — G-ball/legacy 2D panel removed. */
+/* Ver.4.1.6 GUI FULL MATCH — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -475,7 +475,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.1.5 GUI POSITION FIX</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.1.6 GUI FULL MATCH</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -506,12 +506,12 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.5</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.6</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.5 GUI POSITION FIX</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GUI-1 / Ver.4.1.5</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.6 GUI FULL MATCH</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GUI FULL MATCH / Ver.4.1.6</div></div>
 <div id="hudIndicators412"><div class="hudInd412">📍<b id="hudGps412" class="off">GPS</b></div><div class="hudInd412">🐻<b id="hudBell412" class="off">OFF</b></div><div class="hudInd412">🔋<b id="hudBattery412">--%</b></div></div>
 <div id="cgAvgPanel412" class="hudGlass"><div class="ttl">重心の平均ズレ</div><div class="cgAvgRow412"><span>前後 (Z)</span><b id="cgAvgZ412" class="z">--</b></div><div class="cgAvgRow412"><span>左右 (X)</span><b id="cgAvgX412" class="x">--</b></div><div class="cgAvgRow412"><span>上下 (Y)</span><b id="cgAvgY412" class="y">--</b></div><div class="cgAvgRow412"><span>安定度</span><b id="cgStable412">--%</b></div><div class="note">端末センサーの校正基準からの平均偏差。cm換算はせず実測センサー値で表示。</div></div>
 <div id="sideBalance412" class="hudGlass"><div class="ttl">側面からのバランス（リアルタイム）</div><canvas id="sideBalanceCanvas412"></canvas><div class="foot">後 ← Z → 前</div></div>
@@ -840,47 +840,51 @@ function drawSideBalance412(){
  const g=sideBalanceCtx412,w=sideBalanceCanvas412.width,h=sideBalanceCanvas412.height,dpr=devicePixelRatio;
  g.clearRect(0,0,w,h);
  const live=getLiveBalanceXY(),fb=Math.max(-2.8,Math.min(2.8,Number(live.y)||0));
- const cx=w*.50,ground=h*.84,lean=fb*2.5*dpr;
+ const cx=w*.51, ground=h*.86, hipY=h*.55, lean=fb*2.4*dpr;
  g.strokeStyle="rgba(255,255,255,.28)";g.lineWidth=1*dpr;
- g.beginPath();g.moveTo(w*.10,ground);g.lineTo(w*.90,ground);g.stroke();
+ g.beginPath();g.moveTo(w*.08,ground);g.lineTo(w*.92,ground);g.stroke();
 
- // Human side silhouette: head, neck, torso/backpack, pelvis, arms and two legs.
- g.save();g.translate(lean,0);
- g.lineCap="round";g.lineJoin="round";
- g.fillStyle="rgba(215,250,248,.32)";g.strokeStyle="rgba(240,255,255,.92)";g.lineWidth=1.5*dpr;
- g.beginPath();g.ellipse(cx+2*dpr,h*.20,7.5*dpr,9*dpr,-.08,0,Math.PI*2);g.fill();g.stroke();
- g.beginPath();
- g.moveTo(cx,h*.29);g.quadraticCurveTo(cx-3*dpr,h*.40,cx-1*dpr,h*.54);
- g.quadraticCurveTo(cx+7*dpr,h*.59,cx+9*dpr,h*.48);
- g.quadraticCurveTo(cx+10*dpr,h*.37,cx+5*dpr,h*.29);g.closePath();g.fill();g.stroke();
+ g.save();g.translate(lean,0);g.lineCap="round";g.lineJoin="round";
+ // head + hair/cap
+ g.fillStyle="rgba(222,249,247,.36)";g.strokeStyle="rgba(245,255,255,.96)";g.lineWidth=1.35*dpr;
+ g.beginPath();g.ellipse(cx+3*dpr,h*.18,8*dpr,9*dpr,-.05,0,Math.PI*2);g.fill();g.stroke();
+ g.fillStyle="rgba(17,56,67,.70)";g.beginPath();g.ellipse(cx+1*dpr,h*.145,8*dpr,4*dpr,-.05,Math.PI,Math.PI*2);g.fill();
+ // neck/torso with chest/back curve
+ g.fillStyle="rgba(100,225,215,.24)";
+ g.beginPath();g.moveTo(cx,h*.27);g.quadraticCurveTo(cx+8*dpr,h*.34,cx+9*dpr,h*.46);
+ g.quadraticCurveTo(cx+8*dpr,h*.53,cx+4*dpr,hipY);
+ g.quadraticCurveTo(cx-5*dpr,h*.53,cx-4*dpr,h*.39);
+ g.quadraticCurveTo(cx-3*dpr,h*.31,cx,h*.27);g.closePath();g.fill();g.stroke();
  // backpack
- g.fillStyle="rgba(25,72,86,.62)";
- g.beginPath();g.roundRect(cx-10*dpr,h*.31,9*dpr,h*.22,4*dpr);g.fill();g.stroke();
+ g.fillStyle="rgba(9,51,66,.72)";g.beginPath();g.roundRect(cx-13*dpr,h*.29,10*dpr,h*.22,4*dpr);g.fill();g.stroke();
+ g.strokeStyle="rgba(210,255,250,.85)";g.lineWidth=1.2*dpr;
+ // arm
+ g.beginPath();g.moveTo(cx+5*dpr,h*.32);g.quadraticCurveTo(cx+12*dpr,h*.43,cx+9*dpr,h*.56);g.stroke();
  // pelvis
- g.fillStyle="rgba(100,220,210,.28)";
- g.beginPath();g.ellipse(cx+2*dpr,h*.57,9*dpr,6*dpr,0,0,Math.PI*2);g.fill();g.stroke();
- // arms and gait legs
- g.beginPath();g.moveTo(cx+4*dpr,h*.34);g.lineTo(cx+12*dpr,h*.47);g.lineTo(cx+8*dpr,h*.59);
- g.moveTo(cx,h*.60);g.lineTo(cx-10*dpr,h*.72);g.lineTo(cx-16*dpr,ground);
- g.moveTo(cx+5*dpr,h*.60);g.lineTo(cx+16*dpr,h*.71);g.lineTo(cx+23*dpr,ground);
+ g.fillStyle="rgba(70,200,195,.26)";g.beginPath();g.ellipse(cx+2*dpr,hipY,9*dpr,6*dpr,.05,0,Math.PI*2);g.fill();g.stroke();
+ // gait legs, knees, calves and feet
+ g.lineWidth=2*dpr;
+ g.beginPath();
+ g.moveTo(cx-1*dpr,h*.59);g.lineTo(cx-10*dpr,h*.70);g.lineTo(cx-17*dpr,h*.83);g.lineTo(cx-26*dpr,ground);
+ g.moveTo(cx+6*dpr,h*.59);g.lineTo(cx+15*dpr,h*.69);g.lineTo(cx+24*dpr,h*.79);g.lineTo(cx+31*dpr,ground);
  g.stroke();
- // shoes
- g.lineWidth=2.4*dpr;g.beginPath();g.moveTo(cx-17*dpr,ground);g.lineTo(cx-8*dpr,ground);
- g.moveTo(cx+22*dpr,ground);g.lineTo(cx+31*dpr,ground);g.stroke();
+ g.lineWidth=3*dpr;g.beginPath();g.moveTo(cx-27*dpr,ground);g.lineTo(cx-16*dpr,ground);
+ g.moveTo(cx+30*dpr,ground);g.lineTo(cx+42*dpr,ground);g.stroke();
  g.restore();
 
- // Forward/back axis and sensor-driven center point.
- const py=h*.57,px=cx+fb*13*dpr;
- g.strokeStyle="rgba(105,155,255,.95)";g.fillStyle="rgba(105,155,255,.95)";g.lineWidth=1.2*dpr;
- g.beginPath();g.moveTo(w*.16,py);g.lineTo(w*.84,py);g.stroke();
- const rg=g.createRadialGradient(px,py,0,px,py,16*dpr);
- rg.addColorStop(0,"rgba(255,55,35,.85)");rg.addColorStop(.30,"rgba(255,220,20,.48)");
- rg.addColorStop(.62,"rgba(30,220,145,.20)");rg.addColorStop(1,"rgba(0,220,190,0)");
- g.fillStyle=rg;g.beginPath();g.arc(px,py,16*dpr,0,Math.PI*2);g.fill();
- g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,3.7*dpr,0,Math.PI*2);g.fill();
+ // axes + live COG
+ const py=hipY,px=cx+fb*12*dpr;
+ g.strokeStyle="rgba(99,166,255,.98)";g.lineWidth=1.2*dpr;
+ g.beginPath();g.moveTo(w*.14,py);g.lineTo(w*.88,py);g.stroke();
+ g.strokeStyle="rgba(80,255,105,.90)";g.beginPath();g.moveTo(px,h*.28);g.lineTo(px,h*.82);g.stroke();
+ const rg=g.createRadialGradient(px,py,0,px,py,18*dpr);
+ rg.addColorStop(0,"rgba(255,50,25,.95)");rg.addColorStop(.25,"rgba(255,225,20,.65)");
+ rg.addColorStop(.55,"rgba(70,235,100,.24)");rg.addColorStop(1,"rgba(0,220,190,0)");
+ g.fillStyle=rg;g.beginPath();g.arc(px,py,18*dpr,0,Math.PI*2);g.fill();
+ g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,3.8*dpr,0,Math.PI*2);g.fill();
  g.strokeStyle="#fff";g.lineWidth=1*dpr;g.stroke();
- g.fillStyle="rgba(255,255,255,.94)";g.font=(7*dpr)+"px sans-serif";g.textAlign="center";
- g.fillText("後",w*.10,h*.60);g.fillText("前",w*.90,h*.60);
+ g.fillStyle="#fff";g.font=(7*dpr)+"px sans-serif";g.textAlign="center";
+ g.fillText("後",w*.09,h*.59);g.fillText("前",w*.92,h*.59);
 }
 function drawElevMini412(){
  if(!elevMiniCtx412||!elevMiniCanvas412)return;const g=elevMiniCtx412,w=elevMiniCanvas412.width,h=elevMiniCanvas412.height,dpr=devicePixelRatio;g.clearRect(0,0,w,h);const a=(typeof route!=="undefined"?route:[]).filter(p=>Number.isFinite(p.smoothAlt));
@@ -1479,38 +1483,225 @@ render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./serv
 
 
 
-<script id="ver414gui1layout">
+
+<script id="ver416fullmatch">
 (function(){
-  function applyGui1Layout(){
+  const $id=(id)=>document.getElementById(id);
+
+  function makeSummary(){
+    if($id("hudSummary416")) return;
+    const strip=document.createElement("div");
+    strip.id="hudSummary416";
+    strip.innerHTML=`
+      <div><span class="ico">◷</span><small>時間</small><b id="sumTime416">00:00:00</b></div>
+      <div><span class="ico">👣</span><small>歩数</small><b id="sumSteps416">0 歩</b></div>
+      <div><span class="ico">●</span><small>距離</small><b id="sumDist416">0 m</b></div>
+      <div><span class="ico">◴</span><small>速度</small><b id="sumSpeed416">-- km/h</b></div>
+      <div><span class="ico">◆</span><small>カロリー</small><b id="sumCal416">-- kcal</b></div>`;
+    const buttons=document.querySelector(".buttons");
+    if(buttons) buttons.parentNode.insertBefore(strip,buttons);
+  }
+
+  function applyLayout(){
     const cards=[...document.querySelectorAll("section.card")];
     const walkCard=cards.find(c=>c.querySelector("#start"));
-    const viewCard=cards.find(c=>{
-      const h=c.querySelector("h2");
-      return h && h.textContent.includes("3Dウォーキングビュー");
-    });
-    if(walkCard && viewCard){
-      /* Put the 3D view INSIDE the walking card, directly below START/PAUSE/STOP.
-         v4.1.4 only moved it below the whole walking card, so visually it barely changed. */
-      const buttons=walkCard.querySelector(".buttons");
-      if(buttons){
-        buttons.insertAdjacentElement("afterend",viewCard);
-      }
+    const viewCard=cards.find(c=>c.querySelector(".walkScene"));
+    if(!walkCard||!viewCard) return;
+
+    walkCard.classList.add("heroWalk416");
+    viewCard.classList.add("guiFullView416");
+
+    // Place the 3D field directly before the summary/buttons, like concept #1.
+    const buttons=walkCard.querySelector(".buttons");
+    if(buttons && viewCard.parentNode!==walkCard){
+      walkCard.insertBefore(viewCard,buttons);
+    } else if(buttons && viewCard.nextElementSibling!==buttons){
+      walkCard.insertBefore(viewCard,buttons);
     }
-    if(viewCard){
-      viewCard.classList.add("gui1PrimaryView");
-      const intro=viewCard.querySelector(":scope > .mini");
-      if(intro) intro.textContent="リアルタイム体幹バランス表示。背面ビューで左右・上下・前後、側面ビューで前後バランスを確認します。";
+
+    const intro=viewCard.querySelector(":scope > .mini");
+    if(intro) intro.style.display="none";
+    const h=viewCard.querySelector(":scope > h2");
+    if(h) h.style.display="none";
+
+    makeSummary();
+
+    // Hide the bulky legacy stat blocks in the hero area; data remains live in DOM.
+    walkCard.querySelectorAll(":scope > .stats4, :scope > #elevInfo, :scope > #calorieNote").forEach(e=>e.classList.add("legacyHeroHidden416"));
+
+    // Keep status/steps/time available to JS, but visually collapse them because the summary strip replaces them.
+    ["status","steps","timer"].forEach(id=>{ const e=$id(id); if(e) e.classList.add("legacyHeroHidden416"); });
+    const unit=document.querySelector(".heroWalk416 > .unit"); if(unit) unit.classList.add("legacyHeroHidden416");
+  }
+
+  function syncSummary(){
+    const text=(id, fallback="--")=>($id(id)?.textContent||fallback).trim();
+    const t=$id("sumTime416"); if(t)t.textContent=text("timer","00:00:00");
+    const st=$id("sumSteps416"); if(st)st.textContent=text("steps","0")+" 歩";
+    const d=$id("sumDist416"); if(d)d.textContent=text("distanceStat","0 m");
+    const sp=$id("sumSpeed416"); if(sp)sp.textContent=text("speed","-- km/h");
+    const c=$id("sumCal416"); if(c)c.textContent=text("calories","-- kcal");
+
+    // Better indicator wording.
+    const gps=$id("hudGps412");
+    if(gps){
+      const gm=text("gpsmsg","");
+      gps.textContent=/取得|捕捉|GPS点|精度|計測/.test(gm) ? "GPS" : "GPS";
+    }
+    const bell=$id("hudBell412");
+    if(bell){
+      const sw=$id("bellSwitch");
+      bell.textContent=sw?.checked ? "ON" : "OFF";
+      bell.className=sw?.checked ? "on" : "off";
     }
   }
-  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",applyGui1Layout);
-  else applyGui1Layout();
+
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",()=>{applyLayout();syncSummary();});
+  else {applyLayout();syncSummary();}
+  setInterval(syncSummary,400);
 })();
 </script>
-<style id="ver414gui1style">
-.gui1PrimaryView{border:2px solid rgba(17,145,125,.20);margin:14px 0 16px;padding:12px!important;box-shadow:none!important}
-.gui1PrimaryView>h2{margin-bottom:4px}
-.gui1PrimaryView>.mini{margin-bottom:10px}
-#sideBalance412 .ttl{font-size:9px!important}
+
+<style id="ver416fullmatchstyle">
+:root{
+  --hud:#004b50;
+  --hud2:#00646a;
+  --aqua:#58f4e7;
+  --line:rgba(100,255,239,.82);
+}
+body{background:#eef5f4}
+.wrap{max-width:640px!important;padding:0 10px 28px!important}
+header{
+  margin:8px 4px 10px!important;padding:12px 16px!important;border-radius:20px!important;
+  background:linear-gradient(135deg,#03535a,#063d51)!important;color:#fff!important;
+  box-shadow:0 8px 24px rgba(0,58,65,.18)
+}
+header .logo{font-size:22px!important;font-weight:900!important}
+header .sub{font-size:12px!important;color:rgba(255,255,255,.84)!important;margin-top:2px!important}
+.heroWalk416{padding:12px!important;border-radius:24px!important;background:#fff!important;box-shadow:0 8px 28px rgba(30,76,72,.10)!important}
+.heroWalk416>h2{display:none!important}
+.heroWalk416>#msg,.heroWalk416>#gpsmsg{display:none!important}
+.legacyHeroHidden416{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
+
+.guiFullView416{
+  margin:0!important;padding:0!important;border:0!important;border-radius:22px!important;
+  background:transparent!important;box-shadow:none!important;overflow:visible!important
+}
+.guiFullView416>.walkScene{
+  margin:0!important;height:610px!important;border-radius:22px!important;overflow:hidden!important;
+  box-shadow:0 8px 24px rgba(0,60,65,.16)!important
+}
+/* Enlarge the central walker without changing the frame engine. */
+.guiFullView416 #paperWalkerFrameA{
+  left:-5%!important;top:-1%!important;width:110%!important;height:101%!important;
+  object-fit:contain!important;object-position:center center!important
+}
+
+/* Concept-style brand. */
+#hudBrand412{
+  left:10px!important;top:10px!important;width:175px!important;padding:9px 11px!important;
+  border-radius:15px!important;background:linear-gradient(135deg,rgba(0,74,78,.92),rgba(2,58,71,.88))!important;
+  border:1px solid var(--line)!important
+}
+#hudBrand412 .t1{font-size:15px!important}
+#hudBrand412 .t2{font-size:10px!important}
+#hudBrand412 .t3{font-size:8px!important}
+
+/* GPS / bear bell / battery indicator matching concept image. */
+#hudIndicators412{right:10px!important;top:10px!important;gap:6px!important}
+.hudInd412{
+  min-width:48px!important;height:49px!important;box-sizing:border-box!important;
+  padding:5px 6px!important;border-radius:13px!important;
+  background:linear-gradient(180deg,rgba(0,83,92,.95),rgba(0,57,70,.93))!important;
+  border:1px solid var(--line)!important;box-shadow:0 3px 10px rgba(0,0,0,.16)!important;
+  font-size:15px!important
+}
+.hudInd412 b{font-size:11px!important;line-height:1.05!important;margin-top:1px!important}
+.hudInd412 .on{color:#66ff58!important}.hudInd412 .off{color:#f5ffff!important}
+
+/* Average panel moved far right and tightened to keep central hiker clear. */
+#cgAvgPanel412{
+  right:10px!important;top:73px!important;width:166px!important;padding:9px 10px!important;
+  border-radius:15px!important;background:rgba(0,58,66,.79)!important
+}
+#cgAvgPanel412 .ttl{font-size:11px!important}
+.cgAvgRow412{grid-template-columns:55px 1fr!important;font-size:9px!important}
+.cgAvgRow412 b{font-size:11px!important}
+#cgAvgPanel412 .note{font-size:7px!important}
+
+/* Smaller side panel, placed at the far lower-right; avoids body overlap. */
+#sideBalance412{
+  right:10px!important;bottom:62px!important;width:124px!important;padding:6px!important;
+  background:rgba(0,58,66,.72)!important;border-radius:14px!important
+}
+#sideBalance412 .ttl{font-size:8px!important;line-height:1.1!important}
+#sideBalanceCanvas412{width:112px!important;height:106px!important;background:rgba(230,255,250,.09)!important}
+#sideBalance412 .foot{font-size:7px!important}
+
+/* Elevation panel mirroring the concept. */
+#elevMini412{
+  left:10px!important;bottom:62px!important;width:145px!important;padding:7px 8px!important;
+  border-radius:14px!important;background:rgba(0,58,66,.75)!important
+}
+#elevMini412 .ttl{font-size:10px!important}
+#elevMiniCanvas412{width:129px!important;height:52px!important}
+#balanceReadout{
+  left:10px!important;right:10px!important;bottom:10px!important;padding:8px!important;
+  border-radius:14px!important;background:rgba(0,77,73,.84)!important;font-size:11px!important
+}
+
+/* Five-cell live summary strip. */
+#hudSummary416{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin:12px 0 10px;
+  padding:10px 4px;border-radius:18px;background:linear-gradient(180deg,#075b60,#034e53);
+  color:#fff;border:1px solid rgba(94,247,233,.55);box-shadow:0 6px 18px rgba(0,70,72,.14)
+}
+#hudSummary416>div{text-align:center;padding:0 4px;border-right:1px solid rgba(196,255,250,.45)}
+#hudSummary416>div:last-child{border-right:0}
+#hudSummary416 .ico{display:block;font-size:17px;height:19px}
+#hudSummary416 small{display:block;font-size:9px;font-weight:800;margin:2px 0 3px}
+#hudSummary416 b{display:block;font-size:13px;white-space:nowrap}
+
+/* Concept #1 START / PAUSE / STOP buttons. */
+.heroWalk416>.buttons{gap:8px!important;margin:0!important}
+.heroWalk416>.buttons button{
+  min-height:58px!important;border-radius:30px!important;font-size:18px!important;font-weight:900!important;
+  letter-spacing:.01em!important;border:2px solid rgba(255,255,255,.75)!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25),0 5px 13px rgba(0,0,0,.12)!important
+}
+.heroWalk416>.buttons .start{
+  background:linear-gradient(180deg,#12c68e,#00a875)!important;color:#fff!important
+}
+.heroWalk416>.buttons .pause{
+  background:linear-gradient(180deg,#fff0a7,#ffd95b)!important;color:#7b5810!important
+}
+.heroWalk416>.buttons .stop{
+  background:linear-gradient(180deg,#ff5471,#dc2144)!important;color:#fff!important
+}
+.heroWalk416>.buttons button:disabled{filter:saturate(.6);opacity:.58!important}
+
+/* keep field sync compact */
+.guiFullView416>#fieldSync{font-size:10px!important;margin:6px 5px 0!important;color:#607774!important}
+
+/* phone tuning */
+@media(max-width:430px){
+  .guiFullView416>.walkScene{height:560px!important}
+  #hudBrand412{width:145px!important;padding:7px 8px!important}
+  #hudIndicators412{gap:4px!important}
+  .hudInd412{min-width:42px!important;width:42px!important;height:44px!important;padding:4px 3px!important}
+  #cgAvgPanel412{width:140px!important;top:63px!important;padding:7px!important}
+  .cgAvgRow412{grid-template-columns:47px 1fr!important}
+  #sideBalance412{width:108px!important;bottom:58px!important}
+  #sideBalanceCanvas412{width:96px!important;height:92px!important}
+  #elevMini412{width:122px!important;bottom:58px!important}
+  #elevMiniCanvas412{width:106px!important}
+  #hudSummary416{padding:8px 2px!important}
+  #hudSummary416 .ico{font-size:14px!important}
+  #hudSummary416 small{font-size:8px!important}
+  #hudSummary416 b{font-size:11px!important}
+  .heroWalk416>.buttons button{font-size:15px!important;min-height:54px!important}
+}
 </style>
+
 
 </body></html>
