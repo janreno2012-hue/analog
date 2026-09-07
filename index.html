@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.2.4 FEMALE SYNC — G-ball/legacy 2D panel removed. */
+/* Ver.4.2.5 CALIBRATION — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -636,7 +636,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.2.4 FEMALE SYNC</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.2.5 CALIBRATION</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -668,13 +668,13 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.2.4</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.2.5</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.4 FEMALE SYNC</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">FEMALE SYNC / Ver.4.2.4</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.5 CALIBRATION</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">CALIBRATION / Ver.4.2.5</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -730,7 +730,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="groundParticle p1"></div><div class="groundParticle p2"></div><div class="groundParticle p3"></div><div class="groundParticle p4"></div>
 <div id="balanceReadout" class="balanceReadout">体幹バランス：キャリブレーション中</div>
 </div><div class="mini" id="fieldSync">同期：待機中 ／ 地面：停止 ／ 重心：キャリブレーション待ち</div></section>
-<section class="card" style="display:none"><h2>🧭 体幹バランス・重心分布 β</h2><div class="mini">端末の加速度から体幹の偏り・揺れを試験的に推定します。START後の最初の約20歩を基準に自動キャリブレーションします。</div><div class="stats4"><div class="stat"><div>左右バランス</div><div id="balanceRatio" class="value">-- : --</div></div><div class="stat"><div>左右差</div><div id="balanceDiff" class="value">-- %</div></div></div><div class="balanceViz"><canvas id="balanceCanvas" class="balanceCanvas"></canvas><div class="balanceLegend"><span>← 左</span><span>前 ↑　端末センサー推定　↓ 後</span><span>右 →</span></div><div class="balanceGrid"><div class="balanceMini">左右平均<b id="balanceMeanLR">--</b></div><div class="balanceMini">前後平均<b id="balanceMeanFB">--</b></div><div class="balanceMini">安定度<b id="balanceStability">-- %</b></div></div><div class="balanceHint">色が濃い場所ほど、その方向への揺れが多かったことを示します。人体の厳密な重心位置ではなく、スマホセンサーから見た体幹傾向です。</div></div><div id="balanceStatus" class="mini">待機中</div></section>
+<section class="card" style="display:none"><h2>🧭 体幹バランス・重心分布 β</h2><div class="mini">端末の加速度から体幹の偏り・揺れを試験的に推定します。START後に約3秒の姿勢基準を取得し、その後16歩または最大12秒で歩行パターンを自動キャリブレーションします。</div><div class="stats4"><div class="stat"><div>左右バランス</div><div id="balanceRatio" class="value">-- : --</div></div><div class="stat"><div>左右差</div><div id="balanceDiff" class="value">-- %</div></div></div><div class="balanceViz"><canvas id="balanceCanvas" class="balanceCanvas"></canvas><div class="balanceLegend"><span>← 左</span><span>前 ↑　端末センサー推定　↓ 後</span><span>右 →</span></div><div class="balanceGrid"><div class="balanceMini">左右平均<b id="balanceMeanLR">--</b></div><div class="balanceMini">前後平均<b id="balanceMeanFB">--</b></div><div class="balanceMini">安定度<b id="balanceStability">-- %</b></div></div><div class="balanceHint">色が濃い場所ほど、その方向への揺れが多かったことを示します。人体の厳密な重心位置ではなく、スマホセンサーから見た体幹傾向です。</div></div><div id="balanceStatus" class="mini">待機中</div></section>
 <section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="7" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B / RANDOM</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellRandomBtn" type="button" style="margin-bottom:10px">🎲 RANDOM：OFF</button>
 <button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
 <div id="routeViewStatus" class="mini" style="margin-bottom:8px">現在のウォーキングを表示中</div>
@@ -765,6 +765,10 @@ let route=[],routeDistance=0,lastDistancePoint=null,liveRouteSnapshot=null,viewi
 let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
 let balanceBaseX=null,balanceBaseY=null,balanceBaseZ=null,balancePos=0,balanceNeg=0,balanceSamples=0,balanceCalSteps=0,balancePoints=[],balanceLastSample=0,balanceCanvas=null,balanceCtx=null;
+let balanceCalPhase="idle",balanceCalStart=0,balanceWalkCalStart=0,balanceCalibrated=false;
+let balanceStaticSumX=0,balanceStaticSumY=0,balanceStaticSumZ=0,balanceStaticSamples=0;
+let balanceWalkSumX=0,balanceWalkSumY=0,balanceWalkSumZ=0,balanceWalkSamples=0;
+const BALANCE_STATIC_MS=3000,BALANCE_WALK_STEPS=16,BALANCE_WALK_MAX_MS=12000;
 let walkSide=false,walkAnimTimer=null;
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
 function pad(x){return String(x).padStart(2,"0")}
@@ -873,11 +877,46 @@ function updateWalkerBalanceGlow(){
    const pts=balancePoints.slice(-18);tr.innerHTML=pts.map(p=>{const px=55+Math.max(-4,Math.min(4,Number(p.x)||0))*8,py=55+Math.max(-4,Math.min(4,Number(p.y)||0))*8;return '<i style="left:'+px+'px;top:'+py+'px"></i>';}).join("");
  }
  const br=$("balanceReadout");
- if(br){const st412=balanceStats412();let txt="体幹バランス：";if(balanceCalSteps>=20&&balancePoints.length){txt+=(st412.stability>=75?"良好（安定しています）":st412.stability>=50?"やや揺れあり":"揺れ大")+" ／ 安定度 "+Math.round(st412.stability)+"%";}else txt+="キャリブレーション中";br.textContent=txt;}
+ if(br){const st412=balanceStats412();let txt="体幹バランス：";if(balanceCalibrated&&balancePoints.length){txt+=(st412.stability>=75?"良好（安定しています）":st412.stability>=50?"やや揺れあり":"揺れ大")+" ／ 安定度 "+Math.round(st412.stability)+"%";}else txt+="キャリブレーション中";br.textContent=txt;}
 }
-function updateWalkScene(){updateWalkerBalanceGlow();const w=$("walker"),scene=document.querySelector(".walkScene");if(scene){scene.classList.toggle("walking",running&&!paused);scene.classList.toggle("resting",!running||paused);}const fs=$("fieldSync");if(fs)fs.textContent="同期："+(running?(paused?"一時停止":(currentSpeed>0.25?"歩行中":"停止判定中")):"待機中")+" ／ 地面："+(running&&!paused&&currentSpeed>0.25?"前進":"停止")+" ／ 重心："+((typeof balanceCalibrated!=="undefined"&&balanceCalibrated)?"追従中":"キャリブレーション中");if(!w)return;$("walkerBell").style.display=bellEnabled?"":"none";if(!running){w.classList.remove("rest");$("sceneStatus").textContent="待機中";$("restBubble").classList.remove("show");return}if(paused||continuousStationaryMs>=30000){w.classList.add("rest");$("groundStripe").classList.remove("move");$("sceneStatus").textContent=paused?"PAUSE：休憩中":"停止中：休憩中";$("restBubble").classList.add("show")}else{w.classList.remove("rest");$("restBubble").classList.remove("show");$("sceneStatus").textContent=continuousStationaryMs>=10000?"立ち止まり中":"計測中";}}
+function updateWalkScene(){updateWalkerBalanceGlow();const w=$("walker"),scene=document.querySelector(".walkScene");if(scene){scene.classList.toggle("walking",running&&!paused);scene.classList.toggle("resting",!running||paused);}const fs=$("fieldSync");if(fs)fs.textContent="同期："+(running?(paused?"一時停止":(currentSpeed>0.25?"歩行中":"停止判定中")):"待機中")+" ／ 地面："+(running&&!paused&&currentSpeed>0.25?"前進":"停止")+" ／ 重心："+(balanceCalibrated?"追従中":calibrationLabel425());if(!w)return;$("walkerBell").style.display=bellEnabled?"":"none";if(!running){w.classList.remove("rest");$("sceneStatus").textContent="待機中";$("restBubble").classList.remove("show");return}if(paused||continuousStationaryMs>=30000){w.classList.add("rest");$("groundStripe").classList.remove("move");$("sceneStatus").textContent=paused?"PAUSE：休憩中":"停止中：休憩中";$("restBubble").classList.add("show")}else{w.classList.remove("rest");$("restBubble").classList.remove("show");$("sceneStatus").textContent=continuousStationaryMs>=10000?"立ち止まり中":"計測中";}}
 function hav(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
 function setDebugStatus(text){$("debugStatus").textContent=text}
+
+function startBalanceCalibration425(){
+ balanceCalPhase="static";balanceCalStart=Date.now();balanceWalkCalStart=0;balanceCalibrated=false;balanceCalSteps=0;
+ balanceStaticSumX=balanceStaticSumY=balanceStaticSumZ=0;balanceStaticSamples=0;
+ balanceWalkSumX=balanceWalkSumY=balanceWalkSumZ=0;balanceWalkSamples=0;
+ balanceBaseX=balanceBaseY=balanceBaseZ=null;balancePoints=[];balancePos=balanceNeg=balanceSamples=0;
+ window.__liveBalanceX=0;window.__liveBalanceY=0;window.__liveBalanceZ=0;
+ updateCalibrationStatus425();
+}
+function calibrationLabel425(){
+ if(!running||balanceCalPhase==="idle")return "キャリブレーション待ち";
+ if(balanceCalPhase==="static"){
+   const remain=Math.max(0,Math.ceil((BALANCE_STATIC_MS-(Date.now()-balanceCalStart))/1000));
+   return "姿勢基準取得中 "+remain+"秒";
+ }
+ if(balanceCalPhase==="walk")return "歩行パターン学習中 "+balanceCalSteps+"/"+BALANCE_WALK_STEPS+"歩";
+ return "キャリブレーション完了";
+}
+function finishBalanceCalibration425(){
+ if(balanceCalibrated)return;
+ if(balanceWalkSamples>0){
+   balanceBaseX += balanceWalkSumX/balanceWalkSamples;
+   balanceBaseY += balanceWalkSumY/balanceWalkSamples;
+   balanceBaseZ += balanceWalkSumZ/balanceWalkSamples;
+ }
+ balanceCalibrated=true;balanceCalPhase="done";balancePoints=[];balancePos=balanceNeg=balanceSamples=0;balanceLastSample=0;
+ updateCalibrationStatus425();
+}
+function updateCalibrationStatus425(){
+ const label=calibrationLabel425();
+ const br=$("balanceReadout");if(br)br.textContent="体幹バランス："+label;
+ const fs=$("fieldSync");if(fs)fs.textContent="同期："+(running?(paused?"一時停止":"歩行中"):"待機中")+" ／ 地面："+(running&&!paused&&currentSpeed>0.25?"前進":"停止")+" ／ 重心："+label;
+ updateBalanceHud412();
+}
+
 function motion(e){
  if(!e.accelerationIncludingGravity)return;
  const a=e.accelerationIncludingGravity,x=a.x||0,y=a.y||0,z=a.z||0,m=Math.hypot(x,y,z);
@@ -885,17 +924,41 @@ function motion(e){
  $("debugX").textContent=x.toFixed(2);$("debugY").textContent=y.toFixed(2);$("debugZ").textContent=z.toFixed(2);
  $("debugMag").textContent=m.toFixed(2);$("debugDelta").textContent=(delta>=0?"+":"")+delta.toFixed(2);
   if(running&&!paused){
-   if(balanceBaseX===null){balanceBaseX=x;balanceBaseY=y;balanceBaseZ=z;}
-   const calibrating=balanceCalSteps<20;
-   if(calibrating){balanceBaseX=balanceBaseX*0.94+x*0.06;balanceBaseY=balanceBaseY*0.94+y*0.06;balanceBaseZ=(balanceBaseZ===null?z:balanceBaseZ*0.94+z*0.06);}
-   const dx=x-balanceBaseX,dy=y-balanceBaseY,dz=z-(balanceBaseZ===null?z:balanceBaseZ);window.__liveBalanceX=Math.max(-4,Math.min(4,dx));window.__liveBalanceY=Math.max(-4,Math.min(4,dy));window.__liveBalanceZ=Math.max(-4,Math.min(4,dz));
-   if(dx>0)balancePos+=Math.abs(dx);else balanceNeg+=Math.abs(dx);balanceSamples++;
-   const sampleNow=Date.now();if(!calibrating&&sampleNow-balanceLastSample>=100){balanceLastSample=sampleNow;balancePoints.push({x:Math.max(-4,Math.min(4,dx)),y:Math.max(-4,Math.min(4,dy)),z:Math.max(-4,Math.min(4,dz))});if(balancePoints.length>600)balancePoints.shift();}
-   updateBalanceUI();
+   const t=Date.now();
+   if(balanceCalPhase==="static"){
+     balanceStaticSumX+=x;balanceStaticSumY+=y;balanceStaticSumZ+=z;balanceStaticSamples++;
+     window.__liveBalanceX=0;window.__liveBalanceY=0;window.__liveBalanceZ=0;
+     if(t-balanceCalStart>=BALANCE_STATIC_MS && balanceStaticSamples>0){
+       balanceBaseX=balanceStaticSumX/balanceStaticSamples;
+       balanceBaseY=balanceStaticSumY/balanceStaticSamples;
+       balanceBaseZ=balanceStaticSumZ/balanceStaticSamples;
+       balanceCalPhase="walk";balanceWalkCalStart=t;balanceCalSteps=0;
+     }
+     updateCalibrationStatus425();
+   }else{
+     if(balanceBaseX===null){balanceBaseX=x;balanceBaseY=y;balanceBaseZ=z;}
+     const dx=x-balanceBaseX,dy=y-balanceBaseY,dz=z-balanceBaseZ;
+     window.__liveBalanceX=Math.max(-4,Math.min(4,dx));window.__liveBalanceY=Math.max(-4,Math.min(4,dy));window.__liveBalanceZ=Math.max(-4,Math.min(4,dz));
+     if(balanceCalPhase==="walk"){
+       balanceWalkSumX+=dx;balanceWalkSumY+=dy;balanceWalkSumZ+=dz;balanceWalkSamples++;
+       if(t-balanceWalkCalStart>=BALANCE_WALK_MAX_MS)finishBalanceCalibration425();
+       else updateCalibrationStatus425();
+     }else if(balanceCalibrated){
+       if(dx>0)balancePos+=Math.abs(dx);else balanceNeg+=Math.abs(dx);balanceSamples++;
+       if(t-balanceLastSample>=100){balanceLastSample=t;balancePoints.push({x:Math.max(-4,Math.min(4,dx)),y:Math.max(-4,Math.min(4,dy)),z:Math.max(-4,Math.min(4,dz))});if(balancePoints.length>600)balancePoints.shift();}
+       updateBalanceUI();
+     }
+   }
   }
  let judged="監視中",now=Date.now();
  if(running&&!paused&&prevMag!==null&&delta>deltaThreshold&&m>magThreshold&&now-lastStep>intervalThreshold){
-   n++;balanceCalSteps++;lastWalkStepAt=now;continuousStationaryMs=0;animateWalkerStep();animatePaperWalkerStep();$("steps").textContent=n;$("pocketSteps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
+   n++;
+   if(balanceCalPhase==="walk"){
+     balanceCalSteps++;
+     if(balanceCalSteps>=BALANCE_WALK_STEPS)finishBalanceCalibration425();
+     else updateCalibrationStatus425();
+   }
+   lastWalkStepAt=now;continuousStationaryMs=0;animateWalkerStep();animatePaperWalkerStep();$("steps").textContent=n;$("pocketSteps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
  }
  $("debugStep").textContent=judged;prevMag=m;try{updateWalkerBalanceGlow();}catch(e){};
 }
@@ -989,7 +1052,7 @@ function drawCgDetail41(){
  const v=getLiveBalanceXY(),x=cx+Math.max(-3,Math.min(3,v.x))*s,y=cy-Math.max(-3,Math.min(3,v.y))*s;
  g.fillStyle="#ff3b30";g.beginPath();g.arc(x,y,8,0,Math.PI*2);g.fill();g.strokeStyle="#fff";g.lineWidth=3;g.stroke();
  const t=document.getElementById("cgDetailText41");
- if(t){const st=balanceStats();t.textContent=(balanceCalSteps<20?"校正中 "+balanceCalSteps+"/20歩":"現在位置＋直近の滞在分布");}
+ if(t){const st=balanceStats();t.textContent=(balanceCalibrated?"現在位置＋直近の滞在分布":calibrationLabel425());}
 }
 
 
@@ -1017,7 +1080,7 @@ function balanceStats412(){
  return {mx,my,mz,spread,stability:Math.max(0,Math.min(100,100-spread*18))};
 }
 function updateBalanceHud412(){
- const st=balanceStats412(),cal=(typeof balanceCalSteps!=="undefined"?balanceCalSteps:0)<20;
+ const st=balanceStats412(),cal=!balanceCalibrated;
  const ex=document.getElementById("cgAvgX412"),ez=document.getElementById("cgAvgZ412"),ey=document.getElementById("cgAvgY412"),es=document.getElementById("cgStable412");
  // App convention: sensor X=left/right, sensor Y is shown as forward/back trend, sensor Z as vertical trend.
  if(ex)ex.textContent=cal?"校正中":signedDir412(st.mx,"右","左")+" m/s²";
@@ -1100,8 +1163,8 @@ function drawBalanceMap(){
  g.fillStyle='#e74b35';g.beginPath();g.arc(p.x,p.y,5*dpr,0,Math.PI*2);g.fill();
  g.strokeStyle='#fff';g.lineWidth=2*dpr;g.stroke();
 }
-function updateBalanceUI(){const total=balancePos+balanceNeg;if(!total||balanceSamples<10){$("balanceRatio").textContent="-- : --";$("balanceDiff").textContent="-- %";$("balanceMeanLR").textContent="--";$("balanceMeanFB").textContent="--";$("balanceStability").textContent="-- %";$("balanceStatus").textContent=running?(balanceCalSteps<20?"キャリブレーション中… "+balanceCalSteps+" / 20歩":"解析中") : "待機中";drawBalanceMap();copyBalanceToScene();return;}const l=balancePos/total*100,r=balanceNeg/total*100,d=Math.abs(l-r);$("balanceRatio").textContent=Math.round(l)+" : "+Math.round(r);$("balanceDiff").textContent=d.toFixed(1)+" %";const st=balanceStats(),lr=Math.abs(st.mx)<.08?"中央":(st.mx>0?"右寄り":"左寄り"),fb=Math.abs(st.my)<.08?"中央":(st.my>0?"前寄り":"後寄り"),stability=Math.max(0,Math.min(100,100-st.spread*22));$("balanceMeanLR").textContent=lr;$("balanceMeanFB").textContent=fb;$("balanceStability").textContent=balancePoints.length?Math.round(stability)+" %":"-- %";$("balanceStatus").textContent=balanceCalSteps<20?"キャリブレーション中… "+balanceCalSteps+" / 20歩":"β解析中（端末の向き・収納位置で前後左右は変わる場合があります）";drawBalanceMap();copyBalanceToScene();}
-function resetBalance(){balanceBaseX=null;balanceBaseY=null;balanceBaseZ=null;window.__liveBalanceZ=0;balancePos=0;balanceNeg=0;balanceSamples=0;balanceCalSteps=0;balancePoints=[];balanceLastSample=0;updateBalanceUI()}
+function updateBalanceUI(){const total=balancePos+balanceNeg;if(!total||balanceSamples<10){$("balanceRatio").textContent="-- : --";$("balanceDiff").textContent="-- %";$("balanceMeanLR").textContent="--";$("balanceMeanFB").textContent="--";$("balanceStability").textContent="-- %";$("balanceStatus").textContent=running?(balanceCalibrated?"解析中":calibrationLabel425()) : "待機中";drawBalanceMap();copyBalanceToScene();return;}const l=balancePos/total*100,r=balanceNeg/total*100,d=Math.abs(l-r);$("balanceRatio").textContent=Math.round(l)+" : "+Math.round(r);$("balanceDiff").textContent=d.toFixed(1)+" %";const st=balanceStats(),lr=Math.abs(st.mx)<.08?"中央":(st.mx>0?"右寄り":"左寄り"),fb=Math.abs(st.my)<.08?"中央":(st.my>0?"前寄り":"後寄り"),stability=Math.max(0,Math.min(100,100-st.spread*22));$("balanceMeanLR").textContent=lr;$("balanceMeanFB").textContent=fb;$("balanceStability").textContent=balancePoints.length?Math.round(stability)+" %":"-- %";$("balanceStatus").textContent=balanceCalibrated?"β解析中（端末の向き・収納位置で前後左右は変わる場合があります）":calibrationLabel425();drawBalanceMap();copyBalanceToScene();}
+function resetBalance(){balanceBaseX=null;balanceBaseY=null;balanceBaseZ=null;window.__liveBalanceX=0;window.__liveBalanceY=0;window.__liveBalanceZ=0;balancePos=0;balanceNeg=0;balanceSamples=0;balanceCalSteps=0;balancePoints=[];balanceLastSample=0;balanceCalPhase="idle";balanceCalibrated=false;balanceStaticSamples=0;balanceWalkSamples=0;updateBalanceUI()}
 function metFor(speed,grade){
  let met = speed<3.2?2.8:speed<4.0?3.0:speed<4.8?3.5:speed<5.6?4.3:speed<6.4?5.0:6.0;
  if(grade>0) met += Math.min(3, grade/3);
@@ -1414,7 +1477,7 @@ $("start").onclick=async ()=>{
  t0=Date.now();lastWalkStepAt=Date.now();running=true;tick();timer=setInterval(tick,1000);requestWakeLock();
  $("status").textContent="計測中…";$("pauseState").textContent="計測中";$("start").disabled=true;$("pause").disabled=false;$("pause").textContent="Ⅱ PAUSE";$("stop").disabled=false;
  const ok=await enableMotion();
- if(ok){$("msg").textContent="歩数＋GPS＋速度・高度を計測中です。デバッグ表示は任意です。";}
+ if(ok){startBalanceCalibration425();$("msg").textContent="姿勢基準を3秒取得後、16歩または12秒で歩行パターンを学習します。";}
  else {$("msg").textContent="GPS＋速度・高度を計測中です。モーションセンサーを利用できないため歩数計測は停止しています。";}
  if(debugEnabled)$("debug").classList.add("show");
  if(bellEnabled)scheduleNextBell();
