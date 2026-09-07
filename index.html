@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.2.0 SIDEVIEW REBUILD — G-ball/legacy 2D panel removed. */
+/* Ver.4.2.0 GPS DEBUG — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -587,11 +587,12 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.2.0 SIDEVIEW REBUILD</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.2.0 GPS DEBUG</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
-<div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>距離</div><div id="distanceStat" class="value">0 m</div></div><div class="stat"><div>停止時間</div><div id="stoppedTime" class="value">00:00:00</div></div><div class="stat"><div>移動時間</div><div id="movingTime" class="value">00:00:00</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div><div class="stat"><div>状態</div><div id="pauseState" class="value">待機</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div id="calorieNote" class="mini">※体重を設定するとGPSの速度・傾斜・時間から推定消費カロリーを計算します。</div></section>
+<div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div>
+<div id="gpsDebug420" style="margin-top:8px;padding:9px 11px;border-radius:12px;background:#102f36;color:#eafffb;font:12px/1.45 monospace;white-space:pre-wrap">GPS DEBUG：START待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>距離</div><div id="distanceStat" class="value">0 m</div></div><div class="stat"><div>停止時間</div><div id="stoppedTime" class="value">00:00:00</div></div><div class="stat"><div>移動時間</div><div id="movingTime" class="value">00:00:00</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div><div class="stat"><div>状態</div><div id="pauseState" class="value">待機</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div id="calorieNote" class="mini">※体重を設定するとGPSの速度・傾斜・時間から推定消費カロリーを計算します。</div></section>
 <section class="card"><h2>🌙 OLEDポケットモード</h2>
 <div class="sensorrow"><div><b>ポケットモード</b><div class="mini">ONにするとSTART後に黒画面主体の省電力表示へ移行します。</div></div>
 <label class="switch"><input id="pocketSwitch" type="checkbox" checked><span class="slider"></span></label></div>
@@ -622,8 +623,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.0 SIDEVIEW REBUILD</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">SIDEVIEW REBUILD / Ver.4.2.0</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.0 GPS DEBUG</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GPS DEBUG / Ver.4.2.0</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1112,13 +1113,49 @@ function updateMetrics(){
  $("ascentStat").textContent=Math.round(totalAscent)+" m";
  $("descentStat").textContent=Math.round(totalDescent)+" m";
 }
-function startGPS(){
+
+function gpsDebug420(msg){
+ const el=document.getElementById("gpsDebug420");
+ if(el)el.textContent="GPS DEBUG："+msg;
+}
+async function gpsPermission420(){
+ if(!navigator.permissions||!navigator.permissions.query){gpsDebug420("権限API非対応 / GPS要求へ");return "unknown";}
+ try{
+  const p=await navigator.permissions.query({name:"geolocation"});
+  gpsDebug420("権限："+p.state+" / GPS要求準備");
+  p.onchange=()=>gpsDebug420("権限変更："+p.state);
+  return p.state;
+ }catch(e){gpsDebug420("権限確認不可 / GPS要求へ");return "unknown";}
+}
+
+async function startGPS(){
+ if(!navigator.geolocation){gpsDebug420("ERROR：Geolocation APIなし");return;}
+ const perm=await gpsPermission420();
+ if(perm==="denied"){gpsDebug420("ERROR：位置情報が拒否されています");return;}
+ gpsDebug420("単発測位を要求中…");
+ navigator.geolocation.getCurrentPosition(
+  p=>{
+   const acc=Math.round(p.coords.accuracy||0);
+   latestGpsPoint={lat:p.coords.latitude,lng:p.coords.longitude,time:Date.now(),accuracy:p.coords.accuracy};
+   lastGpsCallbackTime=Date.now();
+   gpsDebug420("単発受信OK / 精度 "+acc+"m / watch開始");
+   startGPS_watch420();
+  },
+  e=>{
+   const n={1:"PERMISSION_DENIED",2:"POSITION_UNAVAILABLE",3:"TIMEOUT"};
+   gpsDebug420("単発ERROR "+e.code+" "+(n[e.code]||"")+" / "+e.message+" / watch試行");
+   startGPS_watch420();
+  },
+  {enableHighAccuracy:true,maximumAge:0,timeout:15000}
+ );
+}
+function startGPS_watch420(){
  if(!navigator.geolocation){$("gpsmsg").textContent="📍 GPS：この端末では利用できません";return}
  $("gpsmsg").textContent="📍 GPS：取得中…";
  watchId=navigator.geolocation.watchPosition(p=>{
    const now=p.timestamp||Date.now();
    const x={lat:p.coords.latitude,lng:p.coords.longitude,alt:p.coords.altitude,speed:p.coords.speed,time:now};
-   latestGpsPoint={lat:x.lat,lng:x.lng,time:now,accuracy:p.coords.accuracy};lastGpsCallbackTime=now;
+   latestGpsPoint={lat:x.lat,lng:x.lng,time:now,accuracy:p.coords.accuracy};lastGpsCallbackTime=now;gpsDebug420("watch受信OK / 精度 "+Math.round(p.coords.accuracy||0)+"m / "+new Date(now).toLocaleTimeString());
    const last=route[route.length-1];
    let dt=0,acceptedD=0;
    if(last)dt=Math.max(0,(now-last.time)/1000);
@@ -1173,7 +1210,7 @@ function startGPS(){
    updateMetrics();
    $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";$("pocketGps").textContent="📍 GPS：精度 "+Math.round(p.coords.accuracy)+" m";
    $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length;
- },e=>{latestGpsPoint=null;$("gpsmsg").textContent="📍 GPS：取得できません（"+e.message+"）"},{enableHighAccuracy:true,maximumAge:3000,timeout:10000})
+ },e=>{latestGpsPoint=null;const n={1:"PERMISSION_DENIED",2:"POSITION_UNAVAILABLE",3:"TIMEOUT"};gpsDebug420("watch ERROR "+e.code+" "+(n[e.code]||"")+" / "+e.message);$("gpsmsg").textContent="📍 GPS：取得できません（"+e.message+"）"},{enableHighAccuracy:true,maximumAge:3000,timeout:10000})
 }
 function stopGPS(){if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}}
 function resetMap(){
