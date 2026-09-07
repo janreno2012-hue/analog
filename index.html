@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.2.7 GPS ROUTE FIX — G-ball/legacy 2D panel removed. */
+/* Ver.4.2.8 GPS ROUTE INTEGRATED — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -641,7 +641,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 .routeFoot426{margin-top:7px}
 </style></head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.2.7 GPS ROUTE FIX</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.2.8 GPS ROUTE INTEGRATED</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -683,8 +683,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="walkScene">
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.7 GPS ROUTE FIX</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GPS ROUTE FIX / Ver.4.2.7</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.8 GPS ROUTE INTEGRATED</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GPS ROUTE / Ver.4.2.8</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1268,6 +1268,7 @@ function startGPS(){
    } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
    x.smoothAlt=lastSmoothAlt;
    route.push(x);
+   drawGpsRouteCard428();
    drawRoute();
    updateMetrics();
    $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";
@@ -1280,7 +1281,7 @@ function resetMap(){
  route=[];routeDistance=0;lastDistancePoint=null;totalAscent=0;totalDescent=0;minAlt=null;maxAlt=null;lastSmoothAlt=null;
  currentSpeed=0;currentGrade=0;currentCalories=0;stationaryMs=0;continuousStationaryMs=0;lastGpsCallbackTime=0;latestGpsPoint=null;
   $("stoppedTime").textContent="00:00:00";$("movingTime").textContent="00:00:00";$("distanceStat").textContent="0 m";
- $("routeInfo").textContent="距離：0 m ／ GPS点：0";updateMetrics();drawRoute();drawElevationProfile()
+ $("routeInfo").textContent="距離：0 m ／ GPS点：0";updateMetrics();drawGpsRouteCard428();drawRoute();drawElevationProfile()
 }
 function setupMap(){
  const el=$("map");el.innerHTML="";mapCanvas=document.createElement("canvas");el.appendChild(mapCanvas);ctx=mapCanvas.getContext("2d");
@@ -1289,7 +1290,48 @@ function setupMap(){
 }
 function resizeMap(){if(mapCanvas){mapCanvas.width=$("map").clientWidth*devicePixelRatio;mapCanvas.height=$("map").clientHeight*devicePixelRatio;}if(elevationCanvas){elevationCanvas.width=elevationCanvas.clientWidth*devicePixelRatio;elevationCanvas.height=elevationCanvas.clientHeight*devicePixelRatio;}drawRoute();drawElevationProfile()}
 function thermalColor(t){t=Math.max(0,Math.min(1,t));const s=[[0,[30,80,220]],[.2,[0,180,255]],[.4,[30,190,110]],[.6,[255,220,0]],[.8,[255,130,0]],[1,[220,40,40]]];for(let i=1;i<s.length;i++){if(t<=s[i][0]){const a=s[i-1],b=s[i],u=(t-a[0])/(b[0]-a[0]),c=a[1].map((v,j)=>Math.round(v+(b[1][j]-v)*u));return"rgb("+c.join(",")+")"}}return"rgb(220,40,40)"}
-function drawRoute(){if(!ctx)return;const w=mapCanvas.width,h=mapCanvas.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle="#aab9b6";ctx.globalAlpha=.35;ctx.lineWidth=devicePixelRatio;for(let x=0;x<w;x+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=0;y<h;y+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}ctx.globalAlpha=1;if(!route.length)return;const minLat=Math.min(...route.map(p=>p.lat)),maxLat=Math.max(...route.map(p=>p.lat)),minLng=Math.min(...route.map(p=>p.lng)),maxLng=Math.max(...route.map(p=>p.lng)),pad=35*devicePixelRatio,dx=Math.max(maxLng-minLng,.00005),dy=Math.max(maxLat-minLat,.00005),scale=Math.min((w-2*pad)/dx,(h-2*pad)/dy),pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]),alts=route.map(p=>p.smoothAlt).filter(Number.isFinite),lo=alts.length?Math.min(...alts):0,hi=alts.length?Math.max(...alts):1;ctx.lineWidth=3*devicePixelRatio;ctx.lineCap="round";ctx.setLineDash([7*devicePixelRatio,7*devicePixelRatio]);for(let i=1;i<pts.length;i++){const t=Number.isFinite(route[i].smoothAlt)&&hi>lo?(route[i].smoothAlt-lo)/(hi-lo):.5;ctx.strokeStyle=thermalColor(t);ctx.beginPath();ctx.moveTo(...pts[i-1]);ctx.lineTo(...pts[i]);ctx.stroke()}ctx.setLineDash([]);const a=pts[0],b=pts.at(-1);ctx.fillStyle="#0f766e";ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.fillStyle=thermalColor(hi>lo&&Number.isFinite(route.at(-1).smoothAlt)?(route.at(-1).smoothAlt-lo)/(hi-lo):.5);ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();
+
+function drawGpsRouteCard428(){
+ const c=$("routeCanvas426"),st=$("routeState426"),di=$("routeDistance426");
+ if(!c)return;
+ const g=c.getContext("2d");if(!g)return;
+ const rect=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+ const W=Math.max(1,Math.round(rect.width*dpr)),H=Math.max(1,Math.round(rect.height*dpr));
+ if(c.width!==W||c.height!==H){c.width=W;c.height=H}
+ g.setTransform(dpr,0,0,dpr,0,0);
+ const w=rect.width,h=rect.height;
+ g.clearRect(0,0,w,h);
+
+ if(st){
+   const fresh=lastGpsCallbackTime>0&&(Date.now()-lastGpsCallbackTime)<15000;
+   st.textContent=route.length>1?"記録中":(fresh?"GPS受信中":"GPS待機中");
+ }
+ if(di)di.textContent="軌跡 "+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km");
+
+ g.strokeStyle="rgba(255,255,255,.12)";g.lineWidth=1;
+ for(let i=1;i<4;i++){g.beginPath();g.moveTo(0,h*i/4);g.lineTo(w,h*i/4);g.stroke()}
+
+ if(route.length<2){
+   g.fillStyle="rgba(255,255,255,.72)";g.font="13px sans-serif";g.textAlign="center";
+   g.fillText(lastGpsCallbackTime>0?"GPS位置を蓄積中…":"START後にGPS軌跡を描画",w/2,h/2+4);
+   return;
+ }
+
+ const minLat=Math.min(...route.map(p=>p.lat)),maxLat=Math.max(...route.map(p=>p.lat));
+ const minLng=Math.min(...route.map(p=>p.lng)),maxLng=Math.max(...route.map(p=>p.lng));
+ const pad=14,dx=Math.max(maxLng-minLng,0.00001),dy=Math.max(maxLat-minLat,0.00001);
+ const scale=Math.min((w-2*pad)/dx,(h-2*pad)/dy);
+ const cx=(minLng+maxLng)/2,cy=(minLat+maxLat)/2;
+ const xy=p=>[w/2+(p.lng-cx)*scale,h/2-(p.lat-cy)*scale];
+
+ g.strokeStyle="rgba(255,255,255,.96)";g.lineWidth=2;g.lineCap="round";g.lineJoin="round";g.setLineDash([3,5]);
+ g.beginPath();route.forEach((p,i)=>{const q=xy(p);i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1])});g.stroke();g.setLineDash([]);
+
+ const a=xy(route[0]);g.fillStyle="rgba(143,255,220,.95)";g.beginPath();g.arc(a[0],a[1],4,0,Math.PI*2);g.fill();
+ const b=xy(route[route.length-1]);g.fillStyle="#fff";g.beginPath();g.moveTo(b[0],b[1]-7);g.lineTo(b[0]-5,b[1]+5);g.lineTo(b[0]+5,b[1]+5);g.closePath();g.fill();
+}
+
+function drawRoute(){drawGpsRouteCard428();if(!ctx)return;const w=mapCanvas.width,h=mapCanvas.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle="#aab9b6";ctx.globalAlpha=.35;ctx.lineWidth=devicePixelRatio;for(let x=0;x<w;x+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=0;y<h;y+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}ctx.globalAlpha=1;if(!route.length)return;const minLat=Math.min(...route.map(p=>p.lat)),maxLat=Math.max(...route.map(p=>p.lat)),minLng=Math.min(...route.map(p=>p.lng)),maxLng=Math.max(...route.map(p=>p.lng)),pad=35*devicePixelRatio,dx=Math.max(maxLng-minLng,.00005),dy=Math.max(maxLat-minLat,.00005),scale=Math.min((w-2*pad)/dx,(h-2*pad)/dy),pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]),alts=route.map(p=>p.smoothAlt).filter(Number.isFinite),lo=alts.length?Math.min(...alts):0,hi=alts.length?Math.max(...alts):1;ctx.lineWidth=3*devicePixelRatio;ctx.lineCap="round";ctx.setLineDash([7*devicePixelRatio,7*devicePixelRatio]);for(let i=1;i<pts.length;i++){const t=Number.isFinite(route[i].smoothAlt)&&hi>lo?(route[i].smoothAlt-lo)/(hi-lo):.5;ctx.strokeStyle=thermalColor(t);ctx.beginPath();ctx.moveTo(...pts[i-1]);ctx.lineTo(...pts[i]);ctx.stroke()}ctx.setLineDash([]);const a=pts[0],b=pts.at(-1);ctx.fillStyle="#0f766e";ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.fillStyle=thermalColor(hi>lo&&Number.isFinite(route.at(-1).smoothAlt)?(route.at(-1).smoothAlt-lo)/(hi-lo):.5);ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();
  // 進行方向矢印
  if(pts.length>=2){
    const step=Math.max(4,Math.floor(pts.length/5));
@@ -1994,26 +2036,4 @@ header .sub{font-size:12px!important;color:rgba(255,255,255,.84)!important;margi
 })();
 </script>
 
-<script id="gpsRoute426Script">
-(function(){
- const c=document.getElementById("routeCanvas426"),st=document.getElementById("routeState426"),di=document.getElementById("routeDistance426");if(!c)return;
- const ctx=c.getContext("2d");
- function points(){try{if(typeof route!=="undefined"&&Array.isArray(route))return route}catch(e){}return[]}
- function draw(){
-  const r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;if(c.width!==Math.round(r.width*d)||c.height!==Math.round(r.height*d)){c.width=Math.round(r.width*d);c.height=Math.round(r.height*d)}
-  ctx.setTransform(d,0,0,d,0,0);let w=r.width,h=r.height;ctx.clearRect(0,0,w,h);
-  let a=points();
-  if(st){
-    let fresh=false;
-    try{fresh=typeof lastGpsCallbackTime!=="undefined"&&lastGpsCallbackTime>0&&(Date.now()-lastGpsCallbackTime)<15000}catch(e){}
-    st.textContent=a.length>1?"記録中":(fresh?"GPS受信中":"GPS待機中");
-  }
-  try{if(di&&typeof routeDistance!=="undefined")di.textContent="軌跡 "+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")}catch(e){}
-  if(a.length<2){ctx.fillStyle="rgba(255,255,255,.7)";ctx.font="13px sans-serif";ctx.textAlign="center";ctx.fillText("START後にGPS軌跡を描画",w/2,h/2);requestAnimationFrame(draw);return}
-  let la=a.map(p=>p.lat),ln=a.map(p=>p.lng),miLa=Math.min(...la),maLa=Math.max(...la),miLn=Math.min(...ln),maLn=Math.max(...ln),pad=15;
-  let dx=Math.max(1e-7,maLn-miLn),dy=Math.max(1e-7,maLa-miLa),xy=p=>[pad+(p.lng-miLn)/dx*(w-2*pad),h-pad-(p.lat-miLa)/dy*(h-2*pad)];
-  ctx.strokeStyle="rgba(255,255,255,.95)";ctx.lineWidth=2;ctx.setLineDash([3,5]);ctx.beginPath();a.forEach((p,i)=>{let q=xy(p);i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])});ctx.stroke();ctx.setLineDash([]);
-  let q=xy(a[a.length-1]);ctx.fillStyle="#fff";ctx.beginPath();ctx.moveTo(q[0],q[1]-7);ctx.lineTo(q[0]-5,q[1]+5);ctx.lineTo(q[0]+5,q[1]+5);ctx.closePath();ctx.fill();requestAnimationFrame(draw)
- } requestAnimationFrame(draw);
-})();
-</script></body></html>
+</body></html>
