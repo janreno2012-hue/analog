@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.2.8 GPS ROUTE INTEGRATED — G-ball/legacy 2D panel removed. */
+/* Ver.4.2.9 LAYOUT — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -634,24 +634,23 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 #sideBalance412{pointer-events:auto!important}
 </style>
 
-<style id="gpsRoute426Style">
-.gpsRoute426{padding:14px 16px!important}.routeHead426,.routeFoot426{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.routeHead426{font-size:18px;color:#164648;margin-bottom:8px}.routeHead426 span,.routeFoot426{font-size:12px;color:#587273}
-#routeCanvas426{display:block;width:100%;height:125px;border-radius:16px;background:linear-gradient(180deg,#0b6668,#084d55)}
-.routeFoot426{margin-top:7px}
-</style></head>
+</head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.2.8 GPS ROUTE INTEGRATED</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.2.9 LAYOUT</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
 <div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div>
 <div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>距離</div><div id="distanceStat" class="value">0 m</div></div><div class="stat"><div>停止時間</div><div id="stoppedTime" class="value">00:00:00</div></div><div class="stat"><div>移動時間</div><div id="movingTime" class="value">00:00:00</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div><div class="stat"><div>状態</div><div id="pauseState" class="value">待機</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div id="calorieNote" class="mini">※体重を設定するとGPSの速度・傾斜・時間から推定消費カロリーを計算します。</div></section>
-<section id="gpsRoute426" class="card gpsRoute426">
-<div class="routeHead426"><b>🗺️ GPS軌跡</b><span id="routeState426">GPS待機中</span></div>
-<canvas id="routeCanvas426"></canvas>
-<div class="routeFoot426"><span id="routeDistance426">軌跡 0 m</span><span>現在位置 ▲</span></div>
-</section>
+<section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
+<div id="routeViewStatus" class="mini" style="margin-bottom:8px">現在のウォーキングを表示中</div>
+<button id="returnLiveRoute" type="button" style="display:none;margin-bottom:10px">↩️ 今日の表示に戻る</button>
+<div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
+<div id="routeInfo" class="route">距離：0 m ／ GPS点：0</div>
+<h2 style="margin-top:18px">📈 高低差プロフィール</h2>
+<canvas id="elevationCanvas" class="elevationCanvas"></canvas>
+<div class="elevationLegend"><span>🔵 低い</span><span>標高カラー軌跡と連動</span><span>🔴 高い</span></div>
+<div class="elevationStats"><div class="elevStat">最低標高<b id="minAltitudeStat">-- m</b></div><div class="elevStat">最高標高<b id="maxAltitudeStat">-- m</b></div><div class="elevStat">累積上昇<b id="ascentStat">0 m</b></div><div class="elevStat">累積下降<b id="descentStat">0 m</b></div></div></section>
 <section class="card"><h2>🌙 OLEDポケットモード</h2>
 <div class="sensorrow"><div><b>ポケットモード</b><div class="mini">ONにするとSTART後に黒画面主体の省電力表示へ移行します。</div></div>
 <label class="switch"><input id="pocketSwitch" type="checkbox" checked><span class="slider"></span></label></div>
@@ -683,8 +682,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="walkScene">
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.8 GPS ROUTE INTEGRATED</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GPS ROUTE / Ver.4.2.8</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.9 LAYOUT</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">LAYOUT / Ver.4.2.9</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -742,16 +741,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </div><div class="mini" id="fieldSync">同期：待機中 ／ 地面：停止 ／ 重心：キャリブレーション待ち</div></section>
 <section class="card" style="display:none"><h2>🧭 体幹バランス・重心分布 β</h2><div class="mini">端末の加速度から体幹の偏り・揺れを試験的に推定します。START後に約3秒の姿勢基準を取得し、その後16歩または最大12秒で歩行パターンを自動キャリブレーションします。</div><div class="stats4"><div class="stat"><div>左右バランス</div><div id="balanceRatio" class="value">-- : --</div></div><div class="stat"><div>左右差</div><div id="balanceDiff" class="value">-- %</div></div></div><div class="balanceViz"><canvas id="balanceCanvas" class="balanceCanvas"></canvas><div class="balanceLegend"><span>← 左</span><span>前 ↑　端末センサー推定　↓ 後</span><span>右 →</span></div><div class="balanceGrid"><div class="balanceMini">左右平均<b id="balanceMeanLR">--</b></div><div class="balanceMini">前後平均<b id="balanceMeanFB">--</b></div><div class="balanceMini">安定度<b id="balanceStability">-- %</b></div></div><div class="balanceHint">色が濃い場所ほど、その方向への揺れが多かったことを示します。人体の厳密な重心位置ではなく、スマホセンサーから見た体幹傾向です。</div></div><div id="balanceStatus" class="mini">待機中</div></section>
 <section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="7" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B / RANDOM</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellRandomBtn" type="button" style="margin-bottom:10px">🎲 RANDOM：OFF</button>
-<button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
-<div id="routeViewStatus" class="mini" style="margin-bottom:8px">現在のウォーキングを表示中</div>
-<button id="returnLiveRoute" type="button" style="display:none;margin-bottom:10px">↩️ 今日の表示に戻る</button>
-<div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
-<div id="routeInfo" class="route">距離：0 m ／ GPS点：0</div>
-<h2 style="margin-top:18px">📈 高低差プロフィール</h2>
-<canvas id="elevationCanvas" class="elevationCanvas"></canvas>
-<div class="elevationLegend"><span>🔵 低い</span><span>標高カラー軌跡と連動</span><span>🔴 高い</span></div>
-<div class="elevationStats"><div class="elevStat">最低標高<b id="minAltitudeStat">-- m</b></div><div class="elevStat">最高標高<b id="maxAltitudeStat">-- m</b></div><div class="elevStat">累積上昇<b id="ascentStat">0 m</b></div><div class="elevStat">累積下降<b id="descentStat">0 m</b></div></div></section>
-<section class="card"><h2>📝 今日の記録</h2>
+<button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>📝 今日の記録</h2>
 <label>日付</label><input id="date" type="date"><label>体重（kg）</label><input id="weight" type="number" step="0.1" placeholder="例：65.5">
 <label>歩数（歩）</label><input id="recsteps" type="number" min="0" placeholder="計測後に自動入力">
 <label>歩行時間</label><input id="duration" type="text" readonly placeholder="STOP後に自動入力"><label>距離・速度・高低差</label><input id="summary" type="text" readonly placeholder="STOP後に自動入力">
@@ -1268,7 +1258,6 @@ function startGPS(){
    } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
    x.smoothAlt=lastSmoothAlt;
    route.push(x);
-   drawGpsRouteCard428();
    drawRoute();
    updateMetrics();
    $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";
@@ -1281,7 +1270,7 @@ function resetMap(){
  route=[];routeDistance=0;lastDistancePoint=null;totalAscent=0;totalDescent=0;minAlt=null;maxAlt=null;lastSmoothAlt=null;
  currentSpeed=0;currentGrade=0;currentCalories=0;stationaryMs=0;continuousStationaryMs=0;lastGpsCallbackTime=0;latestGpsPoint=null;
   $("stoppedTime").textContent="00:00:00";$("movingTime").textContent="00:00:00";$("distanceStat").textContent="0 m";
- $("routeInfo").textContent="距離：0 m ／ GPS点：0";updateMetrics();drawGpsRouteCard428();drawRoute();drawElevationProfile()
+ $("routeInfo").textContent="距離：0 m ／ GPS点：0";updateMetrics();drawRoute();drawElevationProfile()
 }
 function setupMap(){
  const el=$("map");el.innerHTML="";mapCanvas=document.createElement("canvas");el.appendChild(mapCanvas);ctx=mapCanvas.getContext("2d");
@@ -1331,7 +1320,7 @@ function drawGpsRouteCard428(){
  const b=xy(route[route.length-1]);g.fillStyle="#fff";g.beginPath();g.moveTo(b[0],b[1]-7);g.lineTo(b[0]-5,b[1]+5);g.lineTo(b[0]+5,b[1]+5);g.closePath();g.fill();
 }
 
-function drawRoute(){drawGpsRouteCard428();if(!ctx)return;const w=mapCanvas.width,h=mapCanvas.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle="#aab9b6";ctx.globalAlpha=.35;ctx.lineWidth=devicePixelRatio;for(let x=0;x<w;x+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=0;y<h;y+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}ctx.globalAlpha=1;if(!route.length)return;const minLat=Math.min(...route.map(p=>p.lat)),maxLat=Math.max(...route.map(p=>p.lat)),minLng=Math.min(...route.map(p=>p.lng)),maxLng=Math.max(...route.map(p=>p.lng)),pad=35*devicePixelRatio,dx=Math.max(maxLng-minLng,.00005),dy=Math.max(maxLat-minLat,.00005),scale=Math.min((w-2*pad)/dx,(h-2*pad)/dy),pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]),alts=route.map(p=>p.smoothAlt).filter(Number.isFinite),lo=alts.length?Math.min(...alts):0,hi=alts.length?Math.max(...alts):1;ctx.lineWidth=3*devicePixelRatio;ctx.lineCap="round";ctx.setLineDash([7*devicePixelRatio,7*devicePixelRatio]);for(let i=1;i<pts.length;i++){const t=Number.isFinite(route[i].smoothAlt)&&hi>lo?(route[i].smoothAlt-lo)/(hi-lo):.5;ctx.strokeStyle=thermalColor(t);ctx.beginPath();ctx.moveTo(...pts[i-1]);ctx.lineTo(...pts[i]);ctx.stroke()}ctx.setLineDash([]);const a=pts[0],b=pts.at(-1);ctx.fillStyle="#0f766e";ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.fillStyle=thermalColor(hi>lo&&Number.isFinite(route.at(-1).smoothAlt)?(route.at(-1).smoothAlt-lo)/(hi-lo):.5);ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();
+function drawRoute(){if(!ctx)return;const w=mapCanvas.width,h=mapCanvas.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle="#aab9b6";ctx.globalAlpha=.35;ctx.lineWidth=devicePixelRatio;for(let x=0;x<w;x+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=0;y<h;y+=40*devicePixelRatio){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}ctx.globalAlpha=1;if(!route.length)return;const minLat=Math.min(...route.map(p=>p.lat)),maxLat=Math.max(...route.map(p=>p.lat)),minLng=Math.min(...route.map(p=>p.lng)),maxLng=Math.max(...route.map(p=>p.lng)),pad=35*devicePixelRatio,dx=Math.max(maxLng-minLng,.00005),dy=Math.max(maxLat-minLat,.00005),scale=Math.min((w-2*pad)/dx,(h-2*pad)/dy),pts=route.map(p=>[w/2+(p.lng-(minLng+maxLng)/2)*scale,h/2-(p.lat-(minLat+maxLat)/2)*scale]),alts=route.map(p=>p.smoothAlt).filter(Number.isFinite),lo=alts.length?Math.min(...alts):0,hi=alts.length?Math.max(...alts):1;ctx.lineWidth=3*devicePixelRatio;ctx.lineCap="round";ctx.setLineDash([7*devicePixelRatio,7*devicePixelRatio]);for(let i=1;i<pts.length;i++){const t=Number.isFinite(route[i].smoothAlt)&&hi>lo?(route[i].smoothAlt-lo)/(hi-lo):.5;ctx.strokeStyle=thermalColor(t);ctx.beginPath();ctx.moveTo(...pts[i-1]);ctx.lineTo(...pts[i]);ctx.stroke()}ctx.setLineDash([]);const a=pts[0],b=pts.at(-1);ctx.fillStyle="#0f766e";ctx.beginPath();ctx.arc(a[0],a[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();ctx.fillStyle=thermalColor(hi>lo&&Number.isFinite(route.at(-1).smoothAlt)?(route.at(-1).smoothAlt-lo)/(hi-lo):.5);ctx.beginPath();ctx.arc(b[0],b[1],7*devicePixelRatio,0,Math.PI*2);ctx.fill();
  // 進行方向矢印
  if(pts.length>=2){
    const step=Math.max(4,Math.floor(pts.length/5));
