@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.2.0 GPS DEBUG — G-ball/legacy 2D panel removed. */
+/* Ver.4.2.0 GPS DEBUG-2 — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -587,7 +587,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.2.0 GPS DEBUG</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.2.0 GPS DEBUG-2</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -623,8 +623,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.0 GPS DEBUG</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GPS DEBUG / Ver.4.2.0</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.0 GPS DEBUG-2</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GPS DEBUG-2 / Ver.4.2.0</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1131,19 +1131,22 @@ async function gpsPermission420(){
 async function startGPS(){
  if(!navigator.geolocation){gpsDebug420("ERROR：Geolocation APIなし");return;}
  const perm=await gpsPermission420();
- if(perm==="denied"){gpsDebug420("ERROR：位置情報が拒否されています");return;}
- gpsDebug420("単発測位を要求中…");
+ // DEBUG-2: Permissions API の結果だけでは停止しない。
+ // 実際の Geolocation API を必ず呼び、Android/Chrome が返す結果を直接確認する。
+ gpsDebug420("Permissions="+perm+" / 実GPS要求を開始…");
+ const gm=document.getElementById("gpsmsg");
+ if(gm)gm.textContent="📍 GPS：実測位を要求中（権限判定 "+perm+"）";
  navigator.geolocation.getCurrentPosition(
   p=>{
    const acc=Math.round(p.coords.accuracy||0);
    latestGpsPoint={lat:p.coords.latitude,lng:p.coords.longitude,time:Date.now(),accuracy:p.coords.accuracy};
    lastGpsCallbackTime=Date.now();
-   gpsDebug420("単発受信OK / 精度 "+acc+"m / watch開始");
+   gpsDebug420("SUCCESS：getCurrentPosition / 精度 "+acc+"m / watch開始");
    startGPS_watch420();
   },
   e=>{
    const n={1:"PERMISSION_DENIED",2:"POSITION_UNAVAILABLE",3:"TIMEOUT"};
-   gpsDebug420("単発ERROR "+e.code+" "+(n[e.code]||"")+" / "+e.message+" / watch試行");
+   gpsDebug420("getCurrentPosition ERROR "+e.code+" "+(n[e.code]||"")+" / "+e.message+" / watchも試行");
    startGPS_watch420();
   },
   {enableHighAccuracy:true,maximumAge:0,timeout:15000}
