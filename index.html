@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.2.6 WAIT + GPS ROUTE — G-ball/legacy 2D panel removed. */
+/* Ver.4.2.7 GPS ROUTE FIX — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -641,7 +641,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 .routeFoot426{margin-top:7px}
 </style></head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.2.6 WAIT + GPS ROUTE</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.2.7 GPS ROUTE FIX</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -683,8 +683,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="walkScene">
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.6 WAIT + GPS ROUTE</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">WAIT+ROUTE / Ver.4.2.6</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.7 GPS ROUTE FIX</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GPS ROUTE FIX / Ver.4.2.7</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1998,12 +1998,17 @@ header .sub{font-size:12px!important;color:rgba(255,255,255,.84)!important;margi
 (function(){
  const c=document.getElementById("routeCanvas426"),st=document.getElementById("routeState426"),di=document.getElementById("routeDistance426");if(!c)return;
  const ctx=c.getContext("2d");
- function points(){try{if(typeof pts!=="undefined"&&Array.isArray(pts))return pts;if(typeof gpsPoints!=="undefined"&&Array.isArray(gpsPoints))return gpsPoints}catch(e){}return[]}
+ function points(){try{if(typeof route!=="undefined"&&Array.isArray(route))return route}catch(e){}return[]}
  function draw(){
   const r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;if(c.width!==Math.round(r.width*d)||c.height!==Math.round(r.height*d)){c.width=Math.round(r.width*d);c.height=Math.round(r.height*d)}
   ctx.setTransform(d,0,0,d,0,0);let w=r.width,h=r.height;ctx.clearRect(0,0,w,h);
-  let a=points();if(st)st.textContent=a.length>1?"記録中":"GPS待機中";
-  try{if(di&&typeof distance!=="undefined")di.textContent="軌跡 "+(distance<1000?Math.round(distance)+" m":(distance/1000).toFixed(2)+" km")}catch(e){}
+  let a=points();
+  if(st){
+    let fresh=false;
+    try{fresh=typeof lastGpsCallbackTime!=="undefined"&&lastGpsCallbackTime>0&&(Date.now()-lastGpsCallbackTime)<15000}catch(e){}
+    st.textContent=a.length>1?"記録中":(fresh?"GPS受信中":"GPS待機中");
+  }
+  try{if(di&&typeof routeDistance!=="undefined")di.textContent="軌跡 "+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")}catch(e){}
   if(a.length<2){ctx.fillStyle="rgba(255,255,255,.7)";ctx.font="13px sans-serif";ctx.textAlign="center";ctx.fillText("START後にGPS軌跡を描画",w/2,h/2);requestAnimationFrame(draw);return}
   let la=a.map(p=>p.lat),ln=a.map(p=>p.lng),miLa=Math.min(...la),maLa=Math.max(...la),miLn=Math.min(...ln),maLn=Math.max(...ln),pad=15;
   let dx=Math.max(1e-7,maLn-miLn),dy=Math.max(1e-7,maLa-miLa),xy=p=>[pad+(p.lng-miLn)/dx*(w-2*pad),h-pad-(p.lat-miLa)/dy*(h-2*pad)];
