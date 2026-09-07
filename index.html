@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.2.5 CALIBRATION — G-ball/legacy 2D panel removed. */
+/* Ver.4.2.6 WAIT + GPS ROUTE — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -634,14 +634,24 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 #sideBalance412{pointer-events:auto!important}
 </style>
 
-</head>
+<style id="gpsRoute426Style">
+.gpsRoute426{padding:14px 16px!important}.routeHead426,.routeFoot426{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.routeHead426{font-size:18px;color:#164648;margin-bottom:8px}.routeHead426 span,.routeFoot426{font-size:12px;color:#587273}
+#routeCanvas426{display:block;width:100%;height:125px;border-radius:16px;background:linear-gradient(180deg,#0b6668,#084d55)}
+.routeFoot426{margin-top:7px}
+</style></head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.2.5 CALIBRATION</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.2.6 WAIT + GPS ROUTE</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
 <div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div>
 <div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>距離</div><div id="distanceStat" class="value">0 m</div></div><div class="stat"><div>停止時間</div><div id="stoppedTime" class="value">00:00:00</div></div><div class="stat"><div>移動時間</div><div id="movingTime" class="value">00:00:00</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div><div class="stat"><div>状態</div><div id="pauseState" class="value">待機</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div id="calorieNote" class="mini">※体重を設定するとGPSの速度・傾斜・時間から推定消費カロリーを計算します。</div></section>
+<section id="gpsRoute426" class="card gpsRoute426">
+<div class="routeHead426"><b>🗺️ GPS軌跡</b><span id="routeState426">GPS待機中</span></div>
+<canvas id="routeCanvas426"></canvas>
+<div class="routeFoot426"><span id="routeDistance426">軌跡 0 m</span><span>現在位置 ▲</span></div>
+</section>
 <section class="card"><h2>🌙 OLEDポケットモード</h2>
 <div class="sensorrow"><div><b>ポケットモード</b><div class="mini">ONにするとSTART後に黒画面主体の省電力表示へ移行します。</div></div>
 <label class="switch"><input id="pocketSwitch" type="checkbox" checked><span class="slider"></span></label></div>
@@ -673,8 +683,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="walkScene">
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.5 CALIBRATION</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">CALIBRATION / Ver.4.2.5</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.6 WAIT + GPS ROUTE</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">WAIT+ROUTE / Ver.4.2.6</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -769,6 +779,7 @@ let balanceCalPhase="idle",balanceCalStart=0,balanceWalkCalStart=0,balanceCalibr
 let balanceStaticSumX=0,balanceStaticSumY=0,balanceStaticSumZ=0,balanceStaticSamples=0;
 let balanceWalkSumX=0,balanceWalkSumY=0,balanceWalkSumZ=0,balanceWalkSamples=0;
 const BALANCE_STATIC_MS=3000,BALANCE_WALK_STEPS=16,BALANCE_WALK_MAX_MS=12000;
+let storageWaitActive=false,storageWaitTimer=null;const STORAGE_WAIT_MS=5000;
 let walkSide=false,walkAnimTimer=null;
 function saveData(){localStorage.setItem(KEY,JSON.stringify(data))}
 function pad(x){return String(x).padStart(2,"0")}
@@ -883,6 +894,24 @@ function updateWalkScene(){updateWalkerBalanceGlow();const w=$("walker"),scene=d
 function hav(a,b){const R=6371000,p=Math.PI/180,d1=(b.lat-a.lat)*p,d2=(b.lng-a.lng)*p,q=Math.sin(d1/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
 function setDebugStatus(text){$("debugStatus").textContent=text}
 
+
+function startStorageWait426(){
+ storageWaitActive=true;
+ const started=Date.now();
+ if(storageWaitTimer)clearInterval(storageWaitTimer);
+ const tick=()=>{
+  const remain=Math.max(0,Math.ceil((STORAGE_WAIT_MS-(Date.now()-started))/1000));
+  if($("balanceReadout"))$("balanceReadout").textContent="体幹バランス：収納待ち "+remain+"秒";
+  if($("fieldSync"))$("fieldSync").textContent="同期：収納待ち "+remain+"秒 ／ スマホをいつもの位置へ収納";
+  if($("msg"))$("msg").textContent="収納待ち "+remain+"秒：スマホをバッグ・ポケットへ収納してください。";
+  if(Date.now()-started>=STORAGE_WAIT_MS){
+   clearInterval(storageWaitTimer);storageWaitTimer=null;storageWaitActive=false;
+   startBalanceCalibration425();
+   if(typeof pocketEnabled!=="undefined"&&pocketEnabled)enterPocketMode();
+  }
+ };
+ tick();storageWaitTimer=setInterval(tick,200);
+}
 function startBalanceCalibration425(){
  balanceCalPhase="static";balanceCalStart=Date.now();balanceWalkCalStart=0;balanceCalibrated=false;balanceCalSteps=0;
  balanceStaticSumX=balanceStaticSumY=balanceStaticSumZ=0;balanceStaticSamples=0;
@@ -892,6 +921,7 @@ function startBalanceCalibration425(){
  updateCalibrationStatus425();
 }
 function calibrationLabel425(){
+ if(storageWaitActive)return "収納待ち";
  if(!running||balanceCalPhase==="idle")return "キャリブレーション待ち";
  if(balanceCalPhase==="static"){
    const remain=Math.max(0,Math.ceil((BALANCE_STATIC_MS-(Date.now()-balanceCalStart))/1000));
@@ -1164,7 +1194,7 @@ function drawBalanceMap(){
  g.strokeStyle='#fff';g.lineWidth=2*dpr;g.stroke();
 }
 function updateBalanceUI(){const total=balancePos+balanceNeg;if(!total||balanceSamples<10){$("balanceRatio").textContent="-- : --";$("balanceDiff").textContent="-- %";$("balanceMeanLR").textContent="--";$("balanceMeanFB").textContent="--";$("balanceStability").textContent="-- %";$("balanceStatus").textContent=running?(balanceCalibrated?"解析中":calibrationLabel425()) : "待機中";drawBalanceMap();copyBalanceToScene();return;}const l=balancePos/total*100,r=balanceNeg/total*100,d=Math.abs(l-r);$("balanceRatio").textContent=Math.round(l)+" : "+Math.round(r);$("balanceDiff").textContent=d.toFixed(1)+" %";const st=balanceStats(),lr=Math.abs(st.mx)<.08?"中央":(st.mx>0?"右寄り":"左寄り"),fb=Math.abs(st.my)<.08?"中央":(st.my>0?"前寄り":"後寄り"),stability=Math.max(0,Math.min(100,100-st.spread*22));$("balanceMeanLR").textContent=lr;$("balanceMeanFB").textContent=fb;$("balanceStability").textContent=balancePoints.length?Math.round(stability)+" %":"-- %";$("balanceStatus").textContent=balanceCalibrated?"β解析中（端末の向き・収納位置で前後左右は変わる場合があります）":calibrationLabel425();drawBalanceMap();copyBalanceToScene();}
-function resetBalance(){balanceBaseX=null;balanceBaseY=null;balanceBaseZ=null;window.__liveBalanceX=0;window.__liveBalanceY=0;window.__liveBalanceZ=0;balancePos=0;balanceNeg=0;balanceSamples=0;balanceCalSteps=0;balancePoints=[];balanceLastSample=0;balanceCalPhase="idle";balanceCalibrated=false;balanceStaticSamples=0;balanceWalkSamples=0;updateBalanceUI()}
+function resetBalance(){storageWaitActive=false;if(storageWaitTimer){clearInterval(storageWaitTimer);storageWaitTimer=null;}balanceBaseX=null;balanceBaseY=null;balanceBaseZ=null;window.__liveBalanceX=0;window.__liveBalanceY=0;window.__liveBalanceZ=0;balancePos=0;balanceNeg=0;balanceSamples=0;balanceCalSteps=0;balancePoints=[];balanceLastSample=0;balanceCalPhase="idle";balanceCalibrated=false;balanceStaticSamples=0;balanceWalkSamples=0;updateBalanceUI()}
 function metFor(speed,grade){
  let met = speed<3.2?2.8:speed<4.0?3.0:speed<4.8?3.5:speed<5.6?4.3:speed<6.4?5.0:6.0;
  if(grade>0) met += Math.min(3, grade/3);
@@ -1477,12 +1507,12 @@ $("start").onclick=async ()=>{
  t0=Date.now();lastWalkStepAt=Date.now();running=true;tick();timer=setInterval(tick,1000);requestWakeLock();
  $("status").textContent="計測中…";$("pauseState").textContent="計測中";$("start").disabled=true;$("pause").disabled=false;$("pause").textContent="Ⅱ PAUSE";$("stop").disabled=false;
  const ok=await enableMotion();
- if(ok){startBalanceCalibration425();$("msg").textContent="姿勢基準を3秒取得後、16歩または12秒で歩行パターンを学習します。";}
+ if(ok){startStorageWait426();$("msg").textContent="5秒後にキャリブレーション開始。スマホをいつもの収納位置へ。";}
  else {$("msg").textContent="GPS＋速度・高度を計測中です。モーションセンサーを利用できないため歩数計測は停止しています。";}
  if(debugEnabled)$("debug").classList.add("show");
  if(bellEnabled)scheduleNextBell();
  startGPS();
- enterPocketMode();
+ 
 };
 $("pause").onclick=()=>{
   if(!running)return;
@@ -1964,4 +1994,21 @@ header .sub{font-size:12px!important;color:rgba(255,255,255,.84)!important;margi
 })();
 </script>
 
-</body></html>
+<script id="gpsRoute426Script">
+(function(){
+ const c=document.getElementById("routeCanvas426"),st=document.getElementById("routeState426"),di=document.getElementById("routeDistance426");if(!c)return;
+ const ctx=c.getContext("2d");
+ function points(){try{if(typeof pts!=="undefined"&&Array.isArray(pts))return pts;if(typeof gpsPoints!=="undefined"&&Array.isArray(gpsPoints))return gpsPoints}catch(e){}return[]}
+ function draw(){
+  const r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;if(c.width!==Math.round(r.width*d)||c.height!==Math.round(r.height*d)){c.width=Math.round(r.width*d);c.height=Math.round(r.height*d)}
+  ctx.setTransform(d,0,0,d,0,0);let w=r.width,h=r.height;ctx.clearRect(0,0,w,h);
+  let a=points();if(st)st.textContent=a.length>1?"記録中":"GPS待機中";
+  try{if(di&&typeof distance!=="undefined")di.textContent="軌跡 "+(distance<1000?Math.round(distance)+" m":(distance/1000).toFixed(2)+" km")}catch(e){}
+  if(a.length<2){ctx.fillStyle="rgba(255,255,255,.7)";ctx.font="13px sans-serif";ctx.textAlign="center";ctx.fillText("START後にGPS軌跡を描画",w/2,h/2);requestAnimationFrame(draw);return}
+  let la=a.map(p=>p.lat),ln=a.map(p=>p.lng),miLa=Math.min(...la),maLa=Math.max(...la),miLn=Math.min(...ln),maLn=Math.max(...ln),pad=15;
+  let dx=Math.max(1e-7,maLn-miLn),dy=Math.max(1e-7,maLa-miLa),xy=p=>[pad+(p.lng-miLn)/dx*(w-2*pad),h-pad-(p.lat-miLa)/dy*(h-2*pad)];
+  ctx.strokeStyle="rgba(255,255,255,.95)";ctx.lineWidth=2;ctx.setLineDash([3,5]);ctx.beginPath();a.forEach((p,i)=>{let q=xy(p);i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])});ctx.stroke();ctx.setLineDash([]);
+  let q=xy(a[a.length-1]);ctx.fillStyle="#fff";ctx.beginPath();ctx.moveTo(q[0],q[1]-7);ctx.lineTo(q[0]-5,q[1]+5);ctx.lineTo(q[0]+5,q[1]+5);ctx.closePath();ctx.fill();requestAnimationFrame(draw)
+ } requestAnimationFrame(draw);
+})();
+</script></body></html>
