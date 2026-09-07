@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.1.9 SIDEVIEW REFINE — G-ball/legacy 2D panel removed. */
+/* Ver.4.2.0 SIDEVIEW REBUILD — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -570,9 +570,24 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 }
 </style>
 
+
+<style id="ver420sideviewrebuild">
+#sideBalance412{width:120px!important;padding:7px!important;right:9px!important;bottom:61px!important}
+#sideBalance412 .ttl{font-size:8.3px!important;line-height:1.08!important;margin-bottom:4px!important}
+.sideHumanStage412{width:106px!important;height:150px!important;border-radius:10px!important}
+.sideHumanSvg412{width:100%!important;height:100%!important;transform:none!important;opacity:1!important}
+#sideBalanceCanvas412{width:106px!important;height:150px!important}
+#sideBalance412 .foot{font-size:6px!important;margin-top:3px!important}
+@media(max-width:430px){
+ #sideBalance412{width:106px!important;padding:6px!important}
+ .sideHumanStage412{width:94px!important;height:136px!important}
+ #sideBalanceCanvas412{width:94px!important;height:136px!important}
+}
+</style>
+
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.1.9 SIDEVIEW REFINE</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.2.0 SIDEVIEW REBUILD</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -603,12 +618,12 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.9</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.2.0</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.9 SIDEVIEW REFINE</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">SIDEVIEW REFINE / Ver.4.1.9</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.0 SIDEVIEW REBUILD</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">SIDEVIEW REBUILD / Ver.4.2.0</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -633,69 +648,48 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div id="sideBalance412" class="hudGlass">
   <div class="ttl">側面ビュー（前後バランス）</div>
   <div class="sideHumanStage412" aria-hidden="true">
-    <svg class="sideHumanSvg412" viewBox="0 0 160 220">
-  <defs>
-    <linearGradient id="skin412" x1="0" x2="1">
-      <stop stop-color="#f4cfb3"/><stop offset="1" stop-color="#d79772"/>
-    </linearGradient>
-    <linearGradient id="shirt412" x1="0" x2="1">
-      <stop stop-color="#45c8ef"/><stop offset=".55" stop-color="#1d91d6"/><stop offset="1" stop-color="#0c5e9b"/>
-    </linearGradient>
-    <linearGradient id="short412" x1="0" x2="1">
-      <stop stop-color="#8b9ba3"/><stop offset="1" stop-color="#5f747e"/>
-    </linearGradient>
-    <filter id="softGlow412" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="1.2"/>
-    </filter>
-  </defs>
-
-  <!-- backpack -->
-  <path d="M57 51 C38 55 33 69 34 95 C35 110 41 118 54 121 L64 116 L68 62 Z"
-        fill="#17303d" stroke="#6ca8bb" stroke-width="1.5"/>
-  <path d="M56 54 C62 72 63 91 59 112" fill="none" stroke="#b8d9df" stroke-width="2.4" opacity=".7"/>
-
-  <!-- head / neck -->
-  <ellipse cx="89" cy="29" rx="14" ry="16" fill="url(#skin412)" stroke="#f7e2d3" stroke-width="1"/>
-  <path d="M76 27 C79 9 101 8 107 21 L103 29 C96 22 87 20 77 25 Z" fill="#253b49"/>
-  <path d="M82 43 L94 43 L94 53 L83 54 Z" fill="url(#skin412)"/>
-
-  <!-- torso -->
-  <path d="M75 50 C84 45 97 47 104 55 C109 68 112 84 111 101
-           C104 114 89 116 72 106 C69 90 70 70 75 50 Z"
-        fill="url(#shirt412)" stroke="#8ad7f2" stroke-width="1.3"/>
-  <!-- shoulder/backpack straps -->
-  <path d="M75 55 C67 66 66 82 69 98" fill="none" stroke="#d8f1f5" stroke-width="2.3" opacity=".78"/>
-  <path d="M99 56 C102 68 102 81 100 94" fill="none" stroke="#d8f1f5" stroke-width="2.0" opacity=".55"/>
-
-  <!-- far arm -->
-  <path d="M76 57 C66 65 61 79 61 92 L67 113 L74 111 L70 91 L81 69 Z"
-        fill="url(#skin412)" stroke="#ecc2a4" stroke-width="1"/>
-  <!-- near arm -->
-  <path d="M102 58 C113 67 117 80 117 93 L112 114 L105 112 L108 93 L98 72 Z"
-        fill="url(#skin412)" stroke="#ecc2a4" stroke-width="1"/>
-
-  <!-- pelvis / shorts -->
-  <path d="M70 104 C84 110 101 109 113 102 L115 125 L68 127 Z"
-        fill="url(#short412)" stroke="#a9b8bf" stroke-width="1"/>
-  <path d="M71 126 C85 129 100 127 113 124 L108 139 L71 139 Z" fill="#687e88"/>
-
-  <!-- back leg -->
-  <path d="M80 138 C74 157 66 170 57 184 L48 206 L58 209 L69 191 L84 169 L91 143 Z"
-        fill="url(#skin412)" stroke="#e5b597" stroke-width="1"/>
-  <!-- front leg -->
-  <path d="M97 139 C109 155 118 170 125 184 L143 201 L136 210 L116 197 L100 177 L88 149 Z"
-        fill="url(#skin412)" stroke="#e5b597" stroke-width="1"/>
-
-  <!-- socks -->
-  <path d="M46 201 L59 204 L57 212 L43 209 Z" fill="#f5f7f6"/>
-  <path d="M134 202 L144 207 L140 215 L129 209 Z" fill="#f5f7f6"/>
-
-  <!-- shoes -->
-  <path d="M40 208 H62 C65 212 62 216 54 217 H36 Z" fill="#2e83d1" stroke="#7ab6ee" stroke-width="1"/>
-  <path d="M137 207 L152 214 C154 218 149 220 144 219 L125 212 Z" fill="#2e83d1" stroke="#7ab6ee" stroke-width="1"/>
-
-  <!-- subtle body contour emphasis -->
-  <path d="M90 47 C96 65 97 88 95 106" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1"/>
+    <svg class="sideHumanSvg412" viewBox="0 0 150 230">
+<defs>
+ <linearGradient id="skin420" x1="0" x2="1"><stop stop-color="#f3c6a7"/><stop offset="1" stop-color="#c98662"/></linearGradient>
+ <linearGradient id="shirt420" x1="0" x2="1"><stop stop-color="#39bff0"/><stop offset=".55" stop-color="#1688cf"/><stop offset="1" stop-color="#08609f"/></linearGradient>
+ <linearGradient id="short420" x1="0" x2="1"><stop stop-color="#788d99"/><stop offset="1" stop-color="#526a77"/></linearGradient>
+</defs>
+<!-- backpack clearly behind the torso -->
+<path d="M49 53 C28 58 24 76 27 108 C29 122 38 130 52 128 L61 119 L61 62 Z"
+ fill="#142d3c" stroke="#73a9bb" stroke-width="2"/>
+<path d="M48 59 C56 77 57 99 53 119" fill="none" stroke="#a9ced8" stroke-width="2.4"/>
+<!-- true profile head: nose projects forward/right -->
+<path d="M77 17 C89 12 102 19 104 31 C105 38 101 44 95 47 L91 54 L77 51
+ C72 46 70 38 71 30 C72 24 73 20 77 17 Z" fill="url(#skin420)"/>
+<path d="M73 29 C74 11 96 9 105 23 L102 32 C95 25 84 23 73 29 Z" fill="#213747"/>
+<path d="M103 31 L111 34 L103 38 Z" fill="url(#skin420)"/>
+<path d="M82 49 L94 49 L94 58 L83 59 Z" fill="url(#skin420)"/>
+<!-- profile torso, slight natural forward lean -->
+<path d="M75 56 C83 51 96 54 102 61 C108 77 109 94 105 112
+ C98 122 84 124 70 116 C67 97 68 75 75 56 Z" fill="url(#shirt420)" stroke="#9ddcf4" stroke-width="1.5"/>
+<!-- backpack shoulder strap -->
+<path d="M74 60 C65 75 65 94 70 111" fill="none" stroke="#d8f1f5" stroke-width="3"/>
+<!-- near arm swings slightly backward -->
+<path d="M99 64 C108 76 111 89 108 103 L98 125 L91 122 L99 101 L94 79 Z"
+ fill="url(#skin420)" stroke="#e9b89a" stroke-width="1"/>
+<!-- far arm swings forward -->
+<path d="M76 65 C67 76 62 88 63 101 L72 120 L78 116 L71 99 L81 78 Z"
+ fill="url(#skin420)" stroke="#e9b89a" stroke-width="1" opacity=".9"/>
+<!-- shorts -->
+<path d="M69 113 C82 120 99 119 108 111 L111 135 L67 136 Z" fill="url(#short420)" stroke="#a8b8bf"/>
+<path d="M68 135 L109 134 L103 149 L72 149 Z" fill="#607985"/>
+<!-- rear leg extends backward -->
+<path d="M79 147 C73 166 63 181 52 194 L42 215 L52 218 L65 201 L82 183 L92 152 Z"
+ fill="url(#skin420)" stroke="#dfaa89"/>
+<!-- front leg extends forward -->
+<path d="M96 148 C108 164 117 180 125 194 L143 209 L136 218 L116 207 L99 190 L86 158 Z"
+ fill="url(#skin420)" stroke="#dfaa89"/>
+<!-- socks -->
+<path d="M40 210 L53 214 L51 221 L37 218 Z" fill="#f6f7f6"/>
+<path d="M134 210 L144 215 L140 222 L129 216 Z" fill="#f6f7f6"/>
+<!-- shoes -->
+<path d="M35 216 L55 219 C59 222 55 226 48 226 L29 223 Z" fill="#2c83d2" stroke="#8ac1f2"/>
+<path d="M137 216 L150 222 C151 226 146 228 140 226 L123 219 Z" fill="#2c83d2" stroke="#8ac1f2"/>
 </svg>
     <canvas id="sideBalanceCanvas412"></canvas>
   </div>
