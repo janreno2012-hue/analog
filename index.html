@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.2.0 GPS ROLLBACK TEST — G-ball/legacy 2D panel removed. */
+/* Ver.4.2.1 SIDE VIEW — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -585,14 +585,29 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 }
 </style>
 
+
+<style id="sideSync421Style">
+#sideSync421{position:absolute;right:3.5%;bottom:12%;width:29%;height:32%;z-index:18;border-radius:18px;
+background:linear-gradient(180deg,rgba(8,78,73,.92),rgba(8,61,62,.9));border:1px solid rgba(154,255,225,.65);
+box-shadow:0 8px 22px #0018;overflow:hidden;color:#fff;font-family:inherit}
+#sideSync421 .svTitle{position:absolute;top:7px;left:8px;right:8px;text-align:center;font-size:11px;font-weight:800;line-height:1.1}
+#sideSync421 svg{position:absolute;left:4%;top:18%;width:92%;height:72%}
+#sideSync421 .svFoot{position:absolute;left:5px;right:5px;bottom:5px;text-align:center;font-size:9px}
+#sideSync421 .female{display:none}
+#sideSync421[data-gender="female"] .male{display:none}
+#sideSync421[data-gender="female"] .female{display:block}
+.sideGender421{position:absolute;right:4%;bottom:7.2%;z-index:20;display:flex;gap:5px}
+.sideGender421 button{padding:5px 8px;border-radius:10px;border:1px solid #9ff7df;background:#0a615e;color:white;font-size:10px;font-weight:800}
+.sideGender421 button.active{background:#18a98f}
+</style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.2.0 GPS ROLLBACK TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.2.1 SIDE VIEW</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
 <div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div>
-<div id="gpsDebug420" style="margin-top:8px;padding:9px 11px;border-radius:12px;background:#102f36;color:#eafffb;font:12px/1.45 monospace;white-space:pre-wrap">GPS DEBUG：旧3.3.3方式 / START待機中</div><div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>距離</div><div id="distanceStat" class="value">0 m</div></div><div class="stat"><div>停止時間</div><div id="stoppedTime" class="value">00:00:00</div></div><div class="stat"><div>移動時間</div><div id="movingTime" class="value">00:00:00</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div><div class="stat"><div>状態</div><div id="pauseState" class="value">待機</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div id="calorieNote" class="mini">※体重を設定するとGPSの速度・傾斜・時間から推定消費カロリーを計算します。</div></section>
+<div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>距離</div><div id="distanceStat" class="value">0 m</div></div><div class="stat"><div>停止時間</div><div id="stoppedTime" class="value">00:00:00</div></div><div class="stat"><div>移動時間</div><div id="movingTime" class="value">00:00:00</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div><div class="stat"><div>状態</div><div id="pauseState" class="value">待機</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div id="calorieNote" class="mini">※体重を設定するとGPSの速度・傾斜・時間から推定消費カロリーを計算します。</div></section>
 <section class="card"><h2>🌙 OLEDポケットモード</h2>
 <div class="sensorrow"><div><b>ポケットモード</b><div class="mini">ONにするとSTART後に黒画面主体の省電力表示へ移行します。</div></div>
 <label class="switch"><input id="pocketSwitch" type="checkbox" checked><span class="slider"></span></label></div>
@@ -623,8 +638,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.0 GPS ROLLBACK TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GPS ROLLBACK / Ver.4.2.0</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.1 SIDE VIEW</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">SIDE VIEW / Ver.4.2.1</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1858,4 +1873,55 @@ header .sub{font-size:12px!important;color:rgba(255,255,255,.84)!important;margi
 </style>
 
 
+
+<div id="sideSync421" data-gender="male" aria-label="側面ビュー 前後バランス">
+ <div class="svTitle">側面ビュー（前後バランス）</div>
+ <svg viewBox="0 0 180 220" role="img">
+  <defs>
+   <radialGradient id="gball421"><stop offset="0" stop-color="#ff2b21"/><stop offset=".2" stop-color="#fff42d"/><stop offset=".55" stop-color="#52ed68" stop-opacity=".85"/><stop offset="1" stop-color="#25d8e8" stop-opacity="0"/></radialGradient>
+  </defs>
+  <line x1="15" y1="104" x2="166" y2="104" stroke="#58a9ff" stroke-width="2"/>
+  <polygon points="166,104 157,99 157,109" fill="#58a9ff"/><text x="3" y="99" fill="white" font-size="10">後</text><text x="166" y="99" fill="white" font-size="10">前</text>
+  <line x1="95" y1="24" x2="95" y2="177" stroke="#4ff08c" stroke-width="2"/><polygon points="95,24 90,33 100,33" fill="#4ff08c"/>
+  <g class="male">
+   <ellipse cx="78" cy="45" rx="15" ry="18" fill="#efb08d"/><path d="M62 43q2-21 22-18q12 2 14 12q-11-5-22 0z" fill="#243b52"/>
+   <path d="M72 62q19-6 30 9l-2 55H70q-7-34 2-64" fill="#2989d8"/>
+   <path d="M67 68q-17 5-19 34l7 38q4 7 10 1l-4-39q2-18 12-23z" fill="#efb08d"/>
+   <path d="M72 67q-23 0-28 18l2 48q12 7 25 0l-2-45z" fill="#1d3447" stroke="#8fc8df"/>
+   <path d="M97 74q10 15 16 40l19 27q5 5 10 0l-18-33q-5-31-20-43z" fill="#efb08d"/>
+   <path d="M70 124l31 0l-2 29l-30 0z" fill="#3d5262"/>
+   <path d="M76 151l14 0l-12 45l-25 11l-5-8l19-15z" fill="#e6a17f"/>
+   <path d="M92 151l13 1l16 38l25 8l-4 9l-31-5l-25-39z" fill="#efb08d"/>
+   <path d="M48 198l31-7l5 8l-29 14zM118 193l29 7l-3 10l-31-7z" fill="#3f9be5"/>
+  </g>
+  <g class="female">
+   <ellipse cx="79" cy="45" rx="14" ry="18" fill="#efb08d"/><path d="M64 40q5-20 24-13q8 3 10 12q-12-5-23 0z" fill="#4b3040"/><path d="M67 43q-4 20 5 27q-10-5-11-20z" fill="#4b3040"/>
+   <path d="M72 62q18-5 29 10l-2 53H70q-6-33 2-63" fill="#d65c91"/>
+   <path d="M70 68q-22 1-26 18l3 47q11 7 24 0l-2-45z" fill="#3b3653" stroke="#c9a5d8"/>
+   <path d="M98 75q10 15 16 39l18 27q5 5 10 0l-17-33q-5-30-20-42z" fill="#efb08d"/>
+   <path d="M70 124h30l-1 28H69z" fill="#394552"/>
+   <path d="M76 151h13l-11 44l-25 12l-5-8l19-15zM92 151h12l17 39l25 8l-4 9l-31-5l-25-39z" fill="#efb08d"/>
+   <path d="M48 198l31-7l5 8l-29 14zM118 193l29 7l-3 10l-31-7z" fill="#985aa9"/>
+  </g>
+  <circle id="sideG421" cx="94" cy="108" r="34" fill="url(#gball421)"/><circle id="sideDot421" cx="94" cy="108" r="6" fill="#ff2d20" stroke="white" stroke-width="2"/>
+ </svg>
+ <div class="svFoot">後（−Z） ← 前後重心 → 前（＋Z）</div>
+</div>
+<div class="sideGender421"><button id="male421" class="active">男性</button><button id="female421">女性</button></div>
+
+
+<script id="sideSync421Script">
+(function(){
+ const p=document.getElementById("sideSync421"), m=document.getElementById("male421"), f=document.getElementById("female421");
+ if(!p)return;
+ function setGender(g){p.dataset.gender=g;m?.classList.toggle("active",g==="male");f?.classList.toggle("active",g==="female");
+   try{localStorage.setItem("ayalog_gender",g)}catch(e){}
+ }
+ m?.addEventListener("click",()=>setGender("male")); f?.addEventListener("click",()=>setGender("female"));
+ setGender((()=>{try{return localStorage.getItem("ayalog_gender")==="female"?"female":"male"}catch(e){return"male"}})());
+ // Reuse any existing gender control if present.
+ document.querySelectorAll('[data-gender]').forEach(el=>{if(el===p)return;el.addEventListener("click",()=>{const g=el.dataset.gender;if(g==="male"||g==="female")setGender(g)})});
+ // Side G-ball is deliberately a visualization layer; sensor/calibration hookup remains for 4.2.2.
+})();
+</script>
 </body></html>
