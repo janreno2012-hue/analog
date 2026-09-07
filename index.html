@@ -447,7 +447,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="ver412balancehud">
-/* Ver.4.1.7 HUD DETAIL — G-ball/legacy 2D panel removed. */
+/* Ver.4.1.8 GPS + SIDEVIEW FIX — G-ball/legacy 2D panel removed. */
 #cgDetail41,#ft262Badge{display:none!important}
 #sceneBalanceCanvas{z-index:20!important}
 .walkScene .hudGlass{position:absolute;z-index:23;color:#f4ffff;background:rgba(0,61,65,.64);border:1px solid rgba(121,245,236,.72);box-shadow:0 4px 14px rgba(0,0,0,.16);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:12px;pointer-events:none}
@@ -510,9 +510,26 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 }
 </style>
 
+
+<style id="ver418gpssidefix">
+.hudGpsBox .gpsBars i{background:#79938f!important;box-shadow:none!important}
+.hudGpsBox.gpsOk .gpsBars i{background:#48ff43!important;box-shadow:0 0 5px rgba(72,255,67,.5)!important}
+.hudGpsBox.gpsErr .gpsBars i{background:#ff6b6b!important}
+.hudGpsBox #hudGps412.on{color:#fff!important}.hudGpsBox #hudGps412.warn{color:#ffd6d6!important}
+.sideHumanSvg412{transform:scale(1.07);transform-origin:50% 54%}
+#sideBalance412{width:112px!important}
+.sideHumanStage412{width:100px!important;height:132px!important}
+#sideBalanceCanvas412{width:100px!important;height:132px!important}
+@media(max-width:430px){
+  #sideBalance412{width:102px!important}
+  .sideHumanStage412{width:90px!important;height:120px!important}
+  #sideBalanceCanvas412{width:90px!important;height:120px!important}
+}
+</style>
+
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.1.7 HUD DETAIL</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.1.8 GPS + SIDEVIEW FIX</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -543,12 +560,12 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
-<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.7</h2>
+<section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.1.8</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
 <div class="walkScene">
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.7 HUD DETAIL</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">HUD DETAIL / Ver.4.1.7</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.1.8 GPS + SIDEVIEW FIX</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">GPS + SIDEVIEW / Ver.4.1.8</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -573,23 +590,38 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div id="sideBalance412" class="hudGlass">
   <div class="ttl">側面ビュー（前後バランス）</div>
   <div class="sideHumanStage412" aria-hidden="true">
-    <svg class="sideHumanSvg412" viewBox="0 0 120 180">
+    <svg class="sideHumanSvg412" viewBox="0 0 140 200">
       <defs>
-        <linearGradient id="shirtSide412" x1="0" x2="1"><stop stop-color="#2db7e8"/><stop offset="1" stop-color="#1574bb"/></linearGradient>
-        <linearGradient id="skinSide412" x1="0" x2="1"><stop stop-color="#f1c7aa"/><stop offset="1" stop-color="#d99c79"/></linearGradient>
+        <linearGradient id="shirtSide412" x1="0" x2="1"><stop stop-color="#39c4ef"/><stop offset=".55" stop-color="#1687cf"/><stop offset="1" stop-color="#0f65a6"/></linearGradient>
+        <linearGradient id="skinSide412" x1="0" x2="1"><stop stop-color="#f4cfb2"/><stop offset="1" stop-color="#d99b77"/></linearGradient>
+        <linearGradient id="shortSide412" x1="0" x2="1"><stop stop-color="#8396a0"/><stop offset="1" stop-color="#5e747f"/></linearGradient>
       </defs>
-      <ellipse cx="63" cy="24" rx="12" ry="14" fill="url(#skinSide412)"/>
-      <path d="M53 19q10-14 23-3l-3 8-17-1z" fill="#24394b"/>
-      <path d="M58 39q8-5 15 2l7 38q-7 14-25 0z" fill="url(#shirtSide412)"/>
-      <path d="M52 43q-9 5-11 26l7 20 6-3-5-18 9-17z" fill="url(#skinSide412)"/>
-      <path d="M69 46q10 6 13 23l-4 20-6-2 2-18-8-16z" fill="url(#skinSide412)"/>
-      <path d="M48 44q-16 6-16 34l11 6 10-33z" fill="#162e3d"/>
-      <path d="M54 80q11 5 26 0l-1 19-25 0z" fill="#647c88"/>
-      <path d="M59 97q-4 19-13 36l-8 29 8 2 12-27 9-20 5-18z" fill="url(#skinSide412)"/>
-      <path d="M70 98q10 16 17 35l19 20-6 6-22-18-13-22-6-19z" fill="url(#skinSide412)"/>
-      <path d="M34 161h20q0 7-10 8H31z" fill="#277bc9"/>
-      <path d="M97 153l13 8q2 6-5 8l-18-9z" fill="#277bc9"/>
-      <path d="M50 96q11 5 29 1l-3 14-25 0z" fill="#718590"/>
+      <!-- head / hair / neck -->
+      <ellipse cx="76" cy="27" rx="13" ry="15" fill="url(#skinSide412)"/>
+      <path d="M63 23q6-18 25-10l5 8-5 7q-7-8-24-4z" fill="#203746"/>
+      <path d="M70 39h9v9h-9z" fill="url(#skinSide412)"/>
+      <!-- torso -->
+      <path d="M64 46q9-6 19 1l7 42q-8 14-30 2l2-30z" fill="url(#shirtSide412)"/>
+      <!-- backpack with shoulder strap -->
+      <path d="M59 49q-22 7-20 44l14 7 13-45z" fill="#17313f"/>
+      <path d="M59 51q8 13 8 36" fill="none" stroke="#b8d6dc" stroke-width="3" opacity=".65"/>
+      <!-- far arm -->
+      <path d="M65 52q-11 10-13 30l6 24 7-2-5-22 9-18z" fill="url(#skinSide412)"/>
+      <!-- near arm -->
+      <path d="M84 53q11 10 14 28l-5 25-7-2 3-22-9-18z" fill="url(#skinSide412)"/>
+      <!-- shorts / pelvis -->
+      <path d="M58 89q15 7 33 0l1 20-36 1z" fill="url(#shortSide412)"/>
+      <path d="M59 109q15 4 32 0l-7 15-25-1z" fill="#6f838d"/>
+      <!-- rear leg -->
+      <path d="M65 119q-5 20-15 39l-8 27 10 2 12-25 13-22 4-17z" fill="url(#skinSide412)"/>
+      <!-- forward leg -->
+      <path d="M80 120q12 18 19 37l22 20-7 8-25-17-15-24-6-19z" fill="url(#skinSide412)"/>
+      <!-- socks -->
+      <path d="M40 179l13 2-2 8-14-2z" fill="#f3f6f5"/>
+      <path d="M111 175l10 5-5 8-11-6z" fill="#f3f6f5"/>
+      <!-- shoes -->
+      <path d="M35 185h22q2 7-8 9H31z" fill="#2c83d2"/>
+      <path d="M113 180l15 9q2 7-6 8l-20-10z" fill="#2c83d2"/>
     </svg>
     <canvas id="sideBalanceCanvas412"></canvas>
   </div>
@@ -1018,6 +1050,7 @@ function startGPS(){
  watchId=navigator.geolocation.watchPosition(p=>{
    const now=p.timestamp||Date.now();
    const x={lat:p.coords.latitude,lng:p.coords.longitude,alt:p.coords.altitude,speed:p.coords.speed,time:now};
+   latestGpsPoint={lat:x.lat,lng:x.lng,time:now,accuracy:p.coords.accuracy};lastGpsCallbackTime=now;
    const last=route[route.length-1];
    let dt=0,acceptedD=0;
    if(last)dt=Math.max(0,(now-last.time)/1000);
@@ -1072,7 +1105,7 @@ function startGPS(){
    updateMetrics();
    $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";$("pocketGps").textContent="📍 GPS：精度 "+Math.round(p.coords.accuracy)+" m";
    $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length;
- },e=>$("gpsmsg").textContent="📍 GPS：取得できません（"+e.message+"）",{enableHighAccuracy:true,maximumAge:3000,timeout:10000})
+ },e=>{latestGpsPoint=null;$("gpsmsg").textContent="📍 GPS：取得できません（"+e.message+"）"},{enableHighAccuracy:true,maximumAge:3000,timeout:10000})
 }
 function stopGPS(){if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}}
 function resetMap(){
@@ -1599,7 +1632,12 @@ render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./serv
     const gps=$id("hudGps412");
     if(gps){
       const gm=text("gpsmsg","");
-      gps.textContent=/取得|捕捉|GPS点|精度|計測/.test(gm) ? "GPS" : "GPS";
+      const box=gps.closest(".hudGpsBox");
+      const got=/精度\s*\d+\s*m|GPS点/.test(gm) || !!window.latestGpsPoint || (typeof latestGpsPoint!=="undefined" && !!latestGpsPoint);
+      const err=/取得できません|利用できません/.test(gm);
+      gps.textContent=err?"ERR":(got?"GPS":"WAIT");
+      gps.className=err?"warn":(got?"on":"off");
+      if(box){box.classList.toggle("gpsOk",got);box.classList.toggle("gpsErr",err);}
     }
     const bell=$id("hudBell412");
     if(bell){
