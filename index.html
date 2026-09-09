@@ -636,7 +636,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 
 <style id="fieldTest32GlassHudStyle">
-/* FIELD TEST 42 — Glass HUD: higher transparency, fixed single-line distribution rows. */
+/* FIELD TEST 43 — Glass HUD: higher transparency, fixed single-line distribution rows. */
 .walkScene .hudGlass{
  background:rgba(0,61,65,.20)!important;
  border-color:rgba(121,245,236,.78)!important;
@@ -665,7 +665,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="fieldTest33GlassHudFinal">
-/* FIELD TEST 42 — authoritative Glass HUD override */
+/* FIELD TEST 43 — authoritative Glass HUD override */
 .walkScene .hudGlass{background:rgba(0,61,65,.20)!important;border:1px solid rgba(121,245,236,.82)!important;box-shadow:0 3px 12px rgba(0,0,0,.10)!important;backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;}
 .hudInd412{background:rgba(0,61,65,.22)!important;border-color:rgba(121,245,236,.80)!important;backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;}
 #balanceReadout{background:rgba(0,77,73,.23)!important;}
@@ -724,7 +724,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
  <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.1 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 42</div><div class="t3">TEST / Ver.5.1</div></div>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 43</div><div class="t3">TEST / Ver.5.1</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1155,7 +1155,7 @@ function balanceStats412(){
 function updateBalanceHud412(){
  const st=balanceStats412(),cal=!balanceCalibrated;
  const ex=document.getElementById("cgAvgX412"),ez=document.getElementById("cgAvgZ412"),ey=document.getElementById("cgAvgY412"),es=document.getElementById("cgStable412");
- // FIELD TEST 42: show each axis as a paired directional distribution.
+ // FIELD TEST 43: show each axis as a paired directional distribution.
  // 50/50 means centered; this is easier to interpret than a single percentage or raw offset.
  const lr=axisDistribution430("x"),fb=axisDistribution430("y"),ud=axisDistribution430("z");
  if(ex)ex.textContent=cal?"校正中":"左 "+lr.neg+" / 右 "+lr.pos+"%";
@@ -1251,7 +1251,7 @@ function addCalories(distanceM,seconds,weight,grade,speed){
  const met=metFor(speed,grade);
  currentCalories += met*3.5*weight/200*(seconds/60);
 }
-// FIELD TEST 42: recalculate ascent/descent from the smoothed altitude series.
+// FIELD TEST 43: recalculate ascent/descent from the smoothed altitude series.
 // A small deadband suppresses tiny GPS altitude jitter while retaining real slopes.
 function recalcElevationTotals430(){
  const pts=route.filter(p=>Number.isFinite(p.smoothAlt));
@@ -1331,7 +1331,7 @@ function startGPS(){
      addCalories(d,dt,w,currentGrade,currentSpeed);
    } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
    x.smoothAlt=lastSmoothAlt;
-   // FIELD TEST 42: every GPS point carries cumulative walking distance.
+   // FIELD TEST 43: every GPS point carries cumulative walking distance.
    // The elevation profile uses this value for the X axis.
    x.dist=routeDistance;
    route.push(x);
@@ -2133,16 +2133,16 @@ document.getElementById("stopSaveNo430")?.addEventListener("click",()=>closeStop
 document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(saveCurrentRecord430(false)){closeStopSaveModal430();setTimeout(()=>alert("今回の歩行記録を保存しました。"),40);}});
 </script>
 
-\n<style id="fieldTest34GlassHudFinal">\n/* FIELD TEST 42 — final cascade Glass HUD override.\n   Intentionally placed at the end of the document so legacy concept CSS cannot win. */\n#hudBrand412,\n#cgAvgPanel412,\n#sideBalance412,\n#elevMini412 {\n  background:rgba(0,54,64,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 12px rgba(0,25,30,.12)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n.hudInd412 {\n  background:rgba(0,54,64,.32)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#balanceReadout {\n  background:rgba(0,66,66,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.82)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#hudSummary416 {\n  background:rgba(0,70,76,.28)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.72)!important;\n  box-shadow:0 4px 14px rgba(0,40,45,.09)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n/* Never let changing distribution values alter the panel height. */\n#cgAvgPanel412{width:174px!important;}\n#cgAvgPanel412 .cgAvgRow412{\n  display:grid!important;\n  grid-template-columns:56px minmax(0,1fr)!important;\n  align-items:center!important;\n  white-space:nowrap!important;\n  min-height:18px!important;\n}\n#cgAvgPanel412 .cgAvgRow412 span,\n#cgAvgPanel412 .cgAvgRow412 b{\n  white-space:nowrap!important;\n  overflow:visible!important;\n  word-break:keep-all!important;\n}\n#cgAvgPanel412 .cgAvgRow412 b{font-size:10.5px!important;text-align:right!important;}\n</style>\n
+\n<style id="fieldTest34GlassHudFinal">\n/* FIELD TEST 43 — final cascade Glass HUD override.\n   Intentionally placed at the end of the document so legacy concept CSS cannot win. */\n#hudBrand412,\n#cgAvgPanel412,\n#sideBalance412,\n#elevMini412 {\n  background:rgba(0,54,64,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 12px rgba(0,25,30,.12)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n.hudInd412 {\n  background:rgba(0,54,64,.32)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#balanceReadout {\n  background:rgba(0,66,66,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.82)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#hudSummary416 {\n  background:rgba(0,70,76,.28)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.72)!important;\n  box-shadow:0 4px 14px rgba(0,40,45,.09)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n/* Never let changing distribution values alter the panel height. */\n#cgAvgPanel412{width:174px!important;}\n#cgAvgPanel412 .cgAvgRow412{\n  display:grid!important;\n  grid-template-columns:56px minmax(0,1fr)!important;\n  align-items:center!important;\n  white-space:nowrap!important;\n  min-height:18px!important;\n}\n#cgAvgPanel412 .cgAvgRow412 span,\n#cgAvgPanel412 .cgAvgRow412 b{\n  white-space:nowrap!important;\n  overflow:visible!important;\n  word-break:keep-all!important;\n}\n#cgAvgPanel412 .cgAvgRow412 b{font-size:10.5px!important;text-align:right!important;}\n</style>\n
 <style id="fieldTest35ScopedGlassHud">
-/* FIELD TEST 42: Glass only inside 3D scene; restore metrics panel readability. */
+/* FIELD TEST 43: Glass only inside 3D scene; restore metrics panel readability. */
 #hudBrand412,#cgAvgPanel412,#sideBalance412,#elevMini412,.hudInd412,#balanceReadout{background:rgba(0,54,64,.20)!important;background-image:none!important;border:1px solid rgba(108,248,238,.88)!important;box-shadow:0 3px 10px rgba(0,25,30,.08)!important;backdrop-filter:blur(3px) saturate(112%)!important;-webkit-backdrop-filter:blur(3px) saturate(112%)!important;}
 /* keep the outside time/steps/distance/speed/calories panel solid/readable */
 #hudSummary416{background:linear-gradient(180deg,rgba(0,105,112,.96),rgba(0,84,91,.96))!important;border:1px solid rgba(255,255,255,.42)!important;box-shadow:0 5px 14px rgba(0,45,50,.16)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
 </style>
 
 <style id="fieldTest36MetricsFontOnly">
-/* FIELD TEST 42: ONLY enlarge the five-cell metrics typography.
+/* FIELD TEST 43: ONLY enlarge the five-cell metrics typography.
    FIELD TEST 35 Glass HUD transparency is intentionally untouched. */
 #hudSummary416 > div{min-width:0!important;padding-left:2px!important;padding-right:2px!important;}
 #hudSummary416 small,#hudSummary416 b{white-space:nowrap!important;word-break:keep-all!important;overflow:visible!important;}
@@ -2188,7 +2188,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 <div id="ft38Flow" aria-modal="true" role="dialog">
  <div class="ft38Shell">
-  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 42 / WALKING REPORT prototype</div></div>
+  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 43 / WALKING REPORT prototype</div></div>
 
   <section id="ft38QuestionPage">
    <div class="ft38Card">
@@ -2338,7 +2338,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 
 <style id="fieldTest39ReportUI">
-/* FIELD TEST 42 — approved Walking Report visual direction */
+/* FIELD TEST 43 — approved Walking Report visual direction */
 #ft38Flow{background:linear-gradient(180deg,#e9f8f6 0%,#f9fdfc 52%,#eff8f7 100%);padding:10px}
 .ft38Shell{width:min(920px,100%);margin:0 auto 30px}
 .ft38Head{background:rgba(239,250,248,.94);border-bottom:1px solid #d2ebe6;padding:10px 4px 12px}
@@ -2511,7 +2511,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 
 <style id="fieldTest41FullReportStyle">
-/* FIELD TEST 42 — STOP後、保存前に評価結果を上から日記まで縦に通して確認 */
+/* FIELD TEST 43 — STOP後、保存前に評価結果を上から日記まで縦に通して確認 */
 #ft38Flow{padding-bottom:90px}
 #ft38ReportPage{padding-bottom:18px}
 .ft41SectionTitle{font-size:16px;font-weight:900;color:#08756f;margin:0 0 10px}
@@ -2616,7 +2616,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 
 <style id="fieldTest42ScrollReportStyle">
-/* FIELD TEST 42
+/* FIELD TEST 43
    保存前レポートは 1 本の縦スクロール。
    保存ボタンを画面に固定せず、日記の下まで読んでから操作する。 */
 #ft38Flow{
@@ -2747,6 +2747,190 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
    }
  });
  obs.observe(report,{attributes:true,attributeFilter:["style"]});
+})();
+</script>
+
+
+<style id="fieldTest43SavedFullReportStyle">
+#savedVoice40{
+  position:fixed!important;inset:0!important;z-index:16000!important;
+  display:none!important;background:linear-gradient(180deg,#e9f8f6,#f8fcfb)!important;
+  padding:0!important;overflow-y:auto!important;overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+#savedVoice40.show{display:block!important}
+#savedVoice40 .sv40Card{
+  width:min(920px,100%)!important;max-width:none!important;
+  min-height:100vh!important;margin:0 auto!important;
+  background:transparent!important;border:none!important;box-shadow:none!important;
+  border-radius:0!important;padding:10px 10px 28px!important;color:#173b39!important;
+}
+#savedVoice40 .sv40Top{
+  position:sticky!important;top:0!important;z-index:8!important;
+  background:rgba(235,248,246,.96)!important;backdrop-filter:blur(8px)!important;
+  padding:10px 2px!important;margin:0 0 8px!important;border-bottom:1px solid #d3e9e5!important;
+}
+#savedVoice40 .sv40Title{font-size:23px!important}
+#savedVoice40 .sv40Close{flex:0 0 42px!important}
+
+.ft43Hero{
+  position:relative;overflow:hidden;min-height:245px;border-radius:22px;
+  background:linear-gradient(135deg,#fff,#eef9f7);
+  border:1px solid #cbe7e2;box-shadow:0 8px 24px rgba(15,80,75,.08);margin:8px 0 10px
+}
+.ft43HeroImg{position:absolute;right:0;top:0;width:48%;height:100%;object-fit:cover;object-position:center top}
+.ft43HeroShade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.99) 0%,rgba(255,255,255,.96) 43%,rgba(255,255,255,.55) 62%,rgba(255,255,255,.03) 100%)}
+.ft43HeroContent{position:relative;z-index:1;width:60%;padding:16px}
+.ft43Meta{font-size:12px;color:#68827e;margin-bottom:8px}
+.ft43ScoreLine{display:flex;align-items:end;gap:7px}
+.ft43ScoreLine strong{font-size:58px;line-height:1;color:#075f60}
+.ft43ScoreLine span{font-size:21px;margin-bottom:6px}
+.ft43Stars{font-size:23px;color:#d49b18;margin:7px 0}
+.ft43Speech{background:rgba(255,255,255,.94);border:2px solid #9ed9d1;border-radius:16px;padding:10px 12px;line-height:1.6;font-size:14px}
+
+.ft43Panel{background:#fff;border:1px solid #cbe8e3;border-radius:21px;padding:14px;margin:10px 0;box-shadow:0 7px 22px rgba(14,87,81,.07)}
+.ft43Panel h3{margin:0 0 10px;color:#08756f;font-size:18px}
+#savedVoice43Radar{display:block;width:100%;max-width:390px;height:auto;margin:0 auto}
+.ft43Metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.ft43Metric{background:#f2f9f8;border-radius:12px;padding:9px 10px;font-size:13px}
+.ft43Metric b{float:right;color:#08756f}
+.ft43Voice{background:#f3faf9;border-radius:14px;padding:13px;line-height:1.8;font-size:15px}
+.ft43Data{display:grid;gap:8px}
+.ft43Row{display:flex;justify-content:space-between;gap:12px;background:#f3f9f8;border-radius:11px;padding:9px 10px;font-size:13px}
+.ft43Row b{color:#075f60}
+.ft43Diary{white-space:pre-wrap;line-height:1.7;background:#f8fbfb;border:1px solid #dcece9;border-radius:12px;padding:11px;min-height:120px;font-size:13px}
+.ft43BottomClose{width:100%;padding:14px;border-radius:15px;background:#08756f;color:#fff;font-weight:900;margin-top:10px}
+
+@media(max-width:620px){
+  #savedVoice40 .sv40Card{padding:8px 8px 24px!important}
+  .ft43Hero{min-height:225px}
+  .ft43HeroImg{width:55%}
+  .ft43HeroContent{width:66%;padding:13px}
+  .ft43ScoreLine strong{font-size:50px}
+  .ft43Speech{font-size:13px}
+}
+</style>
+
+<script id="fieldTest43SavedFullReportScript">
+(()=>{
+ const modal=document.getElementById("savedVoice40");
+ if(!modal) return;
+
+ // Pull the same doctor image already embedded in the pre-save report.
+ const existingDoctor=document.querySelector(".ft39HeroImg");
+ const doctorSrc=existingDoctor?existingDoctor.getAttribute("src"):"";
+
+ function stars43(score){
+   const n=Number.isFinite(Number(score))?Math.max(1,Math.min(5,Math.round(Number(score)/20))):0;
+   return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n);
+ }
+ function fmt43(sec){
+   sec=Math.max(0,Math.round(Number(sec)||0));
+   const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;
+   return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+ }
+ function drawRadar43(s){
+   const c=document.getElementById("savedVoice43Radar"); if(!c)return;
+   const x=c.getContext("2d"),cx=180,cy=138,R=96;
+   const vals=[["体幹",Number(s.trunk)||0],["左右",Number(s.lr)||0],["前後",Number(s.fb)||0],["ペース",Number(s.pace)||0],["持続",Number(s.endurance)||0]];
+   x.clearRect(0,0,c.width,c.height);x.font="12px sans-serif";x.textAlign="center";x.textBaseline="middle";
+   for(let ring=1;ring<=4;ring++){
+     x.beginPath();
+     for(let i=0;i<5;i++){const a=-Math.PI/2+i*Math.PI*2/5,r=R*ring/4,px=cx+Math.cos(a)*r,py=cy+Math.sin(a)*r;i?x.lineTo(px,py):x.moveTo(px,py)}
+     x.closePath();x.strokeStyle="#c7ded9";x.stroke();
+   }
+   x.beginPath();
+   vals.forEach((it,i)=>{const a=-Math.PI/2+i*Math.PI*2/5,r=R*Math.max(0,Math.min(100,it[1]))/100,px=cx+Math.cos(a)*r,py=cy+Math.sin(a)*r;i?x.lineTo(px,py):x.moveTo(px,py)});
+   x.closePath();x.fillStyle="rgba(8,117,111,.24)";x.fill();x.strokeStyle="#08756f";x.lineWidth=2;x.stroke();
+   vals.forEach((it,i)=>{const a=-Math.PI/2+i*Math.PI*2/5,r=R+25;x.fillStyle="#315f5a";x.fillText(it[0]+" "+Math.round(it[1]),cx+Math.cos(a)*r,cy+Math.sin(a)*r)});
+ }
+
+ window.openSavedVoice40=function(rec){
+   const a=rec.assessment||{}, s=a.scores||{}, q=a.questionnaire||{}, score=Number(a.score);
+   const labels={good:"良い",normal:"普通",tired:"やや疲れた",bad:"疲れた",none:"なし",some:"少し",strong:"強い"};
+   const km=(Number(rec.distance)||0)/1000;
+   const activeSec=(()=>{
+     if(rec.duration&&/^\d\d:\d\d:\d\d$/.test(rec.duration)){
+       const p=rec.duration.split(":").map(Number); return p[0]*3600+p[1]*60+p[2];
+     }
+     return 0;
+   })();
+   const avg=activeSec>0?km/(activeSec/3600):0;
+
+   modal.innerHTML=`
+    <div class="sv40Card">
+      <div class="sv40Top">
+        <div><div class="sv40Title">🌿 保存したWALKING REPORT</div><div class="ft43Meta">${rec.date||""} ／ ${rec.duration||"--"} ／ ${Number(rec.steps||0).toLocaleString()} 歩</div></div>
+        <button id="savedVoice40Close" class="sv40Close">×</button>
+      </div>
+
+      <section class="ft43Hero">
+        ${doctorSrc?`<img class="ft43HeroImg" src="${doctorSrc}" alt="歩ログ先生">`:""}
+        <div class="ft43HeroShade"></div>
+        <div class="ft43HeroContent">
+          <div style="font-weight:900;color:#08756f;margin-bottom:5px">👑 総合評価</div>
+          <div class="ft43ScoreLine"><strong>${Number.isFinite(score)?Math.round(score):"--"}</strong><span>/100 点</span></div>
+          <div class="ft43Stars">${stars43(score)}</div>
+          <div class="ft43Speech">${a.voice||"この記録には先生の声が保存されていません。"}</div>
+        </div>
+      </section>
+
+      <section class="ft43Panel">
+        <h3>📊 歩行バランス</h3>
+        <canvas id="savedVoice43Radar" width="360" height="280"></canvas>
+        <div class="ft43Metrics">
+          <div class="ft43Metric">体幹安定性 <b>${Math.round(Number(s.trunk)||0)}</b></div>
+          <div class="ft43Metric">左右バランス <b>${Math.round(Number(s.lr)||0)}</b></div>
+          <div class="ft43Metric">前後バランス <b>${Math.round(Number(s.fb)||0)}</b></div>
+          <div class="ft43Metric">ペース安定 <b>${Math.round(Number(s.pace)||0)}</b></div>
+          <div class="ft43Metric">持続性 <b>${Math.round(Number(s.endurance)||0)}</b></div>
+          <div class="ft43Metric">距離 <b>${km.toFixed(2)} km</b></div>
+        </div>
+      </section>
+
+      <section class="ft43Panel">
+        <h3>👣 歩行データ</h3>
+        <div class="ft43Data">
+          <div class="ft43Row"><span>歩行時間</span><b>${rec.duration||"--"}</b></div>
+          <div class="ft43Row"><span>歩数</span><b>${Number(rec.steps||0).toLocaleString()} 歩</b></div>
+          <div class="ft43Row"><span>距離</span><b>${km.toFixed(2)} km</b></div>
+          <div class="ft43Row"><span>平均速度</span><b>${avg.toFixed(1)} km/h</b></div>
+          <div class="ft43Row"><span>消費カロリー</span><b>${Math.round(Number(rec.calories)||0)} kcal</b></div>
+          <div class="ft43Row"><span>停止時間</span><b>${fmt43(Number(rec.stoppedSeconds)||0)}</b></div>
+        </div>
+      </section>
+
+      <section class="ft43Panel">
+        <h3>💬 歩ログ先生の声</h3>
+        <div class="ft43Voice">${a.voice||"この記録には先生の声が保存されていません。"}</div>
+      </section>
+
+      <section class="ft43Panel">
+        <h3>📋 今日のコンディション（問診）</h3>
+        <div class="ft43Data">
+          <div class="ft43Row"><span>気分</span><b>${labels[q.mood]||"—"}</b></div>
+          <div class="ft43Row"><span>疲労感</span><b>${labels[q.fatigue]||"—"}</b></div>
+          <div class="ft43Row"><span>体の痛み・違和感</span><b>${labels[q.pain]||"—"}</b></div>
+          <div class="ft43Row"><span>睡眠の質</span><b>${labels[q.sleep]||"—"}</b></div>
+          <div class="ft43Row"><span>歩きやすさ</span><b>${labels[q.ease]||"—"}</b></div>
+        </div>
+      </section>
+
+      <section class="ft43Panel">
+        <h3>📖 今日の歩ログ日記</h3>
+        <div class="ft43Diary">${(a.diary||rec.diary||"この日は日記の入力はありません。").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div>
+      </section>
+
+      <button id="savedVoice43CloseBottom" class="ft43BottomClose">閉じる</button>
+    </div>`;
+
+   modal.classList.add("show");
+   modal.scrollTop=0;
+   drawRadar43(s);
+   const close=()=>modal.classList.remove("show");
+   document.getElementById("savedVoice40Close").onclick=close;
+   document.getElementById("savedVoice43CloseBottom").onclick=close;
+ };
 })();
 </script>
 
