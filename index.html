@@ -636,7 +636,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 
 <style id="fieldTest32GlassHudStyle">
-/* FIELD TEST 34 — Glass HUD: higher transparency, fixed single-line distribution rows. */
+/* FIELD TEST 35 — Glass HUD: higher transparency, fixed single-line distribution rows. */
 .walkScene .hudGlass{
  background:rgba(0,61,65,.20)!important;
  border-color:rgba(121,245,236,.78)!important;
@@ -665,7 +665,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="fieldTest33GlassHudFinal">
-/* FIELD TEST 34 — authoritative Glass HUD override */
+/* FIELD TEST 35 — authoritative Glass HUD override */
 .walkScene .hudGlass{background:rgba(0,61,65,.20)!important;border:1px solid rgba(121,245,236,.82)!important;box-shadow:0 3px 12px rgba(0,0,0,.10)!important;backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;}
 .hudInd412{background:rgba(0,61,65,.22)!important;border-color:rgba(121,245,236,.80)!important;backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;}
 #balanceReadout{background:rgba(0,77,73,.23)!important;}
@@ -677,7 +677,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.3.3 TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.3.4 TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -723,8 +723,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="walkScene">
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.3.3 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 34</div><div class="t3">TEST / Ver.4.3.3</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.3.4 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 35</div><div class="t3">TEST / Ver.4.3.4</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1155,7 +1155,7 @@ function balanceStats412(){
 function updateBalanceHud412(){
  const st=balanceStats412(),cal=!balanceCalibrated;
  const ex=document.getElementById("cgAvgX412"),ez=document.getElementById("cgAvgZ412"),ey=document.getElementById("cgAvgY412"),es=document.getElementById("cgStable412");
- // FIELD TEST 34: show each axis as a paired directional distribution.
+ // FIELD TEST 35: show each axis as a paired directional distribution.
  // 50/50 means centered; this is easier to interpret than a single percentage or raw offset.
  const lr=axisDistribution430("x"),fb=axisDistribution430("y"),ud=axisDistribution430("z");
  if(ex)ex.textContent=cal?"校正中":"左 "+lr.neg+" / 右 "+lr.pos+"%";
@@ -1251,7 +1251,7 @@ function addCalories(distanceM,seconds,weight,grade,speed){
  const met=metFor(speed,grade);
  currentCalories += met*3.5*weight/200*(seconds/60);
 }
-// FIELD TEST 34: recalculate ascent/descent from the smoothed altitude series.
+// FIELD TEST 35: recalculate ascent/descent from the smoothed altitude series.
 // A small deadband suppresses tiny GPS altitude jitter while retaining real slopes.
 function recalcElevationTotals430(){
  const pts=route.filter(p=>Number.isFinite(p.smoothAlt));
@@ -1331,7 +1331,7 @@ function startGPS(){
      addCalories(d,dt,w,currentGrade,currentSpeed);
    } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
    x.smoothAlt=lastSmoothAlt;
-   // FIELD TEST 34: every GPS point carries cumulative walking distance.
+   // FIELD TEST 35: every GPS point carries cumulative walking distance.
    // The elevation profile uses this value for the X axis.
    x.dist=routeDistance;
    route.push(x);
@@ -2132,4 +2132,11 @@ document.getElementById("stopSaveNo430")?.addEventListener("click",()=>closeStop
 document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(saveCurrentRecord430(false)){closeStopSaveModal430();setTimeout(()=>alert("今回の歩行記録を保存しました。"),40);}});
 </script>
 
-\n<style id="fieldTest34GlassHudFinal">\n/* FIELD TEST 34 — final cascade Glass HUD override.\n   Intentionally placed at the end of the document so legacy concept CSS cannot win. */\n#hudBrand412,\n#cgAvgPanel412,\n#sideBalance412,\n#elevMini412 {\n  background:rgba(0,54,64,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 12px rgba(0,25,30,.12)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n.hudInd412 {\n  background:rgba(0,54,64,.32)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#balanceReadout {\n  background:rgba(0,66,66,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.82)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#hudSummary416 {\n  background:rgba(0,70,76,.28)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.72)!important;\n  box-shadow:0 4px 14px rgba(0,40,45,.09)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n/* Never let changing distribution values alter the panel height. */\n#cgAvgPanel412{width:174px!important;}\n#cgAvgPanel412 .cgAvgRow412{\n  display:grid!important;\n  grid-template-columns:56px minmax(0,1fr)!important;\n  align-items:center!important;\n  white-space:nowrap!important;\n  min-height:18px!important;\n}\n#cgAvgPanel412 .cgAvgRow412 span,\n#cgAvgPanel412 .cgAvgRow412 b{\n  white-space:nowrap!important;\n  overflow:visible!important;\n  word-break:keep-all!important;\n}\n#cgAvgPanel412 .cgAvgRow412 b{font-size:10.5px!important;text-align:right!important;}\n</style>\n</body></html>
+\n<style id="fieldTest34GlassHudFinal">\n/* FIELD TEST 35 — final cascade Glass HUD override.\n   Intentionally placed at the end of the document so legacy concept CSS cannot win. */\n#hudBrand412,\n#cgAvgPanel412,\n#sideBalance412,\n#elevMini412 {\n  background:rgba(0,54,64,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 12px rgba(0,25,30,.12)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n.hudInd412 {\n  background:rgba(0,54,64,.32)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#balanceReadout {\n  background:rgba(0,66,66,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.82)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#hudSummary416 {\n  background:rgba(0,70,76,.28)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.72)!important;\n  box-shadow:0 4px 14px rgba(0,40,45,.09)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n/* Never let changing distribution values alter the panel height. */\n#cgAvgPanel412{width:174px!important;}\n#cgAvgPanel412 .cgAvgRow412{\n  display:grid!important;\n  grid-template-columns:56px minmax(0,1fr)!important;\n  align-items:center!important;\n  white-space:nowrap!important;\n  min-height:18px!important;\n}\n#cgAvgPanel412 .cgAvgRow412 span,\n#cgAvgPanel412 .cgAvgRow412 b{\n  white-space:nowrap!important;\n  overflow:visible!important;\n  word-break:keep-all!important;\n}\n#cgAvgPanel412 .cgAvgRow412 b{font-size:10.5px!important;text-align:right!important;}\n</style>\n
+<style id="fieldTest35ScopedGlassHud">
+/* FIELD TEST 35: Glass only inside 3D scene; restore metrics panel readability. */
+#hudBrand412,#cgAvgPanel412,#sideBalance412,#elevMini412,.hudInd412,#balanceReadout{background:rgba(0,54,64,.20)!important;background-image:none!important;border:1px solid rgba(108,248,238,.88)!important;box-shadow:0 3px 10px rgba(0,25,30,.08)!important;backdrop-filter:blur(3px) saturate(112%)!important;-webkit-backdrop-filter:blur(3px) saturate(112%)!important;}
+/* keep the outside time/steps/distance/speed/calories panel solid/readable */
+#hudSummary416{background:linear-gradient(180deg,rgba(0,105,112,.96),rgba(0,84,91,.96))!important;border:1px solid rgba(255,255,255,.42)!important;box-shadow:0 5px 14px rgba(0,45,50,.16)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+</style>
+</body></html>
