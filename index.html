@@ -636,7 +636,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 
 <style id="fieldTest32GlassHudStyle">
-/* FIELD TEST 41 — Glass HUD: higher transparency, fixed single-line distribution rows. */
+/* FIELD TEST 42 — Glass HUD: higher transparency, fixed single-line distribution rows. */
 .walkScene .hudGlass{
  background:rgba(0,61,65,.20)!important;
  border-color:rgba(121,245,236,.78)!important;
@@ -665,7 +665,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="fieldTest33GlassHudFinal">
-/* FIELD TEST 41 — authoritative Glass HUD override */
+/* FIELD TEST 42 — authoritative Glass HUD override */
 .walkScene .hudGlass{background:rgba(0,61,65,.20)!important;border:1px solid rgba(121,245,236,.82)!important;box-shadow:0 3px 12px rgba(0,0,0,.10)!important;backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;}
 .hudInd412{background:rgba(0,61,65,.22)!important;border-color:rgba(121,245,236,.80)!important;backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;}
 #balanceReadout{background:rgba(0,77,73,.23)!important;}
@@ -724,7 +724,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
  <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.1 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 41</div><div class="t3">TEST / Ver.5.1</div></div>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 42</div><div class="t3">TEST / Ver.5.1</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1155,7 +1155,7 @@ function balanceStats412(){
 function updateBalanceHud412(){
  const st=balanceStats412(),cal=!balanceCalibrated;
  const ex=document.getElementById("cgAvgX412"),ez=document.getElementById("cgAvgZ412"),ey=document.getElementById("cgAvgY412"),es=document.getElementById("cgStable412");
- // FIELD TEST 41: show each axis as a paired directional distribution.
+ // FIELD TEST 42: show each axis as a paired directional distribution.
  // 50/50 means centered; this is easier to interpret than a single percentage or raw offset.
  const lr=axisDistribution430("x"),fb=axisDistribution430("y"),ud=axisDistribution430("z");
  if(ex)ex.textContent=cal?"校正中":"左 "+lr.neg+" / 右 "+lr.pos+"%";
@@ -1251,7 +1251,7 @@ function addCalories(distanceM,seconds,weight,grade,speed){
  const met=metFor(speed,grade);
  currentCalories += met*3.5*weight/200*(seconds/60);
 }
-// FIELD TEST 41: recalculate ascent/descent from the smoothed altitude series.
+// FIELD TEST 42: recalculate ascent/descent from the smoothed altitude series.
 // A small deadband suppresses tiny GPS altitude jitter while retaining real slopes.
 function recalcElevationTotals430(){
  const pts=route.filter(p=>Number.isFinite(p.smoothAlt));
@@ -1331,7 +1331,7 @@ function startGPS(){
      addCalories(d,dt,w,currentGrade,currentSpeed);
    } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
    x.smoothAlt=lastSmoothAlt;
-   // FIELD TEST 41: every GPS point carries cumulative walking distance.
+   // FIELD TEST 42: every GPS point carries cumulative walking distance.
    // The elevation profile uses this value for the X axis.
    x.dist=routeDistance;
    route.push(x);
@@ -2133,16 +2133,16 @@ document.getElementById("stopSaveNo430")?.addEventListener("click",()=>closeStop
 document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(saveCurrentRecord430(false)){closeStopSaveModal430();setTimeout(()=>alert("今回の歩行記録を保存しました。"),40);}});
 </script>
 
-\n<style id="fieldTest34GlassHudFinal">\n/* FIELD TEST 41 — final cascade Glass HUD override.\n   Intentionally placed at the end of the document so legacy concept CSS cannot win. */\n#hudBrand412,\n#cgAvgPanel412,\n#sideBalance412,\n#elevMini412 {\n  background:rgba(0,54,64,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 12px rgba(0,25,30,.12)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n.hudInd412 {\n  background:rgba(0,54,64,.32)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#balanceReadout {\n  background:rgba(0,66,66,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.82)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#hudSummary416 {\n  background:rgba(0,70,76,.28)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.72)!important;\n  box-shadow:0 4px 14px rgba(0,40,45,.09)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n/* Never let changing distribution values alter the panel height. */\n#cgAvgPanel412{width:174px!important;}\n#cgAvgPanel412 .cgAvgRow412{\n  display:grid!important;\n  grid-template-columns:56px minmax(0,1fr)!important;\n  align-items:center!important;\n  white-space:nowrap!important;\n  min-height:18px!important;\n}\n#cgAvgPanel412 .cgAvgRow412 span,\n#cgAvgPanel412 .cgAvgRow412 b{\n  white-space:nowrap!important;\n  overflow:visible!important;\n  word-break:keep-all!important;\n}\n#cgAvgPanel412 .cgAvgRow412 b{font-size:10.5px!important;text-align:right!important;}\n</style>\n
+\n<style id="fieldTest34GlassHudFinal">\n/* FIELD TEST 42 — final cascade Glass HUD override.\n   Intentionally placed at the end of the document so legacy concept CSS cannot win. */\n#hudBrand412,\n#cgAvgPanel412,\n#sideBalance412,\n#elevMini412 {\n  background:rgba(0,54,64,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 12px rgba(0,25,30,.12)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n.hudInd412 {\n  background:rgba(0,54,64,.32)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#balanceReadout {\n  background:rgba(0,66,66,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.82)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#hudSummary416 {\n  background:rgba(0,70,76,.28)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.72)!important;\n  box-shadow:0 4px 14px rgba(0,40,45,.09)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n/* Never let changing distribution values alter the panel height. */\n#cgAvgPanel412{width:174px!important;}\n#cgAvgPanel412 .cgAvgRow412{\n  display:grid!important;\n  grid-template-columns:56px minmax(0,1fr)!important;\n  align-items:center!important;\n  white-space:nowrap!important;\n  min-height:18px!important;\n}\n#cgAvgPanel412 .cgAvgRow412 span,\n#cgAvgPanel412 .cgAvgRow412 b{\n  white-space:nowrap!important;\n  overflow:visible!important;\n  word-break:keep-all!important;\n}\n#cgAvgPanel412 .cgAvgRow412 b{font-size:10.5px!important;text-align:right!important;}\n</style>\n
 <style id="fieldTest35ScopedGlassHud">
-/* FIELD TEST 41: Glass only inside 3D scene; restore metrics panel readability. */
+/* FIELD TEST 42: Glass only inside 3D scene; restore metrics panel readability. */
 #hudBrand412,#cgAvgPanel412,#sideBalance412,#elevMini412,.hudInd412,#balanceReadout{background:rgba(0,54,64,.20)!important;background-image:none!important;border:1px solid rgba(108,248,238,.88)!important;box-shadow:0 3px 10px rgba(0,25,30,.08)!important;backdrop-filter:blur(3px) saturate(112%)!important;-webkit-backdrop-filter:blur(3px) saturate(112%)!important;}
 /* keep the outside time/steps/distance/speed/calories panel solid/readable */
 #hudSummary416{background:linear-gradient(180deg,rgba(0,105,112,.96),rgba(0,84,91,.96))!important;border:1px solid rgba(255,255,255,.42)!important;box-shadow:0 5px 14px rgba(0,45,50,.16)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
 </style>
 
 <style id="fieldTest36MetricsFontOnly">
-/* FIELD TEST 41: ONLY enlarge the five-cell metrics typography.
+/* FIELD TEST 42: ONLY enlarge the five-cell metrics typography.
    FIELD TEST 35 Glass HUD transparency is intentionally untouched. */
 #hudSummary416 > div{min-width:0!important;padding-left:2px!important;padding-right:2px!important;}
 #hudSummary416 small,#hudSummary416 b{white-space:nowrap!important;word-break:keep-all!important;overflow:visible!important;}
@@ -2188,7 +2188,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 <div id="ft38Flow" aria-modal="true" role="dialog">
  <div class="ft38Shell">
-  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 41 / WALKING REPORT prototype</div></div>
+  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 42 / WALKING REPORT prototype</div></div>
 
   <section id="ft38QuestionPage">
    <div class="ft38Card">
@@ -2338,7 +2338,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 
 <style id="fieldTest39ReportUI">
-/* FIELD TEST 41 — approved Walking Report visual direction */
+/* FIELD TEST 42 — approved Walking Report visual direction */
 #ft38Flow{background:linear-gradient(180deg,#e9f8f6 0%,#f9fdfc 52%,#eff8f7 100%);padding:10px}
 .ft38Shell{width:min(920px,100%);margin:0 auto 30px}
 .ft38Head{background:rgba(239,250,248,.94);border-bottom:1px solid #d2ebe6;padding:10px 4px 12px}
@@ -2511,7 +2511,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 
 <style id="fieldTest41FullReportStyle">
-/* FIELD TEST 41 — STOP後、保存前に評価結果を上から日記まで縦に通して確認 */
+/* FIELD TEST 42 — STOP後、保存前に評価結果を上から日記まで縦に通して確認 */
 #ft38Flow{padding-bottom:90px}
 #ft38ReportPage{padding-bottom:18px}
 .ft41SectionTitle{font-size:16px;font-weight:900;color:#08756f;margin:0 0 10px}
@@ -2611,6 +2611,142 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
  if(report.style.display!=="none"){
    setTimeout(()=>window.ft39PopulateReport&&window.ft39PopulateReport(),0);
  }
+})();
+</script>
+
+
+<style id="fieldTest42ScrollReportStyle">
+/* FIELD TEST 42
+   保存前レポートは 1 本の縦スクロール。
+   保存ボタンを画面に固定せず、日記の下まで読んでから操作する。 */
+#ft38Flow{
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  -webkit-overflow-scrolling:touch;
+  padding:10px 10px 22px !important;
+}
+.ft38Shell{padding-bottom:20px !important}
+#ft38ReportPage{display:none;padding-bottom:12px !important}
+
+.ft41SaveArea{
+  position:static !important;
+  bottom:auto !important;
+  z-index:auto !important;
+  background:transparent !important;
+  margin:12px 0 4px !important;
+  padding:0 !important;
+}
+.ft41SaveButtons{
+  position:static !important;
+  display:grid !important;
+  grid-template-columns:1fr 1.25fr !important;
+  gap:9px !important;
+}
+.ft41SaveButtons button{
+  position:static !important;
+  width:auto !important;
+  min-height:54px;
+}
+
+/* 先生設定はレポート本文から一旦外す。
+   設定値そのものは端末に残る。 */
+#ft41TeacherSettings{display:none !important}
+
+/* 縦に読む順番を明確に */
+.ft39Hero{margin-top:8px !important}
+.ft39Grid2{display:block !important}
+.ft39Grid2 > .ft39Panel{margin-bottom:10px !important}
+.ft39Voice{margin-top:10px !important}
+.ft41FullSurveyDiary{
+  display:block !important;
+  margin-top:10px !important;
+}
+.ft41ConditionCard,.ft41DiaryCard{
+  margin-bottom:10px !important;
+}
+.ft41DiaryText{min-height:130px !important}
+
+/* スマホで左右余白を少し縮める */
+@media(max-width:620px){
+  #ft38Flow{padding-left:8px !important;padding-right:8px !important}
+  .ft39Hero,.ft39Panel,.ft39Voice,.ft41ConditionCard,.ft41DiaryCard{
+    border-radius:19px !important;
+  }
+}
+</style>
+
+<script id="fieldTest42ScrollReportScript">
+(()=>{
+ const report=document.getElementById("ft38ReportPage");
+ if(!report) return;
+
+ const fmtTime42=ms=>{
+   ms=Math.max(0,Number(ms)||0);
+   let sec=Math.floor(ms/1000),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;
+   return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+ };
+ const num42=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
+
+ window.ft42PopulateWalkingData=function(){
+   const list=document.getElementById("ft39DataList");
+   if(!list) return;
+
+   let elapsed=0;
+   try{ elapsed=typeof activeElapsedMs==="function" ? activeElapsedMs() : 0; }catch(e){}
+   let st=0;
+   try{ st=typeof steps!=="undefined" ? num42(steps) : 0; }catch(e){}
+   let dist=0;
+   try{ dist=typeof routeDistance!=="undefined" ? num42(routeDistance) : 0; }catch(e){}
+   let asc=0;
+   try{ asc=typeof totalAscent!=="undefined" ? num42(totalAscent) : 0; }catch(e){}
+   let cal=0;
+   try{
+     if(typeof calories!=="undefined") cal=num42(calories);
+     else if(typeof calorieTotal!=="undefined") cal=num42(calorieTotal);
+   }catch(e){}
+
+   const km=dist/1000;
+   const hours=elapsed/3600000;
+   const avg=hours>0 ? km/hours : 0;
+
+   list.innerHTML=
+     '<div class="ft39DataRow"><span>⏱ 歩行時間</span><b>'+fmtTime42(elapsed)+'</b></div>'+
+     '<div class="ft39DataRow"><span>👣 歩数</span><b>'+Math.round(st).toLocaleString()+' 歩</b></div>'+
+     '<div class="ft39DataRow"><span>📍 距離</span><b>'+km.toFixed(2)+' km</b></div>'+
+     '<div class="ft39DataRow"><span>🏃 平均速度</span><b>'+avg.toFixed(1)+' km/h</b></div>'+
+     '<div class="ft39DataRow"><span>🔥 消費カロリー</span><b>'+Math.round(cal)+' kcal</b></div>'+
+     '<div class="ft39DataRow"><span>⛰ 累積上昇</span><b>+'+Math.round(asc)+' m</b></div>';
+ };
+
+ // FT39 の追加描画で一部の変数が未定義でも、
+ // 歩行データだけは必ず最後に埋め直す。
+ const oldPop=window.ft39PopulateReport;
+ window.ft39PopulateReport=function(){
+   try{ if(typeof oldPop==="function") oldPop(); }catch(e){ console.warn("FT42 report patch:",e); }
+   try{ if(typeof window.ft42PopulateWalkingData==="function") window.ft42PopulateWalkingData(); }catch(e){}
+ };
+
+ // 「解析してレポートへ」後は必ずレポート先頭へ。
+ const analyze=document.getElementById("ft38Analyze");
+ if(analyze){
+   analyze.addEventListener("click",()=>{
+     setTimeout(()=>{
+       try{ window.ft39PopulateReport(); }catch(e){}
+       const flow=document.getElementById("ft38Flow");
+       if(flow) flow.scrollTop=0;
+     },40);
+   });
+ }
+
+ // レポート表示時にも再描画。
+ const obs=new MutationObserver(()=>{
+   if(report.style.display!=="none"){
+     setTimeout(()=>{
+       try{ window.ft39PopulateReport(); }catch(e){}
+     },30);
+   }
+ });
+ obs.observe(report,{attributes:true,attributeFilter:["style"]});
 })();
 </script>
 
