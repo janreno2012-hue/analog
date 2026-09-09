@@ -636,7 +636,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.4.2.9 LAYOUT</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.4.3.0 TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -682,8 +682,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="walkScene">
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.2.9 LAYOUT</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 30</div><div class="t3">LAYOUT / Ver.4.2.9</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.3.0 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 31</div><div class="t3">TEST / Ver.4.3.0</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -704,7 +704,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
     <b id="hudBattery412">--%</b>
   </div>
 </div>
-<div id="cgAvgPanel412" class="hudGlass"><div class="ttl">重心の平均ズレ</div><div class="cgAvgRow412"><span>前後 (Z)</span><b id="cgAvgZ412" class="z">--</b></div><div class="cgAvgRow412"><span>左右 (X)</span><b id="cgAvgX412" class="x">--</b></div><div class="cgAvgRow412"><span>上下 (Y)</span><b id="cgAvgY412" class="y">--</b></div><div class="cgAvgRow412"><span>安定度</span><b id="cgStable412">--%</b></div><div class="note">端末センサーの校正基準からの平均偏差。cm換算はせず実測センサー値で表示。</div></div>
+<div id="cgAvgPanel412" class="hudGlass"><div class="ttl">揺れ方向の分布</div><div class="cgAvgRow412"><span>前後 (Z)</span><b id="cgAvgZ412" class="z">--</b></div><div class="cgAvgRow412"><span>左右 (X)</span><b id="cgAvgX412" class="x">--</b></div><div class="cgAvgRow412"><span>上下 (Y)</span><b id="cgAvgY412" class="y">--</b></div><div class="cgAvgRow412"><span>安定度</span><b id="cgStable412">--%</b></div><div class="note">50 / 50 が中央。校正後の加速度偏差量を方向別に集計した目安です。</div></div>
 <div id="sideBalance412" class="hudGlass">
   <div class="ttl">側面ビュー（前後バランス）</div>
   <div class="sideHumanStage412" aria-hidden="true">
@@ -1050,7 +1050,7 @@ function copyBalanceToScene(){
  arrow(ox-43*dpr,oy,ox+43*dpr,oy,"rgba(255,80,70,.82)","X",ox+49*dpr,oy+3*dpr);
  arrow(ox,oy+54*dpr,ox,oy-67*dpr,"rgba(70,255,115,.78)","Y",ox+6*dpr,oy-72*dpr);
  arrow(ox,oy,ox-29*dpr,oy+38*dpr,"rgba(70,120,255,.88)","Z 前",ox-37*dpr,oy+46*dpr);
- g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,4.5*dpr,0,Math.PI*2);g.fill();g.strokeStyle="rgba(255,255,255,.96)";g.lineWidth=1.5*dpr;g.stroke();g.restore();
+ g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,3.2*dpr,0,Math.PI*2);g.fill();g.strokeStyle="rgba(255,255,255,.96)";g.lineWidth=1.05*dpr;g.stroke();g.restore();
  drawSideBalance412();drawElevMini412();updateBalanceHud412();
 }
 let cgDetailCanvas41=null,cgDetailCtx41=null;
@@ -1090,6 +1090,18 @@ function resizeBalanceHud412(){
  drawSideBalance412();drawElevMini412();
 }
 function signedDir412(v,pos,neg){if(!Number.isFinite(v)||Math.abs(v)<.03)return "中央 0.00";return (v>0?pos:neg)+" "+Math.abs(v).toFixed(2);}
+function axisDistribution430(axis){
+ const pts=(typeof balancePoints!=="undefined"&&Array.isArray(balancePoints))?balancePoints:[];
+ let pos=0,neg=0;
+ for(const p of pts){
+   const v=Number(p&&p[axis]);if(!Number.isFinite(v))continue;
+   if(v>=0)pos+=Math.abs(v);else neg+=Math.abs(v);
+ }
+ const total=pos+neg;
+ if(total<0.001)return {neg:50,pos:50,diff:0};
+ const pp=Math.round(pos/total*100),nn=100-pp;
+ return {neg:nn,pos:pp,diff:Math.abs(pp-nn)};
+}
 function balanceStats412(){
  const pts=(typeof balancePoints!=="undefined"&&Array.isArray(balancePoints))?balancePoints:[];
  if(!pts.length)return {mx:0,my:0,mz:0,spread:0,stability:0};
@@ -1102,10 +1114,12 @@ function balanceStats412(){
 function updateBalanceHud412(){
  const st=balanceStats412(),cal=!balanceCalibrated;
  const ex=document.getElementById("cgAvgX412"),ez=document.getElementById("cgAvgZ412"),ey=document.getElementById("cgAvgY412"),es=document.getElementById("cgStable412");
- // App convention: sensor X=left/right, sensor Y is shown as forward/back trend, sensor Z as vertical trend.
- if(ex)ex.textContent=cal?"校正中":signedDir412(st.mx,"右","左")+" m/s²";
- if(ez)ez.textContent=cal?"校正中":signedDir412(st.my,"前","後")+" m/s²";
- if(ey)ey.textContent=cal?"校正中":signedDir412(st.mz,"上","下")+" m/s²";
+ // FIELD TEST 31: show each axis as a paired directional distribution.
+ // 50/50 means centered; this is easier to interpret than a single percentage or raw offset.
+ const lr=axisDistribution430("x"),fb=axisDistribution430("y"),ud=axisDistribution430("z");
+ if(ex)ex.textContent=cal?"校正中":"左 "+lr.neg+" / 右 "+lr.pos+"%";
+ if(ez)ez.textContent=cal?"校正中":"後 "+fb.neg+" / 前 "+fb.pos+"%";
+ if(ey)ey.textContent=cal?"校正中":"下 "+ud.neg+" / 上 "+ud.pos+"%";
  if(es)es.textContent=cal?"--%":Math.round(st.stability)+"%";
  const gps=document.getElementById("hudGps412");if(gps){const ok=running&&latestGpsPoint;gps.textContent=ok?"GPS":"GPS";gps.className=ok?"on":"off";}
  const bell=document.getElementById("hudBell412");if(bell){const bellCtl=document.getElementById("bellSwitch");const bellOn=!!(bellCtl&&bellCtl.checked);bell.textContent=bellOn?"ON":"OFF";bell.className=bellOn?"on":"off";}
@@ -1130,15 +1144,16 @@ function drawSideBalance412(){
  rg.addColorStop(0,"rgba(255,50,30,.98)");rg.addColorStop(.24,"rgba(255,222,15,.72)");
  rg.addColorStop(.56,"rgba(58,232,101,.28)");rg.addColorStop(1,"rgba(0,210,190,0)");
  g.fillStyle=rg;g.beginPath();g.arc(px,py,17*dpr,0,Math.PI*2);g.fill();
- g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,3.6*dpr,0,Math.PI*2);g.fill();
- g.strokeStyle="#fff";g.lineWidth=1*dpr;g.stroke();
+ g.fillStyle="#ff3b30";g.beginPath();g.arc(px,py,2.6*dpr,0,Math.PI*2);g.fill();
+ g.strokeStyle="#fff";g.lineWidth=.8*dpr;g.stroke();
  g.fillStyle="#fff";g.font=(7*dpr)+"px sans-serif";g.textAlign="center";
  g.fillText("後",w*.055,h*.60);g.fillText("前",w*.945,h*.60);
 }
 function drawElevMini412(){
  if(!elevMiniCtx412||!elevMiniCanvas412)return;const g=elevMiniCtx412,w=elevMiniCanvas412.width,h=elevMiniCanvas412.height,dpr=devicePixelRatio;g.clearRect(0,0,w,h);const a=(typeof route!=="undefined"?route:[]).filter(p=>Number.isFinite(p.smoothAlt));
  if(a.length<2){g.fillStyle="rgba(255,255,255,.72)";g.font=(7*dpr)+"px sans-serif";g.fillText("GPS標高待機中",5*dpr,h*.62);return;}
- const lo=Math.min(...a.map(p=>p.smoothAlt)),hi=Math.max(...a.map(p=>p.smoothAlt)),span=Math.max(1,hi-lo);g.strokeStyle="rgba(220,255,255,.95)";g.lineWidth=1.2*dpr;g.beginPath();a.forEach((p,i)=>{const x=i/(a.length-1)*(w-4*dpr)+2*dpr,y=h-3*dpr-(p.smoothAlt-lo)/span*(h-8*dpr);if(i)g.lineTo(x,y);else g.moveTo(x,y);});g.stroke();
+ const lo=Math.min(...a.map(p=>p.smoothAlt)),hi=Math.max(...a.map(p=>p.smoothAlt)),span=Math.max(1,hi-lo);
+ const total=Math.max(1,Number(routeDistance)||0);g.strokeStyle="rgba(220,255,255,.95)";g.lineWidth=1.2*dpr;g.beginPath();a.forEach((p,i)=>{const dd=Number.isFinite(p.dist)?p.dist:(i/(a.length-1))*total;const x=Math.max(2*dpr,Math.min(w-2*dpr,2*dpr+dd/total*(w-4*dpr))),y=h-3*dpr-(p.smoothAlt-lo)/span*(h-8*dpr);if(i)g.lineTo(x,y);else g.moveTo(x,y);});g.stroke();
 }
 
 // FIELD TEST 26: 4-keyframe rear-view walk cycle on the visible canvas silhouette.
@@ -1180,8 +1195,8 @@ function drawBalanceMap(){
  halo.addColorStop(.42,'rgba(255,214,10,.16)');
  halo.addColorStop(1,'rgba(0,217,255,0)');
  g.fillStyle=halo;g.beginPath();g.arc(p.x,p.y,16*dpr,0,Math.PI*2);g.fill();
- g.fillStyle='#e74b35';g.beginPath();g.arc(p.x,p.y,5*dpr,0,Math.PI*2);g.fill();
- g.strokeStyle='#fff';g.lineWidth=2*dpr;g.stroke();
+ g.fillStyle='#e74b35';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();
+ g.strokeStyle='#fff';g.lineWidth=1.2*dpr;g.stroke();
 }
 function updateBalanceUI(){const total=balancePos+balanceNeg;if(!total||balanceSamples<10){$("balanceRatio").textContent="-- : --";$("balanceDiff").textContent="-- %";$("balanceMeanLR").textContent="--";$("balanceMeanFB").textContent="--";$("balanceStability").textContent="-- %";$("balanceStatus").textContent=running?(balanceCalibrated?"解析中":calibrationLabel425()) : "待機中";drawBalanceMap();copyBalanceToScene();return;}const l=balancePos/total*100,r=balanceNeg/total*100,d=Math.abs(l-r);$("balanceRatio").textContent=Math.round(l)+" : "+Math.round(r);$("balanceDiff").textContent=d.toFixed(1)+" %";const st=balanceStats(),lr=Math.abs(st.mx)<.08?"中央":(st.mx>0?"右寄り":"左寄り"),fb=Math.abs(st.my)<.08?"中央":(st.my>0?"前寄り":"後寄り"),stability=Math.max(0,Math.min(100,100-st.spread*22));$("balanceMeanLR").textContent=lr;$("balanceMeanFB").textContent=fb;$("balanceStability").textContent=balancePoints.length?Math.round(stability)+" %":"-- %";$("balanceStatus").textContent=balanceCalibrated?"β解析中（端末の向き・収納位置で前後左右は変わる場合があります）":calibrationLabel425();drawBalanceMap();copyBalanceToScene();}
 function resetBalance(){storageWaitActive=false;if(storageWaitTimer){clearInterval(storageWaitTimer);storageWaitTimer=null;}balanceBaseX=null;balanceBaseY=null;balanceBaseZ=null;window.__liveBalanceX=0;window.__liveBalanceY=0;window.__liveBalanceZ=0;balancePos=0;balanceNeg=0;balanceSamples=0;balanceCalSteps=0;balancePoints=[];balanceLastSample=0;balanceCalPhase="idle";balanceCalibrated=false;balanceStaticSamples=0;balanceWalkSamples=0;updateBalanceUI()}
@@ -1195,6 +1210,24 @@ function addCalories(distanceM,seconds,weight,grade,speed){
  const met=metFor(speed,grade);
  currentCalories += met*3.5*weight/200*(seconds/60);
 }
+// FIELD TEST 31: recalculate ascent/descent from the smoothed altitude series.
+// A small deadband suppresses tiny GPS altitude jitter while retaining real slopes.
+function recalcElevationTotals430(){
+ const pts=route.filter(p=>Number.isFinite(p.smoothAlt));
+ if(pts.length<2){totalAscent=0;totalDescent=0;return;}
+ const DEAD=0.50;
+ let up=0,down=0,anchor=Number(pts[0].smoothAlt);
+ for(let i=1;i<pts.length;i++){
+   const alt=Number(pts[i].smoothAlt);
+   const delta=alt-anchor;
+   if(Math.abs(delta)>=DEAD){
+     if(delta>0)up+=delta;else down+=-delta;
+     anchor=alt;
+   }
+ }
+ totalAscent=up;totalDescent=down;
+}
+
 function updateMetrics(){
  $("speed").textContent=Number.isFinite(currentSpeed)?currentSpeed.toFixed(1)+" km/h":"-- km/h";
  $("altitude").textContent=minAlt!==null&&lastSmoothAlt!==null?Math.round(lastSmoothAlt)+" m":"-- m";
@@ -1257,8 +1290,14 @@ function startGPS(){
      addCalories(d,dt,w,currentGrade,currentSpeed);
    } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
    x.smoothAlt=lastSmoothAlt;
+   // FIELD TEST 31: every GPS point carries cumulative walking distance.
+   // The elevation profile uses this value for the X axis.
+   x.dist=routeDistance;
    route.push(x);
+   recalcElevationTotals430();
    drawRoute();
+   drawElevationProfile();
+   drawElevMini412();
    updateMetrics();
    $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";
    $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length;
@@ -1563,7 +1602,9 @@ $("stop").onclick=()=>{
  const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
  $("summary").value=(km>=1?km.toFixed(2)+" km":Math.round(routeDistance)+" m")+" ／ 平均 "+avg.toFixed(1)+" km/h ／ 高低差 "+diff+" m";
  $("status").textContent="計測終了";$("pauseState").textContent="終了";$("start").disabled=false;$("pause").disabled=true;$("pause").textContent="Ⅱ PAUSE";$("stop").disabled=true;updateTimeStats();
- $("msg").textContent="今回："+n.toLocaleString()+"歩 ／ GPS距離："+km.toFixed(2)+" km ／ 約"+Math.round(currentCalories)+" kcal"
+ recalcElevationTotals430();updateMetrics();drawElevationProfile();drawElevMini412();
+ $("msg").textContent="今回："+n.toLocaleString()+"歩 ／ GPS距離："+km.toFixed(2)+" km ／ 約"+Math.round(currentCalories)+" kcal";
+ openStopSaveModal430();
 };
 function compactRouteForSave(){
  if(!route.length)return [];
@@ -1580,17 +1621,20 @@ function compactRouteForSave(){
  if(!out.length||out[out.length-1].time!==tail.time)out.push(tail);
  return out;
 }
-$("save").onclick=()=>{
+function saveCurrentRecord430(showDone=true){
  const w=parseFloat($("weight").value),s=parseInt($("recsteps").value,10);
- if(!Number.isFinite(w)||w<=0){alert("体重を入力してください。");return}
- if(!Number.isFinite(s)||s<0){alert("歩数を入力してください。");return}
+ if(!Number.isFinite(w)||w<=0){alert("体重を入力してください。");return false}
+ if(!Number.isFinite(s)||s<0){alert("歩数を入力してください。");return false}
+ recalcElevationTotals430();
  data.push({id:Date.now(),date:$("date").value,weight:w,steps:s,duration:$("duration").value,summary:$("summary").value,distance:Math.round(routeDistance),
  route:compactRouteForSave(),ascent:Math.round(totalAscent),descent:Math.round(totalDescent),
- minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100})),diary:$("diary").value.trim()});
+ minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100,z:Math.round((Number(p.z)||0)*100)/100})),diary:$("diary").value.trim()});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
- alert("Ver.4.0 Ver.4.1の歩ログを保存しました。")
-};
+ if(showDone)alert("歩ログを保存しました。");
+ return true;
+}
+$("save").onclick=()=>saveCurrentRecord430(true);
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function snapshotLiveRoute(){
  return {route:route.slice(),routeDistance,totalAscent,totalDescent,minAlt,maxAlt,lastSmoothAlt};
@@ -2023,6 +2067,28 @@ header .sub{font-size:12px!important;color:rgba(255,255,255,.84)!important;margi
  try{if(localStorage.getItem("ayalog_gender_mode")==="female")initial="female"}catch(e){}
  setGender(initial);
 })();
+</script>
+
+
+<style id="fieldTest31SaveModalStyle">
+#stopSaveModal430{position:fixed;inset:0;z-index:12000;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(0,25,28,.58);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+#stopSaveModal430.show{display:flex}
+.stopSaveCard430{width:min(360px,94vw);background:#f8fffd;color:#173331;border-radius:22px;padding:20px;box-shadow:0 18px 55px rgba(0,0,0,.28);border:1px solid rgba(15,118,110,.22);text-align:center}
+.stopSaveCard430 .icon{font-size:34px;line-height:1}.stopSaveCard430 h3{margin:9px 0 6px;font-size:19px}.stopSaveCard430 p{margin:0 0 16px;color:#5f7470;font-size:13px;line-height:1.5}
+.stopSaveActions430{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stopSaveActions430 button{padding:13px 8px;border-radius:13px;font-size:14px}.stopSaveNo430{background:#edf3f2;color:#526864}.stopSaveYes430{background:#0f766e;color:#fff}
+</style>
+<div id="stopSaveModal430" role="dialog" aria-modal="true" aria-labelledby="stopSaveTitle430">
+ <div class="stopSaveCard430">
+  <div class="icon">💾</div><h3 id="stopSaveTitle430">今回の歩行記録を保存しますか？</h3>
+  <p>歩数・GPS軌跡・高低差・体幹データを歩ログに保存できます。</p>
+  <div class="stopSaveActions430"><button id="stopSaveNo430" class="stopSaveNo430" type="button">保存しない</button><button id="stopSaveYes430" class="stopSaveYes430" type="button">保存する</button></div>
+ </div>
+</div>
+<script id="fieldTest31SaveModalScript">
+function openStopSaveModal430(){const m=document.getElementById("stopSaveModal430");if(m){m.classList.add("show");setTimeout(()=>document.getElementById("stopSaveYes430")?.focus(),40);}}
+function closeStopSaveModal430(){document.getElementById("stopSaveModal430")?.classList.remove("show");}
+document.getElementById("stopSaveNo430")?.addEventListener("click",()=>closeStopSaveModal430());
+document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(saveCurrentRecord430(false)){closeStopSaveModal430();setTimeout(()=>alert("今回の歩行記録を保存しました。"),40);}});
 </script>
 
 </body></html>
