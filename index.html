@@ -634,6 +634,35 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 #sideBalance412{pointer-events:auto!important}
 </style>
 
+
+<style id="fieldTest32GlassHudStyle">
+/* FIELD TEST 32 — Glass HUD: higher transparency, fixed single-line distribution rows. */
+.walkScene .hudGlass{
+ background:rgba(0,61,65,.34)!important;
+ border-color:rgba(121,245,236,.78)!important;
+ box-shadow:0 4px 16px rgba(0,0,0,.12)!important;
+ backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;
+}
+.hudInd412{
+ background:rgba(0,61,65,.36)!important;
+ border-color:rgba(121,245,236,.76)!important;
+ backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;
+}
+#balanceReadout{background:rgba(0,77,73,.40)!important;}
+#hudSummary416{
+ background:linear-gradient(180deg,rgba(7,91,96,.40),rgba(3,78,83,.34))!important;
+ backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;
+}
+#cgAvgPanel412{width:154px!important;}
+.cgAvgRow412{grid-template-columns:47px minmax(0,1fr)!important;gap:3px!important;}
+.cgAvgRow412 span,.cgAvgRow412 b{white-space:nowrap!important;}
+.cgAvgRow412 b{font-size:9.5px!important;letter-spacing:-.02em!important;}
+@media(max-width:430px){
+ #cgAvgPanel412{width:154px!important;right:7px!important;}
+ .cgAvgRow412{grid-template-columns:46px minmax(0,1fr)!important;}
+ .cgAvgRow412 b{font-size:9px!important;}
+}
+</style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
 <header><div class="logo">🌿 歩ログ Ver.4.3.0 TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
@@ -683,7 +712,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
  <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.4.3.0 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 31</div><div class="t3">TEST / Ver.4.3.0</div></div>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 32</div><div class="t3">TEST / Ver.4.3.1</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1114,7 +1143,7 @@ function balanceStats412(){
 function updateBalanceHud412(){
  const st=balanceStats412(),cal=!balanceCalibrated;
  const ex=document.getElementById("cgAvgX412"),ez=document.getElementById("cgAvgZ412"),ey=document.getElementById("cgAvgY412"),es=document.getElementById("cgStable412");
- // FIELD TEST 31: show each axis as a paired directional distribution.
+ // FIELD TEST 32: show each axis as a paired directional distribution.
  // 50/50 means centered; this is easier to interpret than a single percentage or raw offset.
  const lr=axisDistribution430("x"),fb=axisDistribution430("y"),ud=axisDistribution430("z");
  if(ex)ex.textContent=cal?"校正中":"左 "+lr.neg+" / 右 "+lr.pos+"%";
@@ -1210,7 +1239,7 @@ function addCalories(distanceM,seconds,weight,grade,speed){
  const met=metFor(speed,grade);
  currentCalories += met*3.5*weight/200*(seconds/60);
 }
-// FIELD TEST 31: recalculate ascent/descent from the smoothed altitude series.
+// FIELD TEST 32: recalculate ascent/descent from the smoothed altitude series.
 // A small deadband suppresses tiny GPS altitude jitter while retaining real slopes.
 function recalcElevationTotals430(){
  const pts=route.filter(p=>Number.isFinite(p.smoothAlt));
@@ -1290,7 +1319,7 @@ function startGPS(){
      addCalories(d,dt,w,currentGrade,currentSpeed);
    } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
    x.smoothAlt=lastSmoothAlt;
-   // FIELD TEST 31: every GPS point carries cumulative walking distance.
+   // FIELD TEST 32: every GPS point carries cumulative walking distance.
    // The elevation profile uses this value for the X axis.
    x.dist=routeDistance;
    route.push(x);
