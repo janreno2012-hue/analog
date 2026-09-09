@@ -636,7 +636,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 
 
 <style id="fieldTest32GlassHudStyle">
-/* FIELD TEST 39 — Glass HUD: higher transparency, fixed single-line distribution rows. */
+/* FIELD TEST 40 — Glass HUD: higher transparency, fixed single-line distribution rows. */
 .walkScene .hudGlass{
  background:rgba(0,61,65,.20)!important;
  border-color:rgba(121,245,236,.78)!important;
@@ -665,7 +665,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 
 <style id="fieldTest33GlassHudFinal">
-/* FIELD TEST 39 — authoritative Glass HUD override */
+/* FIELD TEST 40 — authoritative Glass HUD override */
 .walkScene .hudGlass{background:rgba(0,61,65,.20)!important;border:1px solid rgba(121,245,236,.82)!important;box-shadow:0 3px 12px rgba(0,0,0,.10)!important;backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;}
 .hudInd412{background:rgba(0,61,65,.22)!important;border-color:rgba(121,245,236,.80)!important;backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important;}
 #balanceReadout{background:rgba(0,77,73,.23)!important;}
@@ -724,7 +724,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
  <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.1 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 39</div><div class="t3">TEST / Ver.5.1</div></div>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 40</div><div class="t3">TEST / Ver.5.1</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1155,7 +1155,7 @@ function balanceStats412(){
 function updateBalanceHud412(){
  const st=balanceStats412(),cal=!balanceCalibrated;
  const ex=document.getElementById("cgAvgX412"),ez=document.getElementById("cgAvgZ412"),ey=document.getElementById("cgAvgY412"),es=document.getElementById("cgStable412");
- // FIELD TEST 39: show each axis as a paired directional distribution.
+ // FIELD TEST 40: show each axis as a paired directional distribution.
  // 50/50 means centered; this is easier to interpret than a single percentage or raw offset.
  const lr=axisDistribution430("x"),fb=axisDistribution430("y"),ud=axisDistribution430("z");
  if(ex)ex.textContent=cal?"校正中":"左 "+lr.neg+" / 右 "+lr.pos+"%";
@@ -1251,7 +1251,7 @@ function addCalories(distanceM,seconds,weight,grade,speed){
  const met=metFor(speed,grade);
  currentCalories += met*3.5*weight/200*(seconds/60);
 }
-// FIELD TEST 39: recalculate ascent/descent from the smoothed altitude series.
+// FIELD TEST 40: recalculate ascent/descent from the smoothed altitude series.
 // A small deadband suppresses tiny GPS altitude jitter while retaining real slopes.
 function recalcElevationTotals430(){
  const pts=route.filter(p=>Number.isFinite(p.smoothAlt));
@@ -1331,7 +1331,7 @@ function startGPS(){
      addCalories(d,dt,w,currentGrade,currentSpeed);
    } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
    x.smoothAlt=lastSmoothAlt;
-   // FIELD TEST 39: every GPS point carries cumulative walking distance.
+   // FIELD TEST 40: every GPS point carries cumulative walking distance.
    // The elevation profile uses this value for the X axis.
    x.dist=routeDistance;
    route.push(x);
@@ -1713,8 +1713,9 @@ function render(){
  $("aw").textContent=ws.length?(ws.reduce((a,b)=>a+b,0)/ws.length).toFixed(1)+" kg":"-- kg";
  $("as").textContent=ss.length?Math.round(ss.reduce((a,b)=>a+b,0)/ss.length).toLocaleString()+" 歩":"-- 歩";
  const tc=data.map(x=>Number(x.calories)).filter(Number.isFinite).reduce((a,b)=>a+b,0);$("totalCal").textContent=tc?Math.round(tc).toLocaleString()+" kcal":"-- kcal";$("countLogs").textContent=walks.toLocaleString()+" 回";
- $("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button>'+(Array.isArray(x.route)&&x.route.length?'<button class="loadRouteBtn" data-id="'+x.id+'" type="button" style="margin:0 8px 6px 0;padding:7px 10px">🗺️ 軌跡を表示</button>':'')+'<div class="top"><span>'+esc(x.date)+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(Number.isFinite(Number(x.distance))?((Number(x.distance)/1000).toFixed(2)+" km"):"--")+(x.calories!=null?' ／ 約'+Number(x.calories).toLocaleString()+" kcal":'')+(x.stoppedSeconds!=null?' ／ 停止 '+fmt(Number(x.stoppedSeconds)||0):'')+'</div>'+(x.diary?'<div class="note">📝 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';
+ $("list").innerHTML=data.length?data.map(x=>'<li><button class="del" data-id="'+x.id+'">削除</button>'+(Array.isArray(x.route)&&x.route.length?'<button class="loadRouteBtn" data-id="'+x.id+'" type="button" style="margin:0 8px 6px 0;padding:7px 10px">🗺️ 軌跡を表示</button>':'')+(x.assessment&&x.assessment.voice?'<button class="viewVoiceBtn" data-id="'+x.id+'" type="button" style="margin:0 8px 6px 0;padding:7px 10px;background:#e8f7f4;color:#08756f;border:1px solid #9ed8cf;border-radius:10px;font-weight:800">🌿 先生の声を見る</button>':'')+'<div class="top"><span>'+esc(x.date)+'</span><span>'+Number(x.weight).toFixed(1)+' kg</span></div><div class="sub2">歩数：'+Number(x.steps||0).toLocaleString()+' 歩 ／ 時間：'+(x.duration||"--")+' ／ 距離：'+(Number.isFinite(Number(x.distance))?((Number(x.distance)/1000).toFixed(2)+" km"):"--")+(x.calories!=null?' ／ 約'+Number(x.calories).toLocaleString()+" kcal":'')+(x.stoppedSeconds!=null?' ／ 停止 '+fmt(Number(x.stoppedSeconds)||0):'')+'</div>'+(x.diary?'<div class="note">📖 '+esc(x.diary)+'</div>':'')+'</li>').join(""):'<li style="text-align:center;color:#6b7c79">まだ記録がありません。</li>';
  $("list").querySelectorAll(".loadRouteBtn").forEach(b=>b.onclick=()=>{const rec=data.find(x=>String(x.id)===String(b.dataset.id));if(rec)applyRouteView(rec)});
+ $("list").querySelectorAll(".viewVoiceBtn").forEach(b=>b.onclick=()=>{const rec=data.find(x=>String(x.id)===String(b.dataset.id));if(rec)window.openSavedVoice40(rec)});
  $("list").querySelectorAll(".del").forEach(b=>b.onclick=()=>{data=data.filter(x=>x.id!=b.dataset.id);saveData();render()})
 }
 render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
@@ -2132,16 +2133,16 @@ document.getElementById("stopSaveNo430")?.addEventListener("click",()=>closeStop
 document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(saveCurrentRecord430(false)){closeStopSaveModal430();setTimeout(()=>alert("今回の歩行記録を保存しました。"),40);}});
 </script>
 
-\n<style id="fieldTest34GlassHudFinal">\n/* FIELD TEST 39 — final cascade Glass HUD override.\n   Intentionally placed at the end of the document so legacy concept CSS cannot win. */\n#hudBrand412,\n#cgAvgPanel412,\n#sideBalance412,\n#elevMini412 {\n  background:rgba(0,54,64,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 12px rgba(0,25,30,.12)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n.hudInd412 {\n  background:rgba(0,54,64,.32)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#balanceReadout {\n  background:rgba(0,66,66,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.82)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#hudSummary416 {\n  background:rgba(0,70,76,.28)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.72)!important;\n  box-shadow:0 4px 14px rgba(0,40,45,.09)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n/* Never let changing distribution values alter the panel height. */\n#cgAvgPanel412{width:174px!important;}\n#cgAvgPanel412 .cgAvgRow412{\n  display:grid!important;\n  grid-template-columns:56px minmax(0,1fr)!important;\n  align-items:center!important;\n  white-space:nowrap!important;\n  min-height:18px!important;\n}\n#cgAvgPanel412 .cgAvgRow412 span,\n#cgAvgPanel412 .cgAvgRow412 b{\n  white-space:nowrap!important;\n  overflow:visible!important;\n  word-break:keep-all!important;\n}\n#cgAvgPanel412 .cgAvgRow412 b{font-size:10.5px!important;text-align:right!important;}\n</style>\n
+\n<style id="fieldTest34GlassHudFinal">\n/* FIELD TEST 40 — final cascade Glass HUD override.\n   Intentionally placed at the end of the document so legacy concept CSS cannot win. */\n#hudBrand412,\n#cgAvgPanel412,\n#sideBalance412,\n#elevMini412 {\n  background:rgba(0,54,64,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 12px rgba(0,25,30,.12)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n.hudInd412 {\n  background:rgba(0,54,64,.32)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.88)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#balanceReadout {\n  background:rgba(0,66,66,.34)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.82)!important;\n  box-shadow:0 3px 10px rgba(0,25,30,.10)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n#hudSummary416 {\n  background:rgba(0,70,76,.28)!important;\n  background-image:none!important;\n  border:1px solid rgba(108,248,238,.72)!important;\n  box-shadow:0 4px 14px rgba(0,40,45,.09)!important;\n  backdrop-filter:blur(4px) saturate(118%)!important;\n  -webkit-backdrop-filter:blur(4px) saturate(118%)!important;\n}\n/* Never let changing distribution values alter the panel height. */\n#cgAvgPanel412{width:174px!important;}\n#cgAvgPanel412 .cgAvgRow412{\n  display:grid!important;\n  grid-template-columns:56px minmax(0,1fr)!important;\n  align-items:center!important;\n  white-space:nowrap!important;\n  min-height:18px!important;\n}\n#cgAvgPanel412 .cgAvgRow412 span,\n#cgAvgPanel412 .cgAvgRow412 b{\n  white-space:nowrap!important;\n  overflow:visible!important;\n  word-break:keep-all!important;\n}\n#cgAvgPanel412 .cgAvgRow412 b{font-size:10.5px!important;text-align:right!important;}\n</style>\n
 <style id="fieldTest35ScopedGlassHud">
-/* FIELD TEST 39: Glass only inside 3D scene; restore metrics panel readability. */
+/* FIELD TEST 40: Glass only inside 3D scene; restore metrics panel readability. */
 #hudBrand412,#cgAvgPanel412,#sideBalance412,#elevMini412,.hudInd412,#balanceReadout{background:rgba(0,54,64,.20)!important;background-image:none!important;border:1px solid rgba(108,248,238,.88)!important;box-shadow:0 3px 10px rgba(0,25,30,.08)!important;backdrop-filter:blur(3px) saturate(112%)!important;-webkit-backdrop-filter:blur(3px) saturate(112%)!important;}
 /* keep the outside time/steps/distance/speed/calories panel solid/readable */
 #hudSummary416{background:linear-gradient(180deg,rgba(0,105,112,.96),rgba(0,84,91,.96))!important;border:1px solid rgba(255,255,255,.42)!important;box-shadow:0 5px 14px rgba(0,45,50,.16)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
 </style>
 
 <style id="fieldTest36MetricsFontOnly">
-/* FIELD TEST 39: ONLY enlarge the five-cell metrics typography.
+/* FIELD TEST 40: ONLY enlarge the five-cell metrics typography.
    FIELD TEST 35 Glass HUD transparency is intentionally untouched. */
 #hudSummary416 > div{min-width:0!important;padding-left:2px!important;padding-right:2px!important;}
 #hudSummary416 small,#hudSummary416 b{white-space:nowrap!important;word-break:keep-all!important;overflow:visible!important;}
@@ -2187,7 +2188,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 <div id="ft38Flow" aria-modal="true" role="dialog">
  <div class="ft38Shell">
-  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 39 / WALKING REPORT prototype</div></div>
+  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 40 / WALKING REPORT prototype</div></div>
 
   <section id="ft38QuestionPage">
    <div class="ft38Card">
@@ -2337,7 +2338,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 
 <style id="fieldTest39ReportUI">
-/* FIELD TEST 39 — approved Walking Report visual direction */
+/* FIELD TEST 40 — approved Walking Report visual direction */
 #ft38Flow{background:linear-gradient(180deg,#e9f8f6 0%,#f9fdfc 52%,#eff8f7 100%);padding:10px}
 .ft38Shell{width:min(920px,100%);margin:0 auto 30px}
 .ft38Head{background:rgba(239,250,248,.94);border-bottom:1px solid #d2ebe6;padding:10px 4px 12px}
@@ -2453,6 +2454,58 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
  // Observe report visibility/content changes and populate the new areas.
  const mo=new MutationObserver(()=>{if(report.style.display!=="none")setTimeout(window.ft39PopulateReport,0)});
  mo.observe(report,{attributes:true,attributeFilter:["style"]});
+})();
+</script>
+
+
+<style id="fieldTest40SavedVoiceStyle">
+#savedVoice40{position:fixed;inset:0;z-index:15000;display:none;background:rgba(8,30,29,.58);padding:16px;overflow:auto}
+#savedVoice40.show{display:grid;place-items:center}
+.sv40Card{width:min(560px,100%);background:linear-gradient(180deg,#f7fffd,#edf8f6);border-radius:24px;border:1px solid #bfe4de;box-shadow:0 22px 60px rgba(0,0,0,.25);padding:18px;color:#173b39}
+.sv40Top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px}
+.sv40Title{font-weight:950;font-size:21px;color:#08756f}.sv40Close{width:40px;height:40px;border-radius:50%;background:#e4f1ef;color:#456a66;font-size:20px}
+.sv40Meta{font-size:12px;color:#68827e;margin-bottom:12px}
+.sv40Score{display:flex;align-items:end;gap:8px;background:#fff;border:1px solid #d6ebe7;border-radius:16px;padding:12px;margin-bottom:10px}
+.sv40Score strong{font-size:38px;color:#08756f}.sv40Stars{color:#d49b18;font-size:20px}
+.sv40Voice{background:#fff;border:1px solid #d6ebe7;border-radius:16px;padding:14px;line-height:1.8;font-size:15px;margin-bottom:10px}
+.sv40Grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.sv40Mini{background:#f7fbfa;border:1px solid #dcece9;border-radius:13px;padding:9px;font-size:12px}.sv40Mini b{float:right;color:#08756f}
+.sv40Diary{background:#fff;border:1px solid #d6ebe7;border-radius:16px;padding:12px;line-height:1.6;font-size:13px;white-space:pre-wrap}
+.sv40Label{font-size:12px;color:#6a817d;margin:8px 0 5px}
+@media(max-width:520px){.sv40Grid{grid-template-columns:1fr 1fr}.sv40Card{padding:14px}}
+</style>
+
+<div id="savedVoice40" role="dialog" aria-modal="true" aria-label="保存した歩ログ先生の声">
+ <div class="sv40Card">
+  <div class="sv40Top"><div class="sv40Title">🌿 歩ログ先生の声</div><button id="savedVoice40Close" class="sv40Close" aria-label="閉じる">×</button></div>
+  <div id="savedVoice40Meta" class="sv40Meta"></div>
+  <div class="sv40Score"><div><strong id="savedVoice40Score">--</strong><span>/100</span></div><div id="savedVoice40Stars" class="sv40Stars"></div></div>
+  <div id="savedVoice40Voice" class="sv40Voice"></div>
+  <div id="savedVoice40Scores" class="sv40Grid"></div>
+  <div class="sv40Label">📖 この日の歩ログ日記</div>
+  <div id="savedVoice40Diary" class="sv40Diary"></div>
+ </div>
+</div>
+
+<script id="fieldTest40SavedVoiceScript">
+(()=>{
+ const modal=document.getElementById("savedVoice40");
+ const esc40=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+ window.openSavedVoice40=function(rec){
+   const a=rec.assessment||{}, s=a.scores||{}, score=Number(a.score);
+   document.getElementById("savedVoice40Meta").textContent=(rec.date||"保存記録")+" ／ "+(rec.duration||"--")+" ／ "+(Number(rec.steps||0).toLocaleString())+" 歩";
+   document.getElementById("savedVoice40Score").textContent=Number.isFinite(score)?Math.round(score):"--";
+   const starN=Number.isFinite(score)?Math.max(1,Math.min(5,Math.round(score/20))):0;
+   document.getElementById("savedVoice40Stars").textContent="★★★★★".slice(0,starN)+"☆☆☆☆☆".slice(0,5-starN);
+   document.getElementById("savedVoice40Voice").textContent=a.voice||"この記録には先生の声が保存されていません。";
+   const labels=[["体幹安定性",s.trunk],["左右バランス",s.lr],["前後バランス",s.fb],["ペース安定",s.pace],["持続性",s.endurance]];
+   document.getElementById("savedVoice40Scores").innerHTML=labels.map(([k,v])=>'<div class="sv40Mini">'+esc40(k)+'<b>'+(Number.isFinite(Number(v))?Math.round(Number(v)):"--")+'</b></div>').join("");
+   document.getElementById("savedVoice40Diary").textContent=(a.diary||rec.diary||"この日は日記の入力はありません。");
+   modal.classList.add("show");
+ };
+ function close(){modal.classList.remove("show")}
+ document.getElementById("savedVoice40Close").onclick=close;
+ modal.addEventListener("click",e=>{if(e.target===modal)close()});
 })();
 </script>
 
