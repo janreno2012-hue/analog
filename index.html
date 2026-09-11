@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.1</title>
+<title>歩ログ Ver.5.1 FIELD TEST 44</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -724,7 +724,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
  <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.1 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 43</div><div class="t3">TEST / Ver.5.1</div></div>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 44</div><div class="t3">TEST / Ver.5.1</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1293,46 +1293,73 @@ function startGPS(){
  watchId=navigator.geolocation.watchPosition(p=>{
    const now=p.timestamp||Date.now();
    const x={lat:p.coords.latitude,lng:p.coords.longitude,alt:p.coords.altitude,speed:p.coords.speed,time:now};
-    latestGpsPoint={lat:x.lat,lng:x.lng,time:now,accuracy:p.coords.accuracy};lastGpsCallbackTime=now;
-    gpsDebug420("ROLLBACK watch OK / 精度 "+Math.round(p.coords.accuracy||0)+"m");
-   const last=route[route.length-1];
-   let d=0,dt=0;
-   if(last){
-     d=hav(last,x);
-     dt=Math.max(0,(now-last.time)/1000);
-     if(d>=2&&d<100) routeDistance+=d;
+   latestGpsPoint={lat:x.lat,lng:x.lng,time:now,accuracy:p.coords.accuracy};lastGpsCallbackTime=now;
+   gpsDebug420("FT44 watch OK / 精度 "+Math.round(p.coords.accuracy||0)+"m");
+
+   // Keep the GPS watch alive during PAUSE, but do not add paused points to
+   // distance/elevation/route. Resume re-anchors at latestGpsPoint.
+   if(paused){
+     currentSpeed=0;
+     $("gpsmsg").textContent="📍 GPS：PAUSE中（捕捉維持・精度 "+Math.round(p.coords.accuracy||0)+" m）";
+     updateMetrics();
+     return;
    }
+
+   const last=route[route.length-1];
+
+   // FIELD TEST 44: distance is accumulated from the last ACCEPTED distance anchor,
+   // not from the immediately previous GPS callback. Sub-2m movements therefore
+   // accumulate until they become a real walking segment instead of being discarded.
+   if(!lastDistancePoint){
+     lastDistancePoint={lat:x.lat,lng:x.lng,time:now,smoothAlt:lastSmoothAlt};
+   }
+   let acceptedD=0,acceptedDt=0,accepted=false;
+   if(!paused&&lastDistancePoint){
+     const candidateD=hav(lastDistancePoint,x);
+     const candidateDt=Math.max(0,(now-(lastDistancePoint.time||now))/1000);
+     if(candidateD>=2&&candidateD<100){
+       acceptedD=candidateD;
+       acceptedDt=candidateDt;
+       routeDistance+=candidateD;
+       accepted=true;
+     }
+   }
+
    // Smooth altitude to reduce GPS noise. Ignore very large single jumps.
    if(Number.isFinite(x.alt)){
      if(lastSmoothAlt===null) lastSmoothAlt=x.alt;
      else {
        const raw=x.alt-lastSmoothAlt;
        const bounded=Math.max(-15,Math.min(15,raw));
-       const next=lastSmoothAlt+bounded*0.25;
-       if(d>=2){
-         const dh=next-lastSmoothAlt;
-         if(Math.abs(dh)>=1){
-           if(dh>0) totalAscent+=dh; else totalDescent+=-dh;
-         }
-       }
-       lastSmoothAlt=next;
+       lastSmoothAlt=lastSmoothAlt+bounded*0.25;
      }
      minAlt=minAlt===null?lastSmoothAlt:Math.min(minAlt,lastSmoothAlt);
      maxAlt=maxAlt===null?lastSmoothAlt:Math.max(maxAlt,lastSmoothAlt);
    }
-   if(d>=2 && dt>0){
-     let sp=Number.isFinite(x.speed)&&x.speed>=0?x.speed*3.6:(d/dt)*3.6;
-     currentSpeed=Math.min(sp,20);
-     if(Number.isFinite(x.alt)&&lastSmoothAlt!==null&&last&&Number.isFinite(last.alt)&&d>0){
-       const prevAlt=Number.isFinite(last.smoothAlt)?last.smoothAlt:last.alt;
-       currentGrade=Math.max(-25,Math.min(25,((lastSmoothAlt-prevAlt)/d)*100));
-     } else currentGrade=0;
-     const w=parseFloat($("weight").value);
-     addCalories(d,dt,w,currentGrade,currentSpeed);
-   } else if(Number.isFinite(x.speed)&&x.speed>=0) currentSpeed=Math.min(x.speed*3.6,20);
    x.smoothAlt=lastSmoothAlt;
-   // FIELD TEST 43: every GPS point carries cumulative walking distance.
-   // The elevation profile uses this value for the X axis.
+   // Give the first distance anchor the first smoothed altitude as its baseline.
+   if(lastDistancePoint&&lastDistancePoint.time===now)lastDistancePoint.smoothAlt=lastSmoothAlt;
+
+   if(accepted){
+     const prevAcceptedAlt=Number.isFinite(lastDistancePoint.smoothAlt)?lastDistancePoint.smoothAlt:null;
+     if(acceptedDt>0){
+       let sp=Number.isFinite(x.speed)&&x.speed>=0?x.speed*3.6:(acceptedD/acceptedDt)*3.6;
+       currentSpeed=Math.min(sp,20);
+       if(Number.isFinite(lastSmoothAlt)&&Number.isFinite(prevAcceptedAlt)&&acceptedD>0){
+         currentGrade=Math.max(-25,Math.min(25,((lastSmoothAlt-prevAcceptedAlt)/acceptedD)*100));
+       } else currentGrade=0;
+       const w=parseFloat($("weight").value);
+       addCalories(acceptedD,acceptedDt,w,currentGrade,currentSpeed);
+     }
+     lastDistancePoint={lat:x.lat,lng:x.lng,time:now,smoothAlt:lastSmoothAlt};
+   } else if(!paused&&Number.isFinite(x.speed)&&x.speed>=0){
+     currentSpeed=Math.min(x.speed*3.6,20);
+   } else if(paused){
+     currentSpeed=0;
+   }
+
+   // FIELD TEST 44: every GPS point carries the corrected cumulative walking distance.
+   // Elevation profile X axis and route distance now share the same distance source.
    x.dist=routeDistance;
    route.push(x);
    recalcElevationTotals430();
@@ -1342,7 +1369,7 @@ function startGPS(){
    updateMetrics();
    $("gpsmsg").textContent="📍 GPS：取得中（精度 "+Math.round(p.coords.accuracy)+" m）";
    $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length;
- },e=>{const n={1:"PERMISSION_DENIED",2:"POSITION_UNAVAILABLE",3:"TIMEOUT"};gpsDebug420("ROLLBACK ERROR "+e.code+" "+(n[e.code]||"")+" / "+e.message);$("gpsmsg").textContent="📍 GPS：取得できません（"+e.message+"）"},{enableHighAccuracy:true,maximumAge:3000,timeout:10000})
+ },e=>{const n={1:"PERMISSION_DENIED",2:"POSITION_UNAVAILABLE",3:"TIMEOUT"};gpsDebug420("FT44 ERROR "+e.code+" "+(n[e.code]||"")+" / "+e.message);$("gpsmsg").textContent="📍 GPS：取得できません（"+e.message+"）"},{enableHighAccuracy:true,maximumAge:3000,timeout:10000})
 }
 
 function stopGPS(){if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}}
@@ -2188,7 +2215,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 <div id="ft38Flow" aria-modal="true" role="dialog">
  <div class="ft38Shell">
-  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 43 / WALKING REPORT prototype</div></div>
+  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 44 / WALKING REPORT prototype</div></div>
 
   <section id="ft38QuestionPage">
    <div class="ft38Card">
@@ -2444,10 +2471,10 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
    const list=document.getElementById("ft39DataList");
    if(list) list.innerHTML=`
     <div class="ft39DataRow"><span>⏱ 歩行時間</span><b>${fmtHMS(activeElapsedMs())}</b></div>
-    <div class="ft39DataRow"><span>👣 歩数</span><b>${steps.toLocaleString()} 歩</b></div>
+    <div class="ft39DataRow"><span>👣 歩数</span><b>${Number(typeof n!=="undefined"?n:0).toLocaleString()} 歩</b></div>
     <div class="ft39DataRow"><span>📍 距離</span><b>${(routeDistance/1000).toFixed(2)} km</b></div>
     <div class="ft39DataRow"><span>🏃 平均速度</span><b>${routeDistance>0&&activeElapsedMs()>0?((routeDistance/1000)/(activeElapsedMs()/3600000)).toFixed(1):"0.0"} km/h</b></div>
-    <div class="ft39DataRow"><span>🔥 消費カロリー</span><b>${Math.round(calories||0)} kcal</b></div>
+    <div class="ft39DataRow"><span>🔥 消費カロリー</span><b>${Math.round(typeof currentCalories!=="undefined"?currentCalories:0)} kcal</b></div>
     <div class="ft39DataRow"><span>⛰ 累積上昇</span><b>+${Math.round(totalAscent||0)} m</b></div>`;
  };
 
@@ -2694,14 +2721,14 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
    let elapsed=0;
    try{ elapsed=typeof activeElapsedMs==="function" ? activeElapsedMs() : 0; }catch(e){}
    let st=0;
-   try{ st=typeof steps!=="undefined" ? num42(steps) : 0; }catch(e){}
+   try{ st=typeof n!=="undefined" ? num42(n) : num42(document.getElementById("recsteps")?.value,0); }catch(e){}
    let dist=0;
    try{ dist=typeof routeDistance!=="undefined" ? num42(routeDistance) : 0; }catch(e){}
    let asc=0;
    try{ asc=typeof totalAscent!=="undefined" ? num42(totalAscent) : 0; }catch(e){}
    let cal=0;
    try{
-     if(typeof calories!=="undefined") cal=num42(calories);
+     if(typeof currentCalories!=="undefined") cal=num42(currentCalories);
      else if(typeof calorieTotal!=="undefined") cal=num42(calorieTotal);
    }catch(e){}
 
