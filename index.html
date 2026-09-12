@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.1 FIELD TEST 47.1 — REHAB 3D ROUTE</title>
+<title>歩ログ Ver.5.1 FIELD TEST 47.2 — REHAB 3D ROUTE</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -1486,58 +1486,119 @@ function drawRoute(){if(!ctx)return;const w=mapCanvas.width,h=mapCanvas.height;c
  }
 }
 function drawElevationProfile(){
- if(!elevationCtx||!elevationCanvas)return;
- const c=elevationCanvas,g=elevationCtx,w=c.width,h=c.height,dpr=devicePixelRatio;
- g.clearRect(0,0,w,h);
- const elevBg=g.createLinearGradient(0,0,0,h);
- elevBg.addColorStop(0,"#082f35");elevBg.addColorStop(.55,"#073238");elevBg.addColorStop(1,"#06272c");
- g.fillStyle=elevBg;g.fillRect(0,0,w,h);
+  if(!elevationCtx||!elevationCanvas)return;
+  const c=elevationCanvas,g=elevationCtx,w=c.width,h=c.height,dpr=devicePixelRatio||1;
+  g.clearRect(0,0,w,h);
 
- const a=route.filter(p=>Number.isFinite(p.smoothAlt)).map(p=>({d:Number.isFinite(p.dist)?p.dist:0,alt:p.smoothAlt}));
- if(!a.length){
-   g.fillStyle="#b7d9d5";g.font=(14*dpr)+"px sans-serif";g.textAlign="center";
-   g.fillText("GPS高度を取得すると高低差プロフィールを表示します",w/2,h/2);return;
- }
+  // Same dark-teal visual language as the 3D route.
+  const elevBg=g.createLinearGradient(0,0,0,h);
+  elevBg.addColorStop(0,"#082f35");elevBg.addColorStop(.55,"#073238");elevBg.addColorStop(1,"#06272c");
+  g.fillStyle=elevBg;g.fillRect(0,0,w,h);
 
- const rawLo=Math.min(...a.map(p=>p.alt)),rawHi=Math.max(...a.map(p=>p.alt));
- const rawSpan=Math.max(0,rawHi-rawLo);
- const targetSpan=Math.max(rawSpan*1.24,4);
- let lo=(rawLo+rawHi)/2-targetSpan/2,hi=(rawLo+rawHi)/2+targetSpan/2;
- function niceStep(range){
-   const rough=range/4,p=Math.pow(10,Math.floor(Math.log10(Math.max(rough,0.0001)))),n=rough/p;
-   let m=1;if(n>5)m=10;else if(n>2)m=5;else if(n>1)m=2;return m*p;
- }
- const step=niceStep(hi-lo);
- lo=Math.floor(lo/step)*step;hi=Math.ceil(hi/step)*step;if(hi<=lo)hi=lo+step*4;
+  const a=route.filter(p=>Number.isFinite(p.smoothAlt)).map(p=>({
+    d:Number.isFinite(Number(p.dist))?Number(p.dist):0,
+    alt:Number(p.smoothAlt)
+  }));
+  if(!a.length){
+    g.fillStyle="#b7d9d5";g.font=(14*dpr)+"px sans-serif";g.textAlign="center";
+    g.fillText("GPS高度を取得すると高低差プロフィールを表示します",w/2,h/2);return;
+  }
 
- const span=hi-lo,padL=46*dpr,padR=18*dpr,padT=18*dpr,padB=30*dpr;
- const pw=Math.max(1,w-padL-padR),ph=Math.max(1,h-padT-padB),total=Math.max(routeDistance,1);
+  const rawLo=Math.min(...a.map(p=>p.alt)),rawHi=Math.max(...a.map(p=>p.alt));
+  const rawSpan=Math.max(0,rawHi-rawLo),targetSpan=Math.max(rawSpan*1.24,4);
+  let lo=(rawLo+rawHi)/2-targetSpan/2,hi=(rawLo+rawHi)/2+targetSpan/2;
+  function niceStep(range){
+    const rough=range/4,p=Math.pow(10,Math.floor(Math.log10(Math.max(rough,0.0001)))),n=rough/p;
+    let m=1;if(n>5)m=10;else if(n>2)m=5;else if(n>1)m=2;return m*p;
+  }
+  const step=niceStep(hi-lo);
+  lo=Math.floor(lo/step)*step;hi=Math.ceil(hi/step)*step;if(hi<=lo)hi=lo+step*4;
 
- g.strokeStyle="rgba(87,190,181,.26)";g.lineWidth=1*dpr;g.fillStyle="#b7d9d5";g.font=(11*dpr)+"px sans-serif";g.textAlign="right";
- const ticks=4;
- for(let i=0;i<=ticks;i++){
-   const y=padT+ph*i/ticks,v=hi-span*i/ticks;
-   g.beginPath();g.moveTo(padL,y);g.lineTo(w-padR,y);g.stroke();
-   g.fillText(v.toFixed(step<1?1:0)+" m",padL-5*dpr,y+4*dpr);
- }
+  const span=hi-lo,padL=46*dpr,padR=18*dpr,padT=23*dpr,padB=32*dpr;
+  const pw=Math.max(1,w-padL-padR),ph=Math.max(1,h-padT-padB),total=Math.max(Number(routeDistance)||0,1);
 
- const colorLo=rawLo,colorSpan=Math.max(rawHi-rawLo,0.5);
- if(a.length===1){
-   const y=padT+(1-(a[0].alt-lo)/span)*ph;
-   g.fillStyle=thermalColor(.5);g.beginPath();g.arc(padL,y,3*dpr,0,Math.PI*2);g.fill();
- }else{
-   g.lineWidth=3*dpr;g.lineCap="round";
-   for(let i=1;i<a.length;i++){
-     const p=a[i-1],q=a[i];
-     const x1=padL+Math.min(p.d,total)/total*pw,y1=padT+(1-(p.alt-lo)/span)*ph;
-     const x2=padL+Math.min(q.d,total)/total*pw,y2=padT+(1-(q.alt-lo)/span)*ph;
-     const t=Math.max(0,Math.min(1,(q.alt-colorLo)/colorSpan));
-     g.strokeStyle=thermalColor(t);g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();
-   }
- }
+  // Horizontal altitude grid.
+  g.strokeStyle="rgba(87,190,181,.26)";g.lineWidth=1*dpr;g.fillStyle="#b7d9d5";g.font=(10*dpr)+"px sans-serif";g.textAlign="right";
+  const yTicks=4;
+  for(let i=0;i<=yTicks;i++){
+    const y=padT+ph*i/yTicks,v=hi-span*i/yTicks;
+    g.beginPath();g.moveTo(padL,y);g.lineTo(w-padR,y);g.stroke();
+    g.fillText(v.toFixed(step<1?1:0)+" m",padL-5*dpr,y+4*dpr);
+  }
 
- g.fillStyle="#b7d9d5";g.font=(11*dpr)+"px sans-serif";g.textAlign="left";g.fillText("0 km",padL,h-7*dpr);
- g.textAlign="right";g.fillText((routeDistance/1000).toFixed(2)+" km",w-padR,h-7*dpr);
+  // FIELD TEST 47.2: vertical distance grid + automatically spaced labels.
+  function niceDistanceStep(meters){
+    const rough=Math.max(meters/5,1);
+    const p=Math.pow(10,Math.floor(Math.log10(rough)));
+    const n=rough/p;
+    const mult=n<=1?1:n<=2?2:n<=5?5:10;
+    return mult*p;
+  }
+  const dStep=niceDistanceStep(total);
+  g.textAlign="center";g.fillStyle="#9fc9c4";g.strokeStyle="rgba(87,190,181,.20)";
+  for(let d=0;d<=total+dStep*.12;d+=dStep){
+    const dd=Math.min(d,total),x=padL+(dd/total)*pw;
+    g.beginPath();g.moveTo(x,padT);g.lineTo(x,padT+ph);g.stroke();
+    const label=dd>=1000?(dd/1000).toFixed(dd%1000?1:0)+" km":Math.round(dd)+" m";
+    g.fillText(label,x,h-8*dpr);
+    if(dd>=total)break;
+  }
+  // Always show actual end distance when it is not already close to a grid tick.
+  const lastTick=Math.floor(total/dStep)*dStep;
+  if(total-lastTick>dStep*.24){
+    g.fillStyle="#d7efec";g.fillText(total>=1000?(total/1000).toFixed(2)+" km":Math.round(total)+" m",padL+pw,h-8*dpr);
+  }
+
+  // Profile, deliberately close in visual weight to the thinner 3D route.
+  const colorLo=rawLo,colorSpan=Math.max(rawHi-rawLo,0.5);
+  const pointXY=(p)=>({
+    x:padL+Math.min(Math.max(p.d,0),total)/total*pw,
+    y:padT+(1-(p.alt-lo)/span)*ph
+  });
+  if(a.length===1){
+    const q=pointXY(a[0]);g.fillStyle=thermalColor(.5);g.beginPath();g.arc(q.x,q.y,3*dpr,0,Math.PI*2);g.fill();
+  }else{
+    g.lineWidth=2.6*dpr;g.lineCap="round";g.lineJoin="round";
+    for(let i=1;i<a.length;i++){
+      const p=pointXY(a[i-1]),q=pointXY(a[i]),t=Math.max(0,Math.min(1,(a[i].alt-colorLo)/colorSpan)),col=thermalColor(t);
+      g.save();g.strokeStyle=col;g.shadowColor=col;g.shadowBlur=2.5*dpr;g.beginPath();g.moveTo(p.x,p.y);g.lineTo(q.x,q.y);g.stroke();g.restore();
+    }
+  }
+
+  // Small callout helper. Offsets are chosen to reduce collisions on short sessions.
+  function callout(p,label,sub,color,dx,dy){
+    if(!p)return; const q=pointXY(p),bw=76*dpr,bh=29*dpr;
+    let bx=q.x+dx*dpr,by=q.y+dy*dpr;
+    bx=Math.max(3*dpr,Math.min(w-bw-3*dpr,bx));by=Math.max(3*dpr,Math.min(h-bh-padB,by));
+    g.save();
+    g.strokeStyle=color;g.fillStyle="rgba(4,44,50,.90)";g.lineWidth=1*dpr;
+    g.beginPath();if(g.roundRect)g.roundRect(bx,by,bw,bh,6*dpr);else g.rect(bx,by,bw,bh);g.fill();g.stroke();
+    g.fillStyle="#fff";g.font="700 "+(9*dpr)+"px sans-serif";g.textAlign="left";g.fillText(label,bx+6*dpr,by+11*dpr);
+    g.fillStyle="#cce8e4";g.font=(8*dpr)+"px sans-serif";g.fillText(sub,bx+6*dpr,by+22*dpr);
+    g.fillStyle=color;g.beginPath();g.arc(q.x,q.y,3.2*dpr,0,Math.PI*2);g.fill();g.restore();
+  }
+
+  const pStart=a[0],pGoal=a[a.length-1],pPeak=a.reduce((x,y)=>y.alt>x.alt?y:x,a[0]);
+  const short=total<120;
+  callout(pStart,"START",Math.round(pStart.alt)+" m","#39a8ff",4,short?8:-36);
+  callout(pGoal,"GOAL",Math.round(pGoal.alt)+" m","#32e69b",-80,short?-38:-36);
+  if(pPeak!==pStart&&pPeak!==pGoal)callout(pPeak,"最高地点",Math.round(pPeak.alt)+" m","#ff4d55",-38,short?10:-38);
+
+  // Grade markers stay compact so the rehabilitation profile remains readable.
+  const nearestByDist=(m)=>{
+    if(!m||!Number.isFinite(Number(m.dist)))return null;
+    let best=a[0],bd=Infinity;for(const p of a){const dd=Math.abs(p.d-Number(m.dist));if(dd<bd){bd=dd;best=p}}return best;
+  };
+  if(Number.isFinite(maxUpGrade46)){
+    const p=nearestByDist(maxUpPoint46);if(p){const q=pointXY(p);g.fillStyle="#ffba3d";g.beginPath();g.arc(q.x,q.y,2.8*dpr,0,Math.PI*2);g.fill();g.fillStyle="#fff4d2";g.font="700 "+(8*dpr)+"px sans-serif";g.textAlign="center";g.fillText("▲ +"+maxUpGrade46.toFixed(1)+"%",q.x,q.y-7*dpr);}
+  }
+  if(Number.isFinite(maxDownGrade46)){
+    const p=nearestByDist(maxDownPoint46);if(p){const q=pointXY(p);g.fillStyle="#5db7ff";g.beginPath();g.arc(q.x,q.y,2.8*dpr,0,Math.PI*2);g.fill();g.fillStyle="#d9efff";g.font="700 "+(8*dpr)+"px sans-serif";g.textAlign="center";g.fillText("▼ "+maxDownGrade46.toFixed(1)+"%",q.x,q.y+12*dpr);}
+  }
+
+  // Rehabilitation framing: this is a session visualization, not a diagnosis.
+  g.fillStyle="rgba(220,255,250,.64)";g.font=(8*dpr)+"px sans-serif";g.textAlign="right";
+  g.fillText("今回の歩行データ",w-padR,padT-7*dpr);
 }
 setupMap();
 setInterval(()=>{try{updateWalkScene();if(running){drawBalanceMap();copyBalanceToScene();}}catch(e){}},250);setupBalanceCanvas();setupSceneBalanceCanvas();setupBalanceHud412();drawBalanceMap();copyBalanceToScene();
@@ -3123,7 +3184,7 @@ function drawRoute(){
   g.lineCap='round';g.lineJoin='round';
   for(let i=1;i<pts.length;i++){
     const a=pts[i-1],b=pts[i],t=hi>lo?(Number(b.p.smoothAlt)-lo)/(hi-lo):.5,col=thermalColor(t);
-    g.save();g.strokeStyle=col;g.lineWidth=5*dpr;g.shadowColor=col;g.shadowBlur=7*dpr;g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.stroke();g.restore();
+    g.save();g.strokeStyle=col;g.lineWidth=3*dpr;g.shadowColor=col;g.shadowBlur=4*dpr;g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.stroke();g.restore();
   }
   function pin(q,label,sub,color,side=1){
     if(!q)return;const p=project(q),x=p.x,y=p.y;
@@ -3136,8 +3197,22 @@ function drawRoute(){
   const nearest=(m)=>{if(!m)return null;let best=raw[0],bd=Infinity;for(const q of raw){const d=(q.p.lat-m.lat)**2+(q.p.lng-m.lng)**2;if(d<bd){bd=d;best=q}}return best};
   if(Number.isFinite(maxUpGrade46)){const q=nearest(maxUpPoint46),p=project(q);g.fillStyle='#ffba3d';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#fff4d2';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▲ +'+maxUpGrade46.toFixed(1)+'%',p.x,p.y-8*dpr)}
   if(Number.isFinite(maxDownGrade46)){const q=nearest(maxDownPoint46),p=project(q);g.fillStyle='#5db7ff';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#d9efff';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▼ '+maxDownGrade46.toFixed(1)+'%',p.x,p.y+14*dpr)}
+  // FIELD TEST 47.2: compact distance scale for quick route-size reading.
+  const scaleMax=Math.max(0,Number(routeDistance)||0);
+  if(scaleMax>0){
+    const barW=Math.min(116*dpr,w*.30),barX=w-barW-18*dpr,barY=h-22*dpr;
+    const niceScale=(m)=>{
+      const candidates=[10,20,25,50,100,200,250,500,1000,2000,5000];
+      const target=Math.max(10,m*.25);
+      return candidates.find(v=>v>=target)||Math.ceil(target/1000)*1000;
+    };
+    const sm=niceScale(scaleMax), px=Math.max(26*dpr,Math.min(barW,barW*(sm/Math.max(scaleMax,sm))));
+    g.save();g.strokeStyle='rgba(220,255,250,.82)';g.fillStyle='#dffffa';g.lineWidth=1.4*dpr;
+    g.beginPath();g.moveTo(barX,barY);g.lineTo(barX+px,barY);g.moveTo(barX,barY-4*dpr);g.lineTo(barX,barY+4*dpr);g.moveTo(barX+px,barY-4*dpr);g.lineTo(barX+px,barY+4*dpr);g.stroke();
+    g.font=(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText(sm>=1000?(sm/1000).toFixed(sm%1000?1:0)+' km':Math.round(sm)+' m',barX+px/2,barY-6*dpr);g.restore();
+  }
   // title badge
-  g.fillStyle='rgba(0,35,42,.65)';g.beginPath();if(g.roundRect)g.roundRect(10*dpr,10*dpr,104*dpr,25*dpr,7*dpr);else g.rect(10*dpr,10*dpr,104*dpr,25*dpr);g.fill();g.fillStyle='#dffffa';g.font='700 '+(10*dpr)+'px sans-serif';g.textAlign='left';g.fillText('3D ROUTE / FT47.1',18*dpr,27*dpr);
+  g.fillStyle='rgba(0,35,42,.65)';g.beginPath();if(g.roundRect)g.roundRect(10*dpr,10*dpr,104*dpr,25*dpr,7*dpr);else g.rect(10*dpr,10*dpr,104*dpr,25*dpr);g.fill();g.fillStyle='#dffffa';g.font='700 '+(10*dpr)+'px sans-serif';g.textAlign='left';g.fillText('3D ROUTE / FT47.2',18*dpr,27*dpr);
 }
 
 // Keep FT46 calculations fresh during GPS updates and history display.
@@ -3231,7 +3306,7 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
   if(typeof oldGrade==='function')window.updateGradeStats46=function(){const r=oldGrade.apply(this,arguments);try{updateRehab47();}catch(e){}return r;};
   document.addEventListener('DOMContentLoaded',()=>{ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);});
   if(document.readyState!=='loading'){ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);}
-  console.info('AYALOG FIELD TEST 47.1: 3D route + matching dark elevation canvas enabled');
+  console.info('AYALOG FIELD TEST 47.2: refined route/profile UI enabled');
 })();
 </script>
 
