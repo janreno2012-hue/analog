@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.1 FIELD TEST 44</title>
+<title>歩ログ Ver.5.1 FIELD TEST 45.1</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -724,7 +724,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
  <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.1 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 44</div><div class="t3">TEST / Ver.5.1</div></div>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 45.1</div><div class="t3">TEST / Ver.5.1</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -809,6 +809,40 @@ let balanceBaseX=null,balanceBaseY=null,balanceBaseZ=null,balancePos=0,balanceNe
 let balanceCalPhase="idle",balanceCalStart=0,balanceWalkCalStart=0,balanceCalibrated=false;
 let balanceStaticSumX=0,balanceStaticSumY=0,balanceStaticSumZ=0,balanceStaticSamples=0;
 let balanceWalkSumX=0,balanceWalkSumY=0,balanceWalkSumZ=0,balanceWalkSamples=0;
+// FIELD TEST 45.1: mount-normalized body-frame calibration (experimental).
+// Static phase estimates gravity; walk phase learns the dominant horizontal walking axis.
+let ft45Gravity={x:0,y:0,z:1},ft45Forward={x:0,y:1,z:0},ft45Lateral={x:1,y:0,z:0};
+let ft45WalkVectors=[],ft45Bias={x:0,y:0,z:0},ft45FrameReady=false;
+function ft45Dot(a,b){return a.x*b.x+a.y*b.y+a.z*b.z}
+function ft45Norm(v){const m=Math.hypot(v.x,v.y,v.z)||1;return {x:v.x/m,y:v.y/m,z:v.z/m}}
+function ft45Cross(a,b){return {x:a.y*b.z-a.z*b.y,y:a.z*b.x-a.x*b.z,z:a.x*b.y-a.y*b.x}}
+function ft45Sub(a,b){return {x:a.x-b.x,y:a.y-b.y,z:a.z-b.z}}
+function ft45Scale(v,k){return {x:v.x*k,y:v.y*k,z:v.z*k}}
+function ft45ProjectHorizontal(v,g){return ft45Sub(v,ft45Scale(g,ft45Dot(v,g)))}
+function ft45BuildFrame(){
+  if(!balanceStaticSamples)return false;
+  ft45Gravity=ft45Norm({x:balanceStaticSumX/balanceStaticSamples,y:balanceStaticSumY/balanceStaticSamples,z:balanceStaticSumZ/balanceStaticSamples});
+  if(ft45WalkVectors.length<20)return false;
+  const mean=ft45WalkVectors.reduce((a,v)=>({x:a.x+v.x,y:a.y+v.y,z:a.z+v.z}),{x:0,y:0,z:0});
+  ft45Bias={x:mean.x/ft45WalkVectors.length,y:mean.y/ft45WalkVectors.length,z:mean.z/ft45WalkVectors.length};
+  let c=[[0,0,0],[0,0,0],[0,0,0]];
+  for(const q0 of ft45WalkVectors){const q=ft45Sub(q0,ft45Bias),a=[q.x,q.y,q.z];for(let i=0;i<3;i++)for(let j=0;j<3;j++)c[i][j]+=a[i]*a[j];}
+  let v=ft45Norm(ft45ProjectHorizontal({x:1,y:.7,z:.2},ft45Gravity));
+  for(let k=0;k<12;k++){const a=[v.x,v.y,v.z],w={x:c[0][0]*a[0]+c[0][1]*a[1]+c[0][2]*a[2],y:c[1][0]*a[0]+c[1][1]*a[1]+c[1][2]*a[2],z:c[2][0]*a[0]+c[2][1]*a[1]+c[2][2]*a[2]};v=ft45Norm(ft45ProjectHorizontal(w,ft45Gravity));}
+  ft45Forward=v;
+  ft45Lateral=ft45Norm(ft45Cross(ft45Gravity,ft45Forward));
+  // Keep sign reasonably stable relative to the device X projection; only sign, not magnitude, depends on mount.
+  const ref=ft45ProjectHorizontal({x:1,y:0,z:0},ft45Gravity);if(Math.hypot(ref.x,ref.y,ref.z)>.2&&ft45Dot(ft45Lateral,ref)<0)ft45Lateral=ft45Scale(ft45Lateral,-1);
+  ft45FrameReady=true;return true;
+}
+function ft45BodyVector(x,y,z){
+  const raw={x,y,z};
+  const dyn=ft45Sub(raw,ft45Scale(ft45Gravity,ft45Dot(raw,ft45Gravity)));
+  const q=ft45Sub(dyn,ft45Bias);
+  const lateral=ft45Dot(q,ft45Lateral),forward=ft45Dot(q,ft45Forward);
+  const vertical=ft45Dot(ft45Sub(raw,ft45Scale(ft45Gravity,9.80665)),ft45Gravity);
+  return {x:lateral,y:forward,z:vertical};
+}
 const BALANCE_STATIC_MS=3000,BALANCE_WALK_STEPS=16,BALANCE_WALK_MAX_MS=12000;
 let storageWaitActive=false,storageWaitTimer=null;const STORAGE_WAIT_MS=5000;
 let walkSide=false,walkAnimTimer=null;
@@ -929,25 +963,33 @@ function setDebugStatus(text){$("debugStatus").textContent=text}
 function startStorageWait426(){
  storageWaitActive=true;
  const started=Date.now();
+ const ov=document.getElementById("ft451Countdown"),numEl=document.getElementById("ft451CountdownNum"),hintEl=document.getElementById("ft451CountdownHint");
+ if(ov)ov.classList.add("show");
  if(storageWaitTimer)clearInterval(storageWaitTimer);
  const tick=()=>{
-  const remain=Math.max(0,Math.ceil((STORAGE_WAIT_MS-(Date.now()-started))/1000));
+  const elapsed=Date.now()-started;
+  const remain=Math.max(0,Math.ceil((STORAGE_WAIT_MS-elapsed)/1000));
+  if(numEl)numEl.textContent=remain>0?String(remain):"GO";
+  if(hintEl)hintEl.textContent=remain>0?"いつもの位置・向きに収納してください":"キャリブレーション開始";
   if($("balanceReadout"))$("balanceReadout").textContent="体幹バランス：収納待ち "+remain+"秒";
   if($("fieldSync"))$("fieldSync").textContent="同期：収納待ち "+remain+"秒 ／ スマホをいつもの位置へ収納";
   if($("msg"))$("msg").textContent="収納待ち "+remain+"秒：スマホをバッグ・ポケットへ収納してください。";
-  if(Date.now()-started>=STORAGE_WAIT_MS){
+  if(elapsed>=STORAGE_WAIT_MS){
    clearInterval(storageWaitTimer);storageWaitTimer=null;storageWaitActive=false;
    startBalanceCalibration425();
+   if($("msg"))$("msg").textContent="キャリブレーションを開始しました。普段どおり歩いてください。";
+   setTimeout(()=>{if(ov)ov.classList.remove("show");},350);
    if(typeof pocketEnabled!=="undefined"&&pocketEnabled)enterPocketMode();
   }
  };
- tick();storageWaitTimer=setInterval(tick,200);
+ tick();storageWaitTimer=setInterval(tick,100);
 }
 function startBalanceCalibration425(){
  balanceCalPhase="static";balanceCalStart=Date.now();balanceWalkCalStart=0;balanceCalibrated=false;balanceCalSteps=0;
  balanceStaticSumX=balanceStaticSumY=balanceStaticSumZ=0;balanceStaticSamples=0;
  balanceWalkSumX=balanceWalkSumY=balanceWalkSumZ=0;balanceWalkSamples=0;
  balanceBaseX=balanceBaseY=balanceBaseZ=null;balancePoints=[];balancePos=balanceNeg=balanceSamples=0;
+ ft45WalkVectors=[];ft45Bias={x:0,y:0,z:0};ft45FrameReady=false;
  window.__liveBalanceX=0;window.__liveBalanceY=0;window.__liveBalanceZ=0;
  updateCalibrationStatus425();
 }
@@ -963,11 +1005,8 @@ function calibrationLabel425(){
 }
 function finishBalanceCalibration425(){
  if(balanceCalibrated)return;
- if(balanceWalkSamples>0){
-   balanceBaseX += balanceWalkSumX/balanceWalkSamples;
-   balanceBaseY += balanceWalkSumY/balanceWalkSamples;
-   balanceBaseZ += balanceWalkSumZ/balanceWalkSamples;
- }
+ // FT45: learn a body-oriented frame from gravity + walking motion instead of using raw phone XYZ offsets.
+ ft45BuildFrame();
  balanceCalibrated=true;balanceCalPhase="done";balancePoints=[];balancePos=balanceNeg=balanceSamples=0;balanceLastSample=0;
  updateCalibrationStatus425();
 }
@@ -998,13 +1037,17 @@ function motion(e){
      updateCalibrationStatus425();
    }else{
      if(balanceBaseX===null){balanceBaseX=x;balanceBaseY=y;balanceBaseZ=z;}
-     const dx=x-balanceBaseX,dy=y-balanceBaseY,dz=z-balanceBaseZ;
-     window.__liveBalanceX=Math.max(-4,Math.min(4,dx));window.__liveBalanceY=Math.max(-4,Math.min(4,dy));window.__liveBalanceZ=Math.max(-4,Math.min(4,dz));
      if(balanceCalPhase==="walk"){
-       balanceWalkSumX+=dx;balanceWalkSumY+=dy;balanceWalkSumZ+=dz;balanceWalkSamples++;
+       // Remove gravity direction and collect walking motion in the horizontal plane.
+       const g=ft45Norm({x:balanceBaseX,y:balanceBaseY,z:balanceBaseZ});
+       const h=ft45ProjectHorizontal({x,y,z},g);ft45WalkVectors.push(h);if(ft45WalkVectors.length>1200)ft45WalkVectors.shift();
+       balanceWalkSamples++;
        if(t-balanceWalkCalStart>=BALANCE_WALK_MAX_MS)finishBalanceCalibration425();
        else updateCalibrationStatus425();
      }else if(balanceCalibrated){
+       const b=ft45FrameReady?ft45BodyVector(x,y,z):{x:x-balanceBaseX,y:y-balanceBaseY,z:z-balanceBaseZ};
+       const dx=b.x,dy=b.y,dz=b.z;
+       window.__liveBalanceX=Math.max(-4,Math.min(4,dx));window.__liveBalanceY=Math.max(-4,Math.min(4,dy));window.__liveBalanceZ=Math.max(-4,Math.min(4,dz));
        if(dx>0)balancePos+=Math.abs(dx);else balanceNeg+=Math.abs(dx);balanceSamples++;
        if(t-balanceLastSample>=100){balanceLastSample=t;balancePoints.push({x:Math.max(-4,Math.min(4,dx)),y:Math.max(-4,Math.min(4,dy)),z:Math.max(-4,Math.min(4,dz))});if(balancePoints.length>600)balancePoints.shift();}
        updateBalanceUI();
@@ -1239,7 +1282,7 @@ function drawBalanceMap(){
  g.fillStyle='#e74b35';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();
  g.strokeStyle='#fff';g.lineWidth=1.2*dpr;g.stroke();
 }
-function updateBalanceUI(){const total=balancePos+balanceNeg;if(!total||balanceSamples<10){$("balanceRatio").textContent="-- : --";$("balanceDiff").textContent="-- %";$("balanceMeanLR").textContent="--";$("balanceMeanFB").textContent="--";$("balanceStability").textContent="-- %";$("balanceStatus").textContent=running?(balanceCalibrated?"解析中":calibrationLabel425()) : "待機中";drawBalanceMap();copyBalanceToScene();return;}const l=balancePos/total*100,r=balanceNeg/total*100,d=Math.abs(l-r);$("balanceRatio").textContent=Math.round(l)+" : "+Math.round(r);$("balanceDiff").textContent=d.toFixed(1)+" %";const st=balanceStats(),lr=Math.abs(st.mx)<.08?"中央":(st.mx>0?"右寄り":"左寄り"),fb=Math.abs(st.my)<.08?"中央":(st.my>0?"前寄り":"後寄り"),stability=Math.max(0,Math.min(100,100-st.spread*22));$("balanceMeanLR").textContent=lr;$("balanceMeanFB").textContent=fb;$("balanceStability").textContent=balancePoints.length?Math.round(stability)+" %":"-- %";$("balanceStatus").textContent=balanceCalibrated?"β解析中（端末の向き・収納位置で前後左右は変わる場合があります）":calibrationLabel425();drawBalanceMap();copyBalanceToScene();}
+function updateBalanceUI(){const total=balancePos+balanceNeg;if(!total||balanceSamples<10){$("balanceRatio").textContent="-- : --";$("balanceDiff").textContent="-- %";$("balanceMeanLR").textContent="--";$("balanceMeanFB").textContent="--";$("balanceStability").textContent="-- %";$("balanceStatus").textContent=running?(balanceCalibrated?"解析中":calibrationLabel425()) : "待機中";drawBalanceMap();copyBalanceToScene();return;}const l=balancePos/total*100,r=balanceNeg/total*100,d=Math.abs(l-r);$("balanceRatio").textContent=Math.round(l)+" : "+Math.round(r);$("balanceDiff").textContent=d.toFixed(1)+" %";const st=balanceStats(),lr=Math.abs(st.mx)<.08?"中央":(st.mx>0?"右寄り":"左寄り"),fb=Math.abs(st.my)<.08?"中央":(st.my>0?"前寄り":"後寄り"),stability=Math.max(0,Math.min(100,100-st.spread*22));$("balanceMeanLR").textContent=lr;$("balanceMeanFB").textContent=fb;$("balanceStability").textContent=balancePoints.length?Math.round(stability)+" %":"-- %";$("balanceStatus").textContent=balanceCalibrated?"FT45解析中（装着方向補正・実験版）":calibrationLabel425();drawBalanceMap();copyBalanceToScene();}
 function resetBalance(){storageWaitActive=false;if(storageWaitTimer){clearInterval(storageWaitTimer);storageWaitTimer=null;}balanceBaseX=null;balanceBaseY=null;balanceBaseZ=null;window.__liveBalanceX=0;window.__liveBalanceY=0;window.__liveBalanceZ=0;balancePos=0;balanceNeg=0;balanceSamples=0;balanceCalSteps=0;balancePoints=[];balanceLastSample=0;balanceCalPhase="idle";balanceCalibrated=false;balanceStaticSamples=0;balanceWalkSamples=0;updateBalanceUI()}
 function metFor(speed,grade){
  let met = speed<3.2?2.8:speed<4.0?3.0:speed<4.8?3.5:speed<5.6?4.3:speed<6.4?5.0:6.0;
@@ -1307,7 +1350,7 @@ function startGPS(){
 
    const last=route[route.length-1];
 
-   // FIELD TEST 44: distance is accumulated from the last ACCEPTED distance anchor,
+   // FIELD TEST 45.1: distance is accumulated from the last ACCEPTED distance anchor,
    // not from the immediately previous GPS callback. Sub-2m movements therefore
    // accumulate until they become a real walking segment instead of being discarded.
    if(!lastDistancePoint){
@@ -1358,7 +1401,7 @@ function startGPS(){
      currentSpeed=0;
    }
 
-   // FIELD TEST 44: every GPS point carries the corrected cumulative walking distance.
+   // FIELD TEST 45.1: every GPS point carries the corrected cumulative walking distance.
    // Elevation profile X axis and route distance now share the same distance source.
    x.dist=routeDistance;
    route.push(x);
@@ -2215,7 +2258,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 <div id="ft38Flow" aria-modal="true" role="dialog">
  <div class="ft38Shell">
-  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 44 / WALKING REPORT prototype</div></div>
+  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 45.1 / WALKING REPORT prototype</div></div>
 
   <section id="ft38QuestionPage">
    <div class="ft38Card">
@@ -2960,5 +3003,28 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
  };
 })();
 </script>
+
+
+<script id="fieldTest45Note">
+console.info("AYALOG FIELD TEST 45.1: gravity + walking PCA mount-normalized calibration enabled");
+</script>
+
+<style id="ft451CountdownStyle">
+#ft451Countdown{display:none;position:fixed;inset:0;z-index:12000;background:rgba(0,28,31,.78);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:24px;text-align:center;color:#fff}
+#ft451Countdown.show{display:flex}
+#ft451Countdown .box{width:min(360px,92vw);border:1px solid rgba(108,248,238,.85);border-radius:24px;padding:24px 20px;background:rgba(0,73,78,.88);box-shadow:0 14px 40px rgba(0,0,0,.28)}
+#ft451Countdown .title{font-size:20px;font-weight:900;letter-spacing:.03em}
+#ft451Countdown .num{font-size:86px;line-height:1;font-weight:950;margin:12px 0 10px;font-variant-numeric:tabular-nums}
+#ft451Countdown .hint{font-size:15px;line-height:1.7;color:#eaffff}
+#ft451Countdown .sub{margin-top:8px;font-size:12px;color:#bfe9e6}
+</style>
+<div id="ft451Countdown" aria-live="polite" aria-label="キャリブレーション開始カウントダウン">
+  <div class="box">
+    <div class="title">📱 スマホをバッグへ収納</div>
+    <div id="ft451CountdownNum" class="num">5</div>
+    <div id="ft451CountdownHint" class="hint">いつもの位置・向きに収納してください</div>
+    <div class="sub">カウント終了後、自動でキャリブレーションを開始します</div>
+  </div>
+</div>
 
 </body></html>
