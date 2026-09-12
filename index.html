@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.1 FIELD TEST 47 — REHAB 3D ROUTE</title>
+<title>歩ログ Ver.5.1 FIELD TEST 47.1 — REHAB 3D ROUTE</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -1488,11 +1488,14 @@ function drawRoute(){if(!ctx)return;const w=mapCanvas.width,h=mapCanvas.height;c
 function drawElevationProfile(){
  if(!elevationCtx||!elevationCanvas)return;
  const c=elevationCanvas,g=elevationCtx,w=c.width,h=c.height,dpr=devicePixelRatio;
- g.clearRect(0,0,w,h);g.fillStyle="#fbfdfc";g.fillRect(0,0,w,h);
+ g.clearRect(0,0,w,h);
+ const elevBg=g.createLinearGradient(0,0,0,h);
+ elevBg.addColorStop(0,"#082f35");elevBg.addColorStop(.55,"#073238");elevBg.addColorStop(1,"#06272c");
+ g.fillStyle=elevBg;g.fillRect(0,0,w,h);
 
  const a=route.filter(p=>Number.isFinite(p.smoothAlt)).map(p=>({d:Number.isFinite(p.dist)?p.dist:0,alt:p.smoothAlt}));
  if(!a.length){
-   g.fillStyle="#6b7c79";g.font=(14*dpr)+"px sans-serif";g.textAlign="center";
+   g.fillStyle="#b7d9d5";g.font=(14*dpr)+"px sans-serif";g.textAlign="center";
    g.fillText("GPS高度を取得すると高低差プロフィールを表示します",w/2,h/2);return;
  }
 
@@ -1510,7 +1513,7 @@ function drawElevationProfile(){
  const span=hi-lo,padL=46*dpr,padR=18*dpr,padT=18*dpr,padB=30*dpr;
  const pw=Math.max(1,w-padL-padR),ph=Math.max(1,h-padT-padB),total=Math.max(routeDistance,1);
 
- g.strokeStyle="#dbe5e2";g.lineWidth=1*dpr;g.fillStyle="#6b7c79";g.font=(11*dpr)+"px sans-serif";g.textAlign="right";
+ g.strokeStyle="rgba(87,190,181,.26)";g.lineWidth=1*dpr;g.fillStyle="#b7d9d5";g.font=(11*dpr)+"px sans-serif";g.textAlign="right";
  const ticks=4;
  for(let i=0;i<=ticks;i++){
    const y=padT+ph*i/ticks,v=hi-span*i/ticks;
@@ -1533,7 +1536,7 @@ function drawElevationProfile(){
    }
  }
 
- g.fillStyle="#6b7c79";g.font=(11*dpr)+"px sans-serif";g.textAlign="left";g.fillText("0 km",padL,h-7*dpr);
+ g.fillStyle="#b7d9d5";g.font=(11*dpr)+"px sans-serif";g.textAlign="left";g.fillText("0 km",padL,h-7*dpr);
  g.textAlign="right";g.fillText((routeDistance/1000).toFixed(2)+" km",w-padR,h-7*dpr);
 }
 setupMap();
@@ -3134,7 +3137,7 @@ function drawRoute(){
   if(Number.isFinite(maxUpGrade46)){const q=nearest(maxUpPoint46),p=project(q);g.fillStyle='#ffba3d';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#fff4d2';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▲ +'+maxUpGrade46.toFixed(1)+'%',p.x,p.y-8*dpr)}
   if(Number.isFinite(maxDownGrade46)){const q=nearest(maxDownPoint46),p=project(q);g.fillStyle='#5db7ff';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#d9efff';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▼ '+maxDownGrade46.toFixed(1)+'%',p.x,p.y+14*dpr)}
   // title badge
-  g.fillStyle='rgba(0,35,42,.65)';g.beginPath();if(g.roundRect)g.roundRect(10*dpr,10*dpr,104*dpr,25*dpr,7*dpr);else g.rect(10*dpr,10*dpr,104*dpr,25*dpr);g.fill();g.fillStyle='#dffffa';g.font='700 '+(10*dpr)+'px sans-serif';g.textAlign='left';g.fillText('3D ROUTE / FT47',18*dpr,27*dpr);
+  g.fillStyle='rgba(0,35,42,.65)';g.beginPath();if(g.roundRect)g.roundRect(10*dpr,10*dpr,104*dpr,25*dpr,7*dpr);else g.rect(10*dpr,10*dpr,104*dpr,25*dpr);g.fill();g.fillStyle='#dffffa';g.font='700 '+(10*dpr)+'px sans-serif';g.textAlign='left';g.fillText('3D ROUTE / FT47.1',18*dpr,27*dpr);
 }
 
 // Keep FT46 calculations fresh during GPS updates and history display.
@@ -3228,7 +3231,7 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
   if(typeof oldGrade==='function')window.updateGradeStats46=function(){const r=oldGrade.apply(this,arguments);try{updateRehab47();}catch(e){}return r;};
   document.addEventListener('DOMContentLoaded',()=>{ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);});
   if(document.readyState!=='loading'){ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);}
-  console.info('AYALOG FIELD TEST 47: rehabilitation-first 3D route + dark elevation profile enabled');
+  console.info('AYALOG FIELD TEST 47.1: 3D route + matching dark elevation canvas enabled');
 })();
 </script>
 
