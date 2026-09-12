@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.1 FIELD TEST 46 — 3D ROUTE</title>
+<title>歩ログ Ver.5.1 FIELD TEST 47 — REHAB 3D ROUTE</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -724,7 +724,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
  <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.1 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 46</div><div class="t3">3D ROUTE / Ver.5.1</div></div>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 47</div><div class="t3">REHAB 3D ROUTE / Ver.5.1</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -2260,7 +2260,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 <div id="ft38Flow" aria-modal="true" role="dialog">
  <div class="ft38Shell">
-  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 46 / 3D ROUTE + WALKING REPORT</div></div>
+  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 47 / REHAB 3D ROUTE + WALKING REPORT</div></div>
 
   <section id="ft38QuestionPage">
    <div class="ft38Card">
@@ -3134,13 +3134,102 @@ function drawRoute(){
   if(Number.isFinite(maxUpGrade46)){const q=nearest(maxUpPoint46),p=project(q);g.fillStyle='#ffba3d';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#fff4d2';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▲ +'+maxUpGrade46.toFixed(1)+'%',p.x,p.y-8*dpr)}
   if(Number.isFinite(maxDownGrade46)){const q=nearest(maxDownPoint46),p=project(q);g.fillStyle='#5db7ff';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#d9efff';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▼ '+maxDownGrade46.toFixed(1)+'%',p.x,p.y+14*dpr)}
   // title badge
-  g.fillStyle='rgba(0,35,42,.65)';g.beginPath();if(g.roundRect)g.roundRect(10*dpr,10*dpr,104*dpr,25*dpr,7*dpr);else g.rect(10*dpr,10*dpr,104*dpr,25*dpr);g.fill();g.fillStyle='#dffffa';g.font='700 '+(10*dpr)+'px sans-serif';g.textAlign='left';g.fillText('3D ROUTE / FT46',18*dpr,27*dpr);
+  g.fillStyle='rgba(0,35,42,.65)';g.beginPath();if(g.roundRect)g.roundRect(10*dpr,10*dpr,104*dpr,25*dpr,7*dpr);else g.rect(10*dpr,10*dpr,104*dpr,25*dpr);g.fill();g.fillStyle='#dffffa';g.font='700 '+(10*dpr)+'px sans-serif';g.textAlign='left';g.fillText('3D ROUTE / FT47',18*dpr,27*dpr);
 }
 
 // Keep FT46 calculations fresh during GPS updates and history display.
 const _ft46UpdateMetrics=window.updateMetrics;
 if(typeof _ft46UpdateMetrics==='function')window.updateMetrics=function(){const r=_ft46UpdateMetrics.apply(this,arguments);try{calcMaxGrades46();}catch(e){}return r;};
 console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grades enabled');
+</script>
+
+
+
+<style id="fieldTest47RehabTheme">
+/* FIELD TEST 47 — rehabilitation-first visual layer.
+   3D route stays cinematic, but the meaning of the screen is recovery tracking. */
+#route3dCard46{background:#062f34!important;color:#eaffff!important;border:1px solid #18a99d!important;box-shadow:0 8px 24px rgba(0,52,57,.12)!important}
+#route3dCard46 h2{color:#f1ffff!important}
+#route3dCard46 .route3dLegend46,#route3dCard46 .route{color:#b7d9d5!important}
+#route3dCard46 .elevationCanvas{background:linear-gradient(180deg,#082f35,#06272c)!important;border:1px solid #15998f!important;box-shadow:inset 0 0 28px rgba(0,0,0,.18)!important}
+#route3dCard46 .elevationLegend{color:#b7d9d5!important}
+#route3dCard46 .elevationStats{grid-template-columns:1fr 1fr!important;gap:8px!important}
+#route3dCard46 .elevStat{background:linear-gradient(180deg,#083c41,#073238)!important;color:#dffffb!important;border:1px solid rgba(37,188,174,.48)!important;box-shadow:inset 0 0 14px rgba(0,0,0,.08)!important}
+#route3dCard46 .elevStat b{color:#fff!important}
+#route3dCard46 .elevStat.gradeUp46 b{color:#ff8b62!important}
+#route3dCard46 .elevStat.gradeDown46 b{color:#55c8ff!important}
+#route3dCard46 .elevStat small{color:#91bdb8!important}
+
+#rehabPanel47{margin-top:12px;border:1px solid #19aa9d;border-radius:18px;padding:13px;background:linear-gradient(180deg,#073a40,#062e34);color:#eaffff;box-shadow:0 8px 22px rgba(0,44,49,.16)}
+#rehabPanel47 .rh47Head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+#rehabPanel47 .rh47Title{font-weight:900;font-size:17px;letter-spacing:.01em}
+#rehabPanel47 .rh47Badge{font-size:10px;font-weight:800;border:1px solid #47dacb;border-radius:999px;padding:4px 8px;color:#aef8ef;white-space:nowrap}
+#rehabPanel47 .rh47Lead{font-size:12px;line-height:1.55;color:#b9dcd8;margin:-2px 0 10px}
+#rehabPanel47 .rh47Grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#rehabPanel47 .rh47Item{border:1px solid rgba(60,193,180,.35);background:rgba(0,36,42,.38);border-radius:13px;padding:9px 10px;min-height:64px}
+#rehabPanel47 .rh47Item span{display:block;font-size:11px;color:#9bc8c3;margin-bottom:4px}
+#rehabPanel47 .rh47Item b{display:block;font-size:18px;color:#fff;line-height:1.2}
+#rehabPanel47 .rh47Item em{display:block;margin-top:4px;font-size:10px;font-style:normal;color:#82ada8}
+#rehabPanel47 .rh47Trend{margin-top:9px;padding:10px 11px;border-radius:12px;background:rgba(19,112,107,.25);border:1px solid rgba(71,218,203,.28);font-size:12px;line-height:1.6;color:#d9f6f2}
+#rehabPanel47 .rh47Note{margin-top:8px;font-size:10px;line-height:1.55;color:#7fa9a5}
+#rehabPanel47 .good47{color:#66efbd!important}.watch47{color:#ffd166!important}
+@media(max-width:430px){#rehabPanel47 .rh47Grid{grid-template-columns:1fr 1fr}#rehabPanel47 .rh47Item b{font-size:16px}}
+</style>
+
+<script id="fieldTest47RehabScript">
+(()=>{
+  function ensureRehabPanel47(){
+    if(document.getElementById('rehabPanel47'))return;
+    const card=document.getElementById('route3dCard46');
+    if(!card)return;
+    const panel=document.createElement('section');
+    panel.id='rehabPanel47';
+    panel.innerHTML=`
+      <div class="rh47Head"><div class="rh47Title">🌿 リハビリビュー</div><div class="rh47Badge">今回の歩行傾向</div></div>
+      <div class="rh47Lead">距離を競うのではなく、同じ自分の歩き方の変化を見つけるための表示です。</div>
+      <div class="rh47Grid">
+        <div class="rh47Item"><span>体幹の安定度</span><b id="rh47Stability">-- %</b><em>センサー由来の参考値</em></div>
+        <div class="rh47Item"><span>左右の揺れ差</span><b id="rh47LR">-- %</b><em>小さいほど左右差が少ない</em></div>
+        <div class="rh47Item"><span>前後の揺れ傾向</span><b id="rh47FB">解析待ち</b><em>装着方向の影響を補正中</em></div>
+        <div class="rh47Item"><span>急坂区間</span><b id="rh47Slope">--</b><em>約15m区間の最大斜度</em></div>
+      </div>
+      <div id="rh47Trend" class="rh47Trend">START後、今回の歩行データから傾向を表示します。</div>
+      <div class="rh47Note">※歩ログは診断を行いません。数値はスマホセンサー・GPSから得た歩行傾向の参考表示です。痛みや体調に変化がある場合は、医療者の指示を優先してください。</div>`;
+    card.appendChild(panel);
+  }
+  function numText(id){const e=document.getElementById(id);if(!e)return null;const m=String(e.textContent||'').match(/-?\d+(?:\.\d+)?/);return m?Number(m[0]):null;}
+  function updateRehab47(){
+    ensureRehabPanel47();
+    const st=numText('balanceStability');
+    const diff=numText('balanceDiff');
+    const fb=document.getElementById('balanceMeanFB')?.textContent?.trim();
+    const up=Number.isFinite(window.maxUpGrade46)?window.maxUpGrade46:numText('maxUpGrade46');
+    const down=Number.isFinite(window.maxDownGrade46)?window.maxDownGrade46:numText('maxDownGrade46');
+    const es=document.getElementById('rh47Stability'),el=document.getElementById('rh47LR'),ef=document.getElementById('rh47FB'),ep=document.getElementById('rh47Slope'),tr=document.getElementById('rh47Trend');
+    if(es){es.textContent=Number.isFinite(st)?Math.round(st)+' %':'-- %';es.className=Number.isFinite(st)&&st>=65?'good47':(Number.isFinite(st)&&st<40?'watch47':'');}
+    if(el){el.textContent=Number.isFinite(diff)?diff.toFixed(1)+' %':'-- %';el.className=Number.isFinite(diff)&&diff<=15?'good47':(Number.isFinite(diff)&&diff>=35?'watch47':'');}
+    if(ef)ef.textContent=(fb&&fb!=='--')?fb:'解析待ち';
+    if(ep){
+      let parts=[]; if(Number.isFinite(up))parts.push('▲ +'+Math.abs(up).toFixed(1)+'%'); if(Number.isFinite(down))parts.push('▼ '+(-Math.abs(down)).toFixed(1)+'%');
+      ep.textContent=parts.length?parts.join(' / '):'--';
+    }
+    if(tr){
+      if(!running && (!Number.isFinite(st)||!Number.isFinite(diff))){tr.textContent='START後、今回の歩行データから傾向を表示します。';return;}
+      let a=[];
+      if(Number.isFinite(st))a.push('安定度 '+Math.round(st)+'%');
+      if(Number.isFinite(diff))a.push('左右差 '+diff.toFixed(1)+'%');
+      if(fb&&fb!=='--')a.push('前後傾向 '+fb);
+      tr.textContent=(a.length?a.join(' ／ ')+'。':'解析中です。')+' 同じ装着位置・同じコースで繰り返すと、前回との変化を比較しやすくなります。';
+    }
+  }
+  const old=window.updateBalanceUI;
+  if(typeof old==='function')window.updateBalanceUI=function(){const r=old.apply(this,arguments);try{updateRehab47();}catch(e){}return r;};
+  const oldGrade=window.updateGradeStats46;
+  if(typeof oldGrade==='function')window.updateGradeStats46=function(){const r=oldGrade.apply(this,arguments);try{updateRehab47();}catch(e){}return r;};
+  document.addEventListener('DOMContentLoaded',()=>{ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);});
+  if(document.readyState!=='loading'){ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);}
+  console.info('AYALOG FIELD TEST 47: rehabilitation-first 3D route + dark elevation profile enabled');
+})();
 </script>
 
 </body></html>
