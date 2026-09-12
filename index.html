@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.1 FIELD TEST 45.1</title>
+<title>歩ログ Ver.5.1 FIELD TEST 46 — 3D ROUTE</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -683,15 +683,15 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
 <div id="msg" class="note">STARTでGPSを開始します。モーションセンサーのON/OFFに関係なくGPSは独立して計測します。</div><div id="gpsmsg" class="gpsline">📍 GPS：待機中</div>
 <div class="stats4"><div class="stat"><div>速度</div><div id="speed" class="value">-- km/h</div></div><div class="stat"><div>標高</div><div id="altitude" class="value">-- m</div></div><div class="stat"><div>距離</div><div id="distanceStat" class="value">0 m</div></div><div class="stat"><div>停止時間</div><div id="stoppedTime" class="value">00:00:00</div></div><div class="stat"><div>移動時間</div><div id="movingTime" class="value">00:00:00</div></div><div class="stat"><div>傾斜</div><div id="grade" class="value">-- %</div></div><div class="stat"><div>消費カロリー</div><div id="calories" class="value">-- kcal</div></div><div class="stat"><div>状態</div><div id="pauseState" class="value">待機</div></div></div><div id="elevInfo" class="route">高低差：-- m ／ 累積上昇：0 m ／ 累積下降：0 m</div><div id="calorieNote" class="mini">※体重を設定するとGPSの速度・傾斜・時間から推定消費カロリーを計算します。</div></section>
-<section class="card"><h2>🗺️ 今日の歩いた軌跡</h2>
+<section class="card" id="route3dCard46"><h2>⛰️ 3Dルート</h2><div class="mini">GPS軌跡を標高で持ち上げ、斜め上から見下ろす立体表示。青→緑→黄→赤で標高を表現します。</div>
 <div id="routeViewStatus" class="mini" style="margin-bottom:8px">現在のウォーキングを表示中</div>
 <button id="returnLiveRoute" type="button" style="display:none;margin-bottom:10px">↩️ 今日の表示に戻る</button>
-<div id="map"><div class="mapmsg">START後、GPS位置を取得するとここに軌跡が表示されます。</div></div>
+<div id="map" class="route3d46"><div class="mapmsg">START後、GPS位置と標高を取得すると3Dルートを表示します。</div></div><div class="route3dLegend46"><span>🔵 低</span><span>3D ROUTE・影・高低差</span><span>🔴 高</span></div>
 <div id="routeInfo" class="route">距離：0 m ／ GPS点：0</div>
 <h2 style="margin-top:18px">📈 高低差プロフィール</h2>
 <canvas id="elevationCanvas" class="elevationCanvas"></canvas>
 <div class="elevationLegend"><span>🔵 低い</span><span>標高カラー軌跡と連動</span><span>🔴 高い</span></div>
-<div class="elevationStats"><div class="elevStat">最低標高<b id="minAltitudeStat">-- m</b></div><div class="elevStat">最高標高<b id="maxAltitudeStat">-- m</b></div><div class="elevStat">累積上昇<b id="ascentStat">0 m</b></div><div class="elevStat">累積下降<b id="descentStat">0 m</b></div></div></section>
+<div class="elevationStats"><div class="elevStat">最低標高<b id="minAltitudeStat">-- m</b></div><div class="elevStat">最高標高<b id="maxAltitudeStat">-- m</b></div><div class="elevStat">累積上昇<b id="ascentStat">0 m</b></div><div class="elevStat">累積下降<b id="descentStat">0 m</b></div><div class="elevStat gradeUp46">最大登り斜度<b id="maxUpGrade46">-- %</b><small>約15m区間</small></div><div class="elevStat gradeDown46">最大下り斜度<b id="maxDownGrade46">-- %</b><small>約15m区間</small></div></div></section>
 <section class="card"><h2>🌙 OLEDポケットモード</h2>
 <div class="sensorrow"><div><b>ポケットモード</b><div class="mini">ONにするとSTART後に黒画面主体の省電力表示へ移行します。</div></div>
 <label class="switch"><input id="pocketSwitch" type="checkbox" checked><span class="slider"></span></label></div>
@@ -724,7 +724,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
  <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.1 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 45.1</div><div class="t3">TEST / Ver.5.1</div></div>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 46</div><div class="t3">3D ROUTE / Ver.5.1</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -805,6 +805,7 @@ let running=false,paused=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handl
 let route=[],routeDistance=0,lastDistancePoint=null,liveRouteSnapshot=null,viewingHistory=false,permissionState="unknown",mapCanvas=null,ctx=null,elevationCanvas=null,elevationCtx=null,motionEnabled=false,debugEnabled=false;
 let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
+let maxUpGrade46=null,maxDownGrade46=null,maxUpPoint46=null,maxDownPoint46=null;
 let balanceBaseX=null,balanceBaseY=null,balanceBaseZ=null,balancePos=0,balanceNeg=0,balanceSamples=0,balanceCalSteps=0,balancePoints=[],balanceLastSample=0,balanceCanvas=null,balanceCtx=null;
 let balanceCalPhase="idle",balanceCalStart=0,balanceWalkCalStart=0,balanceCalibrated=false;
 let balanceStaticSumX=0,balanceStaticSumY=0,balanceStaticSumZ=0,balanceStaticSamples=0;
@@ -1417,7 +1418,7 @@ function startGPS(){
 
 function stopGPS(){if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}}
 function resetMap(){
- route=[];routeDistance=0;lastDistancePoint=null;totalAscent=0;totalDescent=0;minAlt=null;maxAlt=null;lastSmoothAlt=null;
+ route=[];routeDistance=0;lastDistancePoint=null;totalAscent=0;totalDescent=0;minAlt=null;maxAlt=null;lastSmoothAlt=null;maxUpGrade46=null;maxDownGrade46=null;maxUpPoint46=null;maxDownPoint46=null;
  currentSpeed=0;currentGrade=0;currentCalories=0;stationaryMs=0;continuousStationaryMs=0;lastGpsCallbackTime=0;latestGpsPoint=null;
   $("stoppedTime").textContent="00:00:00";$("movingTime").textContent="00:00:00";$("distanceStat").textContent="0 m";
  $("routeInfo").textContent="距離：0 m ／ GPS点：0";updateMetrics();drawRoute();drawElevationProfile()
@@ -1713,7 +1714,7 @@ $("stop").onclick=()=>{
  const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
  $("summary").value=(km>=1?km.toFixed(2)+" km":Math.round(routeDistance)+" m")+" ／ 平均 "+avg.toFixed(1)+" km/h ／ 高低差 "+diff+" m";
  $("status").textContent="計測終了";$("pauseState").textContent="終了";$("start").disabled=false;$("pause").disabled=true;$("pause").textContent="Ⅱ PAUSE";$("stop").disabled=true;updateTimeStats();
- recalcElevationTotals430();updateMetrics();drawElevationProfile();drawElevMini412();
+ recalcElevationTotals430();calcMaxGrades46();updateMetrics();drawRoute();drawElevationProfile();drawElevMini412();
  $("msg").textContent="今回："+n.toLocaleString()+"歩 ／ GPS距離："+km.toFixed(2)+" km ／ 約"+Math.round(currentCalories)+" kcal";
  openStopSaveModal430();
 };
@@ -1739,7 +1740,7 @@ function saveCurrentRecord430(showDone=true){
  recalcElevationTotals430();
  data.push({id:Date.now(),date:$("date").value,weight:w,steps:s,duration:$("duration").value,summary:$("summary").value,distance:Math.round(routeDistance),
  route:compactRouteForSave(),ascent:Math.round(totalAscent),descent:Math.round(totalDescent),
- minAlt:minAlt,maxAlt:maxAlt,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100,z:Math.round((Number(p.z)||0)*100)/100})),diary:(window.ft38Assessment?.diary||$("diary").value.trim()),assessment:window.ft38Assessment||null});
+ minAlt:minAlt,maxAlt:maxAlt,maxUpGrade:Number.isFinite(maxUpGrade46)?Math.round(maxUpGrade46*10)/10:null,maxDownGrade:Number.isFinite(maxDownGrade46)?Math.round(maxDownGrade46*10)/10:null,calories:Math.round(currentCalories),stoppedSeconds:Math.round(stationaryMs/1000),movingSeconds:Math.max(0,Math.round((activeElapsedMs()-stationaryMs)/1000)),balanceDiff:(balancePos+balanceNeg)>0?Math.abs(balancePos-balanceNeg)/(balancePos+balanceNeg)*100:null,balancePoints:balancePoints.filter((_,i)=>i%Math.max(1,Math.ceil(balancePoints.length/240))===0).map(p=>({x:Math.round(p.x*100)/100,y:Math.round(p.y*100)/100,z:Math.round((Number(p.z)||0)*100)/100})),diary:(window.ft38Assessment?.diary||$("diary").value.trim()),assessment:window.ft38Assessment||null});
  data.sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);saveData();render();
  $("recsteps").value="";$("duration").value="";$("summary").value="";$("diary").value="";
  if(showDone)alert("歩ログを保存しました。");
@@ -1761,6 +1762,7 @@ function applyRouteView(rec){
  minAlt=Number.isFinite(Number(rec.minAlt))?Number(rec.minAlt):null;
  maxAlt=Number.isFinite(Number(rec.maxAlt))?Number(rec.maxAlt):null;
  lastSmoothAlt=route.length&&Number.isFinite(Number(route[route.length-1].smoothAlt))?Number(route[route.length-1].smoothAlt):null;
+ maxUpGrade46=Number.isFinite(Number(rec.maxUpGrade))?Number(rec.maxUpGrade):null;maxDownGrade46=Number.isFinite(Number(rec.maxDownGrade))?Number(rec.maxDownGrade):null;calcMaxGrades46();
  $("routeViewStatus").textContent="📚 過去ログ表示中："+(rec.date||"保存記録");
  $("returnLiveRoute").style.display="";
  $("routeInfo").textContent="距離："+(routeDistance<1000?Math.round(routeDistance)+" m":(routeDistance/1000).toFixed(2)+" km")+" ／ GPS点："+route.length;
@@ -2258,7 +2260,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 <div id="ft38Flow" aria-modal="true" role="dialog">
  <div class="ft38Shell">
-  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 45.1 / WALKING REPORT prototype</div></div>
+  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 46 / 3D ROUTE + WALKING REPORT</div></div>
 
   <section id="ft38QuestionPage">
    <div class="ft38Card">
@@ -3006,7 +3008,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 
 <script id="fieldTest45Note">
-console.info("AYALOG FIELD TEST 45.1: gravity + walking PCA mount-normalized calibration enabled");
+console.info("AYALOG FIELD TEST 46: mount-normalized calibration + 3D route enabled");
 </script>
 
 <style id="ft451CountdownStyle">
@@ -3026,5 +3028,119 @@ console.info("AYALOG FIELD TEST 45.1: gravity + walking PCA mount-normalized cal
     <div class="sub">カウント終了後、自動でキャリブレーションを開始します</div>
   </div>
 </div>
+
+
+<style id="fieldTest46Route3DStyle">
+/* FIELD TEST 46 — lightweight Canvas 2.5D route, no map tiles required. */
+#route3dCard46{overflow:hidden}
+#route3dCard46 #map{height:340px;border-radius:18px;background:linear-gradient(180deg,#0a2830 0%,#123b3d 48%,#0d2d30 100%);border:1px solid #65d9cc;box-shadow:inset 0 0 40px rgba(0,0,0,.20),0 8px 22px rgba(8,72,68,.10)}
+#route3dCard46 #map canvas{width:100%;height:100%;display:block}
+.route3dLegend46{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#607b77;margin:7px 3px 0}
+.elevationStats .elevStat small{display:block;font-size:9px;font-weight:600;color:#78908c;margin-top:2px}
+.gradeUp46 b{color:#d95442}.gradeDown46 b{color:#2781c3}
+#route3dCard46 .route{font-weight:700;color:#486d68}
+@media(max-width:430px){#route3dCard46 #map{height:300px}}
+</style>
+<script id="fieldTest46Route3DScript">
+// --- FIELD TEST 46: robust maximum grade over ~15m windows ---
+function calcMaxGrades46(){
+  maxUpGrade46=null;maxDownGrade46=null;maxUpPoint46=null;maxDownPoint46=null;
+  const pts=route.filter(p=>Number.isFinite(Number(p.dist))&&Number.isFinite(Number(p.smoothAlt)));
+  if(pts.length<2){updateGradeStats46();return;}
+  const TARGET=15, MIN=10, MAX=28;
+  let bestUp=-Infinity,bestDown=Infinity;
+  for(let i=0;i<pts.length-1;i++){
+    let chosen=-1;
+    for(let j=i+1;j<pts.length;j++){
+      const dd=Number(pts[j].dist)-Number(pts[i].dist);
+      if(dd>=TARGET){chosen=j;break;}
+      if(dd>MAX)break;
+    }
+    if(chosen<0) continue;
+    const dd=Number(pts[chosen].dist)-Number(pts[i].dist);
+    if(dd<MIN||dd>MAX) continue;
+    const g=(Number(pts[chosen].smoothAlt)-Number(pts[i].smoothAlt))/dd*100;
+    // GPS altitude spikes can create impossible one-off grades; reject only extreme outliers.
+    if(!Number.isFinite(g)||Math.abs(g)>60) continue;
+    const mid={
+      lat:(Number(pts[i].lat)+Number(pts[chosen].lat))/2,
+      lng:(Number(pts[i].lng)+Number(pts[chosen].lng))/2,
+      smoothAlt:(Number(pts[i].smoothAlt)+Number(pts[chosen].smoothAlt))/2,
+      dist:(Number(pts[i].dist)+Number(pts[chosen].dist))/2
+    };
+    if(g>bestUp){bestUp=g;maxUpPoint46=mid;}
+    if(g<bestDown){bestDown=g;maxDownPoint46=mid;}
+  }
+  if(bestUp>0)maxUpGrade46=bestUp;
+  if(bestDown<0)maxDownGrade46=bestDown;
+  updateGradeStats46();
+}
+function updateGradeStats46(){
+  const u=document.getElementById('maxUpGrade46'),d=document.getElementById('maxDownGrade46');
+  if(u)u.textContent=Number.isFinite(maxUpGrade46)?'+'+maxUpGrade46.toFixed(1)+' %':'-- %';
+  if(d)d.textContent=Number.isFinite(maxDownGrade46)?maxDownGrade46.toFixed(1)+' %':'-- %';
+}
+
+// Oblique 2.5D projection: GPS XY keeps the route shape; altitude lifts it above a shadow plane.
+function drawRoute(){
+  if(!ctx||!mapCanvas)return;
+  const g=ctx,w=mapCanvas.width,h=mapCanvas.height,dpr=devicePixelRatio||1;
+  g.clearRect(0,0,w,h);
+  const bg=g.createLinearGradient(0,0,0,h);bg.addColorStop(0,'#0a2830');bg.addColorStop(.55,'#133e40');bg.addColorStop(1,'#0b292d');g.fillStyle=bg;g.fillRect(0,0,w,h);
+  if(!route.length){g.fillStyle='rgba(220,245,241,.72)';g.font=(13*dpr)+'px sans-serif';g.textAlign='center';g.fillText('GPS位置と標高を取得すると3Dルートを表示します',w/2,h/2);updateGradeStats46();return;}
+  calcMaxGrades46();
+  const valid=route.filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lng)); if(!valid.length)return;
+  const minLat=Math.min(...valid.map(p=>p.lat)),maxLat=Math.max(...valid.map(p=>p.lat)),minLng=Math.min(...valid.map(p=>p.lng)),maxLng=Math.max(...valid.map(p=>p.lng));
+  const alts=valid.map(p=>Number(p.smoothAlt)).filter(Number.isFinite),lo=alts.length?Math.min(...alts):0,hi=alts.length?Math.max(...alts):lo+1,altSpan=Math.max(hi-lo,3);
+  const lat0=(minLat+maxLat)/2*Math.PI/180, mx=111320*Math.cos(lat0), my=110540;
+  const raw=valid.map(p=>({p,x:(p.lng-(minLng+maxLng)/2)*mx,y:(p.lat-(minLat+maxLat)/2)*my,z:Number.isFinite(Number(p.smoothAlt))?Number(p.smoothAlt)-lo:0}));
+  const ang=-28*Math.PI/180,ca=Math.cos(ang),sa=Math.sin(ang);
+  raw.forEach(q=>{q.u=q.x*ca-q.y*sa;q.v=q.x*sa+q.y*ca});
+  const uMin=Math.min(...raw.map(q=>q.u)),uMax=Math.max(...raw.map(q=>q.u)),vMin=Math.min(...raw.map(q=>q.v)),vMax=Math.max(...raw.map(q=>q.v));
+  const du=Math.max(uMax-uMin,1),dv=Math.max(vMax-vMin,1),padX=35*dpr,padT=34*dpr,padB=42*dpr;
+  const S=Math.min((w-2*padX)/du,(h-padT-padB)/(dv*.42+altSpan*1.25));
+  const zScale=Math.max(2.0*dpr,Math.min(6*dpr,(h*.34)/altSpan));
+  const cx=w/2,baseY=h*.72;
+  const project=q=>({x:cx+(q.u-(uMin+uMax)/2)*S,y:baseY+(q.v-(vMin+vMax)/2)*S*.42-q.z*zScale,by:baseY+(q.v-(vMin+vMax)/2)*S*.42});
+  const pts=raw.map(q=>({...q,...project(q)}));
+  // subtle ground plane grid
+  g.save();g.globalAlpha=.18;g.strokeStyle='#7ce5db';g.lineWidth=.7*dpr;
+  for(let i=0;i<7;i++){const yy=h*.53+i*h*.055;g.beginPath();g.moveTo(w*.08,yy);g.lineTo(w*.92,yy);g.stroke()}
+  for(let i=0;i<9;i++){const xx=w*.10+i*w*.10;g.beginPath();g.moveTo(xx,h*.50);g.lineTo(w/2+(xx-w/2)*1.35,h*.91);g.stroke()}g.restore();
+  // floor shadow
+  g.save();g.strokeStyle='rgba(0,0,0,.48)';g.lineWidth=8*dpr;g.lineCap='round';g.lineJoin='round';g.shadowColor='rgba(0,0,0,.65)';g.shadowBlur=10*dpr;g.beginPath();pts.forEach((q,i)=>i?g.lineTo(q.x+5*dpr,q.by+8*dpr):g.moveTo(q.x+5*dpr,q.by+8*dpr));g.stroke();g.restore();
+  // translucent vertical curtain under the route
+  for(let i=1;i<pts.length;i++){
+    const a=pts[i-1],b=pts[i],t=hi>lo?(Number(b.p.smoothAlt)-lo)/(hi-lo):.5;
+    g.fillStyle=thermalColor(t).replace('rgb(','rgba(').replace(')',',0.16)');
+    g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.lineTo(b.x,b.by);g.lineTo(a.x,a.by);g.closePath();g.fill();
+    g.strokeStyle='rgba(190,255,245,.14)';g.lineWidth=.55*dpr;g.beginPath();g.moveTo(b.x,b.y);g.lineTo(b.x,b.by);g.stroke();
+  }
+  // route top line, altitude colored
+  g.lineCap='round';g.lineJoin='round';
+  for(let i=1;i<pts.length;i++){
+    const a=pts[i-1],b=pts[i],t=hi>lo?(Number(b.p.smoothAlt)-lo)/(hi-lo):.5,col=thermalColor(t);
+    g.save();g.strokeStyle=col;g.lineWidth=5*dpr;g.shadowColor=col;g.shadowBlur=7*dpr;g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.stroke();g.restore();
+  }
+  function pin(q,label,sub,color,side=1){
+    if(!q)return;const p=project(q),x=p.x,y=p.y;
+    g.save();g.strokeStyle=color;g.fillStyle=color;g.lineWidth=2*dpr;g.beginPath();g.arc(x,y,5*dpr,0,Math.PI*2);g.fill();g.strokeStyle='#fff';g.lineWidth=1.5*dpr;g.stroke();
+    const bx=Math.max(8*dpr,Math.min(w-112*dpr,x+(side>0?9:-105)*dpr)),by=Math.max(7*dpr,y-40*dpr);g.fillStyle='rgba(4,44,50,.88)';g.strokeStyle=color;g.lineWidth=1*dpr;g.beginPath();if(g.roundRect)g.roundRect(bx,by,96*dpr,34*dpr,7*dpr);else g.rect(bx,by,96*dpr,34*dpr);g.fill();g.stroke();g.fillStyle='#fff';g.font='700 '+(10*dpr)+'px sans-serif';g.textAlign='left';g.fillText(label,bx+7*dpr,by+13*dpr);g.fillStyle='#cce8e4';g.font=(9*dpr)+'px sans-serif';g.fillText(sub,bx+7*dpr,by+26*dpr);g.restore();
+  }
+  const q0=raw[0],q1=raw[raw.length-1],peak=raw.reduce((a,b)=>b.z>a.z?b:a,raw[0]);
+  pin(q0,'START',Math.round((Number(q0.p.smoothAlt)||lo))+' m','#39a8ff',1);pin(q1,'GOAL',Math.round((Number(q1.p.smoothAlt)||lo))+' m','#32e69b',-1);pin(peak,'最高地点',Math.round((Number(peak.p.smoothAlt)||hi))+' m','#ff4d55',1);
+  // grade pins are intentionally compact to keep the route dominant
+  const nearest=(m)=>{if(!m)return null;let best=raw[0],bd=Infinity;for(const q of raw){const d=(q.p.lat-m.lat)**2+(q.p.lng-m.lng)**2;if(d<bd){bd=d;best=q}}return best};
+  if(Number.isFinite(maxUpGrade46)){const q=nearest(maxUpPoint46),p=project(q);g.fillStyle='#ffba3d';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#fff4d2';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▲ +'+maxUpGrade46.toFixed(1)+'%',p.x,p.y-8*dpr)}
+  if(Number.isFinite(maxDownGrade46)){const q=nearest(maxDownPoint46),p=project(q);g.fillStyle='#5db7ff';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#d9efff';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▼ '+maxDownGrade46.toFixed(1)+'%',p.x,p.y+14*dpr)}
+  // title badge
+  g.fillStyle='rgba(0,35,42,.65)';g.beginPath();if(g.roundRect)g.roundRect(10*dpr,10*dpr,104*dpr,25*dpr,7*dpr);else g.rect(10*dpr,10*dpr,104*dpr,25*dpr);g.fill();g.fillStyle='#dffffa';g.font='700 '+(10*dpr)+'px sans-serif';g.textAlign='left';g.fillText('3D ROUTE / FT46',18*dpr,27*dpr);
+}
+
+// Keep FT46 calculations fresh during GPS updates and history display.
+const _ft46UpdateMetrics=window.updateMetrics;
+if(typeof _ft46UpdateMetrics==='function')window.updateMetrics=function(){const r=_ft46UpdateMetrics.apply(this,arguments);try{calcMaxGrades46();}catch(e){}return r;};
+console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grades enabled');
+</script>
 
 </body></html>
