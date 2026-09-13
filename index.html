@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.1 FIELD TEST 47.2 — REHAB 3D ROUTE</title>
+<title>歩ログ Ver.5.2 FIELD TEST 48 — AUTO VIEW + BALANCE CAL</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -677,7 +677,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.5.1 TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.5.2 TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -723,8 +723,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="walkScene">
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.1 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 47</div><div class="t3">REHAB 3D ROUTE / Ver.5.1</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.2 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 48</div><div class="t3">REHAB 3D ROUTE / Ver.5.2</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -814,6 +814,10 @@ let balanceWalkSumX=0,balanceWalkSumY=0,balanceWalkSumZ=0,balanceWalkSamples=0;
 // Static phase estimates gravity; walk phase learns the dominant horizontal walking axis.
 let ft45Gravity={x:0,y:0,z:1},ft45Forward={x:0,y:1,z:0},ft45Lateral={x:1,y:0,z:0};
 let ft45WalkVectors=[],ft45Bias={x:0,y:0,z:0},ft45FrameReady=false;
+// Ver.5.2 / FIELD TEST 48: slow dynamic-center correction for sway only.
+// This removes mount/tilt DC drift without changing the saved raw GPS or accelerometer data.
+let ft52CenterX=0,ft52CenterY=0,ft52CenterReady=false;
+const FT52_CENTER_ALPHA=0.0025,FT52_SWAY_DEADZONE=0.05;
 function ft45Dot(a,b){return a.x*b.x+a.y*b.y+a.z*b.z}
 function ft45Norm(v){const m=Math.hypot(v.x,v.y,v.z)||1;return {x:v.x/m,y:v.y/m,z:v.z/m}}
 function ft45Cross(a,b){return {x:a.y*b.z-a.z*b.y,y:a.z*b.x-a.x*b.z,z:a.x*b.y-a.y*b.x}}
@@ -991,6 +995,7 @@ function startBalanceCalibration425(){
  balanceWalkSumX=balanceWalkSumY=balanceWalkSumZ=0;balanceWalkSamples=0;
  balanceBaseX=balanceBaseY=balanceBaseZ=null;balancePoints=[];balancePos=balanceNeg=balanceSamples=0;
  ft45WalkVectors=[];ft45Bias={x:0,y:0,z:0};ft45FrameReady=false;
+ ft52CenterX=0;ft52CenterY=0;ft52CenterReady=false;
  window.__liveBalanceX=0;window.__liveBalanceY=0;window.__liveBalanceZ=0;
  updateCalibrationStatus425();
 }
@@ -1047,9 +1052,19 @@ function motion(e){
        else updateCalibrationStatus425();
      }else if(balanceCalibrated){
        const b=ft45FrameReady?ft45BodyVector(x,y,z):{x:x-balanceBaseX,y:y-balanceBaseY,z:z-balanceBaseZ};
-       const dx=b.x,dy=b.y,dz=b.z;
+       // FT48: the balance chart is a dynamic sway chart, so slowly remove DC drift caused by
+       // phone mounting angle / bag position. The correction is deliberately slow so gait sway remains.
+       if(!ft52CenterReady){ft52CenterX=b.x;ft52CenterY=b.y;ft52CenterReady=true;}
+       else{
+         const ex=Math.max(-0.40,Math.min(0.40,b.x-ft52CenterX));
+         const ey=Math.max(-0.40,Math.min(0.40,b.y-ft52CenterY));
+         ft52CenterX+=ex*FT52_CENTER_ALPHA;ft52CenterY+=ey*FT52_CENTER_ALPHA;
+       }
+       let dx=b.x-ft52CenterX,dy=b.y-ft52CenterY,dz=b.z;
+       if(Math.abs(dx)<FT52_SWAY_DEADZONE)dx=0;
+       if(Math.abs(dy)<FT52_SWAY_DEADZONE)dy=0;
        window.__liveBalanceX=Math.max(-4,Math.min(4,dx));window.__liveBalanceY=Math.max(-4,Math.min(4,dy));window.__liveBalanceZ=Math.max(-4,Math.min(4,dz));
-       if(dx>0)balancePos+=Math.abs(dx);else balanceNeg+=Math.abs(dx);balanceSamples++;
+       if(dx>0){balancePos+=Math.abs(dx);balanceSamples++;}else if(dx<0){balanceNeg+=Math.abs(dx);balanceSamples++;}
        if(t-balanceLastSample>=100){balanceLastSample=t;balancePoints.push({x:Math.max(-4,Math.min(4,dx)),y:Math.max(-4,Math.min(4,dy)),z:Math.max(-4,Math.min(4,dz))});if(balancePoints.length>600)balancePoints.shift();}
        updateBalanceUI();
      }
@@ -1526,7 +1541,7 @@ function drawElevationProfile(){
     g.fillText(v.toFixed(step<1?1:0)+" m",padL-5*dpr,y+4*dpr);
   }
 
-  // FIELD TEST 47.2: vertical distance grid + automatically spaced labels.
+  // FIELD TEST 48: vertical distance grid + automatically spaced labels.
   function niceDistanceStep(meters){
     const rough=Math.max(meters/5,1);
     const p=Math.pow(10,Math.floor(Math.log10(rough)));
@@ -2324,7 +2339,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 <div id="ft38Flow" aria-modal="true" role="dialog">
  <div class="ft38Shell">
-  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.1</div><div class="ft38Sub">FIELD TEST 47 / REHAB 3D ROUTE + WALKING REPORT</div></div>
+  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.2</div><div class="ft38Sub">FIELD TEST 48 / REHAB 3D ROUTE + WALKING REPORT</div></div>
 
   <section id="ft38QuestionPage">
    <div class="ft38Card">
@@ -3145,6 +3160,46 @@ function updateGradeStats46(){
   if(d)d.textContent=Number.isFinite(maxDownGrade46)?maxDownGrade46.toFixed(1)+' %':'-- %';
 }
 
+// Ver.5.2 / FIELD TEST 48: choose a camera yaw that keeps the route readable.
+// The GPS coordinates are never changed; only the display projection is optimized.
+function ft48ChooseViewAngle(raw,w,h,dpr){
+  if(!raw||raw.length<3)return -28*Math.PI/180;
+  const candidates=[];for(let deg=-80;deg<=80;deg+=10)candidates.push(deg*Math.PI/180);
+  let best={score:-Infinity,ang:-28*Math.PI/180};
+  for(const ang of candidates){
+    const ca=Math.cos(ang),sa=Math.sin(ang),r=raw.map(q=>({u:q.x*ca-q.y*sa,v:q.x*sa+q.y*ca}));
+    const u0=Math.min(...r.map(q=>q.u)),u1=Math.max(...r.map(q=>q.u)),v0=Math.min(...r.map(q=>q.v)),v1=Math.max(...r.map(q=>q.v));
+    const du=Math.max(1,u1-u0),dv=Math.max(1,v1-v0);
+    // Prefer a broad diagonal footprint instead of a nearly edge-on projection.
+    const ratio=du/Math.max(1,dv*.42), target=1.45;
+    let score=2.0-Math.abs(Math.log(Math.max(.05,ratio)/target));
+    // Penalize non-neighbouring points that would land on top of each other after normalization.
+    const sx=(w*.78)/du,sy=(h*.34)/dv;let clashes=0,checks=0;
+    const step=Math.max(1,Math.floor(r.length/90));
+    for(let i=0;i<r.length;i+=step){for(let j=0;j<i-10*step;j+=step){checks++;const dx=(r[i].u-r[j].u)*sx,dy=(r[i].v-r[j].v)*sy;if(dx*dx+dy*dy<(10*dpr)*(10*dpr))clashes++;}}
+    if(checks)score-=3.2*(clashes/checks);
+    if(score>best.score)best={score,ang};
+  }
+  return best.ang;
+}
+
+// Display-only lane separation for overlapping return paths / close GPS traces.
+function ft48SeparateProjectedRoute(pts,dpr){
+  if(!pts||pts.length<3)return pts||[];
+  const out=pts.map(q=>({...q}));let smoothOff=0;
+  const near=8*dpr,near2=near*near;
+  for(let i=0;i<out.length;i++){
+    let clashes=0;
+    for(let j=0;j<i-12;j+=Math.max(1,Math.floor(i/80))){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;if(dx*dx+dy*dy<near2)clashes++;}
+    const prev=pts[Math.max(0,i-1)],next=pts[Math.min(pts.length-1,i+1)],tx=next.x-prev.x,ty=next.y-prev.y,tm=Math.hypot(tx,ty)||1;
+    const nx=-ty/tm,ny=tx/tm;
+    const target=clashes?Math.min(10*dpr,(4+clashes*1.5)*dpr):0;
+    smoothOff=smoothOff*.72+target*.28;
+    out[i].x+=nx*smoothOff;out[i].y+=ny*smoothOff;out[i].by+=ny*smoothOff*.45;
+  }
+  return out;
+}
+
 // Oblique 2.5D projection: GPS XY keeps the route shape; altitude lifts it above a shadow plane.
 function drawRoute(){
   if(!ctx||!mapCanvas)return;
@@ -3158,7 +3213,7 @@ function drawRoute(){
   const alts=valid.map(p=>Number(p.smoothAlt)).filter(Number.isFinite),lo=alts.length?Math.min(...alts):0,hi=alts.length?Math.max(...alts):lo+1,altSpan=Math.max(hi-lo,3);
   const lat0=(minLat+maxLat)/2*Math.PI/180, mx=111320*Math.cos(lat0), my=110540;
   const raw=valid.map(p=>({p,x:(p.lng-(minLng+maxLng)/2)*mx,y:(p.lat-(minLat+maxLat)/2)*my,z:Number.isFinite(Number(p.smoothAlt))?Number(p.smoothAlt)-lo:0}));
-  const ang=-28*Math.PI/180,ca=Math.cos(ang),sa=Math.sin(ang);
+  const ang=ft48ChooseViewAngle(raw,w,h,dpr),ca=Math.cos(ang),sa=Math.sin(ang);
   raw.forEach(q=>{q.u=q.x*ca-q.y*sa;q.v=q.x*sa+q.y*ca});
   const uMin=Math.min(...raw.map(q=>q.u)),uMax=Math.max(...raw.map(q=>q.u)),vMin=Math.min(...raw.map(q=>q.v)),vMax=Math.max(...raw.map(q=>q.v));
   const du=Math.max(uMax-uMin,1),dv=Math.max(vMax-vMin,1),padX=35*dpr,padT=34*dpr,padB=42*dpr;
@@ -3167,15 +3222,16 @@ function drawRoute(){
   const cx=w/2,baseY=h*.72;
   const project=q=>({x:cx+(q.u-(uMin+uMax)/2)*S,y:baseY+(q.v-(vMin+vMax)/2)*S*.42-q.z*zScale,by:baseY+(q.v-(vMin+vMax)/2)*S*.42});
   const pts=raw.map(q=>({...q,...project(q)}));
+  const renderPts=ft48SeparateProjectedRoute(pts,dpr);
   // subtle ground plane grid
   g.save();g.globalAlpha=.18;g.strokeStyle='#7ce5db';g.lineWidth=.7*dpr;
   for(let i=0;i<7;i++){const yy=h*.53+i*h*.055;g.beginPath();g.moveTo(w*.08,yy);g.lineTo(w*.92,yy);g.stroke()}
   for(let i=0;i<9;i++){const xx=w*.10+i*w*.10;g.beginPath();g.moveTo(xx,h*.50);g.lineTo(w/2+(xx-w/2)*1.35,h*.91);g.stroke()}g.restore();
   // floor shadow
-  g.save();g.strokeStyle='rgba(0,0,0,.48)';g.lineWidth=8*dpr;g.lineCap='round';g.lineJoin='round';g.shadowColor='rgba(0,0,0,.65)';g.shadowBlur=10*dpr;g.beginPath();pts.forEach((q,i)=>i?g.lineTo(q.x+5*dpr,q.by+8*dpr):g.moveTo(q.x+5*dpr,q.by+8*dpr));g.stroke();g.restore();
+  g.save();g.strokeStyle='rgba(0,0,0,.48)';g.lineWidth=8*dpr;g.lineCap='round';g.lineJoin='round';g.shadowColor='rgba(0,0,0,.65)';g.shadowBlur=10*dpr;g.beginPath();renderPts.forEach((q,i)=>i?g.lineTo(q.x+5*dpr,q.by+8*dpr):g.moveTo(q.x+5*dpr,q.by+8*dpr));g.stroke();g.restore();
   // translucent vertical curtain under the route
   for(let i=1;i<pts.length;i++){
-    const a=pts[i-1],b=pts[i],t=hi>lo?(Number(b.p.smoothAlt)-lo)/(hi-lo):.5;
+    const a=renderPts[i-1],b=renderPts[i],t=hi>lo?(Number(b.p.smoothAlt)-lo)/(hi-lo):.5;
     g.fillStyle=thermalColor(t).replace('rgb(','rgba(').replace(')',',0.16)');
     g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.lineTo(b.x,b.by);g.lineTo(a.x,a.by);g.closePath();g.fill();
     g.strokeStyle='rgba(190,255,245,.14)';g.lineWidth=.55*dpr;g.beginPath();g.moveTo(b.x,b.y);g.lineTo(b.x,b.by);g.stroke();
@@ -3183,7 +3239,7 @@ function drawRoute(){
   // route top line, altitude colored
   g.lineCap='round';g.lineJoin='round';
   for(let i=1;i<pts.length;i++){
-    const a=pts[i-1],b=pts[i],t=hi>lo?(Number(b.p.smoothAlt)-lo)/(hi-lo):.5,col=thermalColor(t);
+    const a=renderPts[i-1],b=renderPts[i],t=hi>lo?(Number(b.p.smoothAlt)-lo)/(hi-lo):.5,col=thermalColor(t);
     g.save();g.strokeStyle=col;g.lineWidth=3*dpr;g.shadowColor=col;g.shadowBlur=4*dpr;g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.stroke();g.restore();
   }
   function pin(q,label,sub,color,side=1){
@@ -3197,7 +3253,7 @@ function drawRoute(){
   const nearest=(m)=>{if(!m)return null;let best=raw[0],bd=Infinity;for(const q of raw){const d=(q.p.lat-m.lat)**2+(q.p.lng-m.lng)**2;if(d<bd){bd=d;best=q}}return best};
   if(Number.isFinite(maxUpGrade46)){const q=nearest(maxUpPoint46),p=project(q);g.fillStyle='#ffba3d';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#fff4d2';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▲ +'+maxUpGrade46.toFixed(1)+'%',p.x,p.y-8*dpr)}
   if(Number.isFinite(maxDownGrade46)){const q=nearest(maxDownPoint46),p=project(q);g.fillStyle='#5db7ff';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#d9efff';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▼ '+maxDownGrade46.toFixed(1)+'%',p.x,p.y+14*dpr)}
-  // FIELD TEST 47.2: compact distance scale for quick route-size reading.
+  // FIELD TEST 48: compact distance scale for quick route-size reading.
   const scaleMax=Math.max(0,Number(routeDistance)||0);
   if(scaleMax>0){
     const barW=Math.min(116*dpr,w*.30),barX=w-barW-18*dpr,barY=h-22*dpr;
@@ -3212,7 +3268,7 @@ function drawRoute(){
     g.font=(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText(sm>=1000?(sm/1000).toFixed(sm%1000?1:0)+' km':Math.round(sm)+' m',barX+px/2,barY-6*dpr);g.restore();
   }
   // title badge
-  g.fillStyle='rgba(0,35,42,.65)';g.beginPath();if(g.roundRect)g.roundRect(10*dpr,10*dpr,104*dpr,25*dpr,7*dpr);else g.rect(10*dpr,10*dpr,104*dpr,25*dpr);g.fill();g.fillStyle='#dffffa';g.font='700 '+(10*dpr)+'px sans-serif';g.textAlign='left';g.fillText('3D ROUTE / FT47.2',18*dpr,27*dpr);
+  g.fillStyle='rgba(0,35,42,.65)';g.beginPath();if(g.roundRect)g.roundRect(10*dpr,10*dpr,104*dpr,25*dpr,7*dpr);else g.rect(10*dpr,10*dpr,104*dpr,25*dpr);g.fill();g.fillStyle='#dffffa';g.font='700 '+(10*dpr)+'px sans-serif';g.textAlign='left';g.fillText('3D ROUTE / FT48 AUTO',18*dpr,27*dpr);
 }
 
 // Keep FT46 calculations fresh during GPS updates and history display.
@@ -3224,7 +3280,7 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
 
 
 <style id="fieldTest47RehabTheme">
-/* FIELD TEST 47 — rehabilitation-first visual layer.
+/* FIELD TEST 48 — rehabilitation-first visual layer.
    3D route stays cinematic, but the meaning of the screen is recovery tracking. */
 #route3dCard46{background:#062f34!important;color:#eaffff!important;border:1px solid #18a99d!important;box-shadow:0 8px 24px rgba(0,52,57,.12)!important}
 #route3dCard46 h2{color:#f1ffff!important}
@@ -3306,7 +3362,7 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
   if(typeof oldGrade==='function')window.updateGradeStats46=function(){const r=oldGrade.apply(this,arguments);try{updateRehab47();}catch(e){}return r;};
   document.addEventListener('DOMContentLoaded',()=>{ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);});
   if(document.readyState!=='loading'){ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);}
-  console.info('AYALOG FIELD TEST 47.2: refined route/profile UI enabled');
+  console.info('AYALOG FIELD TEST 48: refined route/profile UI enabled');
 })();
 </script>
 
