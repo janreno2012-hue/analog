@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.3 FIELD TEST 51 — AYABeat + BIRD LAB + SOUND LAB</title>
+<title>歩ログ Ver.5.3 FIELD TEST 52 — AYABeat + BIRD LAB + SOUND LAB</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -728,7 +728,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
  <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.3 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 51</div><div class="t3">AYABeat + BIRD + SOUND / Ver.5.3</div></div>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 52</div><div class="t3">AYABeat + BIRD + SOUND / Ver.5.3</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -787,9 +787,9 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <section class="card" style="display:none"><h2>🧭 体幹バランス・重心分布 β</h2><div class="mini">端末の加速度から体幹の偏り・揺れを試験的に推定します。START後に約3秒の姿勢基準を取得し、その後16歩または最大12秒で歩行パターンを自動キャリブレーションします。</div><div class="stats4"><div class="stat"><div>左右バランス</div><div id="balanceRatio" class="value">-- : --</div></div><div class="stat"><div>左右差</div><div id="balanceDiff" class="value">-- %</div></div></div><div class="balanceViz"><canvas id="balanceCanvas" class="balanceCanvas"></canvas><div class="balanceLegend"><span>← 左</span><span>前 ↑　端末センサー推定　↓ 後</span><span>右 →</span></div><div class="balanceGrid"><div class="balanceMini">左右平均<b id="balanceMeanLR">--</b></div><div class="balanceMini">前後平均<b id="balanceMeanFB">--</b></div><div class="balanceMini">安定度<b id="balanceStability">-- %</b></div></div><div class="balanceHint">色が濃い場所ほど、その方向への揺れが多かったことを示します。人体の厳密な重心位置ではなく、スマホセンサーから見た体幹傾向です。</div></div><div id="balanceStatus" class="mini">待機中</div></section>
 <section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="7" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B / RANDOM</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellRandomBtn" type="button" style="margin-bottom:10px">🎲 RANDOM：OFF</button>
 <button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section>
-<section class="card" id="ft50LabCard"><h2>🎵🐦🔊 AYALAB Ver.5.3 MECH WALK α</h2><div class="mini">AYABeat・BIRD LAB・SOUND LAB の先行実験版。Bluetoothスピーカー未接続でもスマホ単体で試験できます。</div>
+<section class="card" id="ft50LabCard"><h2>🎵🐦🔊 AYALAB Ver.5.3 MECH WALK β</h2><div class="mini">AYABeat・BIRD LAB・SOUND LAB の先行実験版。FT52ではMECH WALK βとSTEP SYNCを追加。Bluetoothスピーカー未接続でもスマホ単体で試験できます。</div>
 <div class="ft49Tabs"><button data-p="beat" class="on">🎵 AYABeat</button><button data-p="bird">🐦 BIRD LAB</button><button data-p="sound">🔊 SOUND LAB</button></div>
-<div class="ft49Panel on" data-panel="beat"><div class="ft49Big"><span id="ft49Bpm">100</span> <small style="font-size:15px">BPM</small></div><input id="ft49BpmRange" type="range" min="60" max="140" value="100"><div class="ft49Nature"><button data-nature="mech" class="on">🤖 MECH</button><button data-nature="wood">🪵 木</button><button data-nature="leaf">🍂 落ち葉</button><button data-nature="water">💧 水滴</button></div><div class="ft49Mode"><button id="ft50Fixed" class="on">FIXED</button><button id="ft50Follow">FOLLOW</button></div><div class="ft49Row"><button id="ft49BeatMinus">−5</button><button id="ft49BeatToggle" class="start">▶ START</button><button id="ft49BeatPlus">＋5</button></div><div class="ft49Result"><b id="ft50NatureLabel">🤖 MECH WALK / FIXED</b><br><span id="ft50BeatHelp">低い着地衝撃＋金属音＋短いサーボ音を重ねた、歩ログ独自のメカ歩行音です。</span></div></div>
+<div class="ft49Panel on" data-panel="beat"><div class="ft49Big"><span id="ft49Bpm">100</span> <small style="font-size:15px">BPM</small></div><input id="ft49BpmRange" type="range" min="60" max="140" value="100"><div class="ft49Nature"><button data-nature="mech" class="on">🤖 MECH</button><button data-nature="wood">🪵 木</button><button data-nature="leaf">🍂 落ち葉</button><button data-nature="water">💧 水滴</button></div><div class="ft49Mode"><button id="ft50Fixed" class="on">FIXED</button><button id="ft50Follow">FOLLOW</button><button id="ft52StepSync">STEP SYNC</button></div><div class="ft49Row"><button id="ft49BeatMinus">−5</button><button id="ft49BeatToggle" class="start">▶ START</button><button id="ft49BeatPlus">＋5</button></div><div class="ft49Result"><b id="ft50NatureLabel">🤖 MECH WALK / FIXED</b><br><span id="ft50BeatHelp">低域の重量衝撃＋200Hz付近の装甲共鳴＋控えめなサーボ音で構成したMECH WALK βです。</span></div></div>
 <div class="ft49Panel" data-panel="bird"><canvas id="ft49BirdCanvas" class="ft49Canvas"></canvas><div class="ft49Meter"><i id="ft49BirdMeter"></i></div><div class="ft49Result"><span class="ft49Pill" id="ft49BirdState">待機中</span><br>主ピーク <b id="ft49BirdPeak">-- Hz</b>　入力 <b id="ft49BirdDb">-- dB</b></div><button id="ft49BirdStart" class="ft49Primary">🎙️ マイク解析開始</button><button id="ft49BirdStop" class="ft49Stop">停止</button><div class="ft49Warn">α版では鳥種や意味を断定せず、まず周波数・音量・時間変化を観測します。録音保存はまだ行いません。</div></div>
 <div class="ft49Panel" data-panel="sound"><div class="ft49Result">Bluetooth / 音響遅延 実験<br><b id="ft49Latency">未測定</b><div class="mini" id="ft49LatencyDetail">マイクをONにして短いテスト音の戻りを検出します。</div></div><button id="ft49LatencyTest" class="ft49Primary">⚡ LATENCY TEST</button><div class="ft49Warn">表示値はスマホ→音声出力→空気→スマホマイクまでの実測往復時間です。Bluetooth接続時はSound PocketをAndroidの音声出力先にしてください。環境音やエコーキャンセルで誤検出するため参考値です。</div></div></section>
 <section class="card"><h2>📝 今日の記録</h2>
@@ -824,7 +824,7 @@ let balanceWalkSumX=0,balanceWalkSumY=0,balanceWalkSumZ=0,balanceWalkSamples=0;
 // Static phase estimates gravity; walk phase learns the dominant horizontal walking axis.
 let ft45Gravity={x:0,y:0,z:1},ft45Forward={x:0,y:1,z:0},ft45Lateral={x:1,y:0,z:0};
 let ft45WalkVectors=[],ft45Bias={x:0,y:0,z:0},ft45FrameReady=false;
-// Ver.5.2 / FIELD TEST 51: slow dynamic-center correction for sway only.
+// Ver.5.2 / FIELD TEST 52: slow dynamic-center correction for sway only.
 // This removes mount/tilt DC drift without changing the saved raw GPS or accelerometer data.
 let ft52CenterX=0,ft52CenterY=0,ft52CenterReady=false;
 const FT52_CENTER_ALPHA=0.0025,FT52_SWAY_DEADZONE=0.05;
@@ -1083,6 +1083,7 @@ function motion(e){
  let judged="監視中",now=Date.now();
  if(running&&!paused&&prevMag!==null&&delta>deltaThreshold&&m>magThreshold&&now-lastStep>intervalThreshold){
    n++;
+   try{if(window.ft52StepSyncTrigger)window.ft52StepSyncTrigger(n);}catch(e){}
    if(balanceCalPhase==="walk"){
      balanceCalSteps++;
      if(balanceCalSteps>=BALANCE_WALK_STEPS)finishBalanceCalibration425();
@@ -1551,7 +1552,7 @@ function drawElevationProfile(){
     g.fillText(v.toFixed(step<1?1:0)+" m",padL-5*dpr,y+4*dpr);
   }
 
-  // FIELD TEST 51: vertical distance grid + automatically spaced labels.
+  // FIELD TEST 52: vertical distance grid + automatically spaced labels.
   function niceDistanceStep(meters){
     const rough=Math.max(meters/5,1);
     const p=Math.pow(10,Math.floor(Math.log10(rough)));
@@ -2349,7 +2350,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 <div id="ft38Flow" aria-modal="true" role="dialog">
  <div class="ft38Shell">
-  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.3</div><div class="ft38Sub">FIELD TEST 51 / REHAB 3D ROUTE + WALKING REPORT</div></div>
+  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.3</div><div class="ft38Sub">FIELD TEST 52 / REHAB 3D ROUTE + WALKING REPORT</div></div>
 
   <section id="ft38QuestionPage">
    <div class="ft38Card">
@@ -3170,7 +3171,7 @@ function updateGradeStats46(){
   if(d)d.textContent=Number.isFinite(maxDownGrade46)?maxDownGrade46.toFixed(1)+' %':'-- %';
 }
 
-// Ver.5.2 / FIELD TEST 51: choose a camera yaw that keeps the route readable.
+// Ver.5.2 / FIELD TEST 52: choose a camera yaw that keeps the route readable.
 // The GPS coordinates are never changed; only the display projection is optimized.
 function ft48ChooseViewAngle(raw,w,h,dpr){
   if(!raw||raw.length<3)return -28*Math.PI/180;
@@ -3263,7 +3264,7 @@ function drawRoute(){
   const nearest=(m)=>{if(!m)return null;let best=raw[0],bd=Infinity;for(const q of raw){const d=(q.p.lat-m.lat)**2+(q.p.lng-m.lng)**2;if(d<bd){bd=d;best=q}}return best};
   if(Number.isFinite(maxUpGrade46)){const q=nearest(maxUpPoint46),p=project(q);g.fillStyle='#ffba3d';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#fff4d2';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▲ +'+maxUpGrade46.toFixed(1)+'%',p.x,p.y-8*dpr)}
   if(Number.isFinite(maxDownGrade46)){const q=nearest(maxDownPoint46),p=project(q);g.fillStyle='#5db7ff';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#d9efff';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▼ '+maxDownGrade46.toFixed(1)+'%',p.x,p.y+14*dpr)}
-  // FIELD TEST 51: compact distance scale for quick route-size reading.
+  // FIELD TEST 52: compact distance scale for quick route-size reading.
   const scaleMax=Math.max(0,Number(routeDistance)||0);
   if(scaleMax>0){
     const barW=Math.min(116*dpr,w*.30),barX=w-barW-18*dpr,barY=h-22*dpr;
@@ -3290,7 +3291,7 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
 
 
 <style id="fieldTest47RehabTheme">
-/* FIELD TEST 51 — rehabilitation-first visual layer.
+/* FIELD TEST 52 — rehabilitation-first visual layer.
    3D route stays cinematic, but the meaning of the screen is recovery tracking. */
 #route3dCard46{background:#062f34!important;color:#eaffff!important;border:1px solid #18a99d!important;box-shadow:0 8px 24px rgba(0,52,57,.12)!important}
 #route3dCard46 h2{color:#f1ffff!important}
@@ -3372,7 +3373,7 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
   if(typeof oldGrade==='function')window.updateGradeStats46=function(){const r=oldGrade.apply(this,arguments);try{updateRehab47();}catch(e){}return r;};
   document.addEventListener('DOMContentLoaded',()=>{ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);});
   if(document.readyState!=='loading'){ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);}
-  console.info('AYALOG FIELD TEST 51: refined route/profile UI enabled');
+  console.info('AYALOG FIELD TEST 52: refined route/profile UI enabled');
 })();
 </script>
 
@@ -3387,21 +3388,33 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
  function leaf(c,t,side){const src=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();src.buffer=noiseBuffer(c,.16);f.type='highpass';f.frequency.value=side?2300:1800;g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.095,t+.015);g.gain.exponentialRampToValueAtTime(.0001,t+.13);src.connect(f).connect(g).connect(c.destination);src.start(t);src.stop(t+.16)}
  function stream(c,t,side){water(c,t,side);const src=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();src.buffer=noiseBuffer(c,.24);f.type='bandpass';f.frequency.value=1500;f.Q.value=.55;g.gain.setValueAtTime(.025,t);g.gain.exponentialRampToValueAtTime(.0001,t+.22);src.connect(f).connect(g).connect(c.destination);src.start(t);src.stop(t+.24)}
  function mech(c,t,side){
-  // Original AYABeat heavy exosuit step: impact + metal clank + short servo hiss.
-  const master=c.createGain();master.gain.value=.78;master.connect(c.destination);
-  const th=c.createOscillator(),tg=c.createGain();th.type='sine';th.frequency.setValueAtTime(side?92:82,t);th.frequency.exponentialRampToValueAtTime(48,t+.095);tg.gain.setValueAtTime(.0001,t);tg.gain.exponentialRampToValueAtTime(.34,t+.004);tg.gain.exponentialRampToValueAtTime(.0001,t+.16);th.connect(tg).connect(master);th.start(t);th.stop(t+.18);
-  const m=c.createOscillator(),mg=c.createGain(),mf=c.createBiquadFilter();m.type='triangle';m.frequency.setValueAtTime(side?760:680,t+.012);m.frequency.exponentialRampToValueAtTime(side?420:380,t+.10);mf.type='bandpass';mf.frequency.value=980;mf.Q.value=2.2;mg.gain.setValueAtTime(.0001,t+.01);mg.gain.exponentialRampToValueAtTime(.16,t+.018);mg.gain.exponentialRampToValueAtTime(.0001,t+.13);m.connect(mf).connect(mg).connect(master);m.start(t+.01);m.stop(t+.15);
-  const src=c.createBufferSource(),sf=c.createBiquadFilter(),sg=c.createGain();src.buffer=noiseBuffer(c,.13);sf.type='highpass';sf.frequency.value=2600;sg.gain.setValueAtTime(.0001,t+.055);sg.gain.linearRampToValueAtTime(.07,t+.07);sg.gain.exponentialRampToValueAtTime(.0001,t+.15);src.connect(sf).connect(sg).connect(master);src.start(t+.05);src.stop(t+.18);
+  // FIELD TEST 52 / MECH WALK beta: low-mid mass first; bright clank intentionally suppressed.
+  const master=c.createGain();master.gain.value=.82;master.connect(c.destination);
+  const servo=c.createOscillator(),servoF=c.createBiquadFilter(),servoG=c.createGain();
+  servo.type='sawtooth';servo.frequency.setValueAtTime(side?154:142,t);servo.frequency.exponentialRampToValueAtTime(side?112:104,t+.16);
+  servoF.type='lowpass';servoF.frequency.value=430;servoF.Q.value=.7;
+  servoG.gain.setValueAtTime(.0001,t);servoG.gain.exponentialRampToValueAtTime(.055,t+.018);servoG.gain.exponentialRampToValueAtTime(.0001,t+.19);
+  servo.connect(servoF).connect(servoG).connect(master);servo.start(t);servo.stop(t+.21);
+  const hitT=t+.10;
+  const impact=c.createOscillator(),impactG=c.createGain();impact.type='sine';impact.frequency.setValueAtTime(side?86:78,hitT);impact.frequency.exponentialRampToValueAtTime(43,hitT+.13);
+  impactG.gain.setValueAtTime(.0001,hitT);impactG.gain.exponentialRampToValueAtTime(.43,hitT+.004);impactG.gain.exponentialRampToValueAtTime(.0001,hitT+.19);
+  impact.connect(impactG).connect(master);impact.start(hitT);impact.stop(hitT+.21);
+  const armor=c.createBufferSource(),armorF=c.createBiquadFilter(),armorG=c.createGain();armor.buffer=noiseBuffer(c,.34);armorF.type='bandpass';armorF.frequency.setValueAtTime(side?212:198,hitT);armorF.Q.setValueAtTime(3,hitT);
+  armorG.gain.setValueAtTime(.0001,hitT);armorG.gain.exponentialRampToValueAtTime(.31,hitT+.006);armorG.gain.exponentialRampToValueAtTime(.0001,hitT+.26);
+  armor.connect(armorF).connect(armorG).connect(master);armor.start(hitT);armor.stop(hitT+.30);
+  const plate=c.createOscillator(),plateF=c.createBiquadFilter(),plateG=c.createGain();plate.type='triangle';plate.frequency.setValueAtTime(side?365:338,hitT+.012);plate.frequency.exponentialRampToValueAtTime(side?286:264,hitT+.18);
+  plateF.type='lowpass';plateF.frequency.value=620;plateG.gain.setValueAtTime(.0001,hitT+.008);plateG.gain.exponentialRampToValueAtTime(.07,hitT+.022);plateG.gain.exponentialRampToValueAtTime(.0001,hitT+.24);
+  plate.connect(plateF).connect(plateG).connect(master);plate.start(hitT+.008);plate.stop(hitT+.26);
  }
  function natureBeat(strong=false){const c=audio();if(c.state==='suspended')c.resume();const t=c.currentTime+.008,side=(beatSide++&1);if(strong){mech(c,t,side);return}({mech,water,wood,leaf,stream}[nature]||mech)(c,t,side)}
  function clickTone(strong=false){natureBeat(strong)}
  function setBpm(v){v=Math.max(60,Math.min(140,+v));$('ft49BpmRange').value=v;$('ft49Bpm').textContent=Math.round(v);if(beatTimer){clearInterval(beatTimer);beatTimer=setInterval(natureBeat,60000/v)}}
- function updateNature(){const names={mech:'🤖 MECH WALK',water:'💧 WATER DROP',wood:'🪵 WOOD',leaf:'🍂 LEAF',stream:'🌊 STREAM'};$('ft50NatureLabel').textContent=names[nature]+' / '+beatMode.toUpperCase();$('ft50BeatHelp').textContent=beatMode==='follow'?'歩数から推定したテンポへゆっくり追従します（歩行中のみ）。':({mech:'低い着地衝撃＋金属音＋短いサーボ音を重ねた、歩ログ独自のメカ歩行音です。',water:'左右交互の水滴音で設定BPMを刻みます。',wood:'短い木の打音で自然にテンポを示します。',leaf:'左右で少し質感を変えた落ち葉音です。',stream:'水滴に柔らかな小川の気配を重ねます。'}[nature]);}
+ function updateNature(){const names={mech:'🤖 MECH WALK β',water:'💧 WATER DROP',wood:'🪵 WOOD',leaf:'🍂 LEAF',stream:'🌊 STREAM'};$('ft50NatureLabel').textContent=names[nature]+' / '+(beatMode==='step'?'STEP SYNC':beatMode.toUpperCase());$('ft50BeatHelp').textContent=beatMode==='follow'?'歩数から推定したテンポへゆっくり追従します（歩行中のみ）。':beatMode==='step'?'万歩計が1歩を確定した瞬間だけ音を返します。BPMタイマーは使いません。':({mech:'高域を抑え、低域の重量衝撃→約200Hzの装甲共鳴→控えめなサーボ音で構成したMECH WALK βです。',water:'左右交互の水滴音で設定BPMを刻みます。',wood:'短い木の打音で自然にテンポを示します。',leaf:'左右で少し質感を変えた落ち葉音です。',stream:'水滴に柔らかな小川の気配を重ねます。'}[nature]);}
  document.querySelectorAll('.ft49Nature button').forEach(b=>b.onclick=()=>{nature=b.dataset.nature;document.querySelectorAll('.ft49Nature button').forEach(x=>x.classList.toggle('on',x===b));natureBeat();updateNature()});
- $('ft50Fixed').onclick=()=>{beatMode='fixed';$('ft50Fixed').classList.add('on');$('ft50Follow').classList.remove('on');updateNature()};$('ft50Follow').onclick=()=>{beatMode='follow';$('ft50Follow').classList.add('on');$('ft50Fixed').classList.remove('on');updateNature()};
+ function ft52SetMode(m){beatMode=m;['ft50Fixed','ft50Follow','ft52StepSync'].forEach(id=>$(id).classList.remove('on'));$(m==='fixed'?'ft50Fixed':m==='follow'?'ft50Follow':'ft52StepSync').classList.add('on');if(m==='step'&&beatTimer){clearInterval(beatTimer);beatTimer=null;$('ft49BeatToggle').textContent='▶ START';}updateNature()} $('ft50Fixed').onclick=()=>ft52SetMode('fixed');$('ft50Follow').onclick=()=>ft52SetMode('follow');$('ft52StepSync').onclick=()=>ft52SetMode('step');window.ft52StepSyncTrigger=()=>{if(beatMode==='step')natureBeat();};
  let followLastN=0,followLastT=performance.now();setInterval(()=>{if(beatMode!=='follow'||typeof running==='undefined'||!running||typeof n==='undefined')return;const now=performance.now(),dn=n-followLastN,dt=(now-followLastT)/60000;if(dt>.08&&dn>=3){const measured=dn/dt,cur=+$('ft49Bpm').textContent;if(measured>=60&&measured<=160)setBpm(cur+(Math.max(60,Math.min(140,measured))-cur)*.18);followLastN=n;followLastT=now}else if(dt>.25){followLastN=n;followLastT=now}},1000);
  $('ft49BpmRange').oninput=e=>setBpm(e.target.value);$('ft49BeatMinus').onclick=()=>setBpm(+$('ft49Bpm').textContent-5);$('ft49BeatPlus').onclick=()=>setBpm(+$('ft49Bpm').textContent+5);
- $('ft49BeatToggle').onclick=()=>{if(beatTimer){clearInterval(beatTimer);beatTimer=null;$('ft49BeatToggle').textContent='▶ START';return}natureBeat();beatTimer=setInterval(natureBeat,60000/(+$('ft49Bpm').textContent));$('ft49BeatToggle').textContent='⏸ STOP'};
+ $('ft49BeatToggle').onclick=()=>{if(beatMode==='step'){natureBeat();$('ft49BeatToggle').textContent='▶ STEP試聴';setTimeout(()=>{$('ft49BeatToggle').textContent='▶ START'},700);return}if(beatTimer){clearInterval(beatTimer);beatTimer=null;$('ft49BeatToggle').textContent='▶ START';return}natureBeat();beatTimer=setInterval(natureBeat,60000/(+$('ft49Bpm').textContent));$('ft49BeatToggle').textContent='⏸ STOP'};
  async function startMic(){if(micStream)return true;try{micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});micCtx=new (window.AudioContext||window.webkitAudioContext)();const src=micCtx.createMediaStreamSource(micStream);an=micCtx.createAnalyser();an.fftSize=2048;an.smoothingTimeConstant=.72;src.connect(an);return true}catch(e){$('ft49BirdState').textContent='マイク許可が必要';return false}}
  function analyze(){if(!an)return;const td=new Uint8Array(an.fftSize),fd=new Uint8Array(an.frequencyBinCount);an.getByteTimeDomainData(td);an.getByteFrequencyData(fd);let ss=0;for(const v of td){let x=(v-128)/128;ss+=x*x}lastRms=Math.sqrt(ss/td.length);let bi=1,bv=0;for(let i=1;i<fd.length;i++)if(fd[i]>bv){bv=fd[i];bi=i}const hz=bi*micCtx.sampleRate/an.fftSize,db=20*Math.log10(Math.max(1e-5,lastRms));$('ft49BirdPeak').textContent=Math.round(hz)+' Hz';$('ft49BirdDb').textContent=db.toFixed(1)+' dBFS';$('ft49BirdMeter').style.width=Math.min(100,lastRms*500)+'%';$('ft49BirdState').textContent=(lastRms>.035&&hz>1200)?'音声イベント検出':'解析中';const cv=$('ft49BirdCanvas'),r=cv.getBoundingClientRect(),d=devicePixelRatio||1;if(cv.width!==Math.round(r.width*d)){cv.width=Math.round(r.width*d);cv.height=Math.round(130*d)}const g=cv.getContext('2d');g.clearRect(0,0,cv.width,cv.height);g.strokeStyle='#45d6c2';g.lineWidth=1.5*d;g.beginPath();for(let i=0;i<fd.length;i+=4){const x=i/(fd.length-1)*cv.width,y=cv.height-(fd[i]/255)*cv.height;(i?g.lineTo(x,y):g.moveTo(x,y))}g.stroke();micRAF=requestAnimationFrame(analyze)}
  $('ft49BirdStart').onclick=async()=>{if(await startMic()){cancelAnimationFrame(micRAF);analyze()}};$('ft49BirdStop').onclick=()=>{cancelAnimationFrame(micRAF);if(micStream)micStream.getTracks().forEach(t=>t.stop());if(micCtx)micCtx.close();micStream=micCtx=an=null;$('ft49BirdState').textContent='停止'};
