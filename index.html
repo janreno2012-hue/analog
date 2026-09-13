@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.2 FIELD TEST 48 — AUTO VIEW + BALANCE CAL</title>
+<title>歩ログ Ver.5.3 FIELD TEST 49 — AYABeat + BIRD LAB + SOUND LAB</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -675,9 +675,13 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 .cgAvgRow412,.cgAvgRow412 span,.cgAvgRow412 b{white-space:nowrap!important;}
 .cgAvgRow412 b{font-size:9px!important;letter-spacing:-.04em!important;}
 </style>
+
+<style id="ft49LabStyle">
+.ft49Tabs{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 14px}.ft49Tabs button{flex:1;min-width:88px;padding:9px;font-size:13px;background:#e8f3f1;color:#0f766e}.ft49Tabs button.on{background:#0f766e;color:#fff}.ft49Panel{display:none}.ft49Panel.on{display:block}.ft49Big{text-align:center;font-size:42px;font-weight:850;color:#0f766e}.ft49Row{display:flex;gap:9px;align-items:center}.ft49Row>*{flex:1}.ft49Meter{height:12px;border-radius:99px;background:#e5eeec;overflow:hidden;margin:8px 0}.ft49Meter i{display:block;height:100%;width:0;background:#0f766e;transition:width .08s}.ft49Canvas{width:100%;height:130px;border-radius:12px;background:#071c2c;display:block}.ft49Pill{display:inline-block;padding:5px 9px;border-radius:99px;background:#e8f3f1;color:#0f766e;font-size:12px;font-weight:700}.ft49Primary{width:100%;background:#0f766e;color:#fff;margin-top:10px}.ft49Stop{width:100%;background:#edf1f0;color:#355;margin-top:7px}.ft49Result{background:#f1f7f6;border-radius:14px;padding:12px;margin-top:10px}.ft49Warn{font-size:12px;color:#6b7c79;margin-top:8px;line-height:1.5}
+</style>
 </head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
-<header><div class="logo">🌿 歩ログ Ver.5.2 TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
+<header><div class="logo">🌿 歩ログ Ver.5.3 TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
 <div id="steps" class="steps">0</div><div class="unit">歩</div><div id="timer" class="time">00:00:00</div>
 <div class="buttons"><button id="start" class="start">▶ START</button><button id="pause" class="pause" disabled>Ⅱ PAUSE</button><button id="stop" class="stop" disabled>■ STOP</button></div>
@@ -723,8 +727,8 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="walkScene">
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
- <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.2 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 48</div><div class="t3">REHAB 3D ROUTE / Ver.5.2</div></div>
+ <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.3 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 49</div><div class="t3">AYABeat + BIRD + SOUND / Ver.5.3</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -782,7 +786,13 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </div><div class="mini" id="fieldSync">同期：待機中 ／ 地面：停止 ／ 重心：キャリブレーション待ち</div></section>
 <section class="card" style="display:none"><h2>🧭 体幹バランス・重心分布 β</h2><div class="mini">端末の加速度から体幹の偏り・揺れを試験的に推定します。START後に約3秒の姿勢基準を取得し、その後16歩または最大12秒で歩行パターンを自動キャリブレーションします。</div><div class="stats4"><div class="stat"><div>左右バランス</div><div id="balanceRatio" class="value">-- : --</div></div><div class="stat"><div>左右差</div><div id="balanceDiff" class="value">-- %</div></div></div><div class="balanceViz"><canvas id="balanceCanvas" class="balanceCanvas"></canvas><div class="balanceLegend"><span>← 左</span><span>前 ↑　端末センサー推定　↓ 後</span><span>右 →</span></div><div class="balanceGrid"><div class="balanceMini">左右平均<b id="balanceMeanLR">--</b></div><div class="balanceMini">前後平均<b id="balanceMeanFB">--</b></div><div class="balanceMini">安定度<b id="balanceStability">-- %</b></div></div><div class="balanceHint">色が濃い場所ほど、その方向への揺れが多かったことを示します。人体の厳密な重心位置ではなく、スマホセンサーから見た体幹傾向です。</div></div><div id="balanceStatus" class="mini">待機中</div></section>
 <section class="card"><h2>🐻🔔 熊鈴モード</h2><div class="bellRow"><div><b>熊鈴</b><div class="mini">ONにすると、ウォーキング中に歩数連動で「チリン♪」と鳴ります。</div></div><label class="switch"><input id="bellSwitch" type="checkbox"><span class="slider"></span></label></div><div class="bellControls"><div><label>鳴らす間隔</label><select id="bellInterval"><option value="3">3秒</option><option value="5" selected>5秒</option><option value="10">10秒</option></select></div><div><label>音量</label><input id="bellVolume" type="range" min="0" max="100" value="60"><div class="mini"><span id="bellVolumeValue">60</span>%</div></div></div><div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="7" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B / RANDOM</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellRandomBtn" type="button" style="margin-bottom:10px">🎲 RANDOM：OFF</button>
-<button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section><section class="card"><h2>📝 今日の記録</h2>
+<button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section>
+<section class="card" id="ft49LabCard"><h2>🎵🐦🔊 AYALAB Ver.5.3 α</h2><div class="mini">AYABeat・BIRD LAB・SOUND LAB の先行実験版。Bluetoothスピーカー未接続でもスマホ単体で試験できます。</div>
+<div class="ft49Tabs"><button data-p="beat" class="on">🎵 AYABeat</button><button data-p="bird">🐦 BIRD LAB</button><button data-p="sound">🔊 SOUND LAB</button></div>
+<div class="ft49Panel on" data-panel="beat"><div class="ft49Big"><span id="ft49Bpm">100</span> <small style="font-size:15px">BPM</small></div><input id="ft49BpmRange" type="range" min="60" max="140" value="100"><div class="ft49Row"><button id="ft49BeatMinus">−5</button><button id="ft49BeatToggle" class="start">▶ START</button><button id="ft49BeatPlus">＋5</button></div><div class="ft49Result">歩行テンポの基準音を一定間隔で再生します。週末にSound Pocketで音量・聞こえ方を実地調整します。</div></div>
+<div class="ft49Panel" data-panel="bird"><canvas id="ft49BirdCanvas" class="ft49Canvas"></canvas><div class="ft49Meter"><i id="ft49BirdMeter"></i></div><div class="ft49Result"><span class="ft49Pill" id="ft49BirdState">待機中</span><br>主ピーク <b id="ft49BirdPeak">-- Hz</b>　入力 <b id="ft49BirdDb">-- dB</b></div><button id="ft49BirdStart" class="ft49Primary">🎙️ マイク解析開始</button><button id="ft49BirdStop" class="ft49Stop">停止</button><div class="ft49Warn">α版では鳥種や意味を断定せず、まず周波数・音量・時間変化を観測します。録音保存はまだ行いません。</div></div>
+<div class="ft49Panel" data-panel="sound"><div class="ft49Result">Bluetooth / 音響遅延 実験<br><b id="ft49Latency">未測定</b><div class="mini" id="ft49LatencyDetail">マイクをONにして短いテスト音の戻りを検出します。</div></div><button id="ft49LatencyTest" class="ft49Primary">⚡ LATENCY TEST</button><div class="ft49Warn">表示値はスマホ→音声出力→空気→スマホマイクまでの実測往復時間です。Bluetooth接続時はSound PocketをAndroidの音声出力先にしてください。環境音やエコーキャンセルで誤検出するため参考値です。</div></div></section>
+<section class="card"><h2>📝 今日の記録</h2>
 <label>日付</label><input id="date" type="date"><label>体重（kg）</label><input id="weight" type="number" step="0.1" placeholder="例：65.5">
 <label>歩数（歩）</label><input id="recsteps" type="number" min="0" placeholder="計測後に自動入力">
 <label>歩行時間</label><input id="duration" type="text" readonly placeholder="STOP後に自動入力"><label>距離・速度・高低差</label><input id="summary" type="text" readonly placeholder="STOP後に自動入力">
@@ -814,7 +824,7 @@ let balanceWalkSumX=0,balanceWalkSumY=0,balanceWalkSumZ=0,balanceWalkSamples=0;
 // Static phase estimates gravity; walk phase learns the dominant horizontal walking axis.
 let ft45Gravity={x:0,y:0,z:1},ft45Forward={x:0,y:1,z:0},ft45Lateral={x:1,y:0,z:0};
 let ft45WalkVectors=[],ft45Bias={x:0,y:0,z:0},ft45FrameReady=false;
-// Ver.5.2 / FIELD TEST 48: slow dynamic-center correction for sway only.
+// Ver.5.2 / FIELD TEST 49: slow dynamic-center correction for sway only.
 // This removes mount/tilt DC drift without changing the saved raw GPS or accelerometer data.
 let ft52CenterX=0,ft52CenterY=0,ft52CenterReady=false;
 const FT52_CENTER_ALPHA=0.0025,FT52_SWAY_DEADZONE=0.05;
@@ -1541,7 +1551,7 @@ function drawElevationProfile(){
     g.fillText(v.toFixed(step<1?1:0)+" m",padL-5*dpr,y+4*dpr);
   }
 
-  // FIELD TEST 48: vertical distance grid + automatically spaced labels.
+  // FIELD TEST 49: vertical distance grid + automatically spaced labels.
   function niceDistanceStep(meters){
     const rough=Math.max(meters/5,1);
     const p=Math.pow(10,Math.floor(Math.log10(rough)));
@@ -2339,7 +2349,7 @@ document.getElementById("stopSaveYes430")?.addEventListener("click",()=>{if(save
 
 <div id="ft38Flow" aria-modal="true" role="dialog">
  <div class="ft38Shell">
-  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.2</div><div class="ft38Sub">FIELD TEST 48 / REHAB 3D ROUTE + WALKING REPORT</div></div>
+  <div class="ft38Head"><div class="ft38Brand">🌿 歩ログ Ver.5.3</div><div class="ft38Sub">FIELD TEST 49 / REHAB 3D ROUTE + WALKING REPORT</div></div>
 
   <section id="ft38QuestionPage">
    <div class="ft38Card">
@@ -3160,7 +3170,7 @@ function updateGradeStats46(){
   if(d)d.textContent=Number.isFinite(maxDownGrade46)?maxDownGrade46.toFixed(1)+' %':'-- %';
 }
 
-// Ver.5.2 / FIELD TEST 48: choose a camera yaw that keeps the route readable.
+// Ver.5.2 / FIELD TEST 49: choose a camera yaw that keeps the route readable.
 // The GPS coordinates are never changed; only the display projection is optimized.
 function ft48ChooseViewAngle(raw,w,h,dpr){
   if(!raw||raw.length<3)return -28*Math.PI/180;
@@ -3253,7 +3263,7 @@ function drawRoute(){
   const nearest=(m)=>{if(!m)return null;let best=raw[0],bd=Infinity;for(const q of raw){const d=(q.p.lat-m.lat)**2+(q.p.lng-m.lng)**2;if(d<bd){bd=d;best=q}}return best};
   if(Number.isFinite(maxUpGrade46)){const q=nearest(maxUpPoint46),p=project(q);g.fillStyle='#ffba3d';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#fff4d2';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▲ +'+maxUpGrade46.toFixed(1)+'%',p.x,p.y-8*dpr)}
   if(Number.isFinite(maxDownGrade46)){const q=nearest(maxDownPoint46),p=project(q);g.fillStyle='#5db7ff';g.beginPath();g.arc(p.x,p.y,3.5*dpr,0,Math.PI*2);g.fill();g.fillStyle='#d9efff';g.font='700 '+(9*dpr)+'px sans-serif';g.textAlign='center';g.fillText('▼ '+maxDownGrade46.toFixed(1)+'%',p.x,p.y+14*dpr)}
-  // FIELD TEST 48: compact distance scale for quick route-size reading.
+  // FIELD TEST 49: compact distance scale for quick route-size reading.
   const scaleMax=Math.max(0,Number(routeDistance)||0);
   if(scaleMax>0){
     const barW=Math.min(116*dpr,w*.30),barX=w-barW-18*dpr,barY=h-22*dpr;
@@ -3280,7 +3290,7 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
 
 
 <style id="fieldTest47RehabTheme">
-/* FIELD TEST 48 — rehabilitation-first visual layer.
+/* FIELD TEST 49 — rehabilitation-first visual layer.
    3D route stays cinematic, but the meaning of the screen is recovery tracking. */
 #route3dCard46{background:#062f34!important;color:#eaffff!important;border:1px solid #18a99d!important;box-shadow:0 8px 24px rgba(0,52,57,.12)!important}
 #route3dCard46 h2{color:#f1ffff!important}
@@ -3362,8 +3372,23 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
   if(typeof oldGrade==='function')window.updateGradeStats46=function(){const r=oldGrade.apply(this,arguments);try{updateRehab47();}catch(e){}return r;};
   document.addEventListener('DOMContentLoaded',()=>{ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);});
   if(document.readyState!=='loading'){ensureRehabPanel47();updateRehab47();setInterval(updateRehab47,1200);}
-  console.info('AYALOG FIELD TEST 48: refined route/profile UI enabled');
+  console.info('AYALOG FIELD TEST 49: refined route/profile UI enabled');
 })();
 </script>
 
+\n<script id="ft49Labs">
+(()=>{
+ const $=id=>document.getElementById(id); let ac=null,beatTimer=null,micStream=null,micCtx=null,an=null,micRAF=0,lastRms=0;
+ const audio=()=>ac||(ac=new (window.AudioContext||window.webkitAudioContext)());
+ document.querySelectorAll('#ft49LabCard .ft49Tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#ft49LabCard .ft49Tabs button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('#ft49LabCard .ft49Panel').forEach(p=>p.classList.toggle('on',p.dataset.panel===b.dataset.p));});
+ function clickTone(strong=false){const c=audio(); if(c.state==='suspended')c.resume(); const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=strong?1800:880;g.gain.setValueAtTime(strong?.34:.12,c.currentTime);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+(strong?.045:.035));o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+(strong?.05:.04));}
+ function setBpm(v){v=Math.max(60,Math.min(140,+v));$('ft49BpmRange').value=v;$('ft49Bpm').textContent=v;if(beatTimer){clearInterval(beatTimer);beatTimer=setInterval(clickTone,60000/v)}}
+ $('ft49BpmRange').oninput=e=>setBpm(e.target.value);$('ft49BeatMinus').onclick=()=>setBpm(+$('ft49Bpm').textContent-5);$('ft49BeatPlus').onclick=()=>setBpm(+$('ft49Bpm').textContent+5);
+ $('ft49BeatToggle').onclick=()=>{if(beatTimer){clearInterval(beatTimer);beatTimer=null;$('ft49BeatToggle').textContent='▶ START';return}clickTone();beatTimer=setInterval(clickTone,60000/(+$('ft49Bpm').textContent));$('ft49BeatToggle').textContent='⏸ STOP'};
+ async function startMic(){if(micStream)return true;try{micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});micCtx=new (window.AudioContext||window.webkitAudioContext)();const src=micCtx.createMediaStreamSource(micStream);an=micCtx.createAnalyser();an.fftSize=2048;an.smoothingTimeConstant=.72;src.connect(an);return true}catch(e){$('ft49BirdState').textContent='マイク許可が必要';return false}}
+ function analyze(){if(!an)return;const td=new Uint8Array(an.fftSize),fd=new Uint8Array(an.frequencyBinCount);an.getByteTimeDomainData(td);an.getByteFrequencyData(fd);let ss=0;for(const v of td){let x=(v-128)/128;ss+=x*x}lastRms=Math.sqrt(ss/td.length);let bi=1,bv=0;for(let i=1;i<fd.length;i++)if(fd[i]>bv){bv=fd[i];bi=i}const hz=bi*micCtx.sampleRate/an.fftSize,db=20*Math.log10(Math.max(1e-5,lastRms));$('ft49BirdPeak').textContent=Math.round(hz)+' Hz';$('ft49BirdDb').textContent=db.toFixed(1)+' dBFS';$('ft49BirdMeter').style.width=Math.min(100,lastRms*500)+'%';$('ft49BirdState').textContent=(lastRms>.035&&hz>1200)?'音声イベント検出':'解析中';const cv=$('ft49BirdCanvas'),r=cv.getBoundingClientRect(),d=devicePixelRatio||1;if(cv.width!==Math.round(r.width*d)){cv.width=Math.round(r.width*d);cv.height=Math.round(130*d)}const g=cv.getContext('2d');g.clearRect(0,0,cv.width,cv.height);g.strokeStyle='#45d6c2';g.lineWidth=1.5*d;g.beginPath();for(let i=0;i<fd.length;i+=4){const x=i/(fd.length-1)*cv.width,y=cv.height-(fd[i]/255)*cv.height;(i?g.lineTo(x,y):g.moveTo(x,y))}g.stroke();micRAF=requestAnimationFrame(analyze)}
+ $('ft49BirdStart').onclick=async()=>{if(await startMic()){cancelAnimationFrame(micRAF);analyze()}};$('ft49BirdStop').onclick=()=>{cancelAnimationFrame(micRAF);if(micStream)micStream.getTracks().forEach(t=>t.stop());if(micCtx)micCtx.close();micStream=micCtx=an=null;$('ft49BirdState').textContent='停止'};
+ $('ft49LatencyTest').onclick=async()=>{if(!await startMic())return;$('ft49Latency').textContent='測定中…';const base=lastRms;await new Promise(r=>setTimeout(r,500));const t0=performance.now();clickTone(true);let done=false;const poll=()=>{const dt=performance.now()-t0;if(lastRms>Math.max(.055,base*2.8)&&dt>15){done=true;$('ft49Latency').textContent=Math.round(dt)+' ms';$('ft49LatencyDetail').textContent='音響ループバック参考値（1回測定）';return}if(dt<900)requestAnimationFrame(poll);else{$('ft49Latency').textContent='検出できません';$('ft49LatencyDetail').textContent='音量を上げ、スマホとスピーカーを近づけて再試験してください。'}};poll();};
+})();
+</script>
 </body></html>
