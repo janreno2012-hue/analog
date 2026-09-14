@@ -791,7 +791,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 </div>
 <div class="bellPitchControls"><div class="mini">🎵 熊鈴の金属倍音・余韻は維持したまま、中心ピッチだけを約3〜4kHz帯で移動します。</div><div class="rangeRow"><div class="rangeTop"><span>基準音</span><span id="bellNoteValue" class="rangeVal">C</span></div><input id="bellNote" type="range" min="0" max="7" step="1" value="0"></div><div class="mini">C / D / E / F / G / A / B / RANDOM</div><div class="rangeRow"><div class="rangeTop"><span>微調整</span><span id="bellCentsValue" class="rangeVal">+0 cents</span></div><input id="bellCents" type="range" min="-50" max="50" step="1" value="0"></div><div id="bellPitchInfo" class="mini">中心周波数：約 3.30 kHz（C系）</div></div><button id="bellRandomBtn" type="button" style="margin-bottom:10px">🎲 RANDOM：OFF</button>
 <button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section>
-<section class="card" id="ft50LabCard"><h2>🎵🐦🔊 AYALAB Ver.5.4 REAL WATER + COUNTDOWN</h2><div class="mini">AYABeat・BIRD LAB・SOUND LAB の先行実験版。FT57ではWATER DROP実音源とSTARTカウントダウン実音源を追加。Bluetoothスピーカー未接続でもスマホ単体で試験できます。</div>
+<section class="card" id="ft50LabCard"><h2>🎵🐦🔊 AYALAB Ver.5.4 REAL WATER + COUNTDOWN HEAD FIX</h2><div class="mini">AYABeat・BIRD LAB・SOUND LAB の先行実験版。FT57.1ではWATER DROP実音源とSTARTカウントダウン実音源を追加し、カウントダウンの先頭欠けを修正。Bluetoothスピーカー未接続でもスマホ単体で試験できます。</div>
 <div class="ft49Tabs"><button data-p="beat" class="on">🎵 AYABeat</button><button data-p="bird">🐦 BIRD LAB</button><button data-p="sound">🔊 SOUND LAB</button></div>
 <div class="ft49Panel on" data-panel="beat"><div class="ft49Big"><span id="ft49Bpm">100</span> <small style="font-size:15px">BPM</small></div><input id="ft49BpmRange" type="range" min="60" max="140" value="100"><div class="ft49Nature"><button data-nature="robotA" class="on">🤖 ROBOT A</button><button data-nature="robotB">⚙️ ROBOT B</button><button data-nature="robotDual">🦾 DUAL</button><button data-nature="wood">🪵 木</button><button data-nature="leaf">🍂 落ち葉</button><button data-nature="water">💧 水滴</button></div><div class="ft49Mode"><button id="ft50Fixed" class="on">FIXED</button><button id="ft50Follow">FOLLOW</button><button id="ft52StepSync">STEP SYNC</button></div><div class="ft49Row"><button id="ft49BeatMinus">−5</button><button id="ft49BeatToggle" class="start">▶ START</button><button id="ft49BeatPlus">＋5</button></div><div class="ft49Result"><b id="ft50NatureLabel">🤖 ROBOT A / FIXED</b><br><span id="ft50BeatHelp">低域の重量衝撃＋200Hz付近の装甲共鳴＋控えめなサーボ音で構成したREAL SAMPLE WALKです。</span></div></div>
 <div class="ft49Panel" data-panel="bird"><canvas id="ft49BirdCanvas" class="ft49Canvas"></canvas><div class="ft49Meter"><i id="ft49BirdMeter"></i></div><div class="ft49Result"><span class="ft49Pill" id="ft49BirdState">待機中</span><br>主ピーク <b id="ft49BirdPeak">-- Hz</b>　入力 <b id="ft49BirdDb">-- dB</b></div><button id="ft49BirdStart" class="ft49Primary">🎙️ マイク解析開始</button><button id="ft49BirdStop" class="ft49Stop">停止</button><div class="ft49Warn">α版では鳥種や意味を断定せず、まず周波数・音量・時間変化を観測します。録音保存はまだ行いません。</div></div>
@@ -3534,15 +3534,15 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
   window.ft57PlayCountdown=function(){
     try{
       countdownAudio.pause();
-      // Source is 6.5 s; skip the first 1.5 s so its ending aligns with the existing 5 s storage countdown.
-      countdownAudio.currentTime=1.5;
+      // FT57.1: play from the true head. The source has its first transient at 0 s.
+      countdownAudio.currentTime=0;
       const p=countdownAudio.play();
       if(p&&p.catch)p.catch(err=>console.warn('FT57 countdown blocked:',err));
       return countdownAudio;
     }catch(err){console.warn('FT57 countdown error:',err);return null;}
   };
 
-  console.info('AYALOG FIELD TEST 57: REAL WATER + COUNTDOWN audio enabled');
+  console.info('AYALOG FIELD TEST 57.1: countdown head fixed, REAL WATER + COUNTDOWN audio enabled');
 })();
 </script>
 
