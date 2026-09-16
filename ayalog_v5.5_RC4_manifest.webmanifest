@@ -1,0 +1,9 @@
+{
+  "name": "歩ログ RC4",
+  "short_name": "歩ログ RC4",
+  "start_url": "./ayalog_v5.5_RC4_control_system_integration_index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#001719",
+  "theme_color": "#004d4f"
+}
