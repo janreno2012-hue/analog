@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
 <link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.4 FIELD TEST 57 — REAL WATER + COUNTDOWN</title>
+<title>歩ログ Ver.5.4 FIELD TEST 59 — AYABeat CHATTER DEBUG</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -714,12 +714,17 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="debugitem">合成加速度<div id="debugMag" class="debugvalue">--</div></div>
 <div class="debugitem">変化量 Δ<div id="debugDelta" class="debugvalue">--</div></div>
 <div class="debugitem">歩数判定<div id="debugStep" class="debugvalue">待機</div></div>
+<div class="debugitem">検出ピーク<div id="ft59PeakCount" class="debugvalue">0</div></div>
+<div class="debugitem">採用歩数<div id="ft59AcceptedCount" class="debugvalue">0</div></div>
+<div class="debugitem">チャタ棄却<div id="ft59RejectedCount" class="debugvalue">0</div></div>
+<div class="debugitem">ピーク間隔<div id="ft59PeakInterval" class="debugvalue">-- ms</div></div>
 </div>
 <div class="thresholds">
 <div class="mini">🎚️ 歩数判定しきい値（リアルタイム調整）</div>
 <div class="rangeRow"><div class="rangeTop"><span>Δしきい値</span><span id="deltaThresholdValue" class="rangeVal">0.30</span></div><input id="deltaThreshold" type="range" min="0.20" max="3.00" step="0.05" value="0.30"></div>
 <div class="rangeRow"><div class="rangeTop"><span>合成加速度しきい値</span><span id="magThresholdValue" class="rangeVal">11.00</span></div><input id="magThreshold" type="range" min="8.00" max="15.00" step="0.10" value="11.00"></div>
-<div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
+<div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">360 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="360"></div>
+<div class="mini">FIELD TEST 59：Δ＋合成加速度を超えたピークを候補として数え、最短歩数間隔内の再ピークはチャタ候補として棄却します。デバッグ表示ON時は棄却を小さな低音で知らせます。</div>
 </div>
 </div></section>
 <section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.2.5</h2>
@@ -793,7 +798,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <button id="bellTest" class="bellTest" type="button">🔔 現在の設定で試しに鳴らす</button><div id="bellStatus" class="bellStatus">状態：OFF</div></section>
 <section class="card" id="ft50LabCard"><h2>🎵🐦🔊 AYALAB Ver.5.4 REAL WATER + COUNTDOWN HEAD FIX</h2><div class="mini">AYABeat・BIRD LAB・SOUND LAB の先行実験版。FT57.1ではWATER DROP実音源とSTARTカウントダウン実音源を追加し、カウントダウンの先頭欠けを修正。Bluetoothスピーカー未接続でもスマホ単体で試験できます。</div>
 <div class="ft49Tabs"><button data-p="beat" class="on">🎵 AYABeat</button><button data-p="bird">🐦 BIRD LAB</button><button data-p="sound">🔊 SOUND LAB</button></div>
-<div class="ft49Panel on" data-panel="beat"><div class="ft49Big"><span id="ft49Bpm">100</span> <small style="font-size:15px">BPM</small></div><input id="ft49BpmRange" type="range" min="60" max="140" value="100"><div class="ft49Nature"><button data-nature="robotA" class="on">🤖 ROBOT A</button><button data-nature="robotB">⚙️ ROBOT B</button><button data-nature="robotDual">🦾 DUAL</button><button data-nature="wood">🪵 木</button><button data-nature="leaf">🍂 落ち葉</button><button data-nature="water">💧 水滴</button></div><div class="ft49Mode"><button id="ft50Fixed" class="on">FIXED</button><button id="ft50Follow">FOLLOW</button><button id="ft52StepSync">STEP SYNC</button></div><div class="ft49Row"><button id="ft49BeatMinus">−5</button><button id="ft49BeatToggle" class="start">▶ START</button><button id="ft49BeatPlus">＋5</button></div><div class="ft49Result"><b id="ft50NatureLabel">🤖 ROBOT A / FIXED</b><br><span id="ft50BeatHelp">低域の重量衝撃＋200Hz付近の装甲共鳴＋控えめなサーボ音で構成したREAL SAMPLE WALKです。</span></div></div>
+<div class="ft49Panel on" data-panel="beat"><div class="ft49Big"><span id="ft49Bpm">100</span> <small style="font-size:15px">BPM</small></div><input id="ft49BpmRange" type="range" min="60" max="140" value="100"><div class="ft49Nature"><button data-nature="robotA" class="on">🤖 ROBOT A</button><button data-nature="robotB">⚙️ ROBOT B</button><button data-nature="robotDual">🦾 DUAL</button><button data-nature="wood">🪵 木</button><button data-nature="leaf">🍂 落ち葉</button><button data-nature="water">💧 水滴</button></div><div class="ft49Mode"><button id="ft50Fixed" class="on">FIXED</button><button id="ft50Follow">FOLLOW</button><button id="ft52StepSync">STEP SYNC</button></div><div id="ft59StepSyncOptions" style="margin:10px 0;padding:10px;border:1px solid #dce8e5;border-radius:12px"><label style="margin:0 0 6px">STEP SYNC 発音間隔</label><select id="ft59StepDiv" style="width:100%;padding:10px;border:1px solid #d5dfdd;border-radius:10px;font-size:15px"><option value="2" selected>2歩に1回（推奨・デフォルト）</option><option value="1">1歩ごと（デバッグ向け）</option><option value="0">OFF</option></select><div class="mini">歩数カウント自体は毎歩行います。ここではAYABeatの発音だけを間引きます。</div></div><div class="ft49Row"><button id="ft49BeatMinus">−5</button><button id="ft49BeatToggle" class="start">▶ START</button><button id="ft49BeatPlus">＋5</button></div><div class="ft49Result"><b id="ft50NatureLabel">🤖 ROBOT A / FIXED</b><br><span id="ft50BeatHelp">低域の重量衝撃＋200Hz付近の装甲共鳴＋控えめなサーボ音で構成したREAL SAMPLE WALKです。</span></div></div>
 <div class="ft49Panel" data-panel="bird"><canvas id="ft49BirdCanvas" class="ft49Canvas"></canvas><div class="ft49Meter"><i id="ft49BirdMeter"></i></div><div class="ft49Result"><span class="ft49Pill" id="ft49BirdState">待機中</span><br>主ピーク <b id="ft49BirdPeak">-- Hz</b>　入力 <b id="ft49BirdDb">-- dB</b></div><button id="ft49BirdStart" class="ft49Primary">🎙️ マイク解析開始</button><button id="ft49BirdStop" class="ft49Stop">停止</button><div class="ft49Warn">α版では鳥種や意味を断定せず、まず周波数・音量・時間変化を観測します。録音保存はまだ行いません。</div></div>
 <div class="ft49Panel" data-panel="sound"><div class="ft49Result">Bluetooth / 音響遅延 実験<br><b id="ft49Latency">未測定</b><div class="mini" id="ft49LatencyDetail">マイクをONにして短いテスト音の戻りを検出します。</div></div><button id="ft49LatencyTest" class="ft49Primary">⚡ LATENCY TEST</button><div class="ft49Warn">表示値はスマホ→音声出力→空気→スマホマイクまでの実測往復時間です。Bluetooth接続時はSound PocketをAndroidの音声出力先にしてください。環境音やエコーキャンセルで誤検出するため参考値です。</div></div></section>
 <section class="card"><h2>📝 今日の記録</h2>
@@ -817,7 +822,8 @@ $("weight").addEventListener("change",()=>{const w=parseFloat($("weight").value)
 $("weight").addEventListener("input",()=>{if(running)$("calories").textContent=Math.round(currentCalories)+" kcal";});
 let running=false,paused=false,n=0,t0=0,timer=null,lastStep=0,prevMag=null,handler=null,watchId=null,pausedAt=0,totalPausedMs=0,stationaryMs=0,continuousStationaryMs=0,lastGpsCallbackTime=0,latestGpsPoint=null;
 let route=[],routeDistance=0,lastDistancePoint=null,liveRouteSnapshot=null,viewingHistory=false,permissionState="unknown",mapCanvas=null,ctx=null,elevationCanvas=null,elevationCtx=null,motionEnabled=false,debugEnabled=false;
-let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=270;
+let deltaThreshold=0.30,magThreshold=11.0,intervalThreshold=360;
+let ft59PeakCount=0,ft59AcceptedCount=0,ft59RejectedCount=0,ft59LastPeakAt=0,ft59LastRejectToneAt=0;
 let totalAscent=0,totalDescent=0,minAlt=null,maxAlt=null,currentSpeed=0,currentGrade=0,currentCalories=0,lastGpsTime=0,lastSmoothAlt=null;
 let maxUpGrade46=null,maxDownGrade46=null,maxUpPoint46=null,maxDownPoint46=null;
 let balanceBaseX=null,balanceBaseY=null,balanceBaseZ=null,balancePos=0,balanceNeg=0,balanceSamples=0,balanceCalSteps=0,balancePoints=[],balanceLastSample=0,balanceCanvas=null,balanceCtx=null;
@@ -1086,8 +1092,15 @@ function motion(e){
    }
   }
  let judged="監視中",now=Date.now();
- if(running&&!paused&&prevMag!==null&&delta>deltaThreshold&&m>magThreshold&&now-lastStep>intervalThreshold){
-   n++;
+ const ft59Candidate=running&&!paused&&prevMag!==null&&delta>deltaThreshold&&m>magThreshold;
+ if(ft59Candidate){
+   ft59PeakCount++;
+   const peakGap=ft59LastPeakAt?now-ft59LastPeakAt:null; ft59LastPeakAt=now;
+   const elGap=$("ft59PeakInterval");if(elGap)elGap.textContent=peakGap===null?"-- ms":peakGap+" ms";
+   const elPeak=$("ft59PeakCount");if(elPeak)elPeak.textContent=ft59PeakCount;
+ }
+ if(ft59Candidate&&now-lastStep>intervalThreshold){
+   n++;ft59AcceptedCount++;const elAcc=$("ft59AcceptedCount");if(elAcc)elAcc.textContent=ft59AcceptedCount;
    try{if(window.ft52StepSyncTrigger)window.ft52StepSyncTrigger(n);}catch(e){}
    if(balanceCalPhase==="walk"){
      balanceCalSteps++;
@@ -1095,6 +1108,9 @@ function motion(e){
      else updateCalibrationStatus425();
    }
    lastWalkStepAt=now;continuousStationaryMs=0;animateWalkerStep();animatePaperWalkerStep();$("steps").textContent=n;$("pocketSteps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
+ }else if(ft59Candidate){
+   ft59RejectedCount++;const elRej=$("ft59RejectedCount");if(elRej)elRej.textContent=ft59RejectedCount;judged="CHATTER ×";
+   if(debugEnabled&&now-ft59LastRejectToneAt>120){ft59LastRejectToneAt=now;try{if(window.ft59RejectTone)window.ft59RejectTone();}catch(e){}}
  }
  $("debugStep").textContent=judged;prevMag=m;try{updateWalkerBalanceGlow();}catch(e){};
 }
@@ -3437,7 +3453,8 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
      ({mech:'従来の合成MECH音です。',water:'Mixkitの水滴実音源で設定BPMを刻みます。',wood:'短い木の打音で自然にテンポを示します。',leaf:'左右で少し質感を変えた落ち葉音です。',stream:'水滴に柔らかな小川の気配を重ねます。'}[nature]||'');
  }
  document.querySelectorAll('.ft49Nature button').forEach(b=>b.onclick=()=>{nature=b.dataset.nature;document.querySelectorAll('.ft49Nature button').forEach(x=>x.classList.toggle('on',x===b));natureBeat();updateNature()});
- function ft52SetMode(m){beatMode=m;['ft50Fixed','ft50Follow','ft52StepSync'].forEach(id=>$(id).classList.remove('on'));$(m==='fixed'?'ft50Fixed':m==='follow'?'ft50Follow':'ft52StepSync').classList.add('on');if(m==='step'&&beatTimer){clearInterval(beatTimer);beatTimer=null;$('ft49BeatToggle').textContent='▶ START';}updateNature()} $('ft50Fixed').onclick=()=>ft52SetMode('fixed');$('ft50Follow').onclick=()=>ft52SetMode('follow');$('ft52StepSync').onclick=()=>ft52SetMode('step');window.ft52StepSyncTrigger=()=>{if(beatMode==='step')natureBeat();};
+ function ft52SetMode(m){beatMode=m;['ft50Fixed','ft50Follow','ft52StepSync'].forEach(id=>$(id).classList.remove('on'));$(m==='fixed'?'ft50Fixed':m==='follow'?'ft50Follow':'ft52StepSync').classList.add('on');if(m==='step'&&beatTimer){clearInterval(beatTimer);beatTimer=null;$('ft49BeatToggle').textContent='▶ START';}updateNature()} $('ft50Fixed').onclick=()=>ft52SetMode('fixed');$('ft50Follow').onclick=()=>ft52SetMode('follow');$('ft52StepSync').onclick=()=>ft52SetMode('step');let ft59StepDiv=Number(localStorage.getItem('ayalog_ft59_step_div')||2);const ft59Sel=$('ft59StepDiv');if(ft59Sel){ft59Sel.value=String(ft59StepDiv);ft59Sel.onchange=()=>{ft59StepDiv=Number(ft59Sel.value);localStorage.setItem('ayalog_ft59_step_div',String(ft59StepDiv));updateNature();};}window.ft52StepSyncTrigger=(stepNo)=>{if(beatMode==='step'&&ft59StepDiv>0&&stepNo%ft59StepDiv===0)natureBeat();};
+ window.ft59RejectTone=()=>{try{const c=audio();if(c.state==='suspended')c.resume();const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=180;g.gain.setValueAtTime(.025,c.currentTime);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.055);o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+.06);}catch(e){}};
  let followLastN=0,followLastT=performance.now();setInterval(()=>{if(beatMode!=='follow'||typeof running==='undefined'||!running||typeof n==='undefined')return;const now=performance.now(),dn=n-followLastN,dt=(now-followLastT)/60000;if(dt>.08&&dn>=3){const measured=dn/dt,cur=+$('ft49Bpm').textContent;if(measured>=60&&measured<=160)setBpm(cur+(Math.max(60,Math.min(140,measured))-cur)*.18);followLastN=n;followLastT=now}else if(dt>.25){followLastN=n;followLastT=now}},1000);
  $('ft49BpmRange').oninput=e=>setBpm(e.target.value);$('ft49BeatMinus').onclick=()=>setBpm(+$('ft49Bpm').textContent-5);$('ft49BeatPlus').onclick=()=>setBpm(+$('ft49Bpm').textContent+5);
  $('ft49BeatToggle').onclick=()=>{if(beatMode==='step'){natureBeat();$('ft49BeatToggle').textContent='▶ STEP試聴';setTimeout(()=>{$('ft49BeatToggle').textContent='▶ START'},700);return}if(beatTimer){clearInterval(beatTimer);beatTimer=null;$('ft49BeatToggle').textContent='▶ START';return}natureBeat();beatTimer=setInterval(natureBeat,60000/(+$('ft49Bpm').textContent));$('ft49BeatToggle').textContent='⏸ STOP'};
@@ -3546,4 +3563,117 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
 })();
 </script>
 
+
+<!-- FIELD TEST 58 — STOP SUMMARY / USER EDITION prototype -->
+<style id="fieldTest58StopSummaryStyle">
+#ft58Summary{position:fixed;inset:0;z-index:15000;display:none;overflow:auto;background:linear-gradient(180deg,#e9f8f6,#f9fdfc 48%,#edf8f6);padding:12px}
+#ft58Summary.show{display:block}
+.ft58Shell{width:min(720px,100%);margin:0 auto 28px}
+.ft58Top{display:flex;justify-content:space-between;align-items:center;padding:8px 4px 10px;color:#0b716c}
+.ft58Brand{font-size:25px;font-weight:950}.ft58Ver{font-size:11px;font-weight:800;background:#0f766e;color:#fff;padding:6px 10px;border-radius:999px}
+.ft58Hero{position:relative;overflow:hidden;border-radius:24px;min-height:175px;padding:22px;color:#073b39;background:
+ radial-gradient(circle at 82% 18%,rgba(255,255,255,.9) 0 4%,transparent 5%),
+ linear-gradient(165deg,transparent 0 45%,rgba(67,119,91,.52) 46% 55%,transparent 56%),
+ linear-gradient(195deg,transparent 0 48%,rgba(42,101,79,.62) 49% 60%,transparent 61%),
+ linear-gradient(180deg,#a9def0 0%,#d9f0ea 55%,#7eb27e 56%,#3f7658 100%);
+ box-shadow:0 9px 26px rgba(15,90,84,.12)}
+.ft58Hero h2{font-size:25px;margin:0 0 5px}.ft58Hero p{margin:0;font-weight:700;line-height:1.6}.ft58HeroTag{position:absolute;right:18px;bottom:16px;color:white;font-weight:900;text-shadow:0 2px 6px #173}
+.ft58Metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.ft58Metric,.ft58Card{background:#fff;border:1px solid #d9ece8;border-radius:18px;box-shadow:0 6px 18px rgba(14,87,81,.06)}
+.ft58Metric{text-align:center;padding:12px 6px}.ft58Metric span{display:block;font-size:11px;color:#577773;font-weight:800}.ft58Metric b{display:block;margin-top:4px;font-size:21px;color:#123d3a}
+.ft58Grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:9px}
+.ft58Card{padding:14px}.ft58Card h3{margin:0 0 8px;font-size:14px;color:#08756f}.ft58Big{font-size:24px;font-weight:950;text-align:center;color:#123d3a}.ft58Sub{font-size:12px;line-height:1.55;color:#58736f;margin-top:6px}
+.ft58Bar{height:12px;border-radius:999px;overflow:hidden;background:linear-gradient(90deg,#b9ddff 0 50%,#ffc9ce 50% 100%);margin-top:8px;position:relative}.ft58Dot{position:absolute;top:-2px;width:4px;height:16px;background:#173331;border-radius:4px}
+.ft58Wide{display:grid;grid-template-columns:1.1fr .9fr;gap:9px;margin-top:9px}
+#ft58Elev{width:100%;height:145px;display:block}
+.ft58Quote{background:linear-gradient(135deg,#dff5ef,#f7fcfb);border-radius:18px;padding:17px;margin-top:9px;border:1px solid #cfe9e3}.ft58Quote b{display:block;color:#08756f;margin-bottom:7px}.ft58Quote strong{font-size:18px;line-height:1.6;color:#174d48}
+.ft58Actions{display:grid;grid-template-columns:.8fr 1.2fr;gap:9px;margin-top:10px;position:sticky;bottom:8px}.ft58Actions button{padding:14px;border-radius:15px;font-weight:900;box-shadow:0 5px 16px rgba(0,70,66,.12)}#ft58Close{background:#e8f0ef;color:#4d6864}#ft58Continue{background:#0f766e;color:white}
+@media(max-width:600px){.ft58Metrics{grid-template-columns:1fr 1fr}.ft58Grid{grid-template-columns:1fr}.ft58Wide{grid-template-columns:1fr}.ft58Hero{min-height:155px}.ft58Brand{font-size:22px}}
+</style>
+
+<div id="ft58Summary" role="dialog" aria-modal="true" aria-label="今日の歩ログ">
+ <div class="ft58Shell">
+  <div class="ft58Top"><div class="ft58Brand">⛰️ 歩ログ <small style="font-size:12px">ayalog</small></div><div class="ft58Ver">FIELD TEST 58</div></div>
+  <section class="ft58Hero"><h2>おつかれさまでした！</h2><p>今日の歩きをまとめました。<br>自分のペースを振り返ってみましょう。</p><div class="ft58HeroTag">また、歩きましょう。🌿</div></section>
+  <div class="ft58Metrics">
+   <div class="ft58Metric"><span>👣 歩数</span><b id="ft58Steps">--</b></div>
+   <div class="ft58Metric"><span>🛣️ 距離</span><b id="ft58Distance">--</b></div>
+   <div class="ft58Metric"><span>⏱️ 時間</span><b id="ft58Time">--</b></div>
+   <div class="ft58Metric"><span>⛰️ 累積登り</span><b id="ft58Ascent">--</b></div>
+  </div>
+  <div class="ft58Grid">
+   <div class="ft58Card"><h3>⚖️ 左右バランス</h3><div class="ft58Big" id="ft58Balance">--</div><div class="ft58Bar"><i class="ft58Dot" id="ft58BalanceDot"></i></div><div class="ft58Sub" id="ft58BalanceSub"></div></div>
+   <div class="ft58Card"><h3>🚶 歩行ペース</h3><div class="ft58Big" id="ft58Pace">--</div><div class="ft58Sub" id="ft58PaceSub"></div></div>
+   <div class="ft58Card"><h3>☕ 停止時間</h3><div class="ft58Big" id="ft58Rest">--</div><div class="ft58Sub">GPSから検出した停止時間の合計です。</div></div>
+  </div>
+  <div class="ft58Wide">
+   <div class="ft58Card"><h3>📈 高低差プロフィール</h3><canvas id="ft58Elev"></canvas><div class="ft58Sub" id="ft58ElevSub"></div></div>
+   <div class="ft58Card"><h3>📍 今日の記録</h3><div class="ft58Sub" id="ft58Details" style="font-size:13px;line-height:1.9"></div></div>
+  </div>
+  <div class="ft58Quote"><b>🌿 今日のひとこと</b><strong id="ft58Comment">今日も歩行記録を残せました。</strong></div>
+  <div class="ft58Actions"><button id="ft58Close">閉じる</button><button id="ft58Continue">体調・日記を入力 →</button></div>
+ </div>
+</div>
+
+<script id="fieldTest58StopSummaryScript">
+(()=>{
+ const el=id=>document.getElementById(id), pad=n=>String(n).padStart(2,"0");
+ let oldOpen=null;
+ function secText(s){s=Math.max(0,Math.round(s||0));return pad(Math.floor(s/60))+":"+pad(s%60)}
+ function paceStats(){
+   const a=(window.route||[]).map(p=>Number(p.speed)).filter(v=>Number.isFinite(v)&&v>.25&&v<3.5);
+   if(a.length<4)return {label:"データ少",cv:null,avg:0};
+   const m=a.reduce((x,y)=>x+y,0)/a.length,sd=Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length),cv=sd/Math.max(.2,m);
+   return {label:cv<.18?"安定":cv<.32?"やや変動":"変動あり",cv,avg:m*3.6};
+ }
+ function drawElev(){
+   const c=el("ft58Elev"); if(!c)return; const dpr=window.devicePixelRatio||1,w=c.clientWidth||320,h=145;c.width=w*dpr;c.height=h*dpr;
+   const x=c.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);
+   const pts=(window.route||[]).filter(p=>Number.isFinite(Number(p.smoothAlt??p.alt))&&Number.isFinite(Number(p.dist)));
+   if(pts.length<2){x.fillStyle="#78918d";x.font="12px sans-serif";x.fillText("標高データがありません",12,28);return}
+   const alts=pts.map(p=>Number(p.smoothAlt??p.alt)),mn=Math.min(...alts),mx=Math.max(...alts),span=Math.max(8,mx-mn),maxD=Math.max(1,...pts.map(p=>Number(p.dist)||0));
+   x.beginPath();pts.forEach((p,i)=>{const px=8+(Number(p.dist)||0)/maxD*(w-16),py=10+(mx-Number(p.smoothAlt??p.alt))/span*(h-28);i?x.lineTo(px,py):x.moveTo(px,py)});
+   x.strokeStyle="#0f8b7f";x.lineWidth=2;x.stroke();x.lineTo(w-8,h-12);x.lineTo(8,h-12);x.closePath();x.fillStyle="rgba(15,139,127,.12)";x.fill();
+ }
+ function render(){
+   const seconds=Math.max(0,Math.floor((Date.now()-t0-totalPausedMs)/1000)),km=routeDistance/1000,pace=paceStats();
+   let st={stability:0,mx:0};try{st=balanceStats412()}catch(e){}
+   const bias=Math.max(-.5,Math.min(.5,Number(st.mx)||0)),right=Math.round(50+bias*100),left=100-right;
+   el("ft58Steps").textContent=(Number(n)||0).toLocaleString()+" 歩";el("ft58Distance").textContent=km>=1?km.toFixed(2)+" km":Math.round(routeDistance)+" m";el("ft58Time").textContent=fmt(seconds);el("ft58Ascent").textContent="+"+Math.round(totalAscent||0)+" m";
+   el("ft58Balance").textContent=`左 ${left}% / 右 ${right}%`;el("ft58BalanceDot").style.left=`calc(${right}% - 2px)`;
+   el("ft58BalanceSub").textContent=(Math.abs(right-50)<=5?"左右差は小さめです。":Math.abs(right-50)<=12?"左右差が少し見られます。":"左右差が見られます。")+" 実測センサー値の振り返り用です。";
+   el("ft58Pace").textContent=pace.label;el("ft58PaceSub").textContent=pace.avg?`移動時平均 約 ${pace.avg.toFixed(1)} km/h`:"GPS速度データを蓄積すると表示されます。";
+   el("ft58Rest").textContent=secText((stationaryMs||0)/1000);
+   const lo=Number.isFinite(minAlt)?Math.round(minAlt):"--",hi=Number.isFinite(maxAlt)?Math.round(maxAlt):"--";
+   el("ft58ElevSub").textContent=`最低 ${lo} m ／ 最高 ${hi} m ／ 累積登り +${Math.round(totalAscent||0)} m`;
+   el("ft58Details").innerHTML=`開始からの計測　<b>${fmt(seconds)}</b><br>平均速度　<b>${seconds? (km/(seconds/3600)).toFixed(1):"0.0"} km/h</b><br>消費カロリー目安　<b>${Math.round(currentCalories||0)} kcal</b><br>GPS点　<b>${(route||[]).length}</b>`;
+   let comment="今日も歩行記録を残せました。";
+   if(pace.label==="安定" && Math.abs(right-50)<=5)comment="歩行ペースと左右バランスが、どちらも比較的そろっていました。";
+   else if(pace.label==="安定")comment="歩行ペースは比較的安定していました。次回も同じコースで変化を見てみましょう。";
+   else if(Math.abs(right-50)<=5)comment="左右バランスの差は小さめでした。歩くたびに変化を見ていきましょう。";
+   el("ft58Comment").textContent=comment;drawElev();
+ }
+ function install(){
+   if(window.openStopSaveModal430===open58)return;
+   oldOpen=window.openStopSaveModal430;
+   window.openStopSaveModal430=open58;
+ }
+ function open58(){render();el("ft58Summary").classList.add("show");el("ft58Summary").scrollTop=0}
+ el("ft58Close").onclick=()=>el("ft58Summary").classList.remove("show");
+ el("ft58Continue").onclick=()=>{el("ft58Summary").classList.remove("show");if(oldOpen)oldOpen();};
+ install();
+ window.addEventListener("load",install,{once:true});
+})();
+</script>
+
+
+<script id="ft59ChatterDebugPatch">
+(()=>{
+ const reset=()=>{try{ft59PeakCount=ft59AcceptedCount=ft59RejectedCount=0;ft59LastPeakAt=ft59LastRejectToneAt=0;['ft59PeakCount','ft59AcceptedCount','ft59RejectedCount'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='0'});const g=document.getElementById('ft59PeakInterval');if(g)g.textContent='-- ms';}catch(e){}};
+ const b=document.getElementById('start');if(b)b.addEventListener('click',()=>setTimeout(()=>{if(typeof running!=='undefined'&&running)reset()},50));
+ const badge=document.getElementById('ft262Badge');if(badge)badge.textContent='Ver.5.4 FT59';
+ const brand=document.querySelector('#hudBrand412 .t2');if(brand)brand.textContent='FIELD TEST 59';
+ console.info('AYALOG FIELD TEST 59: AYABeat 2-step default + chatter debug enabled');
+})();
+</script>
 </body></html>
