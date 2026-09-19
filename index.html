@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
-<link rel="manifest" href="manifest.json">
-<title>歩ログ Ver.5.4 FIELD TEST 59 — AYABeat CHATTER DEBUG</title>
+<!-- RC5.15A: legacy RC4 manifest disabled to prevent stale home-screen launches -->
+<title>歩ログ Ver.5.5 RC5.15A — STABILITY FIX</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f4f8f7;color:#173331;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
 .wrap{max-width:650px;margin:auto;padding:16px 12px 44px}header{text-align:center;padding:8px}.logo{font-size:31px;font-weight:800;color:#0f766e}.sub,.note,.sub2,.gpsline,.route{color:#6b7c79;font-size:13px}
@@ -206,6 +206,21 @@ background-position:0 0;will-change:background-position}
 #simpleGround{display:none!important}
 .walkScene{background:#78bfc9!important}
 
+
+/* FIELD TEST 59: pedestrian-view forest video cockpit */
+.forestCockpit59{background:#071714!important;overflow:hidden!important}
+.forestBg59{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;filter:saturate(.92) brightness(.86);pointer-events:none}
+.forestShade59{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(2,18,17,.20),transparent 30%,transparent 67%,rgba(2,15,14,.32)),linear-gradient(90deg,rgba(0,25,23,.18),transparent 22%,transparent 78%,rgba(0,25,23,.18))}
+.navArrow59{position:absolute;left:50%;bottom:22%;width:74px;height:94px;z-index:4;transform:translateX(-50%);opacity:.72;pointer-events:none;filter:drop-shadow(0 0 7px rgba(105,255,240,.7))}
+.navArrow59:before,.navArrow59:after{content:'';position:absolute;top:0;width:4px;height:70px;background:linear-gradient(180deg,rgba(145,255,245,.95),rgba(70,235,220,.08));border-radius:4px;transform-origin:top}
+.navArrow59:before{left:35px;transform:rotate(31deg)}.navArrow59:after{right:35px;transform:rotate(-31deg)}
+.navArrow59 span{position:absolute;left:35px;top:43px;width:4px;height:48px;background:linear-gradient(rgba(145,255,245,.9),rgba(70,235,220,.05));border-radius:4px}
+.forestCockpit59 #paperWalker,.forestCockpit59 #femaleRear424,.forestCockpit59 #walker,.forestCockpit59 #simpleGround,.forestCockpit59 #ft27Shoulders,.forestCockpit59 #ft262Ground,.forestCockpit59 #groundStripe,.forestCockpit59 .groundParticle,.forestCockpit59 #footprint{display:none!important}
+.forestCockpit59 #sceneBalanceCanvas{opacity:.18!important;z-index:2!important}
+.forestCockpit59 #hudBrand412,.forestCockpit59 #hudIndicators412,.forestCockpit59 #cgAvgPanel412,.forestCockpit59 #sideBalance412,.forestCockpit59 #elevMini412,.forestCockpit59 #sceneStatus,.forestCockpit59 #restBubble,.forestCockpit59 #balanceReadout{z-index:6!important}
+.forestCockpit59.videoPaused59 .forestBg59{filter:saturate(.72) brightness(.64)}
+.forestCockpit59.videoPaused59 .navArrow59{opacity:.28}
+@media(max-width:430px){.navArrow59{width:58px;height:76px;bottom:24%}}
 </style>
 
 <style id="fieldTest24Patch">
@@ -492,7 +507,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 .hudBatteryBox{flex-direction:column!important;gap:2px!important}
 .batteryGlyph{position:relative;width:25px;height:13px;border:2px solid #fff;border-radius:3px;padding:2px;box-sizing:border-box}
 .batteryGlyph:after{content:"";position:absolute;right:-5px;top:3px;width:3px;height:5px;border-radius:0 2px 2px 0;background:#fff}
-.batteryFill{height:100%;width:72%;border-radius:1px;background:linear-gradient(90deg,#55ff50,#b9ff55);box-shadow:0 0 5px rgba(99,255,73,.5)}
+.batteryFill{display:block;height:100%;width:72%;border-radius:1px;background:linear-gradient(90deg,#55ff50,#b9ff55);box-shadow:0 0 5px rgba(99,255,73,.5)}
 .hudBatteryBox #hudBattery412{font-size:11px!important;color:#fff!important}
 #sideBalance412{width:116px!important;padding:6px!important}
 #sideBalance412 .ttl{font-size:8px!important}
@@ -679,7 +694,7 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <style id="ft49LabStyle">
 .ft49Tabs{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 14px}.ft49Tabs button{flex:1;min-width:88px;padding:9px;font-size:13px;background:#e8f3f1;color:#0f766e}.ft49Tabs button.on{background:#0f766e;color:#fff}.ft49Panel{display:none}.ft49Panel.on{display:block}.ft49Big{text-align:center;font-size:42px;font-weight:850;color:#0f766e}.ft49Row{display:flex;gap:9px;align-items:center}.ft49Row>*{flex:1}.ft49Meter{height:12px;border-radius:99px;background:#e5eeec;overflow:hidden;margin:8px 0}.ft49Meter i{display:block;height:100%;width:0;background:#0f766e;transition:width .08s}.ft49Canvas{width:100%;height:130px;border-radius:12px;background:#071c2c;display:block}.ft49Pill{display:inline-block;padding:5px 9px;border-radius:99px;background:#e8f3f1;color:#0f766e;font-size:12px;font-weight:700}.ft49Primary{width:100%;background:#0f766e;color:#fff;margin-top:10px}.ft49Stop{width:100%;background:#edf1f0;color:#355;margin-top:7px}.ft49Result{background:#f1f7f6;border-radius:14px;padding:12px;margin-top:10px}.ft49Warn{font-size:12px;color:#6b7c79;margin-top:8px;line-height:1.5}.ft49Nature{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:12px 0 8px}.ft49Nature button,.ft49Mode button{background:#edf5f4;color:#315d59;border:1px solid #cfe2df}.ft49Nature button.on,.ft49Mode button.on{background:#0f766e;color:#fff;border-color:#0f766e}.ft49Mode{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:0 0 10px}.ft49Nature button{font-size:13px;padding:10px 6px}.ft49Mode button{font-size:12px;padding:8px}
 </style>
-</head>
+\n<style id="fieldTest60ForestHud">\n/* FIELD TEST 60 — forest cockpit GUI refinement */\n.forestCockpit59 #sideBalance412{display:none!important}\n.forestCockpit59 #sceneBalanceCanvas{display:none!important}\n.forestCockpit59 #cgAvgPanel412{top:66px!important;right:10px!important;width:150px!important;padding:8px 10px!important;background:rgba(0,42,45,.18)!important;backdrop-filter:blur(2px)!important}\n.forestCockpit59 #cgAvgPanel412 .ttl{font-size:11px!important;margin-bottom:3px!important}\n.forestCockpit59 #cgAvgPanel412 .cgAvgRow412{grid-template-columns:48px 1fr!important;min-height:16px!important}\n.forestCockpit59 #cgAvgPanel412 .cgAvgRow412 span{font-size:9px!important;opacity:.86}\n.forestCockpit59 #cgAvgPanel412 .cgAvgRow412 b{font-size:9px!important}\n.forestCockpit59 #elevMini412{left:10px!important;bottom:76px!important;width:118px!important;padding:7px 8px!important;background:rgba(0,42,45,.16)!important;backdrop-filter:blur(2px)!important}\n.forestCockpit59 #elevMini412 .ttl{font-size:9px!important}\n.forestCockpit59 #elevMiniCanvas412{width:102px!important;height:36px!important}\n.forestCockpit59 #balanceReadout{left:12px!important;right:12px!important;bottom:12px!important;font-size:10px!important;padding:6px 8px!important;background:rgba(0,42,45,.16)!important}\n.forestCockpit59 .navArrow59{width:62px!important;height:86px!important;bottom:23%!important;opacity:.62!important;transition:transform .14s ease,opacity .14s ease,filter .14s ease}\n.forestCockpit59 .navArrow59:before,.forestCockpit59 .navArrow59:after{width:3px!important}\n.forestCockpit59 .navArrow59 span{width:3px!important}\n.forestCockpit59.stepPulse60 .navArrow59{transform:translateX(-50%) translateY(-5px) scale(1.09)!important;opacity:.96!important;filter:drop-shadow(0 0 11px rgba(130,255,240,.92))}\n.forestCockpit59:after{content:'FORWARD';position:absolute;left:50%;bottom:17.5%;transform:translateX(-50%);z-index:5;color:rgba(210,255,248,.78);font-size:8px;letter-spacing:.26em;text-shadow:0 1px 5px rgba(0,0,0,.7);pointer-events:none}\n.forestCockpit59.videoPaused59:after{content:'STANDBY';opacity:.55}\n@media(max-width:430px){\n .forestCockpit59 #cgAvgPanel412{width:142px!important;top:62px!important;right:8px!important}\n .forestCockpit59 #elevMini412{width:108px!important;left:8px!important;bottom:72px!important}\n .forestCockpit59 #elevMiniCanvas412{width:92px!important;height:34px!important}\n}\n</style>\n</head>
 <body><div id="pocketMode" aria-label="OLEDポケットモード"><div class="pocketInner"><div class="pocketTitle">🌙 歩ログ ポケットモード</div><div id="pocketSteps" class="pocketSteps">0</div><div class="pocketUnit">歩</div><div id="pocketTime" class="pocketTime">00:00:00</div><div id="pocketGps" class="pocketGps">📍 GPS：取得中…</div></div><div class="pocketHint">画面をタップすると通常表示へ戻ります</div></div><div class="wrap">
 <header><div class="logo">🌿 歩ログ Ver.5.3 TEST</div><div class="sub">STARTを押してGPS・速度・高度を計測。歩数はモーションセンサーで判定</div></header>
 <section class="card"><h2>🚶 ウォーキング</h2><div id="status" class="status">待機中</div>
@@ -723,17 +738,19 @@ box-shadow:0 4px 15px rgba(0,0,0,.13);pointer-events:none}
 <div class="mini">🎚️ 歩数判定しきい値（リアルタイム調整）</div>
 <div class="rangeRow"><div class="rangeTop"><span>Δしきい値</span><span id="deltaThresholdValue" class="rangeVal">0.30</span></div><input id="deltaThreshold" type="range" min="0.20" max="3.00" step="0.05" value="0.30"></div>
 <div class="rangeRow"><div class="rangeTop"><span>合成加速度しきい値</span><span id="magThresholdValue" class="rangeVal">11.00</span></div><input id="magThreshold" type="range" min="8.00" max="15.00" step="0.10" value="11.00"></div>
-<div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">360 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="360"></div>
-<div class="mini">FIELD TEST 59：Δ＋合成加速度を超えたピークを候補として数え、最短歩数間隔内の再ピークはチャタ候補として棄却します。デバッグ表示ON時は棄却を小さな低音で知らせます。</div>
+<div class="rangeRow"><div class="rangeTop"><span>最短歩数間隔</span><span id="intervalThresholdValue" class="rangeVal">270 ms</span></div><input id="intervalThreshold" type="range" min="150" max="800" step="10" value="270"></div>
 </div>
 </div></section>
 <section class="card"><h2>🚶 3Dウォーキングビュー Ver.4.2.5</h2>
 <div class="mini">機能検証版：24コマ歩行＋歩数テンポ同期版。人物の中心位置とサイズを固定し、空・山・地平線は固定、草・石・凹凸だけが手前へ流れる連続フレームを使用します。1歩につき12コマ、2歩24コマで1周期。歩数間隔から再生速度を決め、停止時は自然な立ち姿へ戻します。万歩計・熊鈴・GPS・既存計測ロジックは維持します。</div>
-<div class="walkScene">
+<div class="walkScene forestCockpit59">
+ <video id="forestBg59" class="forestBg59" src="ayalog_forest_720p.mp4" muted playsinline preload="metadata" loop></video>
+ <div class="forestShade59"></div>
+ <div class="navArrow59" aria-hidden="true"><span></span></div>
  <div id="femaleRear424" aria-hidden="true"></div>
  <div id="simpleGround" class="simpleGround"></div>
  <div id="ft27Shoulders"></div><div id="ft262Ground"></div><div id="ft262Badge">Ver.5.3 TEST</div><div id="sceneStatus" class="sceneStatus">待機中</div><div id="restBubble" class="restBubble">休憩中 ☕</div><div id="paperWalker"><img id="paperWalkerFrameA" alt=""><img id="paperWalkerFrameB" alt=""></div><canvas id="sceneBalanceCanvas"></canvas>
-<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 57</div><div class="t3">AYABeat + BIRD + SOUND / Ver.5.4</div></div>
+<div id="hudBrand412" class="hudGlass"><div class="t1">🚶 歩ログ <span style="font-size:11px">ayalog</span></div><div class="t2">FIELD TEST 60</div><div class="t3">FOREST HUD + AYABeat / Ver.5.4</div></div>
 <div id="hudIndicators412">
   <div class="hudInd412 hudGpsBox">
     <div class="gpsBars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -1107,7 +1124,7 @@ function motion(e){
      if(balanceCalSteps>=BALANCE_WALK_STEPS)finishBalanceCalibration425();
      else updateCalibrationStatus425();
    }
-   lastWalkStepAt=now;continuousStationaryMs=0;animateWalkerStep();animatePaperWalkerStep();$("steps").textContent=n;$("pocketSteps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
+   lastWalkStepAt=now;continuousStationaryMs=0;animateWalkerStep();animatePaperWalkerStep();forestStepPulse60();$("steps").textContent=n;$("pocketSteps").textContent=n;$("recsteps").value=n;lastStep=now;judged="STEP!";if(bellEnabled&&running&&n>=nextBellStep){playBearBellPattern();scheduleNextBell();}
  }else if(ft59Candidate){
    ft59RejectedCount++;const elRej=$("ft59RejectedCount");if(elRej)elRej.textContent=ft59RejectedCount;judged="CHATTER ×";
    if(debugEnabled&&now-ft59LastRejectToneAt>120){ft59LastRejectToneAt=now;try{if(window.ft59RejectTone)window.ft59RejectTone();}catch(e){}}
@@ -1793,11 +1810,23 @@ $("pocketMode").addEventListener("click",()=>exitPocketMode(true));
  if(running&&pocketModeEnabled&&!$("pocketMode").classList.contains("show"))schedulePocketReturn();
 },true));
 
+function forestStepPulse60(){
+ const sc=document.querySelector(".forestCockpit59");if(!sc)return;
+ sc.classList.remove("stepPulse60");void sc.offsetWidth;sc.classList.add("stepPulse60");
+ clearTimeout(window.__forestPulse60);window.__forestPulse60=setTimeout(()=>sc.classList.remove("stepPulse60"),150);
+}
+function forestVideo59(action){
+ const v=$("forestBg59"),sc=document.querySelector(".forestCockpit59"); if(!v)return;
+ if(action==="play"){sc&&sc.classList.remove("videoPaused59");const p=v.play();if(p&&p.catch)p.catch(()=>{});}
+ else if(action==="pause"){v.pause();sc&&sc.classList.add("videoPaused59");}
+ else if(action==="stop"){v.pause();try{v.currentTime=0}catch(e){}sc&&sc.classList.add("videoPaused59");}
+}
+document.addEventListener("DOMContentLoaded",()=>{const sc=document.querySelector(".forestCockpit59");if(sc)sc.classList.add("videoPaused59")});
 $("start").onclick=async ()=>{
  if(running)return;
  n=0;lastStep=0;prevMag=null;paused=false;pausedAt=0;totalPausedMs=0;resetMap();resetBalance();$("steps").textContent="0";$("recsteps").value="";
  $("summary").value="";
- t0=Date.now();lastWalkStepAt=Date.now();running=true;tick();timer=setInterval(tick,1000);requestWakeLock();
+ t0=Date.now();lastWalkStepAt=Date.now();running=true;forestVideo59("play");tick();timer=setInterval(tick,1000);requestWakeLock();
  $("status").textContent="計測中…";$("pauseState").textContent="計測中";$("start").disabled=true;$("pause").disabled=false;$("pause").textContent="Ⅱ PAUSE";$("stop").disabled=false;
  const ok=await enableMotion();
  if(ok){startStorageWait426();$("msg").textContent="5秒後にキャリブレーション開始。スマホをいつもの収納位置へ。";}
@@ -1810,16 +1839,16 @@ $("start").onclick=async ()=>{
 $("pause").onclick=()=>{
   if(!running)return;
   if(!paused){
-    paused=true;pausedAt=Date.now();currentSpeed=0;nextBellStep=Infinity;clearPocketReturn();exitPocketMode(false);
+    paused=true;pausedAt=Date.now();forestVideo59("pause");currentSpeed=0;nextBellStep=Infinity;clearPocketReturn();exitPocketMode(false);
     $("pause").textContent="▶ 再開";$("status").textContent="一時停止中";$("pauseState").textContent="PAUSE";$("msg").textContent="PAUSE中です。GPS捕捉は維持し、歩数・距離・カロリー・熊鈴・体幹計測は停止しています。";updateBellStatus();updateMetrics();
   }else{
-    totalPausedMs+=Date.now()-pausedAt;pausedAt=0;paused=false;lastDistancePoint=latestGpsPoint?{...latestGpsPoint}:null;lastGpsCallbackTime=0;prevMag=null;
+    totalPausedMs+=Date.now()-pausedAt;pausedAt=0;paused=false;forestVideo59("play");lastDistancePoint=latestGpsPoint?{...latestGpsPoint}:null;lastGpsCallbackTime=0;prevMag=null;
     $("pause").textContent="Ⅱ PAUSE";$("status").textContent="計測中…";$("pauseState").textContent="計測中";$("msg").textContent="計測を再開しました。";if(bellEnabled)scheduleNextBell();updateBellStatus();schedulePocketReturn();
   }
 };
 $("stop").onclick=()=>{
  if(!running)return;
- if(paused&&pausedAt){totalPausedMs+=Date.now()-pausedAt;pausedAt=0;paused=false;}running=false;clearInterval(timer);stopGPS();disableMotion();releaseWakeLock();clearPocketReturn();exitPocketMode(false);nextBellStep=Infinity;$("debug").classList.toggle("show",debugEnabled);updateBellStatus();
+ if(paused&&pausedAt){totalPausedMs+=Date.now()-pausedAt;pausedAt=0;paused=false;}running=false;forestVideo59("stop");clearInterval(timer);stopGPS();disableMotion();releaseWakeLock();clearPocketReturn();exitPocketMode(false);nextBellStep=Infinity;$("debug").classList.toggle("show",debugEnabled);updateBellStatus();
  const sec=Math.floor((Date.now()-t0-totalPausedMs)/1000);$("duration").value=fmt(sec);$("recsteps").value=n;
  const km=routeDistance/1000,avg=sec>0?km/(sec/3600):0;
  const diff=(minAlt!==null&&maxAlt!==null)?Math.round(maxAlt-minAlt):"--";
@@ -1901,7 +1930,7 @@ function render(){
  $("list").querySelectorAll(".viewVoiceBtn").forEach(b=>b.onclick=()=>{const rec=data.find(x=>String(x.id)===String(b.dataset.id));if(rec)window.openSavedVoice40(rec)});
  $("list").querySelectorAll(".del").forEach(b=>b.onclick=()=>{data=data.filter(x=>x.id!=b.dataset.id);saveData();render()})
 }
-render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+render();/* RC4: do not register legacy root service-worker during release-candidate testing. */
 </script>
 
 
@@ -3400,7 +3429,7 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
 
 \n<script id="ft50Labs">
 (()=>{
- const $=id=>document.getElementById(id); let ac=null,beatTimer=null,micStream=null,micCtx=null,an=null,micRAF=0,lastRms=0,nature='robotA',beatSide=0,beatMode='fixed';
+ const $=id=>document.getElementById(id); let ac=null,beatTimer=null,micStream=null,micCtx=null,an=null,micRAF=0,lastRms=0,nature='robotA',beatSide=0,beatMode='fixed',beatEnabled=false;
  const audio=()=>ac||(ac=new (window.AudioContext||window.webkitAudioContext)());
  document.querySelectorAll('#ft50LabCard .ft49Tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#ft50LabCard .ft49Tabs button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('#ft50LabCard .ft49Panel').forEach(p=>p.classList.toggle('on',p.dataset.panel===b.dataset.p));});
  function noiseBuffer(c,d=.08){const n=Math.max(1,Math.floor(c.sampleRate*d)),b=c.createBuffer(1,n,c.sampleRate),a=b.getChannelData(0);for(let i=0;i<n;i++)a[i]=Math.random()*2-1;return b}
@@ -3453,11 +3482,11 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
      ({mech:'従来の合成MECH音です。',water:'Mixkitの水滴実音源で設定BPMを刻みます。',wood:'短い木の打音で自然にテンポを示します。',leaf:'左右で少し質感を変えた落ち葉音です。',stream:'水滴に柔らかな小川の気配を重ねます。'}[nature]||'');
  }
  document.querySelectorAll('.ft49Nature button').forEach(b=>b.onclick=()=>{nature=b.dataset.nature;document.querySelectorAll('.ft49Nature button').forEach(x=>x.classList.toggle('on',x===b));natureBeat();updateNature()});
- function ft52SetMode(m){beatMode=m;['ft50Fixed','ft50Follow','ft52StepSync'].forEach(id=>$(id).classList.remove('on'));$(m==='fixed'?'ft50Fixed':m==='follow'?'ft50Follow':'ft52StepSync').classList.add('on');if(m==='step'&&beatTimer){clearInterval(beatTimer);beatTimer=null;$('ft49BeatToggle').textContent='▶ START';}updateNature()} $('ft50Fixed').onclick=()=>ft52SetMode('fixed');$('ft50Follow').onclick=()=>ft52SetMode('follow');$('ft52StepSync').onclick=()=>ft52SetMode('step');let ft59StepDiv=Number(localStorage.getItem('ayalog_ft59_step_div')||2);const ft59Sel=$('ft59StepDiv');if(ft59Sel){ft59Sel.value=String(ft59StepDiv);ft59Sel.onchange=()=>{ft59StepDiv=Number(ft59Sel.value);localStorage.setItem('ayalog_ft59_step_div',String(ft59StepDiv));updateNature();};}window.ft52StepSyncTrigger=(stepNo)=>{if(beatMode==='step'&&ft59StepDiv>0&&stepNo%ft59StepDiv===0)natureBeat();};
+ function ft52SetMode(m){beatMode=m;['ft50Fixed','ft50Follow','ft52StepSync'].forEach(id=>$(id).classList.remove('on'));$(m==='fixed'?'ft50Fixed':m==='follow'?'ft50Follow':'ft52StepSync').classList.add('on');if(m==='step'&&beatTimer){clearInterval(beatTimer);beatTimer=null;} $('ft49BeatToggle').textContent=beatEnabled?'⏸ STOP':'▶ START';updateNature()} $('ft50Fixed').onclick=()=>ft52SetMode('fixed');$('ft50Follow').onclick=()=>ft52SetMode('follow');$('ft52StepSync').onclick=()=>ft52SetMode('step');let ft59StepDiv=Number(localStorage.getItem('ayalog_ft59_step_div')||2);const ft59Sel=$('ft59StepDiv');if(ft59Sel){ft59Sel.value=String(ft59StepDiv);ft59Sel.onchange=()=>{ft59StepDiv=Number(ft59Sel.value);localStorage.setItem('ayalog_ft59_step_div',String(ft59StepDiv));updateNature();};}window.ft52StepSyncTrigger=(stepNo)=>{if(beatEnabled&&beatMode==='step'&&ft59StepDiv>0&&stepNo%ft59StepDiv===0)natureBeat();};
  window.ft59RejectTone=()=>{try{const c=audio();if(c.state==='suspended')c.resume();const o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=180;g.gain.setValueAtTime(.025,c.currentTime);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.055);o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+.06);}catch(e){}};
  let followLastN=0,followLastT=performance.now();setInterval(()=>{if(beatMode!=='follow'||typeof running==='undefined'||!running||typeof n==='undefined')return;const now=performance.now(),dn=n-followLastN,dt=(now-followLastT)/60000;if(dt>.08&&dn>=3){const measured=dn/dt,cur=+$('ft49Bpm').textContent;if(measured>=60&&measured<=160)setBpm(cur+(Math.max(60,Math.min(140,measured))-cur)*.18);followLastN=n;followLastT=now}else if(dt>.25){followLastN=n;followLastT=now}},1000);
  $('ft49BpmRange').oninput=e=>setBpm(e.target.value);$('ft49BeatMinus').onclick=()=>setBpm(+$('ft49Bpm').textContent-5);$('ft49BeatPlus').onclick=()=>setBpm(+$('ft49Bpm').textContent+5);
- $('ft49BeatToggle').onclick=()=>{if(beatMode==='step'){natureBeat();$('ft49BeatToggle').textContent='▶ STEP試聴';setTimeout(()=>{$('ft49BeatToggle').textContent='▶ START'},700);return}if(beatTimer){clearInterval(beatTimer);beatTimer=null;$('ft49BeatToggle').textContent='▶ START';return}natureBeat();beatTimer=setInterval(natureBeat,60000/(+$('ft49Bpm').textContent));$('ft49BeatToggle').textContent='⏸ STOP'};
+ $('ft49BeatToggle').onclick=()=>{if(beatEnabled){beatEnabled=false;if(beatTimer){clearInterval(beatTimer);beatTimer=null}$('ft49BeatToggle').textContent='▶ START';return}beatEnabled=true;if(beatMode==='step'){$('ft49BeatToggle').textContent='⏸ STOP';natureBeat();return}natureBeat();beatTimer=setInterval(()=>{if(beatEnabled)natureBeat()},60000/(+$('ft49Bpm').textContent));$('ft49BeatToggle').textContent='⏸ STOP'};
  async function startMic(){if(micStream)return true;try{micStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});micCtx=new (window.AudioContext||window.webkitAudioContext)();const src=micCtx.createMediaStreamSource(micStream);an=micCtx.createAnalyser();an.fftSize=2048;an.smoothingTimeConstant=.72;src.connect(an);return true}catch(e){$('ft49BirdState').textContent='マイク許可が必要';return false}}
  function analyze(){if(!an)return;const td=new Uint8Array(an.fftSize),fd=new Uint8Array(an.frequencyBinCount);an.getByteTimeDomainData(td);an.getByteFrequencyData(fd);let ss=0;for(const v of td){let x=(v-128)/128;ss+=x*x}lastRms=Math.sqrt(ss/td.length);let bi=1,bv=0;for(let i=1;i<fd.length;i++)if(fd[i]>bv){bv=fd[i];bi=i}const hz=bi*micCtx.sampleRate/an.fftSize,db=20*Math.log10(Math.max(1e-5,lastRms));$('ft49BirdPeak').textContent=Math.round(hz)+' Hz';$('ft49BirdDb').textContent=db.toFixed(1)+' dBFS';$('ft49BirdMeter').style.width=Math.min(100,lastRms*500)+'%';$('ft49BirdState').textContent=(lastRms>.035&&hz>1200)?'音声イベント検出':'解析中';const cv=$('ft49BirdCanvas'),r=cv.getBoundingClientRect(),d=devicePixelRatio||1;if(cv.width!==Math.round(r.width*d)){cv.width=Math.round(r.width*d);cv.height=Math.round(130*d)}const g=cv.getContext('2d');g.clearRect(0,0,cv.width,cv.height);g.strokeStyle='#45d6c2';g.lineWidth=1.5*d;g.beginPath();for(let i=0;i<fd.length;i+=4){const x=i/(fd.length-1)*cv.width,y=cv.height-(fd[i]/255)*cv.height;(i?g.lineTo(x,y):g.moveTo(x,y))}g.stroke();micRAF=requestAnimationFrame(analyze)}
  $('ft49BirdStart').onclick=async()=>{if(await startMic()){cancelAnimationFrame(micRAF);analyze()}};$('ft49BirdStop').onclick=()=>{cancelAnimationFrame(micRAF);if(micStream)micStream.getTracks().forEach(t=>t.stop());if(micCtx)micCtx.close();micStream=micCtx=an=null;$('ft49BirdState').textContent='停止'};
@@ -3564,7 +3593,7 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
 </script>
 
 
-<!-- FIELD TEST 58 — STOP SUMMARY / USER EDITION prototype -->
+<!-- FIELD TEST 60 — STOP SUMMARY / USER EDITION prototype -->
 <style id="fieldTest58StopSummaryStyle">
 #ft58Summary{position:fixed;inset:0;z-index:15000;display:none;overflow:auto;background:linear-gradient(180deg,#e9f8f6,#f9fdfc 48%,#edf8f6);padding:12px}
 #ft58Summary.show{display:block}
@@ -3593,7 +3622,7 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
 
 <div id="ft58Summary" role="dialog" aria-modal="true" aria-label="今日の歩ログ">
  <div class="ft58Shell">
-  <div class="ft58Top"><div class="ft58Brand">⛰️ 歩ログ <small style="font-size:12px">ayalog</small></div><div class="ft58Ver">FIELD TEST 58</div></div>
+  <div class="ft58Top"><div class="ft58Brand">⛰️ 歩ログ <small style="font-size:12px">ayalog</small></div><div class="ft58Ver">FIELD TEST 60</div></div>
   <section class="ft58Hero"><h2>おつかれさまでした！</h2><p>今日の歩きをまとめました。<br>自分のペースを振り返ってみましょう。</p><div class="ft58HeroTag">また、歩きましょう。🌿</div></section>
   <div class="ft58Metrics">
    <div class="ft58Metric"><span>👣 歩数</span><b id="ft58Steps">--</b></div>
@@ -3667,13 +3696,2093 @@ console.info('AYALOG FIELD TEST 46: Canvas 2.5D route + robust 15m maximum grade
 </script>
 
 
-<script id="ft59ChatterDebugPatch">
+<style id="ft63aStyle">
+body.ft63a{margin:0;background:#061313;color:#fff}.ft63a .wrap{display:none!important}.ft63a #pocketMode{z-index:9999}
+#ft63a{min-height:100vh;max-width:720px;margin:auto;background:#071513;font-family:system-ui,-apple-system,sans-serif;color:#fff;padding:10px;box-sizing:border-box}
+.ft63top{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:linear-gradient(180deg,rgba(3,45,46,.78),rgba(1,25,28,.72));border:1px solid rgba(133,255,245,.78);border-radius:28px;padding:12px 16px;box-shadow:0 8px 24px #0008,inset 0 0 22px #62fff018;backdrop-filter:blur(7px)}
+.ft63brand b{font-size:24px}.ft63brand small{display:block;opacity:.72;letter-spacing:.08em}.ft63icons{display:flex;gap:3px;font-weight:800}.ft63icons span{min-width:44px;text-align:center;padding:7px 8px;border-left:1px solid #75d8d0;font-size:12px}
+.ft63scene{position:relative;height:62vh;min-height:500px;margin-top:10px;border-radius:30px;overflow:hidden;border:1px solid rgba(117,231,223,.9);background:#123;box-shadow:0 10px 30px #0008,inset 0 0 35px #0006}
+.ft63scene video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.ft63shade{position:absolute;inset:0;background:linear-gradient(#0017 0%,transparent 24%,transparent 66%,#001d 100%)}
+.ft63alt{position:absolute;left:14px;top:16px;background:rgba(4,39,40,.62);backdrop-filter:blur(6px);border:1px solid #76ddd5;border-radius:20px;padding:9px 14px;font-size:12px;box-shadow:0 5px 16px #0007}.ft63alt b{display:block;font-size:25px}
+.ft63hint{position:absolute;right:14px;top:16px;background:rgba(4,39,40,.62);backdrop-filter:blur(6px);border:1px solid #76ddd5;border-radius:20px;padding:9px 13px;font-size:11px;text-align:right;letter-spacing:.08em}
+.ft63nav{position:absolute;right:15px;top:36%;width:105px;height:105px;border:1px solid rgba(119,245,242,.75);border-radius:50%;background:radial-gradient(circle,rgba(9,54,58,.34),rgba(2,24,28,.58));box-shadow:0 0 20px #63fff022,inset 0 0 18px #5ff2;backdrop-filter:blur(3px)}
+.ft63nav:before,.ft63nav:after{content:'';position:absolute;background:rgba(137,255,250,.34)}.ft63nav:before{left:50%;top:10px;bottom:10px;width:1px}.ft63nav:after{top:50%;left:10px;right:10px;height:1px}.ft63navN{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:10px;color:#bffff9}.ft63navDot{position:absolute;left:43%;top:52%;width:10px;height:10px;border-radius:50%;background:#9ffff7;box-shadow:0 0 12px #8fffff}.ft63navPath{position:absolute;left:49px;top:24px;width:34px;height:52px;border-left:2px solid #8ff;border-bottom:2px solid #8ff;border-radius:0 0 0 20px;transform:rotate(22deg);opacity:.8}.ft63navKm{position:absolute;bottom:8px;right:14px;font-size:11px}
+.ft63arrows{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);width:210px;height:260px;filter:drop-shadow(0 0 10px #8ff8);perspective:300px}.ft63chev{position:absolute;left:50%;width:92px;height:46px;border-left:4px solid rgba(165,255,251,.92);border-top:4px solid rgba(165,255,251,.92);transform:translateX(-50%) rotate(45deg) skew(-4deg,-4deg);transform-origin:center;opacity:.9}.ft63chev.c1{bottom:10px;scale:1.18}.ft63chev.c2{bottom:72px;scale:.86;opacity:.72}.ft63chev.c3{bottom:125px;scale:.62;opacity:.52}.ft63chev.c4{bottom:168px;scale:.42;opacity:.34}.ft63road{position:absolute;left:50%;bottom:0;height:180px;border-left:3px dashed rgba(190,255,252,.55);transform:translateX(-50%)}
+.ft63meters{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:10px;padding:8px 5px;background:linear-gradient(180deg,rgba(7,57,60,.84),rgba(2,30,33,.9));border:1px solid #72ddd5;border-radius:27px;box-shadow:0 8px 24px #0007,inset 0 0 22px #65fff014;overflow:hidden}.ft63m{text-align:center;padding:4px 3px;border-right:1px solid #ffffff2c}.ft63m:last-child{border:0}.ft63ring{width:82px;height:82px;max-width:92%;margin:auto;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#72fff2 0 64%,#ffffff16 64% 86%,transparent 86%);box-shadow:inset 0 0 14px #6ff3,0 0 12px #0007}.ft63m:nth-child(2) .ft63ring{background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#65f49a 0 62%,#ffffff16 62% 86%,transparent 86%)}.ft63m:nth-child(4) .ft63ring{background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#ffc84f 0 58%,#ffffff16 58% 86%,transparent 86%)}.ft63m:nth-child(5) .ft63ring{background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#ff665d 0 55%,#ffffff16 55% 86%,transparent 86%)}.ft63m span{display:block;font-size:10px;opacity:.92}.ft63m b{display:block;margin-top:3px;font-size:15px;white-space:nowrap}
+.ft63buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}.ft63buttons button{border:1px solid #ffffff55;border-radius:30px;padding:18px 5px;color:white;font-size:18px;font-weight:900;box-shadow:0 7px 18px #0006,inset 0 0 15px #fff1}.ft63start{background:linear-gradient(#20bb82,#118c65)}.ft63pause{background:linear-gradient(#e2b52a,#bc8d0d)}.ft63stop{background:linear-gradient(#ef4857,#c52a38)}.ft63foot{text-align:center;opacity:.65;font-size:11px;padding:13px 4px}
+@media(max-width:430px){#ft63a{padding:7px}.ft63brand b{font-size:20px}.ft63icons span{min-width:34px;padding:6px 5px;font-size:11px}.ft63scene{height:57vh;min-height:430px}.ft63nav{width:82px;height:82px;top:34%}.ft63navPath{left:38px;top:19px;width:27px;height:40px}.ft63arrows{height:220px;bottom:14%;transform:translateX(-50%) scale(.86)}.ft63ring{width:61px;height:61px}.ft63m b{font-size:12px}.ft63m span{font-size:8px}.ft63buttons button{font-size:16px;padding:16px 3px}}
+</style>
+<div id="ft63a">
+ <div class="ft63top"><div class="ft63brand"><b>🌿 歩ログ <small style="display:inline;font-size:14px">ayalog</small></b><small>FIELD TEST 63A.3 · SYMMETRIC TRAIL</small></div><div class="ft63icons"><span id="ft63gps">📍 GPS</span><span id="ft63bell">🐻 OFF</span><span id="ft63bat">🔋 --%</span></div></div>
+ <div class="ft63scene"><video id="ft63video" src="ayalog_forest_720p.mp4" muted playsinline preload="metadata" loop autoplay></video><div class="ft63shade"></div><div class="ft63alt">⛰ 標高<b id="ft63alt">-- m</b></div><div class="ft63hint">FOREST WALK<br><b>FORWARD</b></div><div class="ft63nav"><i class="ft63navN">N</i><i class="ft63navPath"></i><i class="ft63navDot"></i><b class="ft63navKm" id="ft63navKm">0.0 km</b></div><div class="ft63arrows"><i class="ft63road"></i><i class="ft63chev c4"></i><i class="ft63chev c3"></i><i class="ft63chev c2"></i><i class="ft63chev c1"></i></div></div>
+ <div class="ft63meters"><div class="ft63m"><div class="ft63ring"><span>◷ 時間</span><b id="ft63time">00:00:00</b></div></div><div class="ft63m"><div class="ft63ring"><span>👣 歩数</span><b id="ft63steps">0</b></div></div><div class="ft63m"><div class="ft63ring"><span>● 距離</span><b id="ft63dist">0 m</b></div></div><div class="ft63m"><div class="ft63ring"><span>◴ 速度</span><b id="ft63speed">0.0</b></div></div><div class="ft63m"><div class="ft63ring"><span>◆ kcal</span><b id="ft63cal">0</b></div></div></div>
+ <div class="ft63buttons"><button class="ft63start" id="ft63start">▶ START</button><button class="ft63pause" id="ft63pause">Ⅱ PAUSE</button><button class="ft63stop" id="ft63stop">■ STOP</button></div><div class="ft63foot">パネルをタップすると詳細表示予定 · VISUAL TEST</div>
+</div>
+<script id="ft63aScript">(()=>{document.body.classList.add('ft63a');[...document.body.childNodes].forEach(n=>{if(n.nodeType===3&&n.textContent.includes('\\n'))n.remove()});const $=id=>document.getElementById(id),txt=(a,b)=>{const x=$(a),y=$(b);if(x&&y)x.textContent=y.textContent};const v=$('ft63video');$('ft63start').onclick=()=>{const b=$('start');if(b)b.click();v.play().catch(()=>{})};$('ft63pause').onclick=()=>{const b=$('pause');if(b)b.click();if(v.paused)v.play().catch(()=>{});else v.pause()};$('ft63stop').onclick=()=>{const b=$('stop');if(b)b.click();v.pause();try{v.currentTime=0}catch(e){}};setInterval(()=>{txt('ft63time','timer');txt('ft63steps','steps');txt('ft63dist','distanceStat');txt('ft63speed','speed');txt('ft63cal','calories');txt('ft63alt','altitude');const d=$('distanceStat');if(d)$('ft63navKm').textContent=d.textContent;const bb=$('hudBell412');if(bb)$('ft63bell').textContent='🐻 '+bb.textContent;const ba=$('hudBattery412');if(ba)$('ft63bat').textContent='🔋 '+ba.textContent;const g=$('hudGps412');if(g)$('ft63gps').textContent='📍 GPS '+(g.classList.contains('off')?'':'●')},400)})();</script>
+
+
+<style id="ft63a2Polish">
+/* FIELD TEST 63A.2 — visual polish + confirmed-step trail motion */
+.ft63top{
+  padding:12px 16px!important;
+  background:linear-gradient(180deg,rgba(0,63,59,.72),rgba(0,39,38,.48))!important;
+  backdrop-filter:blur(7px);
+}
+.ft63brand b{font-size:22px!important}
+.ft63brand small{opacity:.72!important;letter-spacing:.11em}
+.ft63icons span{
+  background:rgba(0,28,29,.24)!important;
+  border-color:rgba(151,255,244,.45)!important;
+}
+.ft63alt,.ft63hint{
+  transform:scale(.82);
+  opacity:.72;
+  backdrop-filter:blur(4px);
+}
+.ft63alt{transform-origin:top left}
+.ft63hint{transform-origin:top right}
+.ft63nav{
+  width:74px!important;height:74px!important;
+  right:12px!important;top:31%!important;
+  opacity:.78!important;
+  backdrop-filter:blur(5px);
+}
+.ft63navPath{transform:scale(.82);transform-origin:center}
+.ft63navKm{font-size:9px!important}
+.ft63meters{
+  background:linear-gradient(180deg,rgba(0,65,62,.56),rgba(0,37,37,.42))!important;
+  backdrop-filter:blur(8px);
+}
+.ft63ring{box-shadow:inset 0 0 16px rgba(144,255,245,.09),0 0 10px rgba(0,0,0,.18)}
+.ft63foot{display:none!important}
+
+/* Perspective trail: near = large/bright, far = small/faint. */
+.ft63arrows{
+  bottom:14%!important;
+  height:245px!important;
+  filter:drop-shadow(0 0 8px rgba(143,255,248,.35))!important;
+}
+.ft63road{
+  height:190px!important;
+  opacity:.58;
+  border-left-width:2px!important;
+}
+.ft63chev{
+  will-change:transform,opacity,filter;
+  transition:none!important;
+}
+.ft63chev.c1{bottom:4px!important;scale:1.22!important;opacity:.96!important}
+.ft63chev.c2{bottom:73px!important;scale:.82!important;opacity:.68!important}
+.ft63chev.c3{bottom:128px!important;scale:.55!important;opacity:.44!important}
+.ft63chev.c4{bottom:170px!important;scale:.34!important;opacity:.24!important}
+
+/* One confirmed pedometer STEP sends the whole trail toward the vanishing point. */
+.ft63arrows.ft63stepAdvance .c1{animation:ft63a2c1 .34s cubic-bezier(.2,.72,.22,1)}
+.ft63arrows.ft63stepAdvance .c2{animation:ft63a2c2 .34s cubic-bezier(.2,.72,.22,1)}
+.ft63arrows.ft63stepAdvance .c3{animation:ft63a2c3 .34s cubic-bezier(.2,.72,.22,1)}
+.ft63arrows.ft63stepAdvance .c4{animation:ft63a2c4 .34s cubic-bezier(.2,.72,.22,1)}
+.ft63arrows.ft63stepAdvance .ft63road{animation:ft63a2road .34s ease-out}
+@keyframes ft63a2c1{
+  0%{transform:translateX(-50%) rotate(45deg) skew(-4deg,-4deg);filter:brightness(1.35)}
+  100%{transform:translateX(-50%) translateY(-68px) rotate(45deg) skew(-4deg,-4deg) scale(.70);opacity:.68}
+}
+@keyframes ft63a2c2{
+  0%{transform:translateX(-50%) rotate(45deg) skew(-4deg,-4deg)}
+  100%{transform:translateX(-50%) translateY(-54px) rotate(45deg) skew(-4deg,-4deg) scale(.68);opacity:.44}
+}
+@keyframes ft63a2c3{
+  0%{transform:translateX(-50%) rotate(45deg) skew(-4deg,-4deg)}
+  100%{transform:translateX(-50%) translateY(-42px) rotate(45deg) skew(-4deg,-4deg) scale(.62);opacity:.24}
+}
+@keyframes ft63a2c4{
+  0%{transform:translateX(-50%) rotate(45deg) skew(-4deg,-4deg)}
+  100%{transform:translateX(-50%) translateY(-30px) rotate(45deg) skew(-4deg,-4deg) scale(.55);opacity:0}
+}
+@keyframes ft63a2road{
+  0%{filter:brightness(1);opacity:.48}
+  45%{filter:brightness(1.8);opacity:.82}
+  100%{filter:brightness(1);opacity:.48}
+}
+.ft63scene.ft63stepGlow{animation:ft63a2glow .30s ease-out}
+@keyframes ft63a2glow{
+  0%{box-shadow:inset 0 0 0 rgba(140,255,247,0)}
+  45%{box-shadow:inset 0 0 32px rgba(140,255,247,.12)}
+  100%{box-shadow:inset 0 0 0 rgba(140,255,247,0)}
+}
+@media(max-width:430px){
+  .ft63top{padding:10px 12px!important}
+  .ft63brand b{font-size:19px!important}
+  .ft63nav{width:66px!important;height:66px!important;right:8px!important}
+  .ft63alt,.ft63hint{transform:scale(.76)}
+  .ft63arrows{bottom:13%!important}
+}
+</style>
+
+<script id="ft63a2StepTrail">
+(()=>{
+  const $=id=>document.getElementById(id);
+  const arrows=document.querySelector('.ft63arrows');
+  const scene=document.querySelector('.ft63scene');
+  const stepEl=$('steps');
+  if(!arrows || !stepEl) return;
+
+  let lastStep=parseInt(stepEl.textContent,10)||0;
+  let lock=false;
+
+  function advanceTrail(){
+    if(lock) return;
+    lock=true;
+    arrows.classList.remove('ft63stepAdvance');
+    scene && scene.classList.remove('ft63stepGlow');
+    void arrows.offsetWidth;
+    arrows.classList.add('ft63stepAdvance');
+    scene && scene.classList.add('ft63stepGlow');
+
+    // Animation is only visual. Core pedometer / GPS / AYABeat logic is untouched.
+    setTimeout(()=>{
+      arrows.classList.remove('ft63stepAdvance');
+      scene && scene.classList.remove('ft63stepGlow');
+      lock=false;
+    },360);
+  }
+
+  const observer=new MutationObserver(()=>{
+    const now=parseInt(stepEl.textContent,10)||0;
+    if(now>lastStep){
+      advanceTrail();          // confirmed pedometer step -> trail advances
+    }
+    lastStep=now;
+  });
+  observer.observe(stepEl,{childList:true,characterData:true,subtree:true});
+
+  // Keep background video continuous; trail gives the discrete "my foot moved me" cue.
+  const v=$('ft63video');
+  if(v){
+    v.playbackRate=1.0;
+  }
+})();
+</script>
+
+
+<style id="ft63a3SymmetricTrail">
+/* FT63A.3 — precise, perfectly symmetric perspective trail */
+.ft63arrows{
+  left:50%!important;
+  width:220px!important;
+  height:270px!important;
+  transform:translateX(-50%)!important;
+  bottom:12.5%!important;
+}
+.ft63road{
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  height:220px!important;
+  bottom:10px!important;
+  border-left:2px dashed rgba(156,255,247,.55)!important;
+}
+
+/* Hide the old hand-built chevrons. New SVG guarantees mirror symmetry. */
+.ft63arrows .ft63chev{display:none!important}
+
+.ft63symTrail{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:visible;
+  filter:drop-shadow(0 0 5px rgba(126,255,247,.32));
+}
+.ft63symTrail .trailStep{
+  fill:none;
+  stroke:#9bfff7;
+  stroke-width:4;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+  transform-box:fill-box;
+  transform-origin:center;
+  will-change:transform,opacity;
+}
+.ft63symTrail .s1{opacity:.96}
+.ft63symTrail .s2{opacity:.72}
+.ft63symTrail .s3{opacity:.50}
+.ft63symTrail .s4{opacity:.31}
+.ft63symTrail .s5{opacity:.16}
+
+/* Each confirmed step moves the whole perspective ladder toward the vanishing point. */
+.ft63arrows.ft63stepAdvance .ft63symTrail .s1{animation:a3s1 .34s cubic-bezier(.2,.72,.22,1)}
+.ft63arrows.ft63stepAdvance .ft63symTrail .s2{animation:a3s2 .34s cubic-bezier(.2,.72,.22,1)}
+.ft63arrows.ft63stepAdvance .ft63symTrail .s3{animation:a3s3 .34s cubic-bezier(.2,.72,.22,1)}
+.ft63arrows.ft63stepAdvance .ft63symTrail .s4{animation:a3s4 .34s cubic-bezier(.2,.72,.22,1)}
+.ft63arrows.ft63stepAdvance .ft63symTrail .s5{animation:a3s5 .34s cubic-bezier(.2,.72,.22,1)}
+@keyframes a3s1{to{transform:translateY(-50px) scale(.78);opacity:.72}}
+@keyframes a3s2{to{transform:translateY(-39px) scale(.80);opacity:.50}}
+@keyframes a3s3{to{transform:translateY(-30px) scale(.82);opacity:.31}}
+@keyframes a3s4{to{transform:translateY(-22px) scale(.84);opacity:.16}}
+@keyframes a3s5{to{transform:translateY(-15px) scale(.86);opacity:0}}
+</style>
+
+<script id="ft63a3SymmetricTrailScript">
+(()=>{
+  const host=document.querySelector('.ft63arrows');
+  if(!host || host.querySelector('.ft63symTrail')) return;
+
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(NS,'svg');
+  svg.setAttribute('class','ft63symTrail');
+  svg.setAttribute('viewBox','0 0 220 270');
+  svg.setAttribute('aria-hidden','true');
+
+  // Exact mirrored V/chevron geometry around x=110.
+  // Near -> far: same shape, progressively smaller and closer to vanishing point.
+  const rows=[
+    {cls:'s1', y:225, half:72, rise:48},
+    {cls:'s2', y:169, half:54, rise:36},
+    {cls:'s3', y:126, half:39, rise:26},
+    {cls:'s4', y:94,  half:27, rise:18},
+    {cls:'s5', y:70,  half:18, rise:12},
+  ];
+
+  rows.forEach(r=>{
+    const p=document.createElementNS(NS,'path');
+    p.setAttribute('class','trailStep '+r.cls);
+    p.setAttribute('d',
+      `M ${110-r.half} ${r.y} L 110 ${r.y-r.rise} L ${110+r.half} ${r.y}`
+    );
+    svg.appendChild(p);
+  });
+  host.appendChild(svg);
+})();
+</script>
+
+
+<style id="ft63a4GroundHud">
+/* FT63A.4 — ground-hugging AR trail + richer five-meter HUD */
+.ft63brand small{letter-spacing:.105em!important}
+.ft63arrows{bottom:3.5%!important;height:245px!important;width:240px!important}
+.ft63road{height:195px!important;bottom:0!important;border-left:3px dashed rgba(154,255,247,.62)!important;filter:drop-shadow(0 0 5px rgba(100,255,246,.45))}
+.ft63symTrail{filter:drop-shadow(0 0 7px rgba(93,255,247,.52))}
+.ft63symTrail .trailStep{stroke:#a8fff9;stroke-width:2.2;fill:rgba(67,235,225,.16);filter:drop-shadow(0 0 3px rgba(108,255,247,.5))}
+.ft63symTrail .s1{opacity:1}.ft63symTrail .s2{opacity:.78}.ft63symTrail .s3{opacity:.55}.ft63symTrail .s4{opacity:.34}.ft63symTrail .s5{opacity:.18}
+.ft63symTrail .trailRail{fill:none;stroke:rgba(107,255,246,.52);stroke-width:1.4;stroke-linecap:round;stroke-dasharray:8 10;filter:drop-shadow(0 0 4px rgba(89,255,244,.35))}
+.ft63symTrail .trailGlow{fill:rgba(119,255,249,.10);stroke:rgba(168,255,250,.34);stroke-width:.8}
+.ft63meters{padding:9px 4px 7px!important;border-color:rgba(120,255,245,.78)!important;background:linear-gradient(180deg,rgba(1,54,54,.80),rgba(0,26,29,.88))!important;box-shadow:0 9px 26px #0008,inset 0 0 25px rgba(92,255,243,.07)!important}
+.ft63m{position:relative;padding:4px 2px 14px!important}
+.ft63ring{width:78px!important;height:78px!important;border:1px solid rgba(177,255,249,.15);box-shadow:inset 0 0 18px rgba(123,255,246,.10),0 0 12px rgba(0,0,0,.28)!important}
+.ft63m span{font-size:9px!important}.ft63m b{font-size:14px!important;text-shadow:0 0 7px rgba(255,255,255,.18)}
+.ft63m:after{content:'';position:absolute;left:17%;right:17%;bottom:5px;height:8px;border-bottom:1px solid currentColor;opacity:.72;background:linear-gradient(135deg,transparent 0 12%,currentColor 13% 17%,transparent 18% 30%,currentColor 31% 38%,transparent 39% 52%,currentColor 53% 60%,transparent 61% 72%,currentColor 73% 79%,transparent 80%);clip-path:polygon(0 80%,12% 45%,22% 70%,35% 20%,48% 65%,62% 35%,75% 75%,88% 28%,100% 58%,100% 100%,0 100%)}
+.ft63m:nth-child(1){color:#74fff4}.ft63m:nth-child(2){color:#68f69a}.ft63m:nth-child(3){color:#65eaff}.ft63m:nth-child(4){color:#ffc84f}.ft63m:nth-child(5){color:#ff6b64}.ft63m span,.ft63m b{color:#fff}
+@media(max-width:430px){.ft63arrows{bottom:2.5%!important;height:225px!important;width:225px!important}.ft63ring{width:59px!important;height:59px!important}.ft63m{padding-bottom:12px!important}.ft63m:after{left:20%;right:20%;height:6px}}
+</style>
+<script id="ft63a4GroundHudScript">
+(()=>{
+ const brand=document.querySelector('.ft63brand small'); if(brand) brand.textContent='FIELD TEST 63A.4 · GROUND HUD';
+ const svg=document.querySelector('.ft63symTrail'); if(!svg)return;
+ const NS='http://www.w3.org/2000/svg';
+ // Perspective side rails visually pin the chevrons to the forest floor.
+ const railL=document.createElementNS(NS,'path'); railL.setAttribute('class','trailRail'); railL.setAttribute('d','M 22 265 L 94 54');
+ const railR=document.createElementNS(NS,'path'); railR.setAttribute('class','trailRail'); railR.setAttribute('d','M 198 265 L 126 54');
+ svg.insertBefore(railL,svg.firstChild); svg.insertBefore(railR,svg.firstChild);
+ // Convert each V into a shallow translucent AR plate while preserving exact symmetry.
+ const rows=[{y:225,h:72,r:48},{y:169,h:54,r:36},{y:126,h:39,r:26},{y:94,h:27,r:18},{y:70,h:18,r:12}];
+ [...svg.querySelectorAll('.trailStep')].forEach((p,i)=>{const q=rows[i]; if(!q)return; p.setAttribute('d',`M ${110-q.h} ${q.y} L 110 ${q.y-q.r} L ${110+q.h} ${q.y} L ${110+q.h-8} ${q.y+8} L 110 ${q.y-q.r+9} L ${110-q.h+8} ${q.y+8} Z`);});
+})();
+</script>
+
+
+<style id="ft63a5MotionHud">
+/* FT63A.5 — MOTION HUD: cinematic glass + walk-linked motion */
+.ft63top{border-color:rgba(150,255,247,.78)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 8px 28px rgba(0,0,0,.26),0 0 22px rgba(65,255,239,.05)!important}
+.ft63top:after{content:'';position:absolute;left:5%;right:5%;bottom:5px;height:1px;background:linear-gradient(90deg,transparent,rgba(145,255,247,.48),transparent)}
+.ft63scene{box-shadow:inset 0 0 45px rgba(0,0,0,.24),0 10px 30px rgba(0,0,0,.25)!important}
+#ft63video{transition:filter .65s ease,opacity .65s ease;will-change:filter,opacity}
+.ft63scene.a5idle #ft63video{filter:saturate(.88) brightness(.88);opacity:.94}
+.ft63scene.a5moving #ft63video{filter:saturate(1.04) brightness(1.02);opacity:1}
+.ft63arrows{bottom:1.2%!important;height:218px!important;width:250px!important;transition:filter .65s ease,opacity .65s ease}
+.ft63scene.a5idle .ft63arrows{opacity:.55;filter:drop-shadow(0 0 3px rgba(90,255,244,.22))}
+.ft63scene.a5moving .ft63arrows{opacity:1;filter:drop-shadow(0 0 10px rgba(90,255,244,.56))}
+.ft63symTrail .trailStep{stroke-width:1.8!important;fill:rgba(67,235,225,.13)!important}
+.ft63symTrail .trailStep:where(.s1,.s2){filter:drop-shadow(0 0 4px rgba(151,255,249,.72))}
+.ft63symTrail .trailRail{stroke-width:1!important;opacity:.55}
+.ft63meters{position:relative;overflow:hidden}
+.ft63meters:before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(112deg,transparent 0 24%,rgba(255,255,255,.07) 34%,transparent 45% 100%);opacity:.7}
+.ft63ring{position:relative;background:radial-gradient(circle at 50% 45%,rgba(121,255,246,.08),rgba(0,23,27,.30) 58%,rgba(0,0,0,.20) 60%)!important}
+.ft63ring:before{content:'';position:absolute;inset:5px;border-radius:50%;border:1px dashed rgba(213,255,252,.18);box-shadow:inset 0 0 12px rgba(116,255,247,.05)}
+.ft63ring:after{content:'';position:absolute;left:50%;top:4px;width:2px;height:5px;background:currentColor;box-shadow:0 0 6px currentColor;opacity:.8}
+.ft63m:nth-child(2).a5stepPulse .ft63ring{animation:a5meterPulse .38s ease-out}
+@keyframes a5meterPulse{0%{transform:scale(1);filter:brightness(1)}35%{transform:scale(1.075);filter:brightness(1.5)}100%{transform:scale(1);filter:brightness(1)}}
+.ft63motionState{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);z-index:12;padding:4px 10px;border:1px solid rgba(148,255,247,.28);border-radius:999px;background:rgba(0,28,30,.38);backdrop-filter:blur(5px);font-size:9px;letter-spacing:.16em;color:rgba(224,255,252,.72);pointer-events:none;transition:opacity .4s ease}
+@media(max-width:430px){.ft63arrows{bottom:.5%!important;height:202px!important;width:235px!important}.ft63motionState{bottom:6px;font-size:8px}.ft63ring:before{inset:4px}}
+</style>
+<script id="ft63a5MotionHudScript">
+(()=>{
+ const $=id=>document.getElementById(id), v=$('ft63video'), scene=document.querySelector('.ft63scene'), step=$('ft63steps');
+ const brand=document.querySelector('.ft63brand small'); if(brand) brand.textContent='FIELD TEST 63A.5 · MOTION HUD';
+ if(!v||!scene||!step)return;
+ v.removeAttribute('autoplay'); v.pause(); v.playbackRate=.25;
+ scene.classList.add('a5idle');
+ const state=document.createElement('div'); state.className='ft63motionState'; state.textContent='STANDBY · STEP LINK'; scene.appendChild(state);
+ let last=parseInt(step.textContent,10)||0,lastStepAt=0,raf=0,current=.25,target=.25,playing=false,stopping=false;
+ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+ function animateRate(){
+   cancelAnimationFrame(raf);
+   const tick=()=>{current += (target-current)*.085; current=clamp(current,.25,1.05); try{v.playbackRate=current}catch(e){}
+     if(Math.abs(target-current)>.015) raf=requestAnimationFrame(tick); else {current=target;try{v.playbackRate=current}catch(e){} if(target<=.25&&stopping){v.pause();playing=false;stopping=false;state.textContent='STANDBY · STEP LINK';}}
+   }; raf=requestAnimationFrame(tick);
+ }
+ function wake(){lastStepAt=performance.now();stopping=false;target=1;scene.classList.remove('a5idle');scene.classList.add('a5moving');state.textContent='WALKING · MOTION SYNC';if(!playing){playing=true;v.play().catch(()=>{playing=false})}animateRate();
+   const m=document.querySelector('.ft63m:nth-child(2)');if(m){m.classList.remove('a5stepPulse');void m.offsetWidth;m.classList.add('a5stepPulse');setTimeout(()=>m.classList.remove('a5stepPulse'),420)}
+ }
+ function coast(){if(!playing||stopping)return;stopping=true;target=.25;scene.classList.remove('a5moving');scene.classList.add('a5idle');state.textContent='COASTING · HOLD';animateRate()}
+ new MutationObserver(()=>{const n=parseInt(step.textContent,10)||0;if(n>last)wake();last=n}).observe(step,{childList:true,characterData:true,subtree:true});
+ setInterval(()=>{if(playing&&!stopping&&performance.now()-lastStepAt>1400)coast()},180);
+ // Existing buttons still control the core app; this layer only owns background motion.
+ const start=$('ft63start'),pause=$('ft63pause'),stop=$('ft63stop');
+ if(start)start.addEventListener('click',()=>{setTimeout(()=>{v.pause();playing=false;stopping=false;target=current=.25;scene.classList.add('a5idle');scene.classList.remove('a5moving');state.textContent='READY · WAITING FOR STEP'},0)},true);
+ if(pause)pause.addEventListener('click',()=>{stopping=true;target=.25;scene.classList.add('a5idle');scene.classList.remove('a5moving');state.textContent='PAUSE · COASTING';animateRate()},true);
+ if(stop)stop.addEventListener('click',()=>{cancelAnimationFrame(raf);v.pause();playing=false;stopping=false;target=current=.25;try{v.currentTime=0;v.playbackRate=.25}catch(e){}scene.classList.add('a5idle');scene.classList.remove('a5moving');state.textContent='STOP · STANDBY'},true);
+ window.addEventListener('load',()=>setTimeout(()=>v.pause(),80));
+})();
+</script>
+
+
+<style id="ft63a6FinalPolish">
+/* FT63A.6 — FINAL HUD POLISH */
+.ft63scene{background:#001719!important}
+.ft63scene:after{content:'';position:absolute;inset:0;z-index:8;pointer-events:none;border-radius:inherit;background:radial-gradient(ellipse at 50% 58%,transparent 38%,rgba(0,18,20,.10) 65%,rgba(0,10,12,.38) 100%);box-shadow:inset 0 0 28px rgba(112,255,246,.10)}
+.ft63arrows{z-index:11!important;perspective:420px;transform:translateX(-50%) rotateX(4deg)!important;transform-origin:50% 100%}
+.ft63symTrail{overflow:visible;filter:drop-shadow(0 0 5px rgba(93,255,247,.38))}
+.ft63scene.a6step .ft63symTrail{animation:a6TrailFlow .48s cubic-bezier(.18,.72,.2,1)}
+@keyframes a6TrailFlow{0%{transform:translateY(-7px) scale(.96);filter:brightness(.82)}45%{filter:brightness(1.5) drop-shadow(0 0 10px rgba(130,255,250,.72))}100%{transform:translateY(5px) scale(1.025);filter:brightness(1)}}
+.ft63scene.a6step .ft63symTrail .s1{animation:a6Plate .48s ease-out}
+@keyframes a6Plate{0%{opacity:.45}35%{opacity:1;filter:drop-shadow(0 0 9px rgba(180,255,252,.95))}100%{opacity:.96}}
+.ft63meters{backdrop-filter:blur(9px) saturate(1.08);-webkit-backdrop-filter:blur(9px) saturate(1.08)}
+.ft63m{transition:transform .35s ease,filter .35s ease}
+.ft63m.a6pulse{animation:a6Gauge .44s cubic-bezier(.2,.7,.2,1)}
+@keyframes a6Gauge{0%{transform:translateY(0)}38%{transform:translateY(-2px);filter:brightness(1.38)}100%{transform:translateY(0);filter:brightness(1)}}
+.ft63motionState{background:linear-gradient(180deg,rgba(0,46,48,.55),rgba(0,22,25,.48))!important;box-shadow:0 0 14px rgba(86,255,243,.10),inset 0 0 8px rgba(117,255,247,.06)}
+.ft63scene.a6moving .ft63motionState{border-color:rgba(148,255,247,.52);color:#eafffd}
+#ft63video{transition:filter .9s ease,opacity .9s ease!important}
+.ft63scene.a6moving #ft63video{filter:saturate(1.07) brightness(1.03) contrast(1.02)!important}
+.ft63scene:not(.a6moving) #ft63video{filter:saturate(.90) brightness(.90)!important}
+@media(max-width:430px){.ft63arrows{bottom:.2%!important;height:198px!important;width:228px!important}.ft63motionState{bottom:5px!important}}
+</style>
+<script id="ft63a6FinalPolishScript">
+(()=>{
+ const scene=document.querySelector('.ft63scene'),step=document.getElementById('ft63steps'),v=document.getElementById('ft63video');
+ const brand=document.querySelector('.ft63brand small'); if(brand) brand.textContent='FIELD TEST 63A.6 · FINAL HUD POLISH';
+ if(!scene||!step)return;
+ let prev=parseInt(step.textContent,10)||0,timer=0;
+ const pulse=()=>{
+   scene.classList.add('a6moving','a6step');
+   clearTimeout(timer); timer=setTimeout(()=>scene.classList.remove('a6step'),500);
+   document.querySelectorAll('.ft63m').forEach((m,i)=>{setTimeout(()=>{m.classList.remove('a6pulse');void m.offsetWidth;m.classList.add('a6pulse');setTimeout(()=>m.classList.remove('a6pulse'),470)},i*22)});
+ };
+ new MutationObserver(()=>{const n=parseInt(step.textContent,10)||0;if(n>prev)pulse();prev=n}).observe(step,{childList:true,characterData:true,subtree:true});
+ setInterval(()=>{const st=document.querySelector('.ft63motionState');if(!st)return;const walking=/WALKING/.test(st.textContent);scene.classList.toggle('a6moving',walking)},120);
+ ['ft63pause','ft63stop'].forEach(id=>{const b=document.getElementById(id);if(b)b.addEventListener('click',()=>scene.classList.remove('a6moving','a6step'),true)});
+ if(v){v.removeAttribute('autoplay');setTimeout(()=>v.pause(),30)}
+})();
+</script>
+
+
+<script id="v55RC1IntegrationPatch">
 (()=>{
  const reset=()=>{try{ft59PeakCount=ft59AcceptedCount=ft59RejectedCount=0;ft59LastPeakAt=ft59LastRejectToneAt=0;['ft59PeakCount','ft59AcceptedCount','ft59RejectedCount'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='0'});const g=document.getElementById('ft59PeakInterval');if(g)g.textContent='-- ms';}catch(e){}};
  const b=document.getElementById('start');if(b)b.addEventListener('click',()=>setTimeout(()=>{if(typeof running!=='undefined'&&running)reset()},50));
- const badge=document.getElementById('ft262Badge');if(badge)badge.textContent='Ver.5.4 FT59';
- const brand=document.querySelector('#hudBrand412 .t2');if(brand)brand.textContent='FIELD TEST 59';
- console.info('AYALOG FIELD TEST 59: AYABeat 2-step default + chatter debug enabled');
+ const badge=document.getElementById('ft262Badge');if(badge)badge.textContent='Ver.5.5 RC1';
+ const brand=document.querySelector('#hudBrand412 .t2');if(brand)brand.textContent='Ver.5.5 RC1';
+ console.info('AYALOG Ver.5.5 RC1: 63A.6 cockpit + FT59 AYABeat chatter debug integrated');
 })();
 </script>
+
+<!-- Ver.5.5 RC2 — FUNCTION INTEGRATION: keep 63A.6 cockpit, expose FT59 functions -->
+<style id="v55rc2FunctionIntegration">
+#ft63a .ft63brand small:first-of-type{font-weight:800}
+#ft63a .ft63m{cursor:pointer;touch-action:manipulation;transition:transform .12s ease,filter .12s ease}
+#ft63a .ft63m:active{transform:scale(.96);filter:brightness(1.22)}
+#ft63a .ft63m:after{content:'TAP';display:block;font-size:7px;letter-spacing:.12em;opacity:.42;margin-top:2px}
+#rc2FunctionBar{display:flex;gap:8px;margin-top:9px}
+#rc2FunctionBar button{flex:1;border:1px solid rgba(126,242,232,.62);border-radius:18px;padding:10px 7px;background:rgba(4,58,59,.72);color:#dffffb;font-weight:800;font-size:12px}
+body.rc2LegacyOpen{overflow:hidden!important}
+body.ft63a.rc2LegacyOpen .wrap{display:block!important;position:fixed!important;inset:0!important;z-index:14000!important;overflow:auto!important;background:#edf8f6!important;padding:58px 8px 28px!important;max-width:none!important;margin:0!important}
+#rc2LegacyTop{display:none;position:fixed;left:0;right:0;top:0;z-index:14010;height:50px;background:linear-gradient(180deg,#063f40,#052e31);border-bottom:1px solid #73ddd5;align-items:center;justify-content:space-between;padding:0 12px;color:white;box-shadow:0 4px 14px #0005}
+body.rc2LegacyOpen #rc2LegacyTop{display:flex}
+#rc2LegacyTop b{font-size:14px;letter-spacing:.04em}#rc2LegacyClose{border:1px solid #8ee9e2;border-radius:16px;background:#0c6b67;color:#fff;padding:7px 14px;font-weight:800}
+body.rc2LegacyOpen .wrap header{margin-top:0}
+#ft58Summary{z-index:16000!important}
+@media(max-width:430px){#rc2FunctionBar button{font-size:10px;padding:9px 4px}}
+</style>
+<div id="rc2LegacyTop"><b>🌿 歩ログ FUNCTION PANEL · FT59</b><button id="rc2LegacyClose" type="button">× コクピットへ戻る</button></div>
+<script id="v55rc2FunctionIntegrationScript">
+(()=>{
+ const $=id=>document.getElementById(id);
+ const brand=document.querySelector('#ft63a .ft63brand small');
+ if(brand) brand.textContent='FIELD TEST 63A.6 · FINAL HUD POLISH / Ver.5.5 RC2';
+ const foot=document.querySelector('#ft63a .ft63foot'); if(foot)foot.remove();
+ const buttons=document.querySelector('#ft63a .ft63buttons');
+ if(buttons && !$('rc2FunctionBar')){
+   const bar=document.createElement('div');bar.id='rc2FunctionBar';
+   bar.innerHTML='<button id="rc2Functions" type="button">⚙ FT59 FUNCTIONS</button><button id="rc2Debug" type="button">🐞 CHATTER DEBUG</button><button id="rc2Records" type="button">📖 保存・記録</button>';
+   buttons.insertAdjacentElement('afterend',bar);
+ }
+ function openLegacy(target){
+   document.body.classList.add('rc2LegacyOpen');
+   setTimeout(()=>{const el=typeof target==='string'?$(target):target;if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},60);
+ }
+ function closeLegacy(){document.body.classList.remove('rc2LegacyOpen');window.scrollTo(0,0)}
+ $('rc2LegacyClose')?.addEventListener('click',closeLegacy);
+ $('rc2Functions')?.addEventListener('click',()=>openLegacy('status'));
+ $('rc2Debug')?.addEventListener('click',()=>{openLegacy('debug');const sw=$('motionSwitch');if(sw&&!sw.checked)sw.click()});
+ $('rc2Records')?.addEventListener('click',()=>openLegacy('history'));
+ // Five cockpit meters become navigation portals into the proven FT59 function panel.
+ const meters=[...document.querySelectorAll('#ft63a .ft63m')];
+ const targets=['timer','steps','route3dCard46','speed','calories'];
+ meters.forEach((m,i)=>{m.setAttribute('role','button');m.setAttribute('tabindex','0');const go=()=>openLegacy(targets[i]);m.addEventListener('click',go);m.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}})});
+ // Mirror hidden FT59 button availability onto cockpit controls.
+ setInterval(()=>{[['ft63start','start'],['ft63pause','pause'],['ft63stop','stop']].forEach(([a,b])=>{const x=$(a),y=$(b);if(x&&y){x.disabled=!!y.disabled;x.style.opacity=y.disabled?'.48':'1'}})},250);
+ // RC2 safety bridge: STOP must always reach the existing FT58/59 summary flow.
+ const cstop=$('ft63stop');
+ if(cstop){
+   cstop.onclick=null;
+   cstop.addEventListener('click',()=>{
+     const old=$('stop'); if(old&&!old.disabled)old.click();
+     const v=$('ft63video'); if(v){v.pause();try{v.currentTime=0}catch(e){}}
+     setTimeout(()=>{
+       const sum=$('ft58Summary');
+       if(sum && !sum.classList.contains('show') && typeof window.openStopSaveModal430==='function') window.openStopSaveModal430();
+     },120);
+   });
+ }
+})();
+</script>
+
+<!-- Ver.5.5 RC3 — COCKPIT NATIVE VIRTUAL PANELS -->
+<style id="v55rc3VirtualPanels">
+#rc3Shade{position:fixed;inset:0;z-index:17000;background:rgba(0,12,15,.38);opacity:0;pointer-events:none;transition:opacity .28s ease}
+#rc3Shade.on{opacity:1;pointer-events:auto}
+.rc3Panel{position:fixed;z-index:17020;color:#eaffff;background:linear-gradient(145deg,rgba(2,54,59,.91),rgba(2,28,34,.94));border:1px solid rgba(117,255,243,.72);box-shadow:0 16px 48px #0009,inset 0 0 34px rgba(79,255,239,.06),0 0 22px rgba(74,255,240,.12);backdrop-filter:blur(8px) saturate(120%);-webkit-backdrop-filter:blur(8px) saturate(120%);opacity:0;pointer-events:none;transition:transform .38s cubic-bezier(.18,.86,.24,1.12),opacity .24s ease;overflow:auto}
+#rc3Detail{left:4%;right:4%;bottom:10%;max-height:72vh;border-radius:22px;padding:14px;transform:translateY(46px) scale(.96)}
+#rc3Detail.on{opacity:1;pointer-events:auto;transform:translateY(0) scale(1)}
+#rc3Drawer{top:10px;right:10px;bottom:10px;width:min(78vw,330px);border-radius:22px;padding:15px;transform:translateX(112%)}
+#rc3Drawer.on{opacity:1;pointer-events:auto;transform:translateX(0)}
+.rc3Scan{height:1px;background:linear-gradient(90deg,transparent,#91fff6,transparent);box-shadow:0 0 12px #65fff2;margin:3px 0 12px;animation:rc3scan .42s ease-out}@keyframes rc3scan{from{transform:scaleX(.08);opacity:.2}to{transform:scaleX(1);opacity:1}}
+.rc3Head{display:flex;align-items:center;justify-content:space-between;gap:8px}.rc3Head b{font-size:17px;letter-spacing:.05em}.rc3Close{border:1px solid #82eee6;background:#075b5d;color:#fff;border-radius:50%;width:38px;height:38px;font-size:20px;font-weight:900}.rc3Grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.rc3Stat{padding:11px;border:1px solid rgba(107,232,221,.28);border-radius:14px;background:rgba(3,75,76,.32)}.rc3Stat span{display:block;font-size:10px;color:#a8d8d4}.rc3Stat b{display:block;font-size:21px;margin-top:3px}.rc3Note{font-size:11px;line-height:1.6;color:#a9d0cc;margin-top:10px}.rc3Tabs{display:flex;gap:6px;margin:8px 0 10px}.rc3Tabs button{flex:1;border:1px solid #3ebbb2;background:#073f43;color:#cffffa;border-radius:999px;padding:8px 5px;font-size:11px;font-weight:800}.rc3Tabs button.on{background:#0c817a;color:#fff;box-shadow:0 0 14px rgba(65,255,239,.18)}
+#rc3RouteHost #route3dCard46{margin:0!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important}#rc3RouteHost #route3dCard46>h2,#rc3RouteHost #route3dCard46>.mini,#rc3RouteHost #route3dCard46>.route3dLegend46,#rc3RouteHost #route3dCard46>.route{display:none!important}#rc3RouteHost #map{height:300px!important}#rc3RouteHost .elevationCanvas{height:190px!important}
+.rc3MenuBtn{width:100%;display:flex;align-items:center;gap:10px;margin:7px 0;padding:12px;border:1px solid rgba(99,231,220,.34);border-radius:14px;background:rgba(5,76,76,.38);color:#eaffff;text-align:left;font-weight:800}.rc3MenuBtn:active{transform:scale(.98)}
+#rc3MenuFab{position:absolute;right:13px;top:12px;z-index:20;width:42px;height:42px;border:1px solid rgba(142,255,247,.65);border-radius:14px;background:rgba(1,52,55,.66);color:#eaffff;font-size:23px;font-weight:900;backdrop-filter:blur(5px)}
+#rc2FunctionBar{display:none!important}.ft63m:after{content:'DETAIL'!important}
+.rc3Pulse{animation:rc3pulse .38s ease}@keyframes rc3pulse{0%{box-shadow:0 0 0 rgba(101,255,242,0)}45%{box-shadow:0 0 30px rgba(101,255,242,.35)}100%{box-shadow:0 0 0 rgba(101,255,242,0)}}
+@media(max-width:430px){#rc3Detail{left:3%;right:3%;bottom:7%;max-height:76vh;padding:12px}#rc3RouteHost #map{height:270px!important}}
+</style>
+<div id="rc3Shade"></div>
+<section id="rc3Detail" class="rc3Panel" aria-hidden="true"><div class="rc3Head"><b id="rc3Title">VIRTUAL DISPLAY</b><button class="rc3Close" id="rc3Close">×</button></div><div class="rc3Scan"></div><div id="rc3Body"></div></section>
+<aside id="rc3Drawer" class="rc3Panel" aria-hidden="true"><div class="rc3Head"><b>🌿 AYALOG SYSTEM</b><button class="rc3Close" id="rc3DrawerClose">×</button></div><div class="rc3Scan"></div><button class="rc3MenuBtn" data-rc3="distance">🗺️ MAP / 高低差 / 3D ROUTE</button><button class="rc3MenuBtn" data-rc3="steps">👣 歩数 / AYABeat</button><button class="rc3MenuBtn" data-rc3="speed">◉ 速度 / GPS</button><button class="rc3MenuBtn" data-rc3="kcal">◆ カロリー</button><button class="rc3MenuBtn" data-rc3="balance">⚖ 体幹バランス</button><button class="rc3MenuBtn" data-rc3="debug">🐞 CHATTER DEBUG</button><button class="rc3MenuBtn" data-rc3="records">📖 保存・記録</button></aside>
+<script id="v55rc3VirtualPanelsScript">
+(()=>{
+ const $=id=>document.getElementById(id), detail=$('rc3Detail'),drawer=$('rc3Drawer'),shade=$('rc3Shade'),body=$('rc3Body'),title=$('rc3Title');
+ const brand=document.querySelector('#ft63a .ft63brand small');if(brand)brand.textContent='FIELD TEST 63A.6 · FINAL HUD POLISH / Ver.5.5 RC3';
+ const top=document.querySelector('#ft63a .ft63top');if(top&&!$('rc3MenuFab')){const b=document.createElement('button');b.id='rc3MenuFab';b.type='button';b.textContent='☰';top.appendChild(b)}
+ let routeCard=$('route3dCard46'), routeHome=routeCard?.parentNode, routeNext=routeCard?.nextSibling;
+ const txt=id=>$(id)?.textContent?.trim()||'--';
+ function restoreRoute(){if(routeCard&&routeHome&&routeCard.parentNode!==routeHome)routeHome.insertBefore(routeCard,routeNext)}
+ function closeAll(){detail.classList.remove('on');drawer.classList.remove('on');shade.classList.remove('on');detail.setAttribute('aria-hidden','true');drawer.setAttribute('aria-hidden','true');setTimeout(restoreRoute,390)}
+ function shell(t,html){restoreRoute();title.textContent=t;body.innerHTML=html;detail.classList.add('on','rc3Pulse');shade.classList.add('on');detail.setAttribute('aria-hidden','false');setTimeout(()=>detail.classList.remove('rc3Pulse'),420)}
+ function stat(label,val){return `<div class="rc3Stat"><span>${label}</span><b>${val}</b></div>`}
+ function open(kind){drawer.classList.remove('on');
+  if(kind==='time')shell('◷ TIME / SESSION',`<div class="rc3Grid">${stat('経過時間',txt('timer'))}${stat('停止時間',txt('stopTime')||'--')}</div><div class="rc3Note">計測セッションの時間情報。コクピットを閉じずに確認できます。</div>`);
+  else if(kind==='steps')shell('👣 STEPS / AYABeat',`<div class="rc3Grid">${stat('歩数',txt('steps'))}${stat('検出ピーク',txt('ft59PeakCount'))}${stat('採用',txt('ft59AcceptedCount'))}${stat('チャタ棄却',txt('ft59RejectedCount'))}</div><div class="rc3Note">AYABeat とモーション判定は FT59 の計測ロジックをそのまま使用しています。しきい値：0.3 / 11 / 270ms。</div>`);
+  else if(kind==='speed')shell('◉ SPEED / GPS',`<div class="rc3Grid">${stat('現在速度',txt('speed'))}${stat('GPS',txt('gpsmsg').replace('📍 GPS：',''))}${stat('標高',txt('altitude'))}${stat('傾斜',txt('grade'))}</div>`);
+  else if(kind==='kcal')shell('◆ ENERGY',`<div class="rc3Grid">${stat('消費カロリー',txt('calories'))}${stat('距離',txt('distance'))}</div><div class="rc3Note">距離・速度・傾斜と設定体重から既存ロジックで計算します。</div>`);
+  else if(kind==='balance')shell('⚖ CORE BALANCE',`<div class="rc3Grid">${stat('体幹バランス',txt('balanceReadout'))}${stat('左右比',txt('balanceRatio'))}</div><div class="rc3Note">FT59 のセンサー由来バランス計算を表示しています。</div>`);
+  else if(kind==='debug')shell('🐞 CHATTER DEBUG',`<div class="rc3Grid">${stat('PEAK',txt('ft59PeakCount'))}${stat('ACCEPT',txt('ft59AcceptedCount'))}${stat('REJECT',txt('ft59RejectedCount'))}${stat('INTERVAL',txt('ft59PeakInterval'))}</div><div class="rc3Note">ショルダーバッグの揺れなど、歩行以外のピークを見分けるためのデバッグ表示です。</div>`);
+  else if(kind==='records'){closeAll();document.body.classList.add('rc2LegacyOpen');setTimeout(()=>$('history')?.scrollIntoView({behavior:'smooth'}),80)}
+  else if(kind==='distance')openRoute();
+ }
+ function openRoute(){shell('🗺 MAP / ELEVATION / THERMO 3D','<div class="rc3Tabs"><button id="rc3Tab3d" class="on">THERMO 3D</button><button id="rc3TabElev">高低差</button></div><div id="rc3RouteHost"></div>');const host=$('rc3RouteHost');if(routeCard&&host){host.appendChild(routeCard);const map=$('map'),elev=$('elevationCanvas'),stats=routeCard.querySelector('.elevationStats');const set=(mode)=>{const is3=mode==='3d';if(map)map.style.display=is3?'block':'none';if(elev)elev.style.display=is3?'none':'block';if(stats)stats.style.display=is3?'none':'grid';$('rc3Tab3d')?.classList.toggle('on',is3);$('rc3TabElev')?.classList.toggle('on',!is3);setTimeout(()=>{try{resizeMap();drawRoute();drawElevationProfile()}catch(e){}},30)};$('rc3Tab3d').onclick=()=>set('3d');$('rc3TabElev').onclick=()=>set('elev');set('3d')}}
+ $('rc3Close').onclick=closeAll;$('rc3DrawerClose').onclick=closeAll;shade.onclick=closeAll;$('rc3MenuFab').onclick=()=>{restoreRoute();drawer.classList.add('on');shade.classList.add('on');drawer.setAttribute('aria-hidden','false')};
+ document.querySelectorAll('#rc3Drawer [data-rc3]').forEach(b=>b.onclick=()=>open(b.dataset.rc3));
+ // Replace RC2 legacy navigation with native virtual panels.
+ const meters=[...document.querySelectorAll('#ft63a .ft63m')], kinds=['time','steps','distance','speed','kcal'];meters.forEach((m,i)=>{const n=m.cloneNode(true);m.replaceWith(n);n.setAttribute('role','button');n.setAttribute('tabindex','0');n.onclick=()=>open(kinds[i]);n.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(kinds[i])}}});
+ // Preserve STOP engine + summary; only the presentation path stays above cockpit.
+ const oldClose=$('rc2LegacyClose');if(oldClose)oldClose.onclick=()=>{document.body.classList.remove('rc2LegacyOpen');window.scrollTo(0,0)};
+ console.info('AYALOG Ver.5.5 RC3: cockpit-native virtual panels + preserved FT59 engines + thermo 3D/elevation');
+})();
+</script>
+
+<!-- Ver.5.5 RC4 — CONTROL SYSTEM INTEGRATION -->
+<style id="v55rc4Controls">
+.rc4Ctl{display:grid;gap:10px}.rc4Row{padding:10px;border:1px solid rgba(107,232,221,.28);border-radius:14px;background:rgba(3,75,76,.30)}.rc4Row label{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:#cffffa}.rc4Row input[type=range],.rc4Row select{width:100%;margin-top:8px}.rc4Choices{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:8px}.rc4Choices button,.rc4Action{border:1px solid #3ebbb2;background:#073f43;color:#eaffff;border-radius:12px;padding:10px 7px;font-weight:800}.rc4Choices button.on{background:#0c817a;box-shadow:0 0 13px rgba(65,255,239,.22)}.rc4Toggle{display:flex;align-items:center;justify-content:space-between}.rc4Toggle button{min-width:82px}.rc4Warn{font-size:10px;line-height:1.55;color:#a9d0cc}.rc4Live{font-variant-numeric:tabular-nums;color:#fff;font-weight:900}
+.rc4Ctl button,.rc4Ctl input,.rc4Ctl select{pointer-events:auto!important;position:relative;z-index:2}.rc4Ctl{pointer-events:auto!important}
+</style>
+<script id="v55rc4ControlIntegration">
+(()=>{
+ const $=id=>document.getElementById(id), q=s=>document.querySelector(s), qa=s=>[...document.querySelectorAll(s)];
+ const brand=q('#ft63a .ft63brand small');if(brand)brand.textContent='FIELD TEST 63A.6 · FINAL HUD POLISH / Ver.5.5 RC4';
+ const drawer=$('rc3Drawer'); if(drawer){
+   const anchor=drawer.querySelector('[data-rc3="debug"]');
+   const add=(kind,html)=>{if(drawer.querySelector(`[data-rc4="${kind}"]`))return;const b=document.createElement('button');b.className='rc3MenuBtn';b.dataset.rc4=kind;b.innerHTML=html;drawer.insertBefore(b,anchor||drawer.lastElementChild)};
+   add('sensor','🎚️ MOTION / しきい値'); add('bell','🐻🔔 BEAR BELL CONTROL'); add('beat','🎵 AYABeat SOUND CONTROL');
+ }
+ const setRange=(id,val)=>{const e=$(id);if(!e)return;e.value=val;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}))};
+ const click=id=>$(id)?.click(); const val=id=>$(id)?.value??''; const text=id=>$(id)?.textContent?.trim()||'--';
+ function openShell(t,html){
+   const detail=$('rc3Detail'),shade=$('rc3Shade'),body=$('rc3Body'),title=$('rc3Title'); if(!detail||!body)return;
+   title.textContent=t; body.innerHTML=html; detail.classList.add('on','rc3Pulse');shade?.classList.add('on');detail.setAttribute('aria-hidden','false');setTimeout(()=>detail.classList.remove('rc3Pulse'),420);
+ }
+ function sensorPanel(){openShell('🎚️ MOTION / CHATTER CONTROL',`<div class="rc4Ctl">
+   <div class="rc4Row rc4Toggle"><b>デバッグ表示</b><button class="rc4Action" id="r4Motion">${$('motionSwitch')?.checked?'ON':'OFF'}</button></div>
+   <div class="rc4Row"><label><span>Δしきい値</span><b id="r4Dv">${val('deltaThreshold')}</b></label><input id="r4D" type="range" min=".20" max="3" step=".05" value="${val('deltaThreshold')}"></div>
+   <div class="rc4Row"><label><span>合成加速度しきい値</span><b id="r4Mv">${val('magThreshold')}</b></label><input id="r4M" type="range" min="8" max="15" step=".1" value="${val('magThreshold')}"></div>
+   <div class="rc4Row"><label><span>最短歩数間隔</span><b id="r4Iv">${val('intervalThreshold')} ms</b></label><input id="r4I" type="range" min="150" max="800" step="10" value="${val('intervalThreshold')}"></div>
+   <div class="rc3Grid"><div class="rc3Stat"><span>PEAK</span><b id="r4Peak">${text('ft59PeakCount')}</b></div><div class="rc3Stat"><span>ACCEPT</span><b id="r4Accept">${text('ft59AcceptedCount')}</b></div><div class="rc3Stat"><span>REJECT</span><b id="r4Reject">${text('ft59RejectedCount')}</b></div><div class="rc3Stat"><span>INTERVAL</span><b id="r4Int">${text('ft59PeakInterval')}</b></div></div>
+   <div class="rc4Warn">FT59の判定ロジックを変更せず、既存の3つのしきい値へ直接接続しています。</div></div>`);
+   $('r4Motion').onclick=()=>{click('motionSwitch');$('r4Motion').textContent=$('motionSwitch')?.checked?'ON':'OFF'};
+   [['r4D','deltaThreshold','r4Dv',''],['r4M','magThreshold','r4Mv',''],['r4I','intervalThreshold','r4Iv',' ms']].forEach(([a,b,c,u])=>{$(a).oninput=e=>{setRange(b,e.target.value);$(c).textContent=e.target.value+u}});
+ }
+ function bellPanel(){openShell('🐻🔔 BEAR BELL CONTROL',`<div class="rc4Ctl">
+   <div class="rc4Row rc4Toggle"><b>熊鈴</b><button class="rc4Action" id="r4Bell">${$('bellSwitch')?.checked?'ON':'OFF'}</button></div>
+   <div class="rc4Row"><label><span>音量</span><b id="r4BV">${val('bellVolume')}%</b></label><input id="r4BVol" type="range" min="0" max="100" value="${val('bellVolume')}"></div>
+   <div class="rc4Row"><label><span>鳴らす間隔</span></label><select id="r4BI"><option value="3">3秒</option><option value="5">5秒</option><option value="10">10秒</option></select></div>
+   <div class="rc4Row"><label><span>基準音</span><b id="r4BN">${text('bellNoteValue')}</b></label><input id="r4BNote" type="range" min="0" max="7" step="1" value="${val('bellNote')}"><div class="rc4Warn">C / D / E / F / G / A / B / RANDOM</div></div>
+   <div class="rc4Choices" id="r4BellModes"><button data-v="classic">🔔 従来音</button><button data-v="bellA">🔔 BELL A</button><button data-v="bellB">☎️ BELL B</button><button data-v="bellMix">🎲 MIX</button></div>
+   <button class="rc4Action" id="r4BRand">${text('bellRandomBtn')}</button><button class="rc4Action" id="r4BTest">🔔 現在の設定で試聴</button></div>`);
+   $('r4Bell').onclick=()=>{click('bellSwitch');$('r4Bell').textContent=$('bellSwitch')?.checked?'ON':'OFF'};$('r4BVol').oninput=e=>{setRange('bellVolume',e.target.value);$('r4BV').textContent=e.target.value+'%'};$('r4BI').value=val('bellInterval');$('r4BI').onchange=e=>{const x=$('bellInterval');if(x){x.value=e.target.value;x.dispatchEvent(new Event('change',{bubbles:true}))}};$('r4BNote').oninput=e=>{setRange('bellNote',e.target.value);setTimeout(()=>$('r4BN').textContent=text('bellNoteValue'),0)};qa('#r4BellModes button').forEach(b=>b.onclick=()=>q(`#ft56BellModes [data-bell-sample="${b.dataset.v}"]`)?.click());$('r4BRand').onclick=()=>{click('bellRandomBtn');setTimeout(()=>$('r4BRand').textContent=text('bellRandomBtn'),0)};$('r4BTest').onclick=()=>click('bellTest');
+ }
+ function beatPanel(){const active=q('#ft50LabCard [data-nature].on')?.dataset.nature||'robotA';openShell('🎵 AYABeat SOUND CONTROL',`<div class="rc4Ctl">
+   <div class="rc4Row"><label><span>BPM</span><b id="r4BpmV">${val('ft49BpmRange')}</b></label><input id="r4Bpm" type="range" min="60" max="140" value="${val('ft49BpmRange')}"></div>
+   <div class="rc4Row"><b>音色</b><div class="rc4Choices" id="r4Nature"><button data-v="robotA">🤖 ROBOT A</button><button data-v="robotB">⚙️ ROBOT B</button><button data-v="robotDual">🦾 DUAL</button><button data-v="wood">🪵 木</button><button data-v="leaf">🍂 落ち葉</button><button data-v="water">💧 水滴</button></div></div>
+   <div class="rc4Row"><label><span>STEP SYNC 発音間隔</span></label><select id="r4Div"><option value="2">2歩に1回</option><option value="1">1歩ごと</option><option value="0">OFF</option></select></div>
+   <div class="rc4Choices"><button id="r4Fixed">FIXED</button><button id="r4Follow">FOLLOW</button><button id="r4Sync">STEP SYNC</button><button id="r4BeatToggle">▶ / ■ AYABeat</button></div>
+   <div class="rc4Warn" id="r4BeatLabel">${text('ft50NatureLabel')}</div></div>`);
+   $('r4Bpm').oninput=e=>{setRange('ft49BpmRange',e.target.value);$('r4BpmV').textContent=e.target.value};qa('#r4Nature button').forEach(b=>{if(b.dataset.v===active)b.classList.add('on');b.onclick=()=>{q(`#ft50LabCard [data-nature="${b.dataset.v}"]`)?.click();qa('#r4Nature button').forEach(x=>x.classList.toggle('on',x===b));setTimeout(()=>$('r4BeatLabel').textContent=text('ft50NatureLabel'),0)}});$('r4Div').value=val('ft59StepDiv');$('r4Div').onchange=e=>{const x=$('ft59StepDiv');if(x){x.value=e.target.value;x.dispatchEvent(new Event('change',{bubbles:true}))}};$('r4Fixed').onclick=()=>click('ft50Fixed');$('r4Follow').onclick=()=>click('ft50Follow');$('r4Sync').onclick=()=>click('ft52StepSync');$('r4BeatToggle').onclick=()=>click('ft49BeatToggle');
+ }
+ qa('#rc3Drawer [data-rc4]').forEach(b=>b.onclick=()=>{drawer?.classList.remove('on');if(b.dataset.rc4==='sensor')sensorPanel();if(b.dataset.rc4==='bell')bellPanel();if(b.dataset.rc4==='beat')beatPanel()});
+ // RC4 regression fix: RC3 replaced the visible step meter node after 63A.6 attached its observer.
+ // Observe the core FT59 step counter instead, so video motion survives virtual-panel meter replacement.
+ const v=$('ft63video'),scene=q('.ft63scene'),coreStep=$('steps');let last=+(coreStep?.textContent||0),lastAt=0,coastTimer=0;
+ function motionWake(){if(!v||!scene)return;lastAt=performance.now();clearTimeout(coastTimer);scene.classList.remove('a5idle');scene.classList.add('a5moving','a6moving','a6step');const st=q('.ft63motionState');if(st)st.textContent='WALKING · MOTION SYNC';try{v.playbackRate=.72;v.play().then(()=>{let r=.72;const ramp=setInterval(()=>{r=Math.min(1,r+.04);try{v.playbackRate=r}catch(e){}if(r>=1)clearInterval(ramp)},45)}).catch(()=>{})}catch(e){}setTimeout(()=>scene.classList.remove('a6step'),460);coastTimer=setTimeout(motionCoast,Math.max(1600,Math.min(3000,1800)))}
+ function motionCoast(){if(!v||!scene)return;scene.classList.remove('a5moving','a6moving');scene.classList.add('a5idle');const st=q('.ft63motionState');if(st)st.textContent='COASTING · HOLD';let r=Math.max(.55,v.playbackRate||1);const down=setInterval(()=>{r-=.06;if(r<=.3){clearInterval(down);v.pause();try{v.playbackRate=.25}catch(e){}if(st)st.textContent='STANDBY · STEP LINK'}else try{v.playbackRate=r}catch(e){}},55)}
+ if(coreStep)new MutationObserver(()=>{const n=+(coreStep.textContent||0);if(n>last)motionWake();last=n}).observe(coreStep,{childList:true,characterData:true,subtree:true});
+ $('ft63pause')?.addEventListener('click',()=>{clearTimeout(coastTimer);motionCoast()},true);$('ft63stop')?.addEventListener('click',()=>{clearTimeout(coastTimer);v?.pause();if(v)try{v.currentTime=0}catch(e){}},true);
+ // If a legacy SW is already controlling this test URL, remove it once so a home-screen shortcut can launch the exact RC4 URL.
+ if(!sessionStorage.getItem('ayalogRC515aCacheClean')){sessionStorage.setItem('ayalogRC515aCacheClean','1');Promise.all([('serviceWorker' in navigator?navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))):Promise.resolve()),('caches' in window?caches.keys().then(ks=>Promise.all(ks.map(k=>caches.delete(k)))):Promise.resolve())]).then(()=>{if(navigator.serviceWorker?.controller)location.reload()}).catch(()=>{});}
+ console.info('AYALOG Ver.5.5 RC5.15A: stability fix / AYABeat OFF / battery / controls / stale PWA cleanup');
+})();
+</script>
+
+
+
+<!-- Ver.5.5 RC5.1 — GLASS DUAL HUD VISUAL INTEGRATION -->
+<style id="v55rc5HudRefine">
+/* Preserve RC4 logic; refine only the visible cockpit layer. */
+body.ft63a{background:#03110f}
+.ft63top{background:linear-gradient(180deg,rgba(0,52,47,.88),rgba(0,27,27,.82))!important;border-color:rgba(113,231,219,.72)!important}
+.ft63icons{align-items:center;gap:0!important}.ft63icons span{display:flex;align-items:center;justify-content:center;gap:4px;color:#eafffd;border-left:1px solid rgba(117,216,208,.52)!important}
+.ft63icons #ft63gps{color:#cffff8}.ft63icons #ft63bell{color:#ffe0b0}.ft63icons #ft63bat{color:#d8fffa}
+/* Old compass and stand-alone altitude are superseded by live mini HUDs. */
+.ft63alt,.ft63nav{display:none!important}
+.ft63hint{top:14px!important;right:14px!important;background:rgba(2,35,34,.54)!important;color:#d8f7f2!important}
+/* Smaller paired translucent panels, leaving the video + arrows as the hero. */
+.rc5DataHud{position:absolute;left:12px;right:12px;top:70px;z-index:12;display:grid;grid-template-columns:1fr 1fr;gap:10px;pointer-events:none}
+.rc5Mini{min-width:0;height:118px;border:1px solid rgba(111,232,221,.68);border-radius:18px;background:linear-gradient(180deg,rgba(2,39,39,.66),rgba(1,24,27,.54));box-shadow:0 7px 20px #0006,inset 0 0 16px rgba(99,255,239,.06);backdrop-filter:blur(5px) saturate(1.05);-webkit-backdrop-filter:blur(5px) saturate(1.05);overflow:hidden;padding:8px}
+.rc5MiniHead{height:22px;display:flex;align-items:center;justify-content:space-between;gap:5px;color:#eafffc;font-weight:800;font-size:11px;letter-spacing:.02em}.rc5MiniHead small{font-size:9px;color:#a8d7d1;font-weight:700;white-space:nowrap}.rc5Mini canvas{width:100%;height:80px;display:block}
+/* Five meters: one calm cyan family, true circles, larger text. */
+.ft63meters{gap:2px!important;padding:9px 4px!important;background:linear-gradient(180deg,rgba(3,48,47,.82),rgba(1,25,27,.91))!important}
+.ft63m{border-right:1px solid rgba(178,255,247,.13)!important;padding:3px 1px!important;min-width:0}
+.ft63ring,.ft63m:nth-child(2) .ft63ring,.ft63m:nth-child(4) .ft63ring,.ft63m:nth-child(5) .ft63ring{width:min(76px,17vw)!important;height:auto!important;aspect-ratio:1/1!important;max-width:none!important;border-radius:50%!important;background:radial-gradient(circle at 50% 50%,#062b2c 0 54%,transparent 55%),conic-gradient(from 210deg,#72e9df 0 63%,rgba(141,245,235,.15) 63% 86%,transparent 86%)!important;box-shadow:inset 0 0 12px rgba(112,238,226,.18),0 0 10px #0008!important}
+.ft63m span{font-size:clamp(9px,2.6vw,12px)!important;font-weight:750!important;color:#e9fffc!important;line-height:1.05}.ft63m b{font-size:clamp(13px,3.7vw,18px)!important;line-height:1.05;margin-top:5px!important;color:#fff!important;letter-spacing:-.02em}
+.ft63m:nth-child(2) .ft63ring:after{content:'';position:absolute;inset:4px;border-radius:50%;box-shadow:inset 0 0 12px rgba(96,238,213,.06)}
+.ft63foot{color:#8fc8c2!important}
+@media(max-width:430px){.rc5DataHud{top:64px;left:9px;right:9px;gap:7px}.rc5Mini{height:102px;padding:6px;border-radius:15px}.rc5MiniHead{height:19px;font-size:10px}.rc5MiniHead small{font-size:8px}.rc5Mini canvas{height:70px}.ft63scene{min-height:430px}.ft63ring,.ft63m:nth-child(2) .ft63ring,.ft63m:nth-child(4) .ft63ring,.ft63m:nth-child(5) .ft63ring{width:min(64px,17vw)!important}.ft63meters{padding-left:2px!important;padding-right:2px!important}}
+</style>
+<script id="v55rc5HudRefineScript">
+(()=>{
+ const q=s=>document.querySelector(s), $=id=>document.getElementById(id);
+ const scene=q('.ft63scene'); if(!scene)return;
+ const hud=document.createElement('div');hud.className='rc5DataHud';hud.innerHTML=`
+  <div class="rc5Mini"><div class="rc5MiniHead"><span>🗺 軌跡</span><small id="rc5RouteSub">GPS WAIT</small></div><canvas id="rc5RouteCanvas"></canvas></div>
+  <div class="rc5Mini"><div class="rc5MiniHead"><span>⛰ 高低差</span><small id="rc5ElevSub">高度 -- m</small></div><canvas id="rc5ElevCanvas"></canvas></div>`;
+ scene.appendChild(hud);
+ const brand=q('#ft63a .ft63brand small');if(brand)brand.textContent='FIELD TEST 63A.8 · GLASS HUD / Ver.5.5 RC5.1';
+ function fit(c){const r=c.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1),w=Math.max(10,Math.round(r.width*d)),h=Math.max(10,Math.round(r.height*d));if(c.width!==w||c.height!==h){c.width=w;c.height=h}return {x:c.getContext('2d'),w,h,d}}
+ function clr(ctx,w,h){ctx.clearRect(0,0,w,h)}
+ function grad(t){t=Math.max(0,Math.min(1,t));const h=195-190*t;return `hsl(${h} 88% 62%)`}
+ function routePts(){try{return Array.isArray(route)?route.filter(p=>Number.isFinite(+p.lat)&&Number.isFinite(+p.lng)):[]}catch(e){return []}}
+ function drawRouteMini(){const c=$('rc5RouteCanvas');if(!c)return;const {x,w,h,d}=fit(c);clr(x,w,h);const p=routePts();x.lineCap='round';x.lineJoin='round';if(p.length<2){x.strokeStyle='rgba(137,255,246,.22)';x.setLineDash([5*d,5*d]);x.beginPath();x.moveTo(12*d,h*.7);x.quadraticCurveTo(w*.45,h*.25,w-12*d,h*.48);x.stroke();x.setLineDash([]);return}const lats=p.map(a=>+a.lat),lngs=p.map(a=>+a.lng),mnA=Math.min(...lats),mxA=Math.max(...lats),mnG=Math.min(...lngs),mxG=Math.max(...lngs),pa=9*d,dx=Math.max(1e-8,mxG-mnG),dy=Math.max(1e-8,mxA-mnA);const xy=p.map(a=>({x:pa+(+a.lng-mnG)/dx*(w-2*pa),y:h-pa-(+a.lat-mnA)/dy*(h-2*pa),alt:Number.isFinite(+a.smoothAlt)?+a.smoothAlt:null}));const al=xy.filter(a=>a.alt!==null).map(a=>a.alt),amin=al.length?Math.min(...al):0,amax=al.length?Math.max(...al):1;for(let i=1;i<xy.length;i++){const a=xy[i-1],b=xy[i],t=b.alt===null?i/(xy.length-1):(b.alt-amin)/Math.max(1,amax-amin);x.strokeStyle=grad(t);x.lineWidth=2.4*d;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}const s=xy[0],e=xy.at(-1);x.fillStyle='#43e38b';x.beginPath();x.arc(s.x,s.y,3.5*d,0,Math.PI*2);x.fill();x.fillStyle='#ff5b5b';x.beginPath();x.arc(e.x,e.y,3.5*d,0,Math.PI*2);x.fill();$('rc5RouteSub').textContent=`${p.length} pts`}
+ function drawElevMini(){const c=$('rc5ElevCanvas');if(!c)return;const {x,w,h,d}=fit(c);clr(x,w,h);const p=routePts().filter(a=>Number.isFinite(+a.smoothAlt));const sub=$('rc5ElevSub');let alt='--';try{if(Number.isFinite(lastSmoothAlt))alt=Math.round(lastSmoothAlt)}catch(e){}if(sub)sub.textContent=`高度 ${alt} m`;if(p.length<2){x.strokeStyle='rgba(137,255,246,.22)';x.setLineDash([5*d,5*d]);x.beginPath();x.moveTo(8*d,h*.72);x.quadraticCurveTo(w*.45,h*.58,w-8*d,h*.28);x.stroke();x.setLineDash([]);return}const ds=p.map((a,i)=>Number.isFinite(+a.dist)?+a.dist:i),as=p.map(a=>+a.smoothAlt),d0=Math.min(...ds),d1=Math.max(...ds),a0=Math.min(...as),a1=Math.max(...as),pad=8*d,DX=Math.max(1,d1-d0),DA=Math.max(1,a1-a0);const xy=p.map((a,i)=>({x:pad+(ds[i]-d0)/DX*(w-2*pad),y:h-pad-(as[i]-a0)/DA*(h-2*pad),t:(as[i]-a0)/DA}));x.beginPath();x.moveTo(xy[0].x,h-pad);xy.forEach(z=>x.lineTo(z.x,z.y));x.lineTo(xy.at(-1).x,h-pad);x.closePath();const fill=x.createLinearGradient(0,0,0,h);fill.addColorStop(0,'rgba(99,236,222,.24)');fill.addColorStop(1,'rgba(99,236,222,.02)');x.fillStyle=fill;x.fill();for(let i=1;i<xy.length;i++){x.strokeStyle=grad(xy[i].t);x.lineWidth=2.2*d;x.beginPath();x.moveTo(xy[i-1].x,xy[i-1].y);x.lineTo(xy[i].x,xy[i].y);x.stroke()}}
+ function syncCuteIcons(){const g=$('hudGps412'),b=$('hudBell412'),fg=$('ft63gps'),fb=$('ft63bell');if(fg&&g)fg.textContent=g.classList.contains('off')?'📍 GPS':'📍 GPS ●';if(fb&&b)fb.textContent='🐻🔔 '+b.textContent}
+ function paint(){drawRouteMini();drawElevMini();syncCuteIcons()}
+ setInterval(paint,2200);addEventListener('resize',paint);setTimeout(paint,120);
+ console.info('AYALOG Ver.5.5 RC5.1: compact high-transparency glass HUD + refined status icons; RC4 core logic preserved');
+})();
+</script>
+
+
+<style id="v55rc51GlassPolish">
+/* RC5.1 — compact, higher-transparency glass HUD. Forest/video remains the hero. */
+.rc5DataHud{left:18px!important;right:18px!important;top:72px!important;gap:18px!important;align-items:start!important}
+.rc5Mini{height:86px!important;padding:6px 7px!important;border-radius:15px!important;background:linear-gradient(180deg,rgba(1,34,33,.30),rgba(1,18,21,.22))!important;border-color:rgba(122,239,228,.62)!important;box-shadow:0 5px 14px rgba(0,0,0,.28),inset 0 0 12px rgba(112,255,241,.035)!important;backdrop-filter:blur(2.5px) saturate(1.02)!important;-webkit-backdrop-filter:blur(2.5px) saturate(1.02)!important}
+.rc5MiniHead{height:18px!important;font-size:10px!important;text-shadow:0 1px 3px #001!important}.rc5MiniHead small{font-size:7.5px!important;color:rgba(213,250,245,.82)!important}.rc5Mini canvas{height:59px!important;opacity:.94}
+/* Refined friendly legacy-style status icons: recognizable first, cute second. */
+.ft63icons #ft63gps,.ft63icons #ft63bell{font-size:0!important;white-space:nowrap}
+.ft63icons #ft63gps:before{content:'🐶';font-size:17px;filter:saturate(.82)}
+.ft63icons #ft63gps:after{content:' GPS';font-size:12px;font-weight:850;color:#eafffc}
+.ft63icons #ft63bell:before{content:'🐻🔔';font-size:16px}
+.ft63icons #ft63bell:after{content:' OFF';font-size:11px;font-weight:850;color:#ffd3a0}
+/* Keep the five-meter success from RC5; slightly calm the ring brightness. */
+.ft63ring,.ft63m:nth-child(2) .ft63ring,.ft63m:nth-child(4) .ft63ring,.ft63m:nth-child(5) .ft63ring{filter:saturate(.90) brightness(.96)}
+@media(max-width:430px){.rc5DataHud{left:15px!important;right:15px!important;top:67px!important;gap:12px!important}.rc5Mini{height:78px!important;padding:5px 6px!important;border-radius:14px!important}.rc5MiniHead{height:17px!important;font-size:9px!important}.rc5MiniHead small{font-size:7px!important}.rc5Mini canvas{height:53px!important}}
+</style>
+<script id="v55rc51StatusPolish">
+(()=>{
+ const gps=document.getElementById('ft63gps'),bell=document.getElementById('ft63bell');
+ function syncState(){
+   const oldGps=document.getElementById('hudGps412'),oldBell=document.getElementById('hudBell412');
+   if(gps){const on=oldGps&&!oldGps.classList.contains('off');gps.dataset.on=on?'1':'0';gps.style.opacity=on?'1':'.78';}
+   if(bell&&oldBell){const txt=(oldBell.textContent||'').toUpperCase();const on=!txt.includes('OFF');bell.dataset.on=on?'1':'0';}
+ }
+ setInterval(syncState,700);syncState();
+})();
+</script>
+
+
+<style id="rc54Step1DualDataFix">
+#ft63a .ft63scene{position:relative!important}
+#ft63a .rc5DataHud{
+ position:absolute!important;left:4.2%!important;right:4.2%!important;
+ top:auto!important;bottom:6.2%!important;width:auto!important;height:82px!important;
+ display:flex!important;flex-direction:row!important;align-items:flex-end!important;
+ justify-content:space-between!important;gap:0!important;z-index:24!important;
+ pointer-events:none!important
+}
+#ft63a .rc5DataHud .rc5Mini{
+ position:relative!important;inset:auto!important;flex:0 0 34%!important;
+ width:34%!important;max-width:34%!important;min-width:0!important;
+ height:78px!important;min-height:78px!important;max-height:78px!important;
+ box-sizing:border-box!important;margin:0!important;padding:6px 8px 5px!important;
+ overflow:hidden!important;border-radius:17px!important;
+ border:1px solid rgba(105,255,239,.76)!important;
+ background:rgba(1,27,26,.20)!important;
+ backdrop-filter:blur(4px)!important;-webkit-backdrop-filter:blur(4px)!important;
+ transform:none!important;pointer-events:auto!important
+}
+#ft63a .rc5MiniHead{
+ height:16px!important;min-height:16px!important;margin:0 0 2px!important;
+ display:flex!important;align-items:center!important;justify-content:space-between!important;
+ font-size:9.5px!important;line-height:1!important;white-space:nowrap!important
+}
+#ft63a .rc5MiniHead small{font-size:7.5px!important;line-height:1!important}
+#ft63a .rc5DataHud .rc5Mini canvas{
+ display:block!important;width:100%!important;height:51px!important;
+ max-height:51px!important;margin:0!important
+}
+#ft63a .ft63arrows,#ft63a .ft63hint{z-index:20!important}
+@media(max-width:430px){
+ #ft63a .rc5DataHud{left:3.6%!important;right:3.6%!important;bottom:5.7%!important;height:72px!important}
+ #ft63a .rc5DataHud .rc5Mini{
+  flex-basis:35%!important;width:35%!important;max-width:35%!important;
+  height:69px!important;min-height:69px!important;max-height:69px!important;
+  padding:5px 6px 4px!important;border-radius:15px!important
+ }
+ #ft63a .rc5MiniHead{height:14px!important;min-height:14px!important;font-size:8.5px!important}
+ #ft63a .rc5MiniHead small{font-size:7px!important}
+ #ft63a .rc5DataHud .rc5Mini canvas{height:46px!important;max-height:46px!important}
+}
+</style>
+<script id="rc54Step1Label">
+(()=>{
+ const f=()=>{const e=document.querySelector('#ft63a .ft63brand small');
+ if(e)e.textContent='FIELD TEST 63A.11 · DUAL DATA HUD FIX / Ver.5.5 RC5.4'};
+ document.readyState==='loading'?document.addEventListener('DOMContentLoaded',f):f();
+})();
+</script>
+
+
+<style id="rc55StatusTileHud">
+/* RC5.5 STEP 2 — STATUS TILE HUD
+   Scope: top status display only. RC5.4 dual-data + RC5.2 core logic retained. */
+
+#ft63a .ft63top{align-items:flex-start!important}
+#ft63a .ft63icons{
+  display:grid!important;
+  grid-template-columns:repeat(3,58px)!important;
+  gap:7px!important;
+  align-items:start!important;
+  justify-content:end!important;
+  border:0!important;
+}
+#ft63a .ft63icons > *{
+  box-sizing:border-box!important;
+  width:58px!important;
+  min-width:58px!important;
+  height:58px!important;
+  margin:0!important;
+  padding:5px 3px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:2px!important;
+  overflow:hidden!important;
+  white-space:normal!important;
+  text-align:center!important;
+  border:1px solid rgba(111,255,240,.70)!important;
+  border-radius:15px!important;
+  background:rgba(1,29,28,.22)!important;
+  backdrop-filter:blur(5px)!important;
+  -webkit-backdrop-filter:blur(5px)!important;
+  box-shadow:inset 0 0 15px rgba(100,255,240,.035)!important;
+  font-size:9px!important;
+  font-weight:800!important;
+  line-height:1.02!important;
+}
+.rc55StatusIcon{font-size:20px!important;line-height:1!important;height:21px}
+.rc55StatusName{font-size:8px!important;letter-spacing:.04em;opacity:.86}
+.rc55StatusValue{font-size:9px!important;font-weight:900!important}
+.rc55GpsBars{
+  height:20px;display:flex;align-items:flex-end;gap:2px
+}
+.rc55GpsBars i{
+  display:block;width:4px;border-radius:2px 2px 0 0;
+  background:rgba(230,255,252,.40)
+}
+.rc55GpsBars i:nth-child(1){height:7px}
+.rc55GpsBars i:nth-child(2){height:11px}
+.rc55GpsBars i:nth-child(3){height:15px}
+.rc55GpsBars i:nth-child(4){height:20px}
+.rc55On .rc55GpsBars i{background:#6fffe9}
+.rc55Bear{font-size:21px;filter:grayscale(1) brightness(2.3)}
+.rc55BellOn .rc55Bear{filter:none}
+.rc55Battery{
+  width:25px;height:13px;border:2px solid rgba(245,255,252,.92);
+  border-radius:3px;position:relative;box-sizing:border-box
+}
+.rc55Battery:after{
+  content:"";position:absolute;right:-5px;top:3px;width:3px;height:5px;
+  border-radius:0 2px 2px 0;background:rgba(245,255,252,.92)
+}
+.rc55BatteryFill{
+  position:absolute;left:2px;top:2px;bottom:2px;width:50%;
+  border-radius:1px;background:#6fffe9
+}
+@media(max-width:430px){
+ #ft63a .ft63icons{grid-template-columns:repeat(3,51px)!important;gap:5px!important}
+ #ft63a .ft63icons > *{width:51px!important;min-width:51px!important;height:54px!important;border-radius:13px!important}
+ .rc55StatusIcon,.rc55Bear{font-size:18px!important}
+ .rc55StatusName{font-size:7px!important}
+ .rc55StatusValue{font-size:8px!important}
+}
+</style>
+
+<script id="rc55StatusTileScript">
+(()=>{
+ const install=()=>{
+   const wrap=document.querySelector('#ft63a .ft63icons');
+   if(!wrap || wrap.dataset.rc55==='1') return;
+   wrap.dataset.rc55='1';
+
+   // Re-use the three existing status nodes rather than overlaying duplicates.
+   const nodes=[...wrap.children].slice(0,3);
+   if(nodes.length<3) return;
+   const [gps,bell,bat]=nodes;
+
+   gps.innerHTML='<div class="rc55GpsBars"><i></i><i></i><i></i><i></i></div>'+
+                 '<div class="rc55StatusName">GPS</div><div class="rc55StatusValue">WAIT</div>';
+   bell.innerHTML='<div class="rc55Bear">🐻</div>'+
+                  '<div class="rc55StatusName">熊鈴</div><div class="rc55StatusValue">OFF</div>';
+   bat.innerHTML='<div class="rc55Battery"><span class="rc55BatteryFill"></span></div>'+
+                 '<div class="rc55StatusName">BATTERY</div><div class="rc55StatusValue">--%</div>';
+
+   const update=()=>{
+     const hudGps=document.getElementById('hudGps412');
+     const hudBell=document.getElementById('hudBell412');
+     const hudBat=document.getElementById('hudBattery412');
+
+     const gpsText=(hudGps?.textContent||'').trim();
+     const gpsOn=!!hudGps && !hudGps.classList.contains('off') &&
+                 !/wait|待機|off/i.test(gpsText);
+     gps.classList.toggle('rc55On',gpsOn);
+     gps.querySelector('.rc55StatusValue').textContent=gpsOn?'ON':'WAIT';
+
+     const bellText=(hudBell?.textContent||'OFF').trim();
+     const bellOn=!/off/i.test(bellText);
+     bell.classList.toggle('rc55BellOn',bellOn);
+     bell.querySelector('.rc55StatusValue').textContent=bellOn?'ON':'OFF';
+
+     const bt=(hudBat?.textContent||'--%').trim();
+     const m=bt.match(/(\d{1,3})/);
+     const pct=m?Math.max(0,Math.min(100,+m[1])):null;
+     bat.querySelector('.rc55StatusValue').textContent=pct===null?'--%':pct+'%';
+     bat.querySelector('.rc55BatteryFill').style.width=(pct===null?0:pct*0.78)+'%';
+   };
+   update(); setInterval(update,600);
+
+   const brand=document.querySelector('#ft63a .ft63brand small');
+   if(brand) brand.textContent='FIELD TEST 63A.12 · STATUS TILE HUD / Ver.5.5 RC5.5';
+ };
+ document.readyState==='loading'?document.addEventListener('DOMContentLoaded',install):install();
+})();
+</script>
+
+
+<!-- Ver.5.5 RC5.6 — REFERENCE HUD / single-source status tiles -->
+<style id="rc56ReferenceHud">
+#ft63a .ft63icons{
+  display:grid!important;grid-template-columns:repeat(3,72px)!important;
+  gap:10px!important;align-items:start!important;justify-content:end!important;
+  border:0!important;
+}
+#ft63a .ft63icons>*{
+  width:72px!important;min-width:72px!important;height:82px!important;
+  padding:8px 4px 6px!important;margin:0!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;gap:3px!important;overflow:hidden!important;
+  border:1.5px solid rgba(112,255,240,.88)!important;border-radius:22px!important;
+  background:rgba(5,35,31,.40)!important;
+  backdrop-filter:blur(8px)!important;-webkit-backdrop-filter:blur(8px)!important;
+  box-shadow:inset 0 0 20px rgba(105,255,240,.045)!important;
+  color:#fff!important;text-align:center!important;white-space:nowrap!important;
+}
+.rc56GpsBars{height:27px;display:flex;align-items:flex-end;gap:4px}
+.rc56GpsBars i{display:block;width:7px;border-radius:5px 5px 1px 1px;background:#a9c7c5}
+.rc56GpsBars i:nth-child(1){height:9px}.rc56GpsBars i:nth-child(2){height:15px}
+.rc56GpsBars i:nth-child(3){height:21px}.rc56GpsBars i:nth-child(4){height:27px}
+.rc56Gps.on .rc56GpsBars i{background:#75ffe8;box-shadow:0 0 5px rgba(117,255,232,.25)}
+.rc56BearFace{position:relative;width:35px;height:30px;margin-top:1px}
+.rc56BearFace:before,.rc56BearFace:after{
+ content:"";position:absolute;top:0;width:13px;height:13px;border-radius:50%;background:#fff
+}
+.rc56BearFace:before{left:1px}.rc56BearFace:after{right:1px}
+.rc56BearHead{position:absolute;left:5px;top:4px;width:25px;height:25px;border-radius:46% 46% 50% 50%;background:#fff}
+.rc56BearHead:before,.rc56BearHead:after{
+ content:"";position:absolute;top:8px;width:3px;height:3px;border-radius:50%;background:#173d3a
+}
+.rc56BearHead:before{left:6px}.rc56BearHead:after{right:6px}
+.rc56BearMuzzle{position:absolute;left:9px;top:14px;width:8px;height:7px;border-radius:50%;background:#d9f4ef}
+.rc56BearMuzzle:after{content:"";position:absolute;left:3px;top:1px;width:3px;height:3px;border-radius:50%;background:#173d3a}
+.rc56Bell.on .rc56BearFace{filter:drop-shadow(0 0 6px rgba(115,255,231,.65))}
+.rc56Battery{width:38px;height:22px;border:3px solid #fff;border-radius:5px;position:relative;margin-top:1px}
+.rc56Battery:after{content:"";position:absolute;right:-7px;top:5px;width:5px;height:8px;border-radius:0 3px 3px 0;background:#fff}
+.rc56BatteryFill{display:block;position:absolute;left:3px;top:3px;bottom:3px;width:0;border-radius:2px;background:#75ff68;box-shadow:0 0 7px rgba(117,255,104,.45)}
+.rc56Value{font-size:17px!important;font-weight:900!important;line-height:1!important;letter-spacing:.01em}
+.rc56Label{font-size:9px!important;font-weight:800!important;opacity:.88;line-height:1!important}
+#ft63a .ft63icons .rc56BatteryTile .rc56Value{font-size:15px!important}
+@media(max-width:430px){
+ #ft63a .ft63icons{grid-template-columns:repeat(3,64px)!important;gap:7px!important}
+ #ft63a .ft63icons>*{width:64px!important;min-width:64px!important;height:76px!important;border-radius:20px!important}
+ .rc56Value{font-size:15px!important}.rc56Label{font-size:8px!important}
+}
+</style>
+<script id="rc56ReferenceHudScript">
+(()=>{
+ const boot=()=>{
+  const wrap=document.querySelector('#ft63a .ft63icons');
+  if(!wrap) return;
+  // Replace the whole status area once. This prevents legacy children / emoji from flashing through.
+  wrap.innerHTML=`
+   <div class="rc56Gps"><div class="rc56GpsBars"><i></i><i></i><i></i><i></i></div><div class="rc56Value">WAIT</div></div>
+   <div class="rc56Bell"><div class="rc56BearFace"><span class="rc56BearHead"><i class="rc56BearMuzzle"></i></span></div><div class="rc56Label">熊鈴</div><div class="rc56Value">OFF</div></div>
+   <div class="rc56BatteryTile"><div class="rc56Battery"><span class="rc56BatteryFill"></span></div><div class="rc56Value">--%</div></div>`;
+  const gps=wrap.children[0], bell=wrap.children[1], bat=wrap.children[2];
+
+  const refresh=()=>{
+   const hg=document.getElementById('hudGps412');
+   const hb=document.getElementById('hudBell412');
+   const hbat=document.getElementById('hudBattery412');
+   const gt=(hg?.textContent||'').trim();
+   const gon=!!hg && !hg.classList.contains('off') && !/wait|待機|off/i.test(gt);
+   gps.classList.toggle('on',gon);
+   gps.querySelector('.rc56Value').textContent=gon?'GPS':'WAIT';
+
+   const bon=!/off/i.test((hb?.textContent||'OFF').trim());
+   bell.classList.toggle('on',bon);
+   bell.querySelector('.rc56Value').textContent=bon?'ON':'OFF';
+
+   const m=(hbat?.textContent||'').match(/(\d{1,3})/);
+   const pct=m?Math.max(0,Math.min(100,+m[1])):null;
+   bat.querySelector('.rc56Value').textContent=pct==null?'--%':pct+'%';
+   bat.querySelector('.rc56BatteryFill').style.width=(pct==null?0:pct)+'%';
+  };
+  refresh();
+  setInterval(refresh,700);
+  const brand=document.querySelector('#ft63a .ft63brand small');
+  if(brand) brand.textContent='FIELD TEST 63A.13 · REFERENCE HUD / Ver.5.5 RC5.6';
+ };
+ document.readyState==='loading'?document.addEventListener('DOMContentLoaded',boot):boot();
+})();
+</script>
+
+\n\n<!-- Ver.5.5 RC5.11 — MOTION RADAR HUD -->
+<style id="rc511MotionRadarStyle">
+#ft63a .rc58BalanceHud{width:55%!important;max-width:330px!important;min-height:128px!important;padding:9px 10px!important}
+#ft63a .rc511Body{display:grid;grid-template-columns:1.08fr .92fr;gap:8px;align-items:center}
+#ft63a .rc511Rows .rc58Row{min-height:21px!important;grid-template-columns:44px 1fr!important}
+#ft63a .rc511Rows .rc58Stable{margin-top:2px!important;padding-top:4px!important}
+#ft63a .rc511Radar{position:relative;width:92px;height:92px;margin:auto;border-radius:50%;
+ background:repeating-radial-gradient(circle,transparent 0 14px,rgba(104,255,240,.24) 15px 16px),
+ linear-gradient(90deg,transparent 49.4%,rgba(178,255,249,.55) 49.5% 50.5%,transparent 50.6%),
+ linear-gradient(0deg,transparent 49.4%,rgba(178,255,249,.55) 49.5% 50.5%,transparent 50.6%);
+ border:1px solid rgba(111,239,226,.38);box-shadow:inset 0 0 14px rgba(80,255,240,.08)}
+#ft63a .rc511Radar:before,#ft63a .rc511Radar:after{content:'';position:absolute;left:50%;top:50%;background:rgba(120,255,243,.18);transform-origin:0 0}
+#ft63a .rc511Radar:before{width:45px;height:1px;transform:rotate(45deg)}
+#ft63a .rc511Radar:after{width:45px;height:1px;transform:rotate(135deg)}
+#ft63a .rc511Dot{position:absolute;left:50%;top:50%;width:11px;height:11px;border-radius:50%;background:#fff;border:2px solid #ff5b61;box-shadow:0 0 5px #fff,0 0 13px #ff454d;transform:translate(-50%,-50%);transition:left .18s linear,top .18s linear}
+#ft63a .rc511Lab{position:absolute;font-size:7px;color:#e9fffc;font-weight:900;text-shadow:0 1px 3px #000}
+#ft63a .rc511F{top:-1px;left:50%;transform:translate(-50%,-100%)}#ft63a .rc511B{bottom:-1px;left:50%;transform:translate(-50%,100%)}
+#ft63a .rc511L{left:-2px;top:50%;transform:translate(-100%,-50%)}#ft63a .rc511R{right:-2px;top:50%;transform:translate(100%,-50%)}
+#ft63a .rc5DataHud{bottom:4.0%!important;height:66px!important}
+#ft63a .rc5DataHud .rc5Mini{height:66px!important}
+#ft63a .rc5DataHud .rc5Mini canvas{height:43px!important;max-height:43px!important}
+#ft63a .ft63arrows{z-index:23!important}
+@media(max-width:430px){
+ #ft63a .rc58BalanceHud{width:55%!important;min-height:118px!important;padding:7px 8px!important}
+ #ft63a .rc511Body{grid-template-columns:1.08fr .92fr;gap:4px}
+ #ft63a .rc511Radar{width:72px;height:72px;background:repeating-radial-gradient(circle,transparent 0 10px,rgba(104,255,240,.24) 11px 12px),linear-gradient(90deg,transparent 49%,rgba(178,255,249,.55) 49.5% 50.5%,transparent 51%),linear-gradient(0deg,transparent 49%,rgba(178,255,249,.55) 49.5% 50.5%,transparent 51%)}
+ #ft63a .rc511Radar:before,#ft63a .rc511Radar:after{width:35px}
+ #ft63a .rc511Rows .rc58Row{grid-template-columns:37px 1fr!important;min-height:18px!important;font-size:7.8px!important}
+ #ft63a .rc511Rows .rc58Pair b{font-size:8.6px!important}
+ #ft63a .rc5DataHud{bottom:4.2%!important;height:61px!important}
+ #ft63a .rc5DataHud .rc5Mini{height:61px!important}
+ #ft63a .rc5DataHud .rc5Mini canvas{height:39px!important;max-height:39px!important}
+}
+</style>
+<script id="rc511MotionRadarScript">
+(()=>{const boot=()=>{const hud=document.getElementById('rc58BalanceHud');if(!hud||document.getElementById('rc511Radar'))return;
+ const title=hud.querySelector('.rc58Title'); const rows=[...hud.querySelectorAll('.rc58Row')]; const stable=hud.querySelector('.rc58Stable');
+ const body=document.createElement('div');body.className='rc511Body';const left=document.createElement('div');left.className='rc511Rows';rows.forEach(r=>left.appendChild(r));if(stable)left.appendChild(stable);
+ const radar=document.createElement('div');radar.id='rc511Radar';radar.className='rc511Radar';radar.innerHTML='<i class="rc511Lab rc511F">前</i><i class="rc511Lab rc511B">後</i><i class="rc511Lab rc511L">左</i><i class="rc511Lab rc511R">右</i><b id="rc511Dot" class="rc511Dot"></b>';
+ body.append(left,radar);hud.appendChild(body);
+ const update=()=>{let x={neg:50,pos:50},y={neg:50,pos:50};try{if(typeof axisDistribution430==='function'){x=axisDistribution430('x');y=axisDistribution430('y')}}catch(e){}
+  const dot=document.getElementById('rc511Dot');if(!dot)return;const dx=Math.max(-1,Math.min(1,(Number(x.pos)-Number(x.neg))/100));const dy=Math.max(-1,Math.min(1,(Number(y.pos)-Number(y.neg))/100));dot.style.left=(50+dx*36)+'%';dot.style.top=(50-dy*36)+'%';};
+ update();setInterval(update,180);const brand=document.querySelector('#ft63a .ft63brand > small');if(brand)brand.textContent='RC5.11 · MOTION RADAR';console.info('AYALOG RC5.11 motion radar HUD active; sensor/GPS logic preserved');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',boot):boot();})();
+</script>
+
+<!-- Ver.5.5 RC5.13 — RECORDS HUD FIX: keep 保存・記録 inside cockpit UI -->
+<style id="v55rc513RecordsHudStyle">
+.rc513Records{display:grid;gap:9px}
+.rc513Rec{border:1px solid rgba(107,232,221,.30);border-radius:16px;background:rgba(3,75,76,.34);padding:12px;color:#eaffff}
+.rc513RecTop{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.rc513RecDate{font-weight:900;font-size:14px}.rc513RecMeta{font-size:10px;color:#a8d8d4;margin-top:3px}
+.rc513RecGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:9px}
+.rc513RecStat{border:1px solid rgba(107,232,221,.18);border-radius:11px;background:rgba(1,45,48,.46);padding:8px;text-align:center}
+.rc513RecStat span{display:block;font-size:9px;color:#9fcfcb}.rc513RecStat b{display:block;font-size:15px;margin-top:2px}
+.rc513RecActions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+.rc513RecActions button{border:1px solid #3ebbb2;border-radius:11px;background:#073f43;color:#eaffff;padding:9px 6px;font-size:11px;font-weight:850}
+.rc513RecActions .danger{border-color:#d66b76;background:#5a2730}
+.rc513Empty{text-align:center;padding:28px 12px;color:#a8d8d4;line-height:1.7}
+</style>
+<script id="v55rc513RecordsHudScript">
+(()=>{
+ const $=id=>document.getElementById(id);
+ const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+ const fmtDist=v=>{v=Number(v)||0;return v>=1000?(v/1000).toFixed(2)+" km":Math.round(v)+" m"};
+ const fmtTime=v=>{
+   if(typeof v==="string" && v.includes(":")) return v;
+   v=Math.max(0,Math.round(Number(v)||0));
+   return String(Math.floor(v/60)).padStart(2,"0")+":"+String(v%60).padStart(2,"0");
+ };
+ function records(){
+   try{
+     if(typeof data!=="undefined" && Array.isArray(data)) return data;
+   }catch(e){}
+   try{
+     const key=(typeof KEY!=="undefined"&&KEY)?KEY:"ayalog_records";
+     const a=JSON.parse(localStorage.getItem(key)||"[]");
+     return Array.isArray(a)?a:[];
+   }catch(e){return []}
+ }
+ function closePanels(){
+   $("rc3Drawer")?.classList.remove("on");
+   $("rc3Shade")?.classList.add("on");
+ }
+ function openRecordsHUD(){
+   const detail=$("rc3Detail"), body=$("rc3Body"), title=$("rc3Title");
+   if(!detail||!body||!title)return;
+   closePanels();
+   title.textContent="📖 SAVED WALK LOG";
+   const a=records();
+   body.innerHTML=a.length?`<div class="rc513Records">${a.map((r,i)=>`
+     <article class="rc513Rec">
+       <div class="rc513RecTop"><div><div class="rc513RecDate">${esc(r.date||"保存記録")}</div><div class="rc513RecMeta">LOG ${String(i+1).padStart(2,"0")} · ${(Array.isArray(r.route)?r.route.length:0)} GPS pts</div></div><b>${Number(r.steps||0).toLocaleString()} 歩</b></div>
+       <div class="rc513RecGrid">
+        <div class="rc513RecStat"><span>距離</span><b>${fmtDist(r.distance||0)}</b></div>
+        <div class="rc513RecStat"><span>時間</span><b>${fmtTime(r.duration||r.seconds||0)}</b></div>
+        <div class="rc513RecStat"><span>登り</span><b>+${Math.round(Number(r.ascent)||0)} m</b></div>
+       </div>
+       <div class="rc513RecActions">
+        <button data-r513-view="${esc(r.id)}">詳細表示</button>
+        <button class="danger" data-r513-del="${esc(r.id)}">削除</button>
+       </div>
+     </article>`).join("")}</div>`:
+     `<div class="rc513Empty">まだ保存された歩行記録はありません。<br>STOP後のサマリーから記録を保存できます。</div>`;
+   detail.classList.add("on","rc3Pulse"); detail.setAttribute("aria-hidden","false");
+   setTimeout(()=>detail.classList.remove("rc3Pulse"),420);
+
+   body.querySelectorAll("[data-r513-view]").forEach(b=>b.onclick=()=>{
+     const rec=records().find(x=>String(x.id)===String(b.dataset.r513View));
+     if(!rec)return;
+     if(typeof window.openSavedVoice40==="function"){ detail.classList.remove("on"); $("rc3Shade")?.classList.remove("on"); window.openSavedVoice40(rec); }
+     else alert("詳細データ: "+(rec.date||"保存記録")+" / "+Number(rec.steps||0).toLocaleString()+"歩");
+   });
+   body.querySelectorAll("[data-r513-del]").forEach(b=>b.onclick=()=>{
+     const id=b.dataset.r513Del;
+     if(!confirm("この歩行記録を削除しますか？"))return;
+     try{
+       if(typeof data!=="undefined" && Array.isArray(data)){
+         data=data.filter(x=>String(x.id)!==String(id));
+         if(typeof saveData==="function")saveData();
+         if(typeof render==="function")render();
+       }
+     }catch(e){console.warn(e)}
+     openRecordsHUD();
+   });
+ }
+ function install(){
+   const old=document.querySelector('#rc3Drawer [data-rc3="records"]');
+   if(!old || old.dataset.rc513==="1")return;
+   const n=old.cloneNode(true); n.dataset.rc513="1"; old.replaceWith(n);
+   n.onclick=e=>{e.preventDefault();e.stopPropagation();openRecordsHUD()};
+ }
+ install();
+ window.addEventListener("load",install,{once:true});
+ console.info("AYALOG Ver.5.5 RC5.13: 保存・記録をコクピットHUD内表示へ統合");
+})();
+</script>
+
+
+<!-- Ver.5.5 RC5.14 — SAVED WALK DETAIL HUD -->
+<style id="v55rc514SavedWalkDetailHud">
+.rc514Detail{display:flex;flex-direction:column;gap:12px;padding-bottom:12px}
+.rc514Top{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.rc514Stat{padding:9px 5px;border:1px solid rgba(108,248,238,.42);border-radius:13px;background:rgba(0,54,64,.24);text-align:center}
+.rc514Stat span{display:block;font-size:9px;color:#a9d8d4;margin-bottom:3px}
+.rc514Stat b{font-size:13px;color:#f2fffd}
+.rc514Section{border:1px solid rgba(108,248,238,.65);border-radius:18px;background:rgba(0,45,52,.25);padding:10px;overflow:hidden}
+.rc514SectionHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;font-size:12px;font-weight:900;color:#eafffc}
+.rc514SectionHead small{font-size:9px;color:#9fd2ce}
+#rc514RouteHost #route3dCard46{margin:0!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+#rc514RouteHost #route3dCard46>h2,#rc514RouteHost #route3dCard46>.mini,#rc514RouteHost #route3dCard46>.route3dLegend46{display:none!important}
+#rc514RouteHost #map{display:block!important;height:230px!important;margin:0!important;border-radius:13px!important}
+#rc514RouteHost .elevationCanvas{display:block!important;width:100%!important;height:150px!important;margin-top:10px!important;border-radius:13px!important}
+#rc514RouteHost .elevationStats{display:grid!important;margin-top:8px!important}
+.rc514Back{width:100%;padding:11px;border:1px solid #55d9cf;border-radius:13px;background:#073f43;color:#efffff;font-weight:900}
+@media(max-width:430px){.rc514Top{grid-template-columns:repeat(2,1fr)}#rc514RouteHost #map{height:205px!important}}
+</style>
+<script id="v55rc514SavedWalkDetailHudScript">
+(()=>{
+ const $=id=>document.getElementById(id);
+ const fmtD=v=>{v=Number(v)||0;return v>=1000?(v/1000).toFixed(2)+" km":Math.round(v)+" m"};
+ let routeCard=null, routeHome=null, routeNext=null;
+
+ function allRecords(){
+   try{ if(typeof data!=="undefined"&&Array.isArray(data))return data; }catch(e){}
+   try{
+     const key=(typeof KEY!=="undefined"&&KEY)?KEY:"ayalog_records";
+     const a=JSON.parse(localStorage.getItem(key)||"[]"); return Array.isArray(a)?a:[];
+   }catch(e){return []}
+ }
+ function restoreRouteCard(){
+   if(routeCard&&routeHome){
+     try{ routeHome.insertBefore(routeCard,routeNext&&routeNext.parentNode===routeHome?routeNext:null); }catch(e){routeHome.appendChild(routeCard)}
+   }
+   routeCard=routeHome=routeNext=null;
+   try{ if(typeof returnToLiveRoute==="function")returnToLiveRoute(); }catch(e){}
+ }
+ function openListAgain(){
+   restoreRouteCard();
+   const btn=document.querySelector('#rc3Drawer [data-rc3="records"]');
+   if(btn)btn.click();
+ }
+ function openSavedDetail(rec){
+   if(!rec)return;
+   if(!Array.isArray(rec.route)||!rec.route.length){alert("この記録には保存されたGPS軌跡がありません。");return}
+   const detail=$("rc3Detail"),body=$("rc3Body"),title=$("rc3Title");
+   if(!detail||!body||!title)return;
+
+   routeCard=$("route3dCard46");
+   if(routeCard){routeHome=routeCard.parentNode;routeNext=routeCard.nextSibling}
+
+   try{
+     if(typeof applyRouteView==="function"){
+       if(!applyRouteView(rec)){restoreRouteCard();return}
+     }
+   }catch(e){console.warn("RC5.14 applyRouteView",e)}
+
+   title.textContent="📖 SAVED WALK DETAIL";
+   body.innerHTML=`
+    <div class="rc514Detail">
+      <div class="rc514Top">
+       <div class="rc514Stat"><span>DATE</span><b>${rec.date||"--"}</b></div>
+       <div class="rc514Stat"><span>歩数</span><b>${Number(rec.steps||0).toLocaleString()} 歩</b></div>
+       <div class="rc514Stat"><span>距離</span><b>${fmtD(rec.distance)}</b></div>
+       <div class="rc514Stat"><span>時間</span><b>${rec.duration||"--"}</b></div>
+      </div>
+      <section class="rc514Section">
+       <div class="rc514SectionHead"><span>🗺 保存GPS軌跡</span><small>${rec.route.length} GPS pts</small></div>
+       <div id="rc514RouteHost"></div>
+      </section>
+      <button class="rc514Back" id="rc514Back">← 保存一覧へ戻る</button>
+    </div>`;
+   const host=$("rc514RouteHost");
+   if(routeCard&&host)host.appendChild(routeCard);
+
+   detail.classList.add("on"); detail.setAttribute("aria-hidden","false");
+   $("rc3Shade")?.classList.add("on");
+   setTimeout(()=>{
+     try{
+       const map=$("map"),elev=$("elevationCanvas"),stats=routeCard?.querySelector(".elevationStats");
+       if(map)map.style.display="block";
+       if(elev)elev.style.display="block";
+       if(stats)stats.style.display="grid";
+       if(typeof resizeMap==="function")resizeMap();
+       if(typeof drawRoute==="function")drawRoute();
+       if(typeof drawElevationProfile==="function")drawElevationProfile();
+     }catch(e){console.warn("RC5.14 redraw",e)}
+   },60);
+   $("rc514Back").onclick=openListAgain;
+ }
+
+ function hook(){
+   const body=$("rc3Body"); if(!body||body.dataset.rc514==="1")return;
+   body.dataset.rc514="1";
+   body.addEventListener("click",e=>{
+     const b=e.target.closest("[data-r513-view]");
+     if(!b)return;
+     e.preventDefault();e.stopImmediatePropagation();
+     const rec=allRecords().find(x=>String(x.id)===String(b.dataset.r513View));
+     openSavedDetail(rec);
+   },true);
+
+   const close=$("rc3DetailClose");
+   if(close&&!close.dataset.rc514){
+     close.dataset.rc514="1";
+     close.addEventListener("click",()=>restoreRouteCard(),true);
+   }
+ }
+ hook(); window.addEventListener("load",hook,{once:true});
+ console.info("AYALOG Ver.5.5 RC5.14: saved GPS route + elevation profile restored inside cockpit detail HUD");
+})();
+</script>
+
+
+<!-- RC5.16 CLEAN MERGE — B navigation + C visual/performance wins only -->
+<style id="rc516Style">
+#ft63a .rc56Battery{overflow:visible!important}
+#ft63a .rc56BatteryFill{
+ display:block!important;position:absolute!important;left:3px!important;top:3px!important;bottom:3px!important;
+ right:auto!important;min-width:0!important;max-width:calc(100% - 6px)!important;
+ background:linear-gradient(90deg,#66f0cf,#a7ffd9)!important;
+ box-shadow:0 0 7px rgba(117,255,218,.52)!important;opacity:1!important
+}
+#ft63a #rc5RouteCanvas{filter:drop-shadow(0 0 3px rgba(93,255,237,.22))}
+</style>
+<script id="rc516Script">
+(()=>{
+ const $=id=>document.getElementById(id);
+ let lastSig='', resizeTimer=0;
+
+ function routePts(){
+   try{return Array.isArray(route)?route.filter(p=>Number.isFinite(+p.lat)&&Number.isFinite(+p.lng)):[]}
+   catch(e){return []}
+ }
+ function fit(c){
+   const r=c.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1);
+   const w=Math.max(10,Math.round(r.width*d)),h=Math.max(10,Math.round(r.height*d));
+   if(c.width!==w||c.height!==h){c.width=w;c.height=h}
+   return {g:c.getContext('2d'),w,h,d};
+ }
+ function col(t){t=Math.max(0,Math.min(1,t));return `hsl(${215-215*t} 92% 62%)`}
+ function draw3D(force=false){
+   const c=$('rc5RouteCanvas');if(!c)return;
+   const p=routePts(),last=p[p.length-1];
+   const sig=p.length+'|'+(last?`${(+last.lat).toFixed(6)},${(+last.lng).toFixed(6)},${Number.isFinite(+last.smoothAlt)?(+last.smoothAlt).toFixed(1):'x'}`:'');
+   if(!force&&sig===lastSig)return; lastSig=sig;
+   const {g,w,h,d}=fit(c);g.clearRect(0,0,w,h);
+   const sub=$('rc5RouteSub');
+   if(p.length<2){
+     if(sub)sub.textContent='GPS WAIT';
+     g.strokeStyle='rgba(130,255,244,.20)';g.lineWidth=d;g.setLineDash([4*d,5*d]);
+     g.beginPath();g.moveTo(10*d,h*.72);g.quadraticCurveTo(w*.48,h*.35,w-10*d,h*.58);g.stroke();g.setLineDash([]);return;
+   }
+   const lat0=+p[0].lat*Math.PI/180,cos0=Math.cos(lat0);
+   const raw=p.map(a=>({x:(+a.lng-(+p[0].lng))*111320*cos0,y:(+a.lat-(+p[0].lat))*111320,z:Number.isFinite(+a.smoothAlt)?+a.smoothAlt:0}));
+   const zs=raw.map(a=>a.z),z0=Math.min(...zs),z1=Math.max(...zs),dz=Math.max(1,z1-z0);
+   const ang=-32*Math.PI/180,ca=Math.cos(ang),sa=Math.sin(ang);
+   let pr=raw.map(a=>{const u=a.x*ca-a.y*sa,v=a.x*sa+a.y*ca;return{u,v:v*.42-(a.z-z0)*1.15,base:v*.42,t:(a.z-z0)/dz}});
+   const u0=Math.min(...pr.map(a=>a.u)),u1=Math.max(...pr.map(a=>a.u)),v0=Math.min(...pr.map(a=>a.v)),v1=Math.max(...pr.map(a=>a.v));
+   const pad=7*d,sc=Math.min((w-2*pad)/Math.max(1,u1-u0),(h-2*pad)/Math.max(1,v1-v0)),cx=(u0+u1)/2,cy=(v0+v1)/2;
+   pr=pr.map(a=>({x:w/2+(a.u-cx)*sc,y:h/2+(a.v-cy)*sc,baseY:h/2+(a.base-cy)*sc,t:a.t}));
+   g.lineCap='round';g.lineJoin='round';g.lineWidth=2.2*d;
+   for(let i=1;i<pr.length;i++){g.strokeStyle=col(pr[i].t);g.beginPath();g.moveTo(pr[i-1].x,pr[i-1].y);g.lineTo(pr[i].x,pr[i].y);g.stroke()}
+   const a=pr[0],b=pr.at(-1);g.fillStyle='#66e8ff';g.beginPath();g.arc(a.x,a.y,3*d,0,Math.PI*2);g.fill();
+   g.fillStyle='#fff';g.beginPath();g.arc(b.x,b.y,2.7*d,0,Math.PI*2);g.fill();
+   if(sub)sub.textContent=`3D · ${p.length} pts`;
+ }
+ function battery(){
+   const tile=[...document.querySelectorAll('#ft63a .ft63icons>*')].find(e=>e.querySelector('.rc56Battery'));if(!tile)return;
+   const m=($('hudBattery412')?.textContent||tile.textContent||'').match(/(\d{1,3})/),pct=m?Math.max(0,Math.min(100,+m[1])):0,fill=tile.querySelector('.rc56BatteryFill');
+   if(fill)fill.style.width=`calc(${pct}% - ${pct?6:0}px)`;
+ }
+ function boot(){
+   const brand=document.querySelector('#ft63a .ft63brand>small');if(brand)brand.textContent='RC5.16 · CLEAN MERGE';
+   draw3D(true);battery();
+   if(!window.__rc516Watch)window.__rc516Watch=setInterval(()=>{draw3D(false);battery()},900);
+ }
+ addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>draw3D(true),180)});
+ document.readyState==='loading'?document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,300),{once:true}):setTimeout(boot,300);
+ addEventListener('load',()=>setTimeout(boot,500),{once:true});
+ console.info('AYALOG RC5.16 CLEAN MERGE: RC5.15B navigation preserved; C battery/3D/performance only');
+})();
+</script>
+
+
+<!-- RC5.16A — ELEVATION NAV ONLY
+     Keep the working route-panel navigation untouched.
+     Elevation panel reuses that working route entry, then selects elevation tab. -->
+<script id="rc516aElevationOnly">
+(()=>{
+  const $ = id => document.getElementById(id);
+
+  function boot(){
+    const brand = document.querySelector('#ft63a .ft63brand>small');
+    if (brand) brand.textContent = 'RC5.16A · ELEV NAV';
+
+    const routePanel = $('rc5RouteCanvas')?.closest('.rc5Mini');
+    const elevPanel  = $('rc5ElevCanvas')?.closest('.rc5Mini');
+    if (!routePanel || !elevPanel || elevPanel.dataset.rc516a) return;
+    elevPanel.dataset.rc516a = '1';
+    elevPanel.style.cursor = 'pointer';
+    elevPanel.style.touchAction = 'manipulation';
+
+    elevPanel.addEventListener('click', (e)=>{
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      // Reuse the already proven route-panel click path from RC5.16.
+      routePanel.click();
+
+      // The detail view is created/opened by the working route navigation.
+      // Then switch only the tab to elevation.
+      requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{
+          const elevTab =
+            $('rc3TabElev') ||
+            [...document.querySelectorAll('button,[role="button"],.tab')]
+              .find(x => /^\s*高低差\s*$/.test((x.textContent||'')));
+          if (elevTab) elevTab.click();
+        });
+      });
+    }, true);
+  }
+
+  document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', ()=>setTimeout(boot,450), {once:true})
+    : setTimeout(boot,450);
+  addEventListener('load', ()=>setTimeout(boot,750), {once:true});
+
+  console.info('AYALOG RC5.16A: elevation nav only; working route nav preserved');
+})();
+</script>
+
+
+<!-- RC5.16B — ELEVATION TOUCH FIX -->
+<style id="rc516bTouchStyle">
+#ft63a .rc5Mini{position:relative!important}
+#rc516bElevHit{
+ position:absolute!important;inset:0!important;z-index:50!important;
+ width:100%!important;height:100%!important;margin:0!important;padding:0!important;
+ border:0!important;background:transparent!important;opacity:1!important;
+ pointer-events:auto!important;touch-action:manipulation!important;
+ -webkit-tap-highlight-color:rgba(112,255,236,.16)!important;
+ cursor:pointer!important;
+}
+#rc516bElevHit:active{background:rgba(103,255,234,.08)!important}
+</style>
+<script id="rc516bTouchScript">
+(()=>{
+ const $=id=>document.getElementById(id);
+
+ function boot(){
+   const brand=document.querySelector('#ft63a .ft63brand>small');
+   if(brand)brand.textContent='RC5.16B · TOUCH FIX';
+
+   const elevPanel=$('rc5ElevCanvas')?.closest('.rc5Mini');
+   if(!elevPanel || $('rc516bElevHit')) return;
+
+   const hit=document.createElement('button');
+   hit.id='rc516bElevHit';
+   hit.type='button';
+   hit.setAttribute('aria-label','高低差プロフィール詳細を開く');
+
+   let locked=false;
+   hit.addEventListener('pointerup',e=>{
+     e.preventDefault(); e.stopPropagation();
+     if(locked)return; locked=true; setTimeout(()=>locked=false,350);
+
+     // Call the already-working RC5.16A elevation path with one deterministic tap.
+     const ev=new MouseEvent('click',{bubbles:true,cancelable:true,view:window});
+     elevPanel.dispatchEvent(ev);
+   },{passive:false});
+
+   // Prevent synthetic follow-up click from double firing.
+   hit.addEventListener('click',e=>{e.preventDefault();e.stopPropagation()});
+
+   elevPanel.appendChild(hit);
+   console.info('AYALOG RC5.16B: full-panel elevation touch surface installed');
+ }
+ document.readyState==='loading'
+   ? document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,500),{once:true})
+   : setTimeout(boot,500);
+ addEventListener('load',()=>setTimeout(boot,800),{once:true});
+})();
+</script>
+
+
+<!-- RC5.16C — TOUCH COORD DEBUG -->
+<style id="rc516cDebugStyle">
+#rc516cDebug{
+ position:fixed;left:8px;right:8px;bottom:8px;z-index:2147483647;
+ padding:9px 11px;border:1px solid #6fffe7;border-radius:10px;
+ background:rgba(0,18,22,.92);color:#dffff8;font:12px/1.35 monospace;
+ white-space:pre-wrap;pointer-events:none;box-shadow:0 0 14px rgba(90,255,230,.25)
+}
+#rc516cBox{
+ position:fixed;z-index:2147483646;border:2px dashed #ffdf55;
+ pointer-events:none;box-sizing:border-box
+}
+</style>
+<script id="rc516cDebugScript">
+(()=>{
+ const $=id=>document.getElementById(id);
+ function boot(){
+   const brand=document.querySelector('#ft63a .ft63brand>small');
+   if(brand)brand.textContent='RC5.16C · TOUCH DEBUG';
+
+   let dbg=$('rc516cDebug');
+   if(!dbg){dbg=document.createElement('div');dbg.id='rc516cDebug';document.body.appendChild(dbg)}
+   let box=$('rc516cBox');
+   if(!box){box=document.createElement('div');box.id='rc516cBox';document.body.appendChild(box)}
+
+   const panel=$('rc5ElevCanvas')?.closest('.rc5Mini');
+   const hit=$('rc516bElevHit');
+
+   function show(x,y,target){
+     const r=panel?.getBoundingClientRect(), h=hit?.getBoundingClientRect();
+     const under=document.elementFromPoint(x,y);
+     if(r){
+       box.style.left=r.left+'px';box.style.top=r.top+'px';
+       box.style.width=r.width+'px';box.style.height=r.height+'px';
+     }
+     const inside=r ? (x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom) : false;
+     dbg.textContent =
+`TOUCH  x=${x.toFixed(1)}  y=${y.toFixed(1)}
+PANEL  L=${r?.left.toFixed(1)} R=${r?.right.toFixed(1)} T=${r?.top.toFixed(1)} B=${r?.bottom.toFixed(1)}
+SIZE   W=${r?.width.toFixed(1)} H=${r?.height.toFixed(1)}  INSIDE=${inside}
+HITBOX L=${h?.left.toFixed(1)} R=${h?.right.toFixed(1)} T=${h?.top.toFixed(1)} B=${h?.bottom.toFixed(1)}
+TARGET ${target?.id||target?.className||target?.tagName}
+UNDER  ${under?.id||under?.className||under?.tagName}`;
+   }
+   document.addEventListener('pointerdown',e=>show(e.clientX,e.clientY,e.target),true);
+   const r=panel?.getBoundingClientRect();
+   if(r)show(r.left+r.width/2,r.top+r.height/2,panel);
+   console.info('AYALOG RC5.16C: touch coordinate debugger active');
+ }
+ document.readyState==='loading'
+  ?document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,550),{once:true})
+  :setTimeout(boot,550);
+ addEventListener('load',()=>setTimeout(boot,850),{once:true});
+})();
+</script>
+
+
+<!-- RC5.16D — HIT LAYER FIX -->
+<style id="rc516dHitLayerStyle">
+/* Elevation mini-panel: visual layers display only; dedicated hit button owns input */
+#ft63a .rc5Mini:has(#rc5ElevCanvas) canvas,
+#ft63a .rc5Mini:has(#rc5ElevCanvas) svg,
+#ft63a .rc5Mini:has(#rc5ElevCanvas) svg *{
+  pointer-events:none!important;
+}
+#rc516bElevHit{
+  pointer-events:auto!important;
+  z-index:2147480!important;
+  position:absolute!important;
+  inset:0!important;
+}
+</style>
+<script id="rc516dHitLayerScript">
+(()=>{
+ function boot(){
+   const brand=document.querySelector('#ft63a .ft63brand>small');
+   if(brand) brand.textContent='RC5.16D · HIT LAYER FIX';
+
+   const canvas=document.getElementById('rc5ElevCanvas');
+   const panel=canvas?.closest('.rc5Mini');
+   const hit=document.getElementById('rc516bElevHit');
+   if(!panel || !hit) return;
+
+   // Make every visual descendant transparent to pointer input,
+   // except the dedicated full-panel hit target.
+   [...panel.querySelectorAll('*')].forEach(el=>{
+     if(el!==hit && !hit.contains(el)) el.style.pointerEvents='none';
+   });
+   hit.style.pointerEvents='auto';
+   hit.style.zIndex='2147480';
+
+   // Remove diagnostic overlay from 16C so it cannot obscure normal use.
+   document.getElementById('rc516cDebug')?.remove();
+   document.getElementById('rc516cBox')?.remove();
+
+   console.info('AYALOG RC5.16D: elevation visual layers pointer-disabled; hit target owns touch');
+ }
+ document.readyState==='loading'
+   ? document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,650),{once:true})
+   : setTimeout(boot,650);
+ addEventListener('load',()=>setTimeout(boot,950),{once:true});
+})();
+</script>
+
+
+<!-- RC5.17C — AYABeat STATE SYNC (clean build from RC5.16D) -->
+<style id="rc517cStyle">
+#rc517cPower{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}
+#rc517cPower button{border:1px solid #3ebbb2;background:#073f43;color:#eaffff;border-radius:12px;padding:12px 7px;font-weight:900}
+#rc517cPower button.on,.rc4Choices button.on{background:#0c817a!important;box-shadow:0 0 13px rgba(65,255,239,.28)!important}
+</style>
+<script id="rc517cScript">
+(()=>{
+ const $=id=>document.getElementById(id);
+ let wiredRoot=null;
+
+ function coreOn(id){return !!$(id)?.classList.contains('on')}
+ function beatRunning(){return (($('ft49BeatToggle')?.textContent||'').includes('STOP'))}
+
+ function sync(){
+   const map=[['r4Fixed','ft50Fixed'],['r4Follow','ft50Follow'],['r4Sync','ft52StepSync']];
+   map.forEach(([v,c])=>$(v)?.classList.toggle('on',coreOn(c)));
+   const on=beatRunning();
+   $('rc517cOn')?.classList.toggle('on',on);
+   $('rc517cOff')?.classList.toggle('on',!on);
+   const lab=$('r4BeatLabel'), core=$('ft50NatureLabel');
+   if(lab&&core)lab.textContent=core.textContent;
+ }
+ function coreClick(id){$(id)?.click(); setTimeout(sync,20)}
+
+ function wire(){
+   const root=$('rc3Body');
+   if(!root || !$('r4Fixed') || wiredRoot===root && $('rc517cPower')) return;
+   wiredRoot=root;
+
+   // Proxy buttons explicitly drive the proven core AYABeat controls.
+   $('r4Fixed').onclick=e=>{e.preventDefault();coreClick('ft50Fixed')};
+   $('r4Follow').onclick=e=>{e.preventDefault();coreClick('ft50Follow')};
+   $('r4Sync').onclick=e=>{e.preventDefault();coreClick('ft52StepSync')};
+
+   const old=$('r4BeatToggle');
+   if(old){
+     old.style.display='none';
+     const row=document.createElement('div');
+     row.id='rc517cPower';
+     row.innerHTML='<button id="rc517cOn" type="button">▶ AYABeat ON</button><button id="rc517cOff" type="button">■ AYABeat OFF</button>';
+     old.insertAdjacentElement('afterend',row);
+     $('rc517cOn').onclick=e=>{e.preventDefault();if(!beatRunning())coreClick('ft49BeatToggle');else sync()};
+     $('rc517cOff').onclick=e=>{e.preventDefault();if(beatRunning())coreClick('ft49BeatToggle');else sync()};
+   }
+   sync();
+ }
+ function boot(){
+   const brand=document.querySelector('#ft63a .ft63brand>small');
+   if(brand)brand.textContent='RC5.17C · AYABEAT STATE SYNC';
+   const root=$('rc3Body');
+   if(root)new MutationObserver(()=>{setTimeout(wire,0);setTimeout(sync,30)}).observe(root,{childList:true,subtree:true});
+   // Core state can change outside the modal; keep the visible control truthful.
+   ['ft50Fixed','ft50Follow','ft52StepSync','ft49BeatToggle'].forEach(id=>{
+     const e=$(id); if(e)new MutationObserver(sync).observe(e,{attributes:true,childList:true,subtree:true,characterData:true});
+   });
+   setInterval(sync,800);
+ }
+ document.readyState==='loading'?document.addEventListener('DOMContentLoaded',boot,{once:true}):boot();
+})();
+</script>
+
+
+<!-- RC5.18 — BEAR BELL STATE SYNC -->
+<style id="rc518Style">
+#r4Bell.on,#r4BRand.on,#r4BellModes button.on{
+ background:#0c817a!important;color:#fff!important;
+ box-shadow:0 0 13px rgba(65,255,239,.28)!important
+}
+</style>
+<script id="rc518Script">
+(()=>{
+ const $=id=>document.getElementById(id), qa=s=>[...document.querySelectorAll(s)];
+ let lastBody='';
+
+ function coreClick(id){const e=$(id); if(e){e.click();setTimeout(sync,25)}}
+ function sync(){
+   const sw=$('bellSwitch'), power=$('r4Bell');
+   if(power&&sw){power.textContent=sw.checked?'ON':'OFF';power.classList.toggle('on',sw.checked)}
+   const rnd=$('bellRandomBtn'), pr=$('r4BRand');
+   if(rnd&&pr){pr.textContent=rnd.textContent;pr.classList.toggle('on',/ON/.test(rnd.textContent||''))}
+   const bv=$('bellVolume'), pv=$('r4BVol'), txt=$('r4BV');
+   if(bv&&pv&&document.activeElement!==pv)pv.value=bv.value;
+   if(bv&&txt)txt.textContent=bv.value+'%';
+   const bn=$('bellNote'), pn=$('r4BNote'), nt=$('r4BN');
+   if(bn&&pn&&document.activeElement!==pn)pn.value=bn.value;
+   if(nt&&$('bellNoteValue'))nt.textContent=$('bellNoteValue').textContent;
+   const bi=$('bellInterval'), pi=$('r4BI');
+   if(bi&&pi&&document.activeElement!==pi)pi.value=bi.value;
+   qa('#r4BellModes button').forEach(p=>{
+     const c=document.querySelector(`#ft56BellModes [data-bell-sample="${p.dataset.v}"]`);
+     p.classList.toggle('on',!!c?.classList.contains('on'));
+   });
+ }
+ function wire(){
+   if(!$('r4Bell'))return;
+   const sig=$('rc3Body')?.innerHTML?.slice(0,120)||'';
+   if(lastBody===sig && $('r4Bell')?.dataset.rc518)return;
+   lastBody=sig;
+   const power=$('r4Bell'); power.dataset.rc518='1';
+   power.onclick=e=>{e.preventDefault();e.stopPropagation();coreClick('bellSwitch')};
+   const vol=$('r4BVol'); if(vol)vol.oninput=e=>{
+     const c=$('bellVolume');if(c){c.value=e.target.value;c.dispatchEvent(new Event('input',{bubbles:true}))}sync()
+   };
+   const interval=$('r4BI'); if(interval)interval.onchange=e=>{
+     const c=$('bellInterval');if(c){c.value=e.target.value;c.dispatchEvent(new Event('change',{bubbles:true}))}sync()
+   };
+   const note=$('r4BNote'); if(note)note.oninput=e=>{
+     const c=$('bellNote');if(c){c.value=e.target.value;c.dispatchEvent(new Event('input',{bubbles:true}))}setTimeout(sync,0)
+   };
+   qa('#r4BellModes button').forEach(p=>p.onclick=e=>{
+     e.preventDefault();e.stopPropagation();
+     document.querySelector(`#ft56BellModes [data-bell-sample="${p.dataset.v}"]`)?.click();
+     setTimeout(sync,20)
+   });
+   if($('r4BRand'))$('r4BRand').onclick=e=>{e.preventDefault();e.stopPropagation();coreClick('bellRandomBtn')};
+   if($('r4BTest'))$('r4BTest').onclick=e=>{e.preventDefault();e.stopPropagation();coreClick('bellTest')};
+   sync();
+ }
+ function boot(){
+   const brand=document.querySelector('#ft63a .ft63brand>small');
+   if(brand)brand.textContent='RC5.18 · BEAR BELL SYNC';
+   const body=$('rc3Body');
+   if(body)new MutationObserver(()=>setTimeout(wire,0)).observe(body,{childList:true,subtree:true});
+   ['bellSwitch','bellRandomBtn','bellVolume','bellNote','bellInterval','ft56BellModes'].forEach(id=>{
+     const e=$(id);if(e)new MutationObserver(sync).observe(e,{attributes:true,childList:true,subtree:true,characterData:true})
+   });
+   setInterval(sync,900);
+   console.info('AYALOG RC5.18: Bear Bell proxy controls wired directly to core controls');
+ }
+ document.readyState==='loading'?document.addEventListener('DOMContentLoaded',boot,{once:true}):boot();
+})();
+</script>
+
+
+<!-- AYALOG RC5.21 FIXED ENTRY -->
+<script>
+(()=> {
+ const setBrand=()=>{
+   const e=document.querySelector('#ft63a .ft63brand>small');
+   if(e)e.textContent='RC5.21 · PWA BASE';
+ };
+ document.readyState==='loading'
+   ? document.addEventListener('DOMContentLoaded',setBrand,{once:true})
+   : setBrand();
+})();
+</script>
+
 </body></html>
+
+<!-- Ver.5.5 RC5.2 — LIVE GAUGE HUD -->
+<style id="v55rc52LiveGauge">
+/* Smaller dual glass HUD: about 20% less visual area than RC5.1. */
+.rc5DataHud{left:28px!important;right:28px!important;top:76px!important;gap:26px!important}
+.rc5Mini{height:66px!important;padding:4px 6px!important;border-radius:13px!important;background:linear-gradient(180deg,rgba(1,34,33,.25),rgba(1,18,21,.17))!important;backdrop-filter:blur(2px) saturate(1.02)!important;-webkit-backdrop-filter:blur(2px) saturate(1.02)!important}
+.rc5MiniHead{height:15px!important;font-size:8.5px!important}.rc5MiniHead small{font-size:6.7px!important}.rc5Mini canvas{height:45px!important}
+/* Live rings: JS updates --gauge-p from 0..1. A calm cyan base remains behind the active arc. */
+.ft63ring,.ft63m:nth-child(2) .ft63ring,.ft63m:nth-child(4) .ft63ring,.ft63m:nth-child(5) .ft63ring{
+ --gauge-p:0; --gauge-color:#72e9df;
+ background:radial-gradient(circle at 50% 50%,#062b2c 0 54%,transparent 55%),conic-gradient(from 210deg,var(--gauge-color) 0 calc(var(--gauge-p)*310deg),rgba(141,245,235,.14) calc(var(--gauge-p)*310deg) 310deg,transparent 310deg 360deg)!important;
+ transition:background .25s linear,filter .2s ease!important;
+}
+.ft63m:nth-child(1) .ft63ring{--gauge-color:#66e7d8}.ft63m:nth-child(2) .ft63ring{--gauge-color:#62f1a0}.ft63m:nth-child(3) .ft63ring{--gauge-color:#62e7e0}.ft63m:nth-child(4) .ft63ring{--gauge-color:#ffc34c}.ft63m:nth-child(5) .ft63ring{--gauge-color:#ff7068}
+@media(max-width:430px){.rc5DataHud{left:24px!important;right:24px!important;top:70px!important;gap:20px!important}.rc5Mini{height:61px!important;padding:4px 5px!important}.rc5MiniHead{height:14px!important;font-size:8px!important}.rc5MiniHead small{font-size:6.3px!important}.rc5Mini canvas{height:42px!important}}
+</style>
+<script id="v55rc52LiveGaugeScript">
+(()=>{
+ const $=id=>document.getElementById(id), clamp=v=>Math.max(0,Math.min(1,v));
+ const num=id=>{const e=$(id);if(!e)return 0;const m=(e.textContent||'').replace(/,/g,'').match(/-?\d+(?:\.\d+)?/);return m?Number(m[0]):0};
+ function timeSec(){const s=($('timer')?.textContent||$('ft63time')?.textContent||'0').trim();const a=s.split(':').map(Number);if(a.length===3)return (a[0]*3600+a[1]*60+a[2])||0;if(a.length===2)return (a[0]*60+a[1])||0;return Number(s)||0}
+ function distanceKm(){const e=$('distanceStat')||$('ft63dist');if(!e)return 0;const s=e.textContent||'';const v=num(e.id);return /km/i.test(s)?v:v/1000}
+ function setGauge(i,p){const r=document.querySelectorAll('.ft63m .ft63ring')[i];if(r)r.style.setProperty('--gauge-p',clamp(p).toFixed(4))}
+ function update(){
+   // 100% references agreed for RC5.2: 60 min / 8,000 steps / 5 km / 6 km/h / 300 kcal.
+   setGauge(0,timeSec()/3600);
+   setGauge(1,num('steps')/8000);
+   setGauge(2,distanceKm()/5);
+   setGauge(3,num('speed')/6);
+   setGauge(4,num('calories')/300);
+ }
+ setInterval(update,250);setTimeout(update,100);
+ const brand=document.querySelector('#ft63a .ft63brand small');if(brand)brand.textContent='FIELD TEST 63A.9 · LIVE GAUGE HUD / Ver.5.5 RC5.2';
+ console.info('AYALOG Ver.5.5 RC5.2: smaller dual glass HUD + live five-gauge progress rings; core measurement logic unchanged');
+})();
+</script>
+
+
+<!-- Ver.5.5 RC5.7 — COMPACT HEADER / preserve RC5.6 reference status HUD -->
+<style id="rc57CompactHeader">
+/* RC5.7: reclaim vertical space for the forest cockpit without changing core logic. */
+#ft63a .ft63top{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:minmax(86px,1fr) auto!important;
+  align-items:center!important;
+  gap:6px!important;
+  min-height:74px!important;
+  padding:7px 54px 7px 12px!important;
+  border-radius:22px!important;
+}
+#ft63a .ft63brand{
+  min-width:0!important;
+  text-align:left!important;
+  line-height:1.05!important;
+}
+#ft63a .ft63brand b{
+  display:block!important;
+  margin:0!important;
+  font-size:20px!important;
+  line-height:1.05!important;
+  white-space:nowrap!important;
+}
+#ft63a .ft63brand b small{
+  display:none!important;
+}
+#ft63a .ft63brand > small{
+  display:block!important;
+  margin-top:5px!important;
+  max-width:104px!important;
+  font-size:8px!important;
+  line-height:1.22!important;
+  letter-spacing:.08em!important;
+  opacity:.72!important;
+  white-space:normal!important;
+}
+#ft63a .ft63icons{
+  display:grid!important;
+  grid-template-columns:repeat(3,48px)!important;
+  gap:5px!important;
+  align-items:center!important;
+  justify-content:end!important;
+}
+#ft63a .ft63icons>*{
+  width:48px!important;
+  min-width:48px!important;
+  height:56px!important;
+  padding:4px 2px!important;
+  border-radius:15px!important;
+  gap:2px!important;
+}
+#ft63a .rc56GpsBars{height:18px!important;gap:3px!important}
+#ft63a .rc56GpsBars i{width:5px!important}
+#ft63a .rc56GpsBars i:nth-child(1){height:6px!important}
+#ft63a .rc56GpsBars i:nth-child(2){height:10px!important}
+#ft63a .rc56GpsBars i:nth-child(3){height:14px!important}
+#ft63a .rc56GpsBars i:nth-child(4){height:18px!important}
+#ft63a .rc56BearFace{
+  width:27px!important;height:23px!important;
+  transform:scale(.78)!important;
+  transform-origin:center!important;
+  margin:-2px 0!important;
+}
+#ft63a .rc56Battery{
+  width:29px!important;height:17px!important;
+  border-width:2px!important;
+}
+#ft63a .rc56Battery:after{
+  right:-5px!important;top:4px!important;width:4px!important;height:6px!important;
+}
+#ft63a .rc56Value{
+  font-size:12px!important;
+  line-height:1!important;
+}
+#ft63a .rc56Label{
+  font-size:7px!important;
+  line-height:1!important;
+}
+#ft63a .ft63icons .rc56BatteryTile .rc56Value{
+  font-size:11px!important;
+}
+#rc3MenuFab{
+  right:9px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:39px!important;
+  height:39px!important;
+  padding:0!important;
+  border-radius:13px!important;
+  font-size:21px!important;
+  line-height:39px!important;
+}
+#ft63a .ft63scene{
+  margin-top:8px!important;
+}
+@media(max-width:430px){
+ #ft63a .ft63top{
+   grid-template-columns:minmax(78px,1fr) auto!important;
+   min-height:70px!important;
+   padding:6px 50px 6px 10px!important;
+ }
+ #ft63a .ft63brand b{font-size:18px!important}
+ #ft63a .ft63brand > small{font-size:7px!important;max-width:88px!important;margin-top:4px!important}
+ #ft63a .ft63icons{grid-template-columns:repeat(3,45px)!important;gap:4px!important}
+ #ft63a .ft63icons>*{
+   width:45px!important;min-width:45px!important;height:53px!important;border-radius:14px!important;
+ }
+ #rc3MenuFab{right:7px!important;width:37px!important;height:37px!important;line-height:37px!important}
+}
+</style>
+
+<script id="rc57CompactHeaderScript">
+(()=>{
+ const apply=()=>{
+   const brand=document.querySelector('#ft63a .ft63brand > small');
+   if(brand) brand.textContent='RC5.7 · COMPACT HUD';
+ };
+ document.readyState==='loading'
+   ? document.addEventListener('DOMContentLoaded',apply)
+   : apply();
+})();
+</script>
+
+
+<!-- Ver.5.5 RC5.8 — MOTION BALANCE HUD -->
+<style id="rc58MotionBalanceHudStyle">
+#ft63a .rc58BalanceHud{
+ position:absolute;left:3.6%;top:4.2%;z-index:23;
+ width:44%;max-width:260px;min-height:122px;
+ padding:10px 12px 9px;border-radius:18px;
+ border:1px solid rgba(111,239,226,.76);
+ background:linear-gradient(180deg,rgba(2,34,32,.42),rgba(1,20,22,.28));
+ box-shadow:0 6px 18px rgba(0,0,0,.25),inset 0 0 16px rgba(104,255,240,.035);
+ backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+ color:#f2fffd;pointer-events:none;
+}
+#ft63a .rc58Title{
+ display:flex;align-items:center;justify-content:space-between;
+ padding-bottom:6px;margin-bottom:5px;border-bottom:1px solid rgba(214,255,249,.30);
+ font-size:11px;font-weight:900;letter-spacing:.03em
+}
+#ft63a .rc58Title small{font-size:7px;color:#a9d9d3;font-weight:800}
+#ft63a .rc58Row{
+ display:grid;grid-template-columns:48px 1fr;align-items:center;
+ min-height:23px;font-size:10px;font-weight:800
+}
+#ft63a .rc58Axis{color:#eafffc;white-space:nowrap}
+#ft63a .rc58Pair{
+ display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:4px;
+ font-variant-numeric:tabular-nums
+}
+#ft63a .rc58Pair b{font-size:11px;color:#fff}
+#ft63a .rc58Pair b:first-child{text-align:right;color:#a8d7ff}
+#ft63a .rc58Pair b:last-child{text-align:left;color:#ffb4b8}
+#ft63a .rc58Pair i{width:4px;height:4px;border-radius:50%;background:#8ffff1;box-shadow:0 0 6px #72ffef}
+#ft63a .rc58Stable{
+ display:flex;justify-content:space-between;align-items:center;
+ margin-top:3px;padding-top:5px;border-top:1px solid rgba(214,255,249,.18);
+ font-size:10px;font-weight:850
+}
+#ft63a .rc58Stable strong{font-size:13px;color:#89ffe7}
+#ft63a .rc58Cal{color:#ffd66e!important}
+@media(max-width:430px){
+ #ft63a .rc58BalanceHud{left:3.6%;top:3.4%;width:46%;min-height:110px;padding:8px 9px 7px;border-radius:16px}
+ #ft63a .rc58Title{font-size:9.5px;padding-bottom:5px;margin-bottom:3px}
+ #ft63a .rc58Title small{font-size:6.5px}
+ #ft63a .rc58Row{grid-template-columns:42px 1fr;min-height:20px;font-size:8.5px}
+ #ft63a .rc58Pair b{font-size:9.5px}
+ #ft63a .rc58Stable{font-size:8.5px}.rc58Stable strong{font-size:11px!important}
+}
+/* Keep the existing route/elevation panels at the bottom and the navigation arrow as the hero. */
+#ft63a .rc5DataHud{z-index:24!important}
+#ft63a .ft63arrows{z-index:21!important}
+</style>
+
+<script id="rc58MotionBalanceHudScript">
+(()=>{
+ const boot=()=>{
+  const scene=document.querySelector('#ft63a .ft63scene');
+  if(!scene || document.getElementById('rc58BalanceHud')) return;
+
+  const hud=document.createElement('div');
+  hud.id='rc58BalanceHud';
+  hud.className='rc58BalanceHud';
+  hud.innerHTML=`
+   <div class="rc58Title"><span>揺れ方向の分布</span><small>MOTION BALANCE</small></div>
+   <div class="rc58Row"><span class="rc58Axis">前後 (Y)</span><span class="rc58Pair"><b id="rc58Back">50</b><i></i><b id="rc58Front">50%</b></span></div>
+   <div class="rc58Row"><span class="rc58Axis">左右 (X)</span><span class="rc58Pair"><b id="rc58Left">50</b><i></i><b id="rc58Right">50%</b></span></div>
+   <div class="rc58Row"><span class="rc58Axis">上下 (Z)</span><span class="rc58Pair"><b id="rc58Down">50</b><i></i><b id="rc58Up">50%</b></span></div>
+   <div class="rc58Stable"><span>安定度</span><strong id="rc58Stable">--%</strong></div>`;
+  scene.appendChild(hud);
+
+  const $=id=>document.getElementById(id);
+  const setPair=(axis,a,b)=>{
+    let d={neg:50,pos:50};
+    try{ if(typeof axisDistribution430==='function') d=axisDistribution430(axis); }catch(e){}
+    $(a).textContent=String(d.neg);
+    $(b).textContent=String(d.pos)+'%';
+  };
+  const update=()=>{
+    const calibrating=(typeof balanceCalibrated!=='undefined') ? !balanceCalibrated : true;
+    setPair('y','rc58Back','rc58Front');
+    setPair('x','rc58Left','rc58Right');
+    setPair('z','rc58Down','rc58Up');
+    let stability=0;
+    try{ if(typeof balanceStats412==='function') stability=Math.round(balanceStats412().stability||0); }catch(e){}
+    const s=$('rc58Stable');
+    if(s){
+      s.textContent=calibrating?'校正中':stability+'%';
+      s.classList.toggle('rc58Cal',calibrating);
+    }
+  };
+  update(); setInterval(update,350);
+
+  const brand=document.querySelector('#ft63a .ft63brand > small');
+  if(brand) brand.textContent='RC5.8 · MOTION HUD';
+  console.info('AYALOG Ver.5.5 RC5.8: compact live motion-balance HUD added; RC5.7 core logic preserved');
+ };
+ document.readyState==='loading'?document.addEventListener('DOMContentLoaded',boot):boot();
+})();
+</script>
+
+
+<!-- RC5.9 NAVIGATION ARROW REFINEMENT -->
+<style id="rc59NavRefine">
+#ft63a .ft63arrows{opacity:.88!important;filter:drop-shadow(0 0 5px rgba(110,255,244,.16))}
+#ft63a .ft63arrow{border-width:2px!important;box-shadow:0 0 6px rgba(115,255,244,.12)!important}
+#ft63a .ft63arrow:nth-child(1){opacity:.98!important;transform:scale(1)}
+#ft63a .ft63arrow:nth-child(2){opacity:.74!important;transform:scale(.88)}
+#ft63a .ft63arrow:nth-child(3){opacity:.52!important;transform:scale(.76)}
+#ft63a .ft63arrow:nth-child(4){opacity:.34!important;transform:scale(.64)}
+#ft63a .ft63arrow:nth-child(n+5){opacity:.20!important;transform:scale(.54)}
+#ft63a .ft63centerline{opacity:.36!important;width:2px!important}
+</style>
+<script id="rc59NavRefineScript">
+(()=>{
+ const boot=()=>{
+   const brand=document.querySelector('#ft63a .ft63brand > small');
+   if(brand) brand.textContent='RC5.9 · NAV HUD';
+   /* Add depth fading without touching sensor/GPS/balance logic. */
+   const arrows=[...document.querySelectorAll('#ft63a .ft63arrows .ft63arrow')];
+   arrows.forEach((a,i)=>{
+     const t=Math.max(.38,1-i*.10);
+     a.style.opacity=String(Math.max(.16,.96-i*.14));
+     a.style.transform=`scale(${t})`;
+     a.style.transformOrigin='50% 100%';
+   });
+   console.info('AYALOG RC5.9 navigation arrow refinement active');
+ };
+ document.readyState==='loading'?document.addEventListener('DOMContentLoaded',boot):boot();
+})();
+</script>
+
+
+<!-- RC5.10 DUAL GLASS HUD REFINEMENT -->
+<style id="rc510DualGlass">
+/* Route / elevation: lighter glass, quieter frame, clearer data */
+#ft63a .rc5DataHud{
+  background:linear-gradient(180deg,rgba(3,24,27,.25),rgba(1,15,18,.14))!important;
+  border-color:rgba(112,239,227,.58)!important;
+  box-shadow:0 5px 14px rgba(0,0,0,.17), inset 0 0 12px rgba(105,255,242,.018)!important;
+  backdrop-filter:blur(3px)!important;
+  -webkit-backdrop-filter:blur(3px)!important;
+}
+#ft63a .rc5DataHud canvas,
+#ft63a .rc5DataHud svg{
+  opacity:.92!important;
+}
+#ft63a .rc5DataHud .title,
+#ft63a .rc5DataHud strong{
+  text-shadow:0 1px 3px rgba(0,0,0,.55);
+}
+/* Quiet empty/baseline graphics so forest remains visible */
+#ft63a .rc5DataHud .grid,
+#ft63a .rc5DataHud .baseline{
+  opacity:.32!important;
+}
+/* Keep both lower panels visually subordinate to navigation arrow */
+#ft63a .rc5DataHud{z-index:22!important}
+#ft63a .ft63arrows{z-index:23!important}
+</style>
+
+<script id="rc510DualGlassScript">
+(()=>{
+ const boot=()=>{
+   const brand=document.querySelector('#ft63a .ft63brand > small');
+   if(brand) brand.textContent='RC5.10 · GLASS HUD';
+
+   /* Refine the two existing data tiles without changing their live-data logic. */
+   const tiles=[...document.querySelectorAll('#ft63a .rc5DataHud')];
+   tiles.forEach(tile=>{
+     tile.style.background='linear-gradient(180deg,rgba(3,24,27,.25),rgba(1,15,18,.14))';
+     tile.style.borderColor='rgba(112,239,227,.58)';
+   });
+
+   console.info('AYALOG RC5.10 dual glass HUD refinement active; data logic preserved');
+ };
+ document.readyState==='loading'
+   ? document.addEventListener('DOMContentLoaded',boot)
+   : boot();
+})();
+</script>
+
+
+<!-- Ver.5.5 RC5.13 — MOTION RADAR BOOT ORDER FIX -->
+<script id="rc512MotionRadarBootFix">
+(()=>{
+  const installRadar=()=>{
+    const hud=document.getElementById('rc58BalanceHud');
+    if(!hud) return false;
+    if(document.getElementById('rc511Radar')) return true;
+
+    const rows=[...hud.querySelectorAll('.rc58Row')];
+    const stable=hud.querySelector('.rc58Stable');
+
+    let body=hud.querySelector('.rc511Body');
+    if(!body){
+      body=document.createElement('div');
+      body.className='rc511Body';
+
+      const left=document.createElement('div');
+      left.className='rc511Rows';
+      rows.forEach(r=>left.appendChild(r));
+      if(stable) left.appendChild(stable);
+
+      const radar=document.createElement('div');
+      radar.id='rc511Radar';
+      radar.className='rc511Radar';
+      radar.innerHTML=
+        '<i class="rc511Lab rc511F">前</i>'+
+        '<i class="rc511Lab rc511B">後</i>'+
+        '<i class="rc511Lab rc511L">左</i>'+
+        '<i class="rc511Lab rc511R">右</i>'+
+        '<b id="rc511Dot" class="rc511Dot"></b>';
+
+      body.append(left,radar);
+      hud.appendChild(body);
+    }
+
+    const update=()=>{
+      let x={neg:50,pos:50}, y={neg:50,pos:50};
+      try{
+        if(typeof axisDistribution430==='function'){
+          x=axisDistribution430('x');
+          y=axisDistribution430('y');
+        }
+      }catch(e){}
+
+      const dot=document.getElementById('rc511Dot');
+      if(!dot) return;
+
+      const dx=Math.max(-1,Math.min(1,(Number(x.pos)-Number(x.neg))/100));
+      const dy=Math.max(-1,Math.min(1,(Number(y.pos)-Number(y.neg))/100));
+      dot.style.left=(50+dx*36)+'%';
+      dot.style.top =(50-dy*36)+'%';
+    };
+
+    update();
+    if(!window.__ayalogRC512RadarTimer){
+      window.__ayalogRC512RadarTimer=setInterval(update,180);
+    }
+
+    const brand=document.querySelector('#ft63a .ft63brand > small');
+    if(brand) brand.textContent='RC5.13 · RECORDS HUD';
+
+    console.info('AYALOG RC5.13: motion radar boot-order fix active');
+    return true;
+  };
+
+  const start=()=>{
+    if(installRadar()) return;
+
+    let tries=0;
+    const waiter=setInterval(()=>{
+      tries++;
+      if(installRadar() || tries>80) clearInterval(waiter);
+    },100);
+
+    const observer=new MutationObserver(()=>{
+      if(installRadar()) observer.disconnect();
+    });
+    observer.observe(document.documentElement,{childList:true,subtree:true});
+    setTimeout(()=>observer.disconnect(),10000);
+  };
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',start,{once:true});
+  }else{
+    start();
+  }
+})();
+</script>
+
+<!-- Ver.5.5 RC5.15B — HUD NAVIGATION -->
+<style id="rc515bHudNavStyle">
+#ft63a .ft63icons{grid-template-columns:repeat(4,43px)!important;gap:4px!important}
+#ft63a .ft63icons>*{width:43px!important;min-width:43px!important;height:53px!important;border-radius:14px!important;cursor:pointer!important;pointer-events:auto!important;touch-action:manipulation}
+#ft63a .rc515bBeat .rc515bBeatIcon{font-size:20px;line-height:20px;filter:grayscale(.9);opacity:.72}
+#ft63a .rc515bBeat.on .rc515bBeatIcon{filter:none;opacity:1;text-shadow:0 0 8px rgba(117,255,232,.65)}
+#ft63a .rc515bBeat .rc56Label{margin-top:1px}
+#ft63a .rc5DataHud{pointer-events:auto!important}
+#ft63a .rc5DataHud .rc5Mini,#ft63a #rc58BalanceHud{cursor:pointer!important;pointer-events:auto!important;touch-action:manipulation;transition:transform .12s ease,filter .12s ease,border-color .12s ease}
+#ft63a .rc5DataHud .rc5Mini:active,#ft63a #rc58BalanceHud:active,#ft63a .ft63icons>*:active{transform:scale(.97);filter:brightness(1.25)}
+#ft63a .rc5DataHud .rc5Mini:after{content:'›';position:absolute;right:7px;top:4px;color:rgba(211,255,250,.75);font-size:15px;font-weight:900}
+#ft63a .rc5DataHud .rc5Mini{position:relative}
+@media(max-width:430px){
+ #ft63a .ft63top{grid-template-columns:minmax(76px,1fr) auto!important;padding-right:48px!important}
+ #ft63a .ft63icons{grid-template-columns:repeat(4,41px)!important;gap:3px!important}
+ #ft63a .ft63icons>*{width:41px!important;min-width:41px!important;height:51px!important;padding:3px 1px!important}
+ #ft63a .rc56Value{font-size:10px!important}#ft63a .rc56Label{font-size:6.5px!important}
+ #ft63a .rc56GpsBars{transform:scale(.86)}#ft63a .rc56BearFace{transform:scale(.70)!important}
+ #ft63a .rc56Battery{transform:scale(.88)}#ft63a .rc515bBeat .rc515bBeatIcon{font-size:18px}
+}
+</style>
+<script id="rc515bHudNavScript">
+(()=>{
+ const $=id=>document.getElementById(id), q=s=>document.querySelector(s);
+ const fire=(el)=>{if(!el)return false;el.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window}));return true};
+ function openControl(kind){
+   const b=q(`#rc3Drawer [data-rc4="${kind}"]`); if(b) return fire(b);
+   return false;
+ }
+ function openCore(kind){const b=q(`#rc3Drawer [data-rc3="${kind}"]`);return fire(b)}
+ function boot(){
+   const brand=q('#ft63a .ft63brand > small'); if(brand)brand.textContent='RC5.15B · HUD NAV';
+   const wrap=q('#ft63a .ft63icons'); if(!wrap)return;
+   // RC5.6 rebuilds this area; wait until its three canonical tiles exist.
+   if(wrap.children.length<3){setTimeout(boot,120);return}
+   let gps=wrap.children[0],bell=wrap.children[1],bat=wrap.children[wrap.children.length-1];
+   let beat=q('#ft63a .rc515bBeat');
+   if(!beat){beat=document.createElement('div');beat.className='rc515bBeat';beat.innerHTML='<div class="rc515bBeatIcon">♫</div><div class="rc56Label">AYABeat</div><div class="rc56Value">OFF</div>';wrap.insertBefore(beat,bat)}
+   gps.title='GPS status'; bell.title='熊鈴設定'; beat.title='AYABeat設定'; bat.title='Battery';
+   bell.onclick=()=>openControl('bell'); beat.onclick=()=>openControl('beat');
+   // Keep GPS and battery as status-only tiles for now.
+   const refresh=()=>{
+     const t=($('ft49BeatToggle')?.textContent||'').trim(); const on=/STOP|⏸|■/.test(t);
+     beat.classList.toggle('on',on); const v=beat.querySelector('.rc56Value');if(v)v.textContent=on?'ON':'OFF';
+     const hbat=$('hudBattery412'); const bt=(hbat?.textContent||'--%').trim(); const m=bt.match(/(\d{1,3})/); const pct=m?Math.max(0,Math.min(100,+m[1])):null;
+     const fill=bat.querySelector('.rc56BatteryFill'); if(fill)fill.style.width=(pct===null?0:pct)+'%';
+     const val=bat.querySelector('.rc56Value'); if(val)val.textContent=pct===null?'--%':pct+'%';
+   };
+   refresh(); if(!window.__rc515bRefresh)window.__rc515bRefresh=setInterval(refresh,350);
+   const minis=[...document.querySelectorAll('#ft63a .rc5DataHud .rc5Mini')];
+   if(minis[0]&&!minis[0].dataset.nav515b){minis[0].dataset.nav515b='1';minis[0].onclick=()=>openCore('distance')}
+   if(minis[1]&&!minis[1].dataset.nav515b){minis[1].dataset.nav515b='1';minis[1].onclick=()=>{openCore('distance');setTimeout(()=>fire($('rc3TabElev')),80)}}
+   const bal=$('rc58BalanceHud')||q('#ft63a .rc511MotionHud');
+   if(bal&&!bal.dataset.nav515b){bal.dataset.nav515b='1';bal.onclick=()=>openCore('balance')}
+   console.info('AYALOG Ver.5.5 RC5.15B: 4-tile HUD + direct control/detail navigation');
+ }
+ document.readyState==='loading'?document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,180)):setTimeout(boot,180);
+ window.addEventListener('load',()=>setTimeout(boot,350),{once:true});
+})();
+</script>
