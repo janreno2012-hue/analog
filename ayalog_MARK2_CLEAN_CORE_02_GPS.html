@@ -1,0 +1,148 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#061313"><title>歩ログ MARK-II CLEAN CORE 0.2 GPS</title><style id="ft63aStyle">
+body{margin:0;background:#061313;color:#fff}
+#ft63a{min-height:100vh;max-width:720px;margin:auto;background:#071513;font-family:system-ui,-apple-system,sans-serif;color:#fff;padding:10px;box-sizing:border-box}
+.ft63top{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:linear-gradient(180deg,rgba(3,45,46,.78),rgba(1,25,28,.72));border:1px solid rgba(133,255,245,.78);border-radius:28px;padding:12px 16px;box-shadow:0 8px 24px #0008,inset 0 0 22px #62fff018;backdrop-filter:blur(7px)}
+.ft63brand b{font-size:24px}.ft63brand small{display:block;opacity:.72;letter-spacing:.08em}.ft63icons{display:flex;gap:3px;font-weight:800}.ft63icons span{min-width:44px;text-align:center;padding:7px 8px;border-left:1px solid #75d8d0;font-size:12px}
+.ft63scene{position:relative;height:62vh;min-height:500px;margin-top:10px;border-radius:30px;overflow:hidden;border:1px solid rgba(117,231,223,.9);background:#123;box-shadow:0 10px 30px #0008,inset 0 0 35px #0006}
+.ft63scene video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.ft63shade{position:absolute;inset:0;background:linear-gradient(#0017 0%,transparent 24%,transparent 66%,#001d 100%)}
+.ft63alt{position:absolute;left:14px;top:16px;background:rgba(4,39,40,.62);backdrop-filter:blur(6px);border:1px solid #76ddd5;border-radius:20px;padding:9px 14px;font-size:12px;box-shadow:0 5px 16px #0007}.ft63alt b{display:block;font-size:25px}
+.ft63hint{position:absolute;right:14px;top:16px;background:rgba(4,39,40,.62);backdrop-filter:blur(6px);border:1px solid #76ddd5;border-radius:20px;padding:9px 13px;font-size:11px;text-align:right;letter-spacing:.08em}
+.ft63nav{position:absolute;right:15px;top:36%;width:105px;height:105px;border:1px solid rgba(119,245,242,.75);border-radius:50%;background:radial-gradient(circle,rgba(9,54,58,.34),rgba(2,24,28,.58));box-shadow:0 0 20px #63fff022,inset 0 0 18px #5ff2;backdrop-filter:blur(3px)}
+.ft63nav:before,.ft63nav:after{content:'';position:absolute;background:rgba(137,255,250,.34)}.ft63nav:before{left:50%;top:10px;bottom:10px;width:1px}.ft63nav:after{top:50%;left:10px;right:10px;height:1px}.ft63navN{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:10px;color:#bffff9}.ft63navDot{position:absolute;left:43%;top:52%;width:10px;height:10px;border-radius:50%;background:#9ffff7;box-shadow:0 0 12px #8fffff}.ft63navPath{position:absolute;left:49px;top:24px;width:34px;height:52px;border-left:2px solid #8ff;border-bottom:2px solid #8ff;border-radius:0 0 0 20px;transform:rotate(22deg);opacity:.8}.ft63navKm{position:absolute;bottom:8px;right:14px;font-size:11px}
+.ft63arrows{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);width:210px;height:260px;filter:drop-shadow(0 0 10px #8ff8);perspective:300px}.ft63chev{position:absolute;left:50%;width:92px;height:46px;border-left:4px solid rgba(165,255,251,.92);border-top:4px solid rgba(165,255,251,.92);transform:translateX(-50%) rotate(45deg) skew(-4deg,-4deg);transform-origin:center;opacity:.9}.ft63chev.c1{bottom:10px;scale:1.18}.ft63chev.c2{bottom:72px;scale:.86;opacity:.72}.ft63chev.c3{bottom:125px;scale:.62;opacity:.52}.ft63chev.c4{bottom:168px;scale:.42;opacity:.34}.ft63road{position:absolute;left:50%;bottom:0;height:180px;border-left:3px dashed rgba(190,255,252,.55);transform:translateX(-50%)}
+.ft63meters{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:10px;padding:8px 5px;background:linear-gradient(180deg,rgba(7,57,60,.84),rgba(2,30,33,.9));border:1px solid #72ddd5;border-radius:27px;box-shadow:0 8px 24px #0007,inset 0 0 22px #65fff014;overflow:hidden}.ft63m{text-align:center;padding:4px 3px;border-right:1px solid #ffffff2c}.ft63m:last-child{border:0}.ft63ring{width:82px;height:82px;max-width:92%;margin:auto;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#72fff2 0 64%,#ffffff16 64% 86%,transparent 86%);box-shadow:inset 0 0 14px #6ff3,0 0 12px #0007}.ft63m:nth-child(2) .ft63ring{background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#65f49a 0 62%,#ffffff16 62% 86%,transparent 86%)}.ft63m:nth-child(4) .ft63ring{background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#ffc84f 0 58%,#ffffff16 58% 86%,transparent 86%)}.ft63m:nth-child(5) .ft63ring{background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#ff665d 0 55%,#ffffff16 55% 86%,transparent 86%)}.ft63m span{display:block;font-size:10px;opacity:.92}.ft63m b{display:block;margin-top:3px;font-size:15px;white-space:nowrap}
+.ft63buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}.ft63buttons button{border:1px solid #ffffff55;border-radius:30px;padding:18px 5px;color:white;font-size:18px;font-weight:900;box-shadow:0 7px 18px #0006,inset 0 0 15px #fff1}.ft63start{background:linear-gradient(#20bb82,#118c65)}.ft63pause{background:linear-gradient(#e2b52a,#bc8d0d)}.ft63stop{background:linear-gradient(#ef4857,#c52a38)}.ft63foot{text-align:center;opacity:.65;font-size:11px;padding:13px 4px}
+@media(max-width:430px){#ft63a{padding:7px}.ft63brand b{font-size:20px}.ft63icons span{min-width:34px;padding:6px 5px;font-size:11px}.ft63scene{height:57vh;min-height:430px}.ft63nav{width:82px;height:82px;top:34%}.ft63navPath{left:38px;top:19px;width:27px;height:40px}.ft63arrows{height:220px;bottom:14%;transform:translateX(-50%) scale(.86)}.ft63ring{width:61px;height:61px}.ft63m b{font-size:12px}.ft63m span{font-size:8px}.ft63buttons button{font-size:16px;padding:16px 3px}}
+</style>
+<style id="cleanCoreStyle">
+button:disabled{opacity:.35;filter:grayscale(.55);cursor:not-allowed}
+#cleanState{position:absolute;left:14px;bottom:14px;z-index:5;padding:7px 11px;border:1px solid rgba(140,255,245,.6);border-radius:14px;background:rgba(0,28,30,.58);font-size:11px;font-weight:800;letter-spacing:.04em;backdrop-filter:blur(4px)}
+.ft63scene{isolation:isolate}
+</style>
+</head><body><div id="ft63a">
+ <div class="ft63top"><div class="ft63brand"><b>🌿 歩ログ <small style="display:inline;font-size:14px">ayalog</small></b><small>MARK-II · CLEAN CORE 0.2 · GPS</small></div><div class="ft63icons"><span id="ft63gps">📍 GPS WAIT</span><span id="ft63bell">🐻 OFF</span><span id="ft63bat">🔋 --%</span></div></div>
+ <div class="ft63scene"><div id="cleanState">READY · BUS 02</div><video id="ft63video" src="ayalog_green_bg_720p_light.mp4" muted playsinline preload="auto" loop autoplay></video><div class="ft63shade"></div><div class="ft63alt">⛰ 標高<b id="ft63alt">-- m</b></div><div class="ft63hint">FOREST WALK<br><b>FORWARD</b></div><div class="ft63nav"><i class="ft63navN">N</i><i class="ft63navPath"></i><i class="ft63navDot"></i><b class="ft63navKm" id="ft63navKm">0.0 km</b></div><div class="ft63arrows"><i class="ft63road"></i><i class="ft63chev c4"></i><i class="ft63chev c3"></i><i class="ft63chev c2"></i><i class="ft63chev c1"></i></div></div>
+ <div class="ft63meters"><div class="ft63m"><div class="ft63ring"><span>◷ 時間</span><b id="ft63time">00:00:00</b></div></div><div class="ft63m"><div class="ft63ring"><span>👣 歩数</span><b id="ft63steps">0</b></div></div><div class="ft63m"><div class="ft63ring"><span>● 距離</span><b id="ft63dist">0 m</b></div></div><div class="ft63m"><div class="ft63ring"><span>◴ 速度</span><b id="ft63speed">0.0</b></div></div><div class="ft63m"><div class="ft63ring"><span>◆ kcal</span><b id="ft63cal">0</b></div></div></div>
+ <div class="ft63buttons"><button class="ft63start" id="ft63start">▶ START</button><button class="ft63pause" id="ft63pause" disabled>Ⅱ PAUSE</button><button class="ft63stop" id="ft63stop" disabled>■ STOP</button></div><div class="ft63foot">CLEAN CORE · CONTROL BUS 02 · GPS MODULE</div>
+</div>
+<script id="cleanCoreController">
+(()=>{
+ 'use strict';
+ const $=id=>document.getElementById(id);
+ const state={
+   mode:'idle',startedAt:0,elapsed:0,timer:null,
+   gpsWatch:null,gpsStatus:'WAIT',lastPos:null,distanceM:0,speedKmh:0,altitude:null
+ };
+ const start=$('ft63start'), pause=$('ft63pause'), stop=$('ft63stop'), video=$('ft63video');
+ const time=$('ft63time'), status=$('cleanState'), gps=$('ft63gps');
+ const dist=$('ft63dist'), speed=$('ft63speed'), alt=$('ft63alt'), navKm=$('ft63navKm');
+
+ function fmtTime(ms){
+   const sec=Math.floor(ms/1000);
+   return `${String(Math.floor(sec/3600)).padStart(2,'0')}:${String(Math.floor(sec%3600/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
+ }
+ function haversine(a,b){
+   const R=6371000, rad=Math.PI/180;
+   const p1=a.lat*rad,p2=b.lat*rad,dp=(b.lat-a.lat)*rad,dl=(b.lon-a.lon)*rad;
+   const x=Math.sin(dp/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;
+   return 2*R*Math.asin(Math.sqrt(x));
+ }
+ function paint(){
+   time.textContent=fmtTime(state.elapsed);
+   start.disabled=state.mode!=='idle';
+   pause.disabled=state.mode==='idle';
+   stop.disabled=state.mode==='idle';
+   pause.textContent=state.mode==='paused'?'▶ RESUME':'Ⅱ PAUSE';
+
+   const modeText=state.mode==='idle'?'READY':state.mode==='paused'?'PAUSED':'RUNNING';
+   status.textContent=`${modeText} · BUS 02 · GPS ${state.gpsStatus}`;
+   gps.textContent=`📍 GPS ${state.gpsStatus}`;
+   dist.textContent=state.distanceM<1000?`${Math.round(state.distanceM)} m`:`${(state.distanceM/1000).toFixed(2)} km`;
+   navKm.textContent=`${(state.distanceM/1000).toFixed(2)} km`;
+   speed.textContent=state.speedKmh.toFixed(1);
+   alt.textContent=Number.isFinite(state.altitude)?`${Math.round(state.altitude)} m`:'-- m';
+ }
+ function beginClock(){
+   clearInterval(state.timer);
+   state.timer=setInterval(()=>{
+     if(state.mode==='running'){
+       state.elapsed=Date.now()-state.startedAt;
+       paint();
+     }
+   },250);
+ }
+ function stopGPS(){
+   if(state.gpsWatch!==null && navigator.geolocation){
+     navigator.geolocation.clearWatch(state.gpsWatch);
+   }
+   state.gpsWatch=null;
+   state.lastPos=null;
+ }
+ function startGPS(){
+   stopGPS();
+   if(!navigator.geolocation){
+     state.gpsStatus='N/A'; paint(); return;
+   }
+   state.gpsStatus='SEARCH'; paint();
+   state.gpsWatch=navigator.geolocation.watchPosition(pos=>{
+     const c=pos.coords;
+     state.gpsStatus='LOCK';
+     state.altitude=Number.isFinite(c.altitude)?c.altitude:null;
+
+     if(state.mode==='running'){
+       const now={lat:c.latitude,lon:c.longitude,t:pos.timestamp,acc:c.accuracy};
+       if(state.lastPos){
+         const dt=(now.t-state.lastPos.t)/1000;
+         const d=haversine(state.lastPos,now);
+         const accuracyOK=Number.isFinite(c.accuracy) ? c.accuracy<=50 : true;
+         const plausible=d<=Math.max(35,dt*8);
+         if(dt>0 && accuracyOK && plausible){
+           state.distanceM+=d;
+           if(Number.isFinite(c.speed) && c.speed>=0){
+             state.speedKmh=c.speed*3.6;
+           }else{
+             state.speedKmh=(d/dt)*3.6;
+           }
+         }
+       }
+       state.lastPos=now;
+     }
+     paint();
+   },err=>{
+     state.gpsStatus=err.code===1?'DENIED':'ERROR';
+     state.speedKmh=0;
+     paint();
+   },{enableHighAccuracy:true,maximumAge:1000,timeout:12000});
+ }
+ function onStart(){
+   if(state.mode!=='idle')return;
+   state.elapsed=0; state.startedAt=Date.now(); state.mode='running';
+   state.distanceM=0; state.speedKmh=0; state.altitude=null; state.lastPos=null;
+   beginClock(); startGPS(); video?.play().catch(()=>{}); paint();
+ }
+ function onPause(){
+   if(state.mode==='running'){
+     state.elapsed=Date.now()-state.startedAt;
+     state.mode='paused'; state.speedKmh=0; state.lastPos=null; video?.pause();
+   }else if(state.mode==='paused'){
+     state.startedAt=Date.now()-state.elapsed;
+     state.mode='running'; state.lastPos=null; video?.play().catch(()=>{});
+   }
+   paint();
+ }
+ function onStop(){
+   if(state.mode==='idle')return;
+   if(state.mode==='running')state.elapsed=Date.now()-state.startedAt;
+   state.mode='idle'; state.speedKmh=0;
+   clearInterval(state.timer); state.timer=null;
+   stopGPS(); state.gpsStatus='WAIT';
+   video?.pause(); try{if(video)video.currentTime=0}catch(e){}
+   paint();
+ }
+ start.addEventListener('click',onStart);
+ pause.addEventListener('click',onPause);
+ stop.addEventListener('click',onStop);
+ paint();
+ window.AYALOG_CLEAN_CORE={state,onStart,onPause,onStop,startGPS,stopGPS};
+})();
+</script></body></html>
