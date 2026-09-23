@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#041b1a">
+<title>歩ログ MARK-II NEW FRAME 00 — GUI RESCUE</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#031514;color:#eafffb;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
+body{min-height:100vh}.mk2{width:min(100%,650px);margin:auto;padding:8px 8px 24px;background:linear-gradient(#061d1c,#031312)}
+.glass{border:1px solid rgba(110,255,239,.35);background:linear-gradient(180deg,rgba(5,40,39,.84),rgba(2,23,23,.72));box-shadow:inset 0 0 18px rgba(85,255,237,.06),0 5px 18px #0008}
+.top{height:62px;display:flex;align-items:center;gap:7px;padding:7px;border-radius:14px;margin-bottom:7px}
+.brand{min-width:126px}.brand b{display:block;color:#a8fff2;font-size:20px;line-height:1}.brand small{display:block;margin-top:5px;font-size:8px;letter-spacing:.08em;color:#77bdb5}
+.indicators{display:flex;gap:4px;flex:1;justify-content:flex-end}.ind{height:44px;min-width:48px;padding:5px 6px;border-radius:9px;text-align:center;font-size:8px;color:#9accc7;border:1px solid #2e6d67;background:#082523}
+.ind b{display:block;color:#d7fffa;font-size:10px;margin-top:3px}.menu{font-size:18px!important;padding-top:8px}
+.scene{position:relative;height:455px;border-radius:15px;overflow:hidden;border:1px solid rgba(105,255,240,.35);background:#09201d}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.92) brightness(.78)}
+.shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,18,17,.25),transparent 28%,transparent 66%,rgba(0,14,13,.48)),radial-gradient(ellipse at 50% 55%,transparent 35%,rgba(0,10,10,.30) 100%)}
+.motion{position:absolute;z-index:5;left:9px;top:10px;width:185px;padding:9px;border-radius:11px;font-size:9px}
+.motion .title{font-weight:800;color:#dffff9}.motion .title span{float:right;font-size:7px;color:#6eddd1}
+.mbody{display:grid;grid-template-columns:1fr 62px;gap:7px;margin-top:6px}.rows div{padding:2px 0;color:#a8cbc7}.rows b{float:right;color:#effffd}
+.radar{position:relative;width:58px;height:58px;border:1px solid #4db8ad;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 9px,#3d777355 10px 11px),linear-gradient(90deg,transparent 49%,#4eaaa466 50%,transparent 51%),linear-gradient(transparent 49%,#4eaaa466 50%,transparent 51%)}
+.radar:after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:#ff5e72;left:25px;top:25px;box-shadow:0 0 8px #ff526c}
+.walktag{position:absolute;z-index:5;right:9px;top:10px;padding:7px 10px;border-radius:9px;font-size:8px;text-align:right}.walktag b{font-size:10px;color:#dffff9}
+.arrows{position:absolute;z-index:4;left:50%;top:39%;transform:translateX(-50%);width:90px;height:135px}
+.path{position:absolute;left:44px;top:0;height:118px;border-left:2px dashed rgba(117,255,241,.55)}
+.chev{position:absolute;left:50%;width:42px;height:22px;border-left:4px solid #8cfff3;border-bottom:4px solid #8cfff3;transform:translateX(-50%) rotate(-45deg);filter:drop-shadow(0 0 5px #53e8d9)}
+.c1{top:17px}.c2{top:47px;opacity:.8}.c3{top:78px;opacity:.58}
+.mini{position:absolute;z-index:6;bottom:38px;width:42%;height:112px;border-radius:11px;padding:7px}
+.track{left:9px}.elev{right:9px}.minihead{height:20px;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#a8fff4;font-weight:700}
+canvas{width:100%;height:76px;display:block;border-radius:6px;background:rgba(0,17,18,.5)}
+.state{position:absolute;z-index:7;left:50%;bottom:12px;transform:translateX(-50%);font-size:8px;letter-spacing:.18em;color:#b7eee8;text-shadow:0 1px 5px #000;white-space:nowrap}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:8px 0}
+.metric{aspect-ratio:1/1;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;border:2px solid #2a8278;background:radial-gradient(circle,#0c2a28 45%,#061918 70%);box-shadow:inset 0 0 16px #52ffe815,0 3px 10px #0007}
+.metric span{font-size:8px;color:#87bcb6}.metric b{display:block;margin-top:4px;font-size:13px;color:#f1fffd}.metric small{font-size:7px;color:#76a9a4}
+.controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.controls button{height:61px;border:0;border-radius:14px;font-size:17px;font-weight:900;color:white;box-shadow:inset 0 1px 0 #fff5,0 6px 14px #0008}
+.start{background:linear-gradient(#20b978,#08794e)}.pause{background:linear-gradient(#d4a72d,#936e08)}.stop{background:linear-gradient(#d85658,#8f262b)}
+.footer{text-align:center;padding:9px 0 0;font-size:8px;color:#5e918c;letter-spacing:.12em}
+@media(max-width:430px){
+ .mk2{padding:5px}.top{height:57px}.brand{min-width:112px}.brand b{font-size:18px}.ind{min-width:42px;padding:5px 3px}
+ .scene{height:430px}.motion{width:170px}.mini{width:44%;height:104px}.mini canvas{height:69px}
+ .metric b{font-size:11px}.controls button{height:58px;font-size:16px}
+}
+</style>
+</head>
+<body>
+<main class="mk2">
+  <header class="top glass">
+    <div class="brand"><b>🌿 歩ログ</b><small>MARK-II · NEW FRAME 00<br>GUI RESCUE</small></div>
+    <div class="indicators">
+      <div class="ind">▥ GPS<b>WAIT</b></div>
+      <div class="ind">🐻 熊鈴<b>OFF</b></div>
+      <div class="ind">♪ AYABeat<b>OFF</b></div>
+      <div class="ind">▣ BAT<b>--%</b></div>
+      <div class="ind menu">☰</div>
+    </div>
+  </header>
+
+  <section class="scene">
+    <video class="bg" src="ayalog_green_bg_720p_light.mp4" muted playsinline loop autoplay></video>
+    <div class="shade"></div>
+
+    <div class="motion glass">
+      <div class="title">揺れ方向の分布 <span>MOTION BALANCE</span></div>
+      <div class="mbody">
+        <div class="rows"><div>前後 (Y)<b>50 ● 50%</b></div><div>左右 (X)<b>50 ● 50%</b></div><div>上下 (Z)<b>50 ● 50%</b></div><div>安定度<b>WAIT</b></div></div>
+        <div class="radar"></div>
+      </div>
+    </div>
+
+    <div class="walktag glass">FOREST WALK<br><b>FORWARD</b></div>
+    <div class="arrows"><i class="path"></i><i class="chev c1"></i><i class="chev c2"></i><i class="chev c3"></i></div>
+
+    <section class="mini track glass"><div class="minihead"><span>⌖ 軌跡</span><span>GPS WAIT</span></div><canvas id="track"></canvas></section>
+    <section class="mini elev glass"><div class="minihead"><span>▲ 高低差</span><span>-- m</span></div><canvas id="elev"></canvas></section>
+    <div class="state">STANDBY · STEP LINK</div>
+  </section>
+
+  <section class="metrics">
+    <div class="metric"><div><span>◷ 時間</span><b>00:00:00</b></div></div>
+    <div class="metric"><div><span>👣 歩数</span><b>0</b><small> step</small></div></div>
+    <div class="metric"><div><span>● 距離</span><b>0</b><small> m</small></div></div>
+    <div class="metric"><div><span>⌁ 速度</span><b>0.0</b><small> km/h</small></div></div>
+    <div class="metric"><div><span>🔥 kcal</span><b>0</b><small> kcal</small></div></div>
+  </section>
+
+  <section class="controls"><button class="start">▶ START</button><button class="pause">Ⅱ PAUSE</button><button class="stop">■ STOP</button></section>
+  <div class="footer">MARK-I GUI RESCUE · APPLICATION / DRIVERS NOT CONNECTED</div>
+</main>
+
+<script>
+/* NEW FRAME 00: display-only. No legacy application or drivers. */
+(()=>{const c=document.getElementById('track'),x=c.getContext('2d');c.width=320;c.height=120;x.strokeStyle='#65e9dc';x.lineWidth=3;x.setLineDash([5,5]);x.beginPath();x.moveTo(35,85);x.bezierCurveTo(80,70,75,30,130,45);x.bezierCurveTo(185,60,190,90,275,40);x.stroke();x.fillStyle='#7ffff2';x.beginPath();x.arc(35,85,5,0,7);x.fill();
+const e=document.getElementById('elev'),g=e.getContext('2d');e.width=320;e.height=120;g.strokeStyle='#2d625e';g.lineWidth=1;for(let i=1;i<5;i++){g.beginPath();g.moveTo(0,i*24);g.lineTo(320,i*24);g.stroke()}g.strokeStyle='#70f4e6';g.lineWidth=3;g.beginPath();g.moveTo(8,92);g.lineTo(55,82);g.lineTo(95,88);g.lineTo(145,63);g.lineTo(190,70);g.lineTo(235,45);g.lineTo(310,28);g.stroke();})();
+</script>
+</body>
+</html>
