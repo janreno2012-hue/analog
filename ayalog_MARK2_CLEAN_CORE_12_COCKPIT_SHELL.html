@@ -1,0 +1,442 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#061313"><title>歩ログ MARK-II CLEAN CORE 1.2 COCKPIT SHELL</title><style id="ft63aStyle">
+body{margin:0;background:#061313;color:#fff}
+#ft63a{min-height:100vh;max-width:720px;margin:auto;background:#071513;font-family:system-ui,-apple-system,sans-serif;color:#fff;padding:10px;box-sizing:border-box}
+.ft63top{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:linear-gradient(180deg,rgba(3,45,46,.78),rgba(1,25,28,.72));border:1px solid rgba(133,255,245,.78);border-radius:28px;padding:12px 16px;box-shadow:0 8px 24px #0008,inset 0 0 22px #62fff018;backdrop-filter:blur(7px)}
+.ft63brand b{font-size:24px}.ft63brand small{display:block;opacity:.72;letter-spacing:.08em}.ft63icons{display:flex;gap:3px;font-weight:800}.ft63icons span{min-width:44px;text-align:center;padding:7px 8px;border-left:1px solid #75d8d0;font-size:12px}
+.ft63scene{position:relative;height:62vh;min-height:500px;margin-top:10px;border-radius:30px;overflow:hidden;border:1px solid rgba(117,231,223,.9);background:#123;box-shadow:0 10px 30px #0008,inset 0 0 35px #0006}
+.ft63scene video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.ft63shade{position:absolute;inset:0;background:linear-gradient(#0017 0%,transparent 24%,transparent 66%,#001d 100%)}
+.ft63alt{position:absolute;left:14px;top:16px;background:rgba(4,39,40,.62);backdrop-filter:blur(6px);border:1px solid #76ddd5;border-radius:20px;padding:9px 14px;font-size:12px;box-shadow:0 5px 16px #0007}.ft63alt b{display:block;font-size:25px}
+.ft63hint{position:absolute;right:14px;top:16px;background:rgba(4,39,40,.62);backdrop-filter:blur(6px);border:1px solid #76ddd5;border-radius:20px;padding:9px 13px;font-size:11px;text-align:right;letter-spacing:.08em}
+.ft63nav{position:absolute;right:15px;top:36%;width:105px;height:105px;border:1px solid rgba(119,245,242,.75);border-radius:50%;background:radial-gradient(circle,rgba(9,54,58,.34),rgba(2,24,28,.58));box-shadow:0 0 20px #63fff022,inset 0 0 18px #5ff2;backdrop-filter:blur(3px)}
+.ft63nav:before,.ft63nav:after{content:'';position:absolute;background:rgba(137,255,250,.34)}.ft63nav:before{left:50%;top:10px;bottom:10px;width:1px}.ft63nav:after{top:50%;left:10px;right:10px;height:1px}.ft63navN{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:10px;color:#bffff9}.ft63navDot{position:absolute;left:43%;top:52%;width:10px;height:10px;border-radius:50%;background:#9ffff7;box-shadow:0 0 12px #8fffff}.ft63navPath{position:absolute;left:49px;top:24px;width:34px;height:52px;border-left:2px solid #8ff;border-bottom:2px solid #8ff;border-radius:0 0 0 20px;transform:rotate(22deg);opacity:.8}.ft63navKm{position:absolute;bottom:8px;right:14px;font-size:11px}
+.ft63arrows{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);width:210px;height:260px;filter:drop-shadow(0 0 10px #8ff8);perspective:300px}.ft63chev{position:absolute;left:50%;width:92px;height:46px;border-left:4px solid rgba(165,255,251,.92);border-top:4px solid rgba(165,255,251,.92);transform:translateX(-50%) rotate(45deg) skew(-4deg,-4deg);transform-origin:center;opacity:.9}.ft63chev.c1{bottom:10px;scale:1.18}.ft63chev.c2{bottom:72px;scale:.86;opacity:.72}.ft63chev.c3{bottom:125px;scale:.62;opacity:.52}.ft63chev.c4{bottom:168px;scale:.42;opacity:.34}.ft63road{position:absolute;left:50%;bottom:0;height:180px;border-left:3px dashed rgba(190,255,252,.55);transform:translateX(-50%)}
+.ft63meters{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:10px;padding:8px 5px;background:linear-gradient(180deg,rgba(7,57,60,.84),rgba(2,30,33,.9));border:1px solid #72ddd5;border-radius:27px;box-shadow:0 8px 24px #0007,inset 0 0 22px #65fff014;overflow:hidden}.ft63m{text-align:center;padding:4px 3px;border-right:1px solid #ffffff2c}.ft63m:last-child{border:0}.ft63ring{width:82px;height:82px;max-width:92%;margin:auto;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#72fff2 0 64%,#ffffff16 64% 86%,transparent 86%);box-shadow:inset 0 0 14px #6ff3,0 0 12px #0007}.ft63m:nth-child(2) .ft63ring{background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#65f49a 0 62%,#ffffff16 62% 86%,transparent 86%)}.ft63m:nth-child(4) .ft63ring{background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#ffc84f 0 58%,#ffffff16 58% 86%,transparent 86%)}.ft63m:nth-child(5) .ft63ring{background:radial-gradient(circle,#082f31 50%,transparent 52%),conic-gradient(from 210deg,#ff665d 0 55%,#ffffff16 55% 86%,transparent 86%)}.ft63m span{display:block;font-size:10px;opacity:.92}.ft63m b{display:block;margin-top:3px;font-size:15px;white-space:nowrap}
+.ft63buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}.ft63buttons button{border:1px solid #ffffff55;border-radius:30px;padding:18px 5px;color:white;font-size:18px;font-weight:900;box-shadow:0 7px 18px #0006,inset 0 0 15px #fff1}.ft63start{background:linear-gradient(#20bb82,#118c65)}.ft63pause{background:linear-gradient(#e2b52a,#bc8d0d)}.ft63stop{background:linear-gradient(#ef4857,#c52a38)}.ft63foot{text-align:center;opacity:.65;font-size:11px;padding:13px 4px}
+@media(max-width:430px){#ft63a{padding:7px}.ft63brand b{font-size:20px}.ft63icons span{min-width:34px;padding:6px 5px;font-size:11px}.ft63scene{height:57vh;min-height:430px}.ft63nav{width:82px;height:82px;top:34%}.ft63navPath{left:38px;top:19px;width:27px;height:40px}.ft63arrows{height:220px;bottom:14%;transform:translateX(-50%) scale(.86)}.ft63ring{width:61px;height:61px}.ft63m b{font-size:12px}.ft63m span{font-size:8px}.ft63buttons button{font-size:16px;padding:16px 3px}}
+</style>
+<style id="cleanCoreStyle">
+button:disabled{opacity:.35;filter:grayscale(.55);cursor:not-allowed}
+#cleanState{position:absolute;left:14px;bottom:14px;z-index:5;padding:7px 11px;border:1px solid rgba(140,255,245,.6);border-radius:14px;background:rgba(0,28,30,.58);font-size:11px;font-weight:800;letter-spacing:.04em;backdrop-filter:blur(4px)}
+.ft63scene{isolation:isolate}
+</style>
+
+<style id="metrics04Style">
+#metrics04{max-width:620px;margin:10px auto 0;padding:10px 14px;border:1px solid rgba(91,255,236,.65);
+border-radius:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:rgba(0,48,45,.52);
+font-family:system-ui,sans-serif;color:#eafffb;text-align:center}
+#metrics04 .m04v{font-weight:800;font-size:17px} #metrics04 .m04k{font-size:10px;opacity:.72;letter-spacing:.08em}
+</style>
+
+
+<style id="calorie05Style">
+#cal05{max-width:620px;margin:8px auto 0;padding:9px 14px;border:1px solid rgba(91,255,236,.55);
+border-radius:18px;background:rgba(0,48,45,.42);display:flex;align-items:center;justify-content:center;gap:10px;
+font-family:system-ui,sans-serif;color:#eafffb}
+#cal05 label{font-size:12px;opacity:.8} #cal05 input{width:70px;padding:7px 8px;border-radius:10px;
+border:1px solid rgba(91,255,236,.7);background:#062f2d;color:#fff;font-weight:800;text-align:center}
+#cal05 small{opacity:.62;font-size:10px}
+</style>
+
+<style id="oled07Style">
+#oled07{display:none;position:fixed;inset:0;z-index:9999;background:#000;color:#dff;font-family:system-ui,sans-serif;align-items:center;justify-content:center;text-align:center}
+#oled07.on{display:flex} #oled07 .tm{font-size:52px;font-weight:900;margin:12px 0} #oled07 .st{font-size:22px;font-weight:800} #oled07 .lb{font-size:14px;letter-spacing:.22em;opacity:.55} #oled07 .hi{font-size:11px;opacity:.35;margin-top:24px}
+</style><style id="track10Style">
+#track10Panel{margin:14px 12px;padding:12px;border:1px solid #59d8cf;border-radius:26px;background:#001916}
+#track10Head{display:flex;justify-content:space-between;color:#dff;font:700 12px system-ui;letter-spacing:.12em;margin:0 8px 8px}
+#track10Canvas{display:block;width:100%;height:210px;min-height:210px;border-radius:18px;background:#00100e}
+</style><style id="elev11Style">
+#elev11Panel{margin:14px 12px;padding:12px;border:1px solid #59d8cf;border-radius:26px;background:#001916}
+#elev11Head{display:flex;justify-content:space-between;color:#dff;font:700 12px system-ui;letter-spacing:.12em;margin:0 8px 8px}
+#elev11Canvas{display:block;width:100%;height:170px;min-height:170px;border-radius:18px;background:#00100e}
+</style>
+<style id="cockpit12Style">
+/* BUS 12 = presentation-only shell. Measurement/controller logic is untouched. */
+body{background:#00110f}
+#track10Panel,#elev11Panel{
+  display:inline-block;vertical-align:top;
+  width:calc(50% - 19px);box-sizing:border-box;
+  margin:12px 5px 14px;padding:10px;
+  border-radius:22px;background:rgba(0,28,25,.86);
+}
+#track10Panel{margin-left:12px}
+#elev11Panel{margin-right:12px}
+#track10Canvas,#elev11Canvas{height:125px!important;min-height:125px!important}
+#track10Head,#elev11Head{font-size:11px;margin:0 5px 6px}
+#cockpit12Motion{
+  position:absolute;z-index:7;left:5.5%;top:3.5%;
+  width:48%;max-width:330px;box-sizing:border-box;
+  padding:12px 14px;border:1px solid #70ded5;border-radius:22px;
+  background:rgba(0,40,35,.68);backdrop-filter:blur(5px);
+  color:#eaffff;font-family:system-ui,sans-serif;
+}
+#cockpit12Motion .mTitle{font-weight:800;font-size:13px;letter-spacing:.08em}
+#cockpit12Motion .mSub{float:right;font-size:8px;opacity:.72}
+#cockpit12Motion .mGrid{display:grid;grid-template-columns:1fr 92px;gap:8px;margin-top:8px}
+#cockpit12Motion .mRows{font-size:11px;line-height:1.9;font-weight:700}
+#cockpit12Motion .mRows b{float:right;color:#9cece6}
+#cockpit12Radar{width:88px;height:88px;border-radius:50%;position:relative;
+ border:1px solid rgba(112,222,213,.7);
+ background:radial-gradient(circle,transparent 19%,rgba(112,222,213,.22) 20%,transparent 22%,transparent 39%,rgba(112,222,213,.2) 40%,transparent 42%,transparent 59%,rgba(112,222,213,.18) 60%,transparent 62%)}
+#cockpit12Radar:before,#cockpit12Radar:after{content:"";position:absolute;background:rgba(112,222,213,.45)}
+#cockpit12Radar:before{left:50%;top:5%;width:1px;height:90%}
+#cockpit12Radar:after{top:50%;left:5%;height:1px;width:90%}
+#cockpit12Dot{position:absolute;left:50%;top:50%;width:13px;height:13px;transform:translate(-50%,-50%);
+ border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,80,100,.45),0 0 12px #fff}
+@media(max-width:420px){
+ #track10Panel,#elev11Panel{width:calc(50% - 16px);margin-left:4px;margin-right:4px;padding:8px}
+ #track10Panel{margin-left:10px} #elev11Panel{margin-right:10px}
+ #track10Canvas,#elev11Canvas{height:112px!important;min-height:112px!important}
+ #cockpit12Motion{width:52%;padding:9px 10px}
+ #cockpit12Motion .mGrid{grid-template-columns:1fr 72px}
+ #cockpit12Radar{width:68px;height:68px}
+}
+</style>
+</head><body><div id="ft63a">
+ <div class="ft63top"><div class="ft63brand"><b>🌿 歩ログ <small style="display:inline;font-size:14px">ayalog</small></b><small>MARK-II · CLEAN CORE 1.2 · COCKPIT SHELL</small></div><div class="ft63icons"><span id="ft63gps">📍 GPS WAIT</span><span id="ft63bell">🐻 OFF</span><span id="ft63bat">🔋 --%</span></div></div>
+ <div class="ft63scene"><div id="cleanState">READY · BUS 12</div><video id="ft63video" src="ayalog_green_bg_720p_light.mp4" muted playsinline preload="auto" loop autoplay></video><div class="ft63shade"></div>
+<div id="cockpit12Motion">
+  <div class="mTitle">揺れ方向の分布 <span class="mSub">MOTION BALANCE</span></div>
+  <div class="mGrid">
+    <div class="mRows">
+      <div>前後 (Y) <b>50 ● 50%</b></div>
+      <div>左右 (X) <b>50 ● 50%</b></div>
+      <div>上下 (Z) <b>50 ● 50%</b></div>
+      <div>安定度 <b>WAIT</b></div>
+    </div>
+    <div id="cockpit12Radar"><i id="cockpit12Dot"></i></div>
+  </div>
+</div>
+<div class="ft63alt">⛰ 標高<b id="ft63alt">-- m</b></div><div class="ft63hint">FOREST WALK<br><b>FORWARD</b></div><div class="ft63nav"><i class="ft63navN">N</i><i class="ft63navPath"></i><i class="ft63navDot"></i><b class="ft63navKm" id="ft63navKm">0.0 km</b></div><div class="ft63arrows"><i class="ft63road"></i><i class="ft63chev c4"></i><i class="ft63chev c3"></i><i class="ft63chev c2"></i><i class="ft63chev c1"></i></div></div>
+ <div class="ft63meters"><div class="ft63m"><div class="ft63ring"><span>◷ 時間</span><b id="ft63time">00:00:00</b></div></div><div class="ft63m"><div class="ft63ring"><span>👣 歩数</span><b id="ft63steps">0</b></div></div><div class="ft63m"><div class="ft63ring"><span>● 距離</span><b id="ft63dist">0 m</b></div></div><div class="ft63m"><div class="ft63ring"><span>◴ 速度</span><b id="ft63speed">0.0</b></div></div><div class="ft63m"><div class="ft63ring"><span>◆ kcal</span><b id="ft63cal">0</b></div></div></div>
+ <section id="track10Panel"><div id="track10Head"><span>GPS TRACK</span><span id="track10Count">0 PT</span></div><canvas id="track10Canvas"></canvas></section><section id="elev11Panel">
+<div id="elev11Head"><span>COCKPIT SHELL</span><span id="elev11Range">-- m</span></div>
+<canvas id="elev11Canvas"></canvas>
+</section>
+<div class="ft63buttons"><button class="ft63start" id="ft63start">▶ START</button><button class="ft63pause" id="ft63pause" disabled>Ⅱ PAUSE</button><button class="ft63stop" id="ft63stop" disabled>■ STOP</button></div><div class="ft63foot">CLEAN CORE · BUS 12 · COCKPIT SHELL</div>
+</div>
+
+<div id="metrics04" aria-label="walking metrics">
+  <div><div class="m04k">平均速度</div><div class="m04v" id="m04avg">0.0 km/h</div></div>
+  <div><div class="m04k">歩行時間</div><div class="m04v" id="m04walk">00:00:00</div></div>
+  <div><div class="m04k">停止時間</div><div class="m04v" id="m04stop">00:00:00</div></div>
+</div>
+
+
+<div id="cal05">
+  <label for="cal05weight">体重</label>
+  <input id="cal05weight" type="number" min="30" max="200" step="0.1" inputmode="decimal" value="60">
+  <span>kg</span><small>端末保存</small>
+</div>
+
+<div id="oled07"><div><div class="lb">REST · OLED</div><div class="tm" id="oled07time">00:00:00</div><div class="st">👣 <span id="oled07steps">0</span></div><div class="hi">TAP TO RETURN</div></div></div>
+
+<script id="cleanCoreController">
+(()=>{
+ 'use strict';
+ const $=id=>document.getElementById(id);
+ const state={
+   mode:'idle',startedAt:0,elapsed:0,timer:null,
+   gpsWatch:null,gpsStatus:'WAIT',lastPos:null,distanceM:0,speedKmh:0,altitude:null,gpsMinMoveM:0.6,gpsMaxAccM:35,gpsPendingM:0,trackPoints:[],elevPoints:[],
+   steps:0,motionStatus:'WAIT',motionActive:false,lastMag:null,lastStepAt:0,
+   stepDelta:0.30,stepMag:11.0,stepInterval:270,
+   movingMs:0,stoppedMs:0,lastMetricAt:0,lastMotionAt:0,
+   weightKg:60,calories:0,resting:false,oledActive:false,oledDismissed:false,wakeLock:null,wakeStatus:'OFF'
+ };
+ const start=$('ft63start'), pause=$('ft63pause'), stop=$('ft63stop'), video=$('ft63video');
+ const time=$('ft63time'), status=$('cleanState'), gps=$('ft63gps');
+ const dist=$('ft63dist'), speed=$('ft63speed'), alt=$('ft63alt'), navKm=$('ft63navKm');
+ const steps=$('ft63steps');
+ const mAvg=$('m04avg'),mWalk=$('m04walk'),mStop=$('m04stop');
+ const weightInput=$('cal05weight'), kcal=$('ft63cal');
+ const oled=$('oled07'),oledTime=$('oled07time'),oledSteps=$('oled07steps');
+ const trackCanvas=$('track10Canvas'),trackCount=$('track10Count');
+ const elevCanvas=$('elev11Canvas'),elevRange=$('elev11Range');
+
+ function fmtTime(ms){
+   const sec=Math.floor(ms/1000);
+   return `${String(Math.floor(sec/3600)).padStart(2,'0')}:${String(Math.floor(sec%3600/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
+ }
+ function fmtDur(ms){
+   const sec=Math.floor(ms/1000);
+   return `${String(Math.floor(sec/3600)).padStart(2,'0')}:${String(Math.floor(sec%3600/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
+ }
+
+ function walkingMET(kmh){
+   if(kmh < 0.8) return 1.0;
+   if(kmh < 3.2) return 2.8;
+   if(kmh < 4.8) return 3.5;
+   if(kmh < 5.6) return 4.3;
+   if(kmh < 6.5) return 5.0;
+   return 6.0;
+ }
+ function updateCalories(){
+   const movingMin=state.movingMs/60000;
+   const avgKmh=state.movingMs>0 ? (state.distanceM/(state.movingMs/1000))*3.6 : 0;
+   const met=walkingMET(avgKmh);
+   state.calories = movingMin>0 ? met*3.5*state.weightKg/200*movingMin : 0;
+ }
+
+ function haversine(a,b){
+   const R=6371000, rad=Math.PI/180;
+   const p1=a.lat*rad,p2=b.lat*rad,dp=(b.lat-a.lat)*rad,dl=(b.lon-a.lon)*rad;
+   const x=Math.sin(dp/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;
+   return 2*R*Math.asin(Math.sqrt(x));
+ }
+ function paint(){
+   time.textContent=fmtTime(state.elapsed);
+   start.disabled=state.mode!=='idle';
+   pause.disabled=state.mode==='idle';
+   stop.disabled=state.mode==='idle';
+   pause.textContent=state.mode==='paused'?'▶ RESUME':'Ⅱ PAUSE';
+   const modeText=state.mode==='idle'?'READY':state.mode==='paused'?'PAUSED':state.resting?'REST':'RUNNING';
+   status.textContent=`${modeText} · BUS 12 · GPS ${state.gpsStatus} · STEP ${state.motionStatus} · WAKE ${state.wakeStatus}`;
+   gps.textContent=`📍 GPS ${state.gpsStatus}`;
+   steps.textContent=state.steps;
+   dist.textContent=state.distanceM<1000?`${Math.round(state.distanceM)} m`:`${(state.distanceM/1000).toFixed(2)} km`;
+   navKm.textContent=`${(state.distanceM/1000).toFixed(2)} km`;
+   speed.textContent=state.speedKmh.toFixed(1);
+   alt.textContent=Number.isFinite(state.altitude)?`${Math.round(state.altitude)} m`:'-- m';
+   const avg=state.movingMs>0 ? (state.distanceM/(state.movingMs/1000))*3.6 : 0;
+   mAvg.textContent=`${avg.toFixed(1)} km/h`;
+   mWalk.textContent=fmtDur(state.movingMs);
+   mStop.textContent=fmtDur(state.stoppedMs);
+   updateCalories();
+   kcal.textContent=state.calories.toFixed(1);
+   oledTime.textContent=fmtTime(state.elapsed); oledSteps.textContent=state.steps;
+   if(state.mode==='running'&&state.resting&&!state.oledActive&&!state.oledDismissed){state.oledActive=true;oled.classList.add('on');}
+   if((state.mode!=='running'||!state.resting)&&state.oledActive){state.oledActive=false;oled.classList.remove('on');}
+ }
+ function beginClock(){
+   clearInterval(state.timer);
+   state.timer=setInterval(()=>{
+     if(state.mode==='running'){
+       const now=Date.now();
+       state.elapsed=now-state.startedAt;
+       if(state.lastMetricAt){
+         const dt=Math.min(1000,Math.max(0,now-state.lastMetricAt));
+         const sinceStep=performance.now()-state.lastMotionAt;
+          const recentlyStepped=sinceStep<1800;
+          const gpsMoving=state.speedKmh>=0.8;
+          const stepMoving=recentlyStepped;
+          if(stepMoving){
+            state.movingMs+=dt;
+            state.resting=false;
+          }else{
+            state.stoppedMs+=dt;
+            state.resting=(sinceStep>=10000);
+          }
+       }
+       state.lastMetricAt=now;
+       paint();
+     }
+   },250);
+ }
+ function stopGPS(){
+   if(state.gpsWatch!==null && navigator.geolocation) navigator.geolocation.clearWatch(state.gpsWatch);
+   state.gpsWatch=null; state.lastPos=null;
+ }
+
+ function drawTrack(){
+   if(!trackCanvas)return;
+   const dpr=Math.max(1,window.devicePixelRatio||1),w=Math.max(280,trackCanvas.clientWidth||320),h=210;
+   trackCanvas.width=Math.round(w*dpr);trackCanvas.height=Math.round(h*dpr);
+   const ctx=trackCanvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+   const pts=state.trackPoints;trackCount.textContent=`${pts.length} PT`;
+   ctx.strokeStyle='rgba(105,235,225,.16)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(w/2,14);ctx.lineTo(w/2,h-14);ctx.moveTo(14,h/2);ctx.lineTo(w-14,h/2);ctx.stroke();
+   if(!pts.length)return;
+   const lat0=pts[0].lat*Math.PI/180,cos0=Math.cos(lat0);
+   const raw=pts.map(p=>({x:(p.lon-pts[0].lon)*111320*cos0,y:(p.lat-pts[0].lat)*111320}));
+   // Display-only smoothing: keep measurement/raw GPS untouched.
+   // Light 3-point weighted filter; endpoints remain raw so START/current position stay honest.
+   const xy=raw.map((p,i,a)=>{
+     if(i===0||i===a.length-1||a.length<3)return {x:p.x,y:p.y};
+     return {x:(a[i-1].x+2*p.x+a[i+1].x)/4,
+             y:(a[i-1].y+2*p.y+a[i+1].y)/4};
+   });
+   let m=8;for(const p of xy)m=Math.max(m,Math.abs(p.x),Math.abs(p.y));
+   const s=Math.min((w-42)/(2*m),(h-42)/(2*m)),sx=p=>w/2+p.x*s,sy=p=>h/2-p.y*s;
+   if(xy.length>1){ctx.strokeStyle='#83eee7';ctx.lineWidth=2.2;ctx.setLineDash([7,5]);ctx.beginPath();ctx.moveTo(sx(xy[0]),sy(xy[0]));for(let i=1;i<xy.length;i++)ctx.lineTo(sx(xy[i]),sy(xy[i]));ctx.stroke();ctx.setLineDash([]);}
+   ctx.fillStyle='#70e7df';ctx.beginPath();ctx.arc(sx(xy[0]),sy(xy[0]),5,0,Math.PI*2);ctx.fill();
+   const q=xy[xy.length-1];ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(sx(q),sy(q),4,0,Math.PI*2);ctx.fill();
+ }
+
+ function drawElevation(){
+   if(!elevCanvas)return;
+   const dpr=Math.max(1,window.devicePixelRatio||1),w=Math.max(280,elevCanvas.clientWidth||320),h=170;
+   elevCanvas.width=Math.round(w*dpr);elevCanvas.height=Math.round(h*dpr);
+   const ctx=elevCanvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+   const a=state.elevPoints.filter(p=>Number.isFinite(p.alt));
+   ctx.strokeStyle='rgba(105,235,225,.14)';ctx.lineWidth=1;
+   for(let i=1;i<4;i++){const y=16+(h-32)*i/4;ctx.beginPath();ctx.moveTo(16,y);ctx.lineTo(w-16,y);ctx.stroke();}
+   if(!a.length){elevRange.textContent='-- m';return;}
+   let min=Math.min(...a.map(p=>p.alt)),max=Math.max(...a.map(p=>p.alt));
+   if(max-min<4){const mid=(max+min)/2;min=mid-2;max=mid+2;}
+   const maxD=Math.max(10,a[a.length-1].d);
+   const sx=p=>16+(w-32)*(p.d/maxD), sy=p=>h-16-(h-32)*((p.alt-min)/(max-min));
+   elevRange.textContent=`${a[a.length-1].alt.toFixed(0)} m`;
+   ctx.strokeStyle='#83eee7';ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(sx(a[0]),sy(a[0]));
+   for(let i=1;i<a.length;i++)ctx.lineTo(sx(a[i]),sy(a[i]));ctx.stroke();
+   const q=a[a.length-1];ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(sx(q),sy(q),4,0,Math.PI*2);ctx.fill();
+ }
+ function startGPS(){
+   stopGPS();
+   if(!navigator.geolocation){state.gpsStatus='N/A';paint();return;}
+   state.gpsStatus='SEARCH';paint();
+   state.gpsWatch=navigator.geolocation.watchPosition(pos=>{
+     const c=pos.coords;
+     state.gpsStatus='LOCK';
+       if(!state.trackPoints.length){
+         state.trackPoints.push({lat:c.latitude,lon:c.longitude});
+         if(Number.isFinite(c.altitude)){state.elevPoints.push({d:0,alt:c.altitude});drawElevation();}
+         drawTrack();
+       }
+     state.altitude=Number.isFinite(c.altitude)?c.altitude:null;
+     if(state.mode==='running'){
+       const now={lat:c.latitude,lon:c.longitude,t:pos.timestamp,acc:c.accuracy};
+       if(state.lastPos){
+         const dt=(now.t-state.lastPos.t)/1000,d=haversine(state.lastPos,now);
+         const accuracyOK=Number.isFinite(c.accuracy)?c.accuracy<=state.gpsMaxAccM:true;
+          const plausible=d<=Math.max(35,dt*8);
+          const stepRecent=(performance.now()-state.lastMotionAt)<2200;
+          if(dt>0&&accuracyOK&&plausible){
+            if(stepRecent){
+              state.gpsPendingM+=d;
+              if(state.gpsPendingM>=state.gpsMinMoveM){
+                state.distanceM+=state.gpsPendingM;
+                state.speedKmh=(Number.isFinite(c.speed)&&c.speed>=0)?c.speed*3.6:(state.gpsPendingM/dt)*3.6;
+                state.trackPoints.push({lat:c.latitude,lon:c.longitude});
+                if(state.trackPoints.length>600)state.trackPoints.shift();
+                if(Number.isFinite(c.altitude)){
+                  state.elevPoints.push({d:state.distanceM,alt:c.altitude});
+                  if(state.elevPoints.length>600)state.elevPoints.shift();
+                  drawElevation();
+                }
+                drawTrack();
+                state.gpsPendingM=0;
+              }
+            }else{
+              state.gpsPendingM=0;
+              state.speedKmh=0;
+            }
+          }
+       }
+       state.lastPos=now;
+     }
+     paint();
+   },err=>{
+     state.gpsStatus=err.code===1?'DENIED':'ERROR';state.speedKmh=0;paint();
+   },{enableHighAccuracy:true,maximumAge:1000,timeout:12000});
+ }
+
+ function motionSample(e){
+   if(state.mode!=='running') return;
+   const a=e.accelerationIncludingGravity || e.acceleration;
+   if(!a || !Number.isFinite(a.x) || !Number.isFinite(a.y) || !Number.isFinite(a.z)) return;
+   const mag=Math.hypot(a.x,a.y,a.z);
+   if(state.lastMag===null){state.lastMag=mag;return;}
+   const delta=Math.abs(mag-state.lastMag);
+   state.lastMag=mag;
+   const now=performance.now();
+   if(delta>=state.stepDelta && mag>=state.stepMag && now-state.lastStepAt>=state.stepInterval){
+     state.lastStepAt=now;
+     state.lastMotionAt=now;
+     state.steps++;
+     paint();
+   }
+ }
+ async function startMotion(){
+   if(state.motionActive){state.motionStatus='ON';paint();return true;}
+   try{
+     if(typeof DeviceMotionEvent==='undefined'){state.motionStatus='N/A';paint();return false;}
+     if(typeof DeviceMotionEvent.requestPermission==='function'){
+       const p=await DeviceMotionEvent.requestPermission();
+       if(p!=='granted'){state.motionStatus='DENIED';paint();return false;}
+     }
+     window.addEventListener('devicemotion',motionSample,{passive:true});
+     state.motionActive=true;state.motionStatus='ON';state.lastMag=null;state.lastStepAt=0;paint();return true;
+   }catch(e){state.motionStatus='ERROR';paint();return false;}
+ }
+ function stopMotion(){
+   if(state.motionActive) window.removeEventListener('devicemotion',motionSample);
+   state.motionActive=false;state.motionStatus='WAIT';state.lastMag=null;
+ }
+
+
+ async function acquireWakeLock(){
+   if(!('wakeLock' in navigator)){state.wakeStatus='N/A';paint();return false;}
+   try{
+     if(state.wakeLock) return true;
+     state.wakeLock=await navigator.wakeLock.request('screen');
+     state.wakeStatus='ON';
+     state.wakeLock.addEventListener('release',()=>{
+       state.wakeLock=null;
+       if(state.mode!=='idle') state.wakeStatus='OFF';
+       paint();
+     });
+     paint(); return true;
+   }catch(e){
+     state.wakeLock=null; state.wakeStatus='ERROR'; paint(); return false;
+   }
+ }
+ async function releaseWakeLock(){
+   const lock=state.wakeLock;
+   state.wakeLock=null;
+   if(lock){try{await lock.release();}catch(e){}}
+   state.wakeStatus='OFF'; paint();
+ }
+ async function onStart(){
+   if(state.mode!=='idle')return;
+   state.elapsed=0;state.startedAt=Date.now();state.mode='running';
+   state.distanceM=0;state.speedKmh=0;state.altitude=null;state.lastPos=null;state.gpsPendingM=0;
+   state.trackPoints=[];state.elevPoints=[];drawTrack();drawElevation();
+   state.steps=0;state.lastMag=null;state.lastStepAt=0;
+   state.movingMs=0;state.stoppedMs=0;state.lastMetricAt=Date.now();state.lastMotionAt=performance.now();state.calories=0;state.resting=false;
+   beginClock();startGPS();await startMotion();await acquireWakeLock();video?.play().catch(()=>{});paint();
+ }
+ function onPause(){
+   if(state.mode==='running'){
+     state.elapsed=Date.now()-state.startedAt;state.mode='paused';state.speedKmh=0;state.resting=false;
+     state.lastPos=null;state.gpsPendingM=0;state.lastMag=null;state.lastMetricAt=0;video?.pause();
+   }else if(state.mode==='paused'){
+     state.startedAt=Date.now()-state.elapsed;state.mode='running';state.resting=false;state.lastMotionAt=performance.now();
+     state.lastPos=null;state.lastMag=null;state.lastMetricAt=Date.now();video?.play().catch(()=>{});
+   }
+   paint();
+ }
+ function onStop(){
+   if(state.mode==='idle')return;
+   if(state.mode==='running')state.elapsed=Date.now()-state.startedAt;
+   state.mode='idle';state.speedKmh=0;state.resting=false;
+   clearInterval(state.timer);state.timer=null;
+   stopGPS();state.gpsStatus='WAIT';stopMotion();releaseWakeLock();
+   video?.pause();try{if(video)video.currentTime=0}catch(e){}
+   paint();
+ }
+
+ try{
+   const saved=parseFloat(localStorage.getItem('ayalog_mark2_weightKg'));
+   if(Number.isFinite(saved)&&saved>=30&&saved<=200) state.weightKg=saved;
+ }catch(e){}
+ weightInput.value=state.weightKg;
+ weightInput.addEventListener('change',()=>{
+   const v=parseFloat(weightInput.value);
+   if(Number.isFinite(v)&&v>=30&&v<=200){
+     state.weightKg=v;
+     try{localStorage.setItem('ayalog_mark2_weightKg',String(v));}catch(e){}
+   }else{
+     weightInput.value=state.weightKg;
+   }
+   paint();
+ });
+
+ oled.addEventListener('click',()=>{state.oledDismissed=true;state.oledActive=false;oled.classList.remove('on');});
+ document.addEventListener('visibilitychange',()=>{
+   if(document.visibilityState==='visible' && state.mode!=='idle' && !state.wakeLock) acquireWakeLock();
+ });
+ start.addEventListener('click',onStart);
+ pause.addEventListener('click',onPause);
+ stop.addEventListener('click',onStop);
+ paint();
+ window.AYALOG_CLEAN_CORE={state,onStart,onPause,onStop,startGPS,stopGPS,startMotion,stopMotion};
+})();
+</script></body></html>
