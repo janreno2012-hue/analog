@@ -2077,6 +2077,7 @@ body.ft63a{background:#03110f}
  const energy={weightKg:60,movingMs:0,calories:0,wakeLock:null,wakeStatus:'OFF'};
  const motion={active:false,status:'WAIT',lastMag:null,lastStepAt:0,lastMotionAt:0,stepDelta:0.30,stepMag:11.0,stepInterval:270,count:0};
  const gps={watch:null,status:'WAIT',lastPos:null,distanceM:0,speedKmh:0,altitude:null,minMoveM:0.6,maxAccM:35,pendingM:0,trackPoints:[],elevPoints:[]};
+ window.AYALOG_MARK2_LIVE_GPS=gps;
  const routeCanvas=$('rc5RouteCanvas'), routeSub=$('rc5RouteSub');
  const elevCanvas=$('rc525ElevCanvas')||$('rc5ElevCanvas'), elevSub=$('rc5ElevSub');
  const walkingMET=kmh=>kmh<0.8?1.0:kmh<3.2?2.8:kmh<4.8?3.5:kmh<5.6?4.3:kmh<6.5?5.0:6.0;
@@ -2273,7 +2274,12 @@ function start(){active=true;base=null;samples=[];reset()} function stop(){activ
 E('ft63start')?.addEventListener('click',()=>setTimeout(start,0));
 E('ft63stop')?.addEventListener('click',()=>setTimeout(stop,0));
 E('ft63pause')?.addEventListener('click',()=>setTimeout(()=>{active=!active},0));
-window.AYALOG_MARK2_BALANCE={start,stop};
+window.AYALOG_MARK2_BALANCE={start,stop,getSnapshot(){return{
+ back:Number(u.b?.textContent),front:Number((u.f?.textContent||'').replace('%','')),
+ left:Number(u.l?.textContent),right:Number((u.r?.textContent||'').replace('%','')),
+ down:Number(u.d?.textContent),up:Number((u.up?.textContent||'').replace('%','')),
+ stability:Number((u.st?.textContent||'').replace('%',''))
+}}};
 })();
 </script>
 
@@ -3219,7 +3225,7 @@ html.asm29-oled-off #mark2Oled15,html.asm29-oled-off #mark2Oled07{display:none!i
 
 <!-- ASSEMBLY 29.3 · FIELD TEST PATCH -->
 <style id="asm293-style">#asm22Badge{display:none!important}</style>
-<script id="asm293-field-test-patch" type="text/plain">
+<script id="asm293-field-test-patch" type="application/x-disabled">
 (()=>{'use strict';
  const E=id=>document.getElementById(id), stop=E('ft63stop'); if(!stop)return; let shot=null;
  const clean=t=>(t||'').replace(/\s+/g,' ').trim();
@@ -3241,56 +3247,52 @@ html.asm29-oled-off #mark2Oled15,html.asm29-oled-off #mark2Oled07{display:none!i
 (()=>{'use strict';
  const E=id=>document.getElementById(id), stop=E('ft63stop'); if(!stop)return;
  let snap=null;
- const txt=id=>(E(id)?.textContent||'--').trim();
- const valid=t=>t && t!=='--' && t!=='--%';
-
- function balance(){
-   const back=txt('rc58Back'), front=txt('rc58Front'),
-         left=txt('rc58Left'), right=txt('rc58Right'),
-         down=txt('rc58Down'), up=txt('rc58Up'), stable=txt('rc58Stable');
-   return {
-     y:(valid(back)&&valid(front))?`後 ${back} / 前 ${front}`:'--',
-     x:(valid(left)&&valid(right))?`左 ${left} / 右 ${right}`:'--',
-     z:(valid(down)&&valid(up))?`下 ${down} / 上 ${up}`:'--',
-     stability:valid(stable)?stable:'--'
+ const finite=n=>Number.isFinite(Number(n));
+ function capture(){
+   const g=window.AYALOG_MARK2_LIVE_GPS;
+   const b=window.AYALOG_MARK2_BALANCE?.getSnapshot?.();
+   snap={
+     elev:g?.elevPoints?.filter(p=>finite(p?.d)&&finite(p?.alt)).map(p=>({d:Number(p.d),alt:Number(p.alt)}))||[],
+     balance:b||null
    };
  }
- function liveCanvases(){
-   const route=E('rc511RouteCanvas')||E('rc511Route')||document.querySelector('#rc511RouteHud canvas,#rc58RouteHud canvas');
-   const elev=E('rc511ElevCanvas')||E('rc511ElevationCanvas')||document.querySelector('#rc511ElevHud canvas,#elevMini412 canvas,.elevMini canvas');
-   return {route,elev};
+ function balanceText(){
+   const b=snap?.balance;if(!b)return;
+   if(finite(b.back)&&finite(b.front))E('asm22Y').textContent=`後 ${Math.round(b.back)} / 前 ${Math.round(b.front)}%`;
+   if(finite(b.left)&&finite(b.right))E('asm22X').textContent=`左 ${Math.round(b.left)} / 右 ${Math.round(b.right)}%`;
+   if(finite(b.down)&&finite(b.up))E('asm22Z').textContent=`下 ${Math.round(b.down)} / 上 ${Math.round(b.up)}%`;
+   if(finite(b.stability))E('asm22Stable').textContent=`${Math.round(b.stability)}%`;
  }
- function freeze(c){
-   if(!c)return null;
-   try{const x=document.createElement('canvas');x.width=c.width||300;x.height=c.height||120;x.getContext('2d').drawImage(c,0,0,x.width,x.height);return x}catch(_){return null}
+ function drawElev(){
+   const c=E('asm22Elev'),a=snap?.elev;if(!c||!a||a.length<2)return;
+   const x=c.getContext('2d'),w=c.width,h=c.height;x.clearRect(0,0,w,h);
+   const al=a.map(p=>p.alt),lo=Math.min(...al),hi=Math.max(...al),pad=Math.max(2,(hi-lo)*.12),mn=lo-pad,mx=hi+pad,span=Math.max(1,mx-mn),maxD=Math.max(1,a[a.length-1].d);
+   const sx=p=>10+(w-20)*(p.d/maxD),sy=p=>10+(h-20)*(1-(p.alt-mn)/span);
+   x.strokeStyle='rgba(110,255,235,.14)';x.lineWidth=1;
+   for(let i=1;i<4;i++){let yy=10+(h-20)*i/4;x.beginPath();x.moveTo(8,yy);x.lineTo(w-8,yy);x.stroke()}
+   x.lineWidth=3;x.lineJoin='round';x.lineCap='round';
+   for(let i=1;i<a.length;i++){const t=(a[i].alt-lo)/Math.max(.001,hi-lo);const hue=205-205*t;x.strokeStyle=`hsl(${hue} 82% 58%)`;x.shadowColor=x.strokeStyle;x.shadowBlur=3;x.beginPath();x.moveTo(sx(a[i-1]),sy(a[i-1]));x.lineTo(sx(a[i]),sy(a[i]));x.stroke()}
+   x.shadowBlur=0;
+   const p=a[0],q=a[a.length-1];x.fillStyle='#32e69b';x.beginPath();x.arc(sx(p),sy(p),5,0,Math.PI*2);x.fill();x.fillStyle='#ff5968';x.beginPath();x.arc(sx(q),sy(q),5,0,Math.PI*2);x.fill();
  }
- function copy(src,id){
-   const d=E(id); if(!d||!src)return false;
-   try{const c=d.getContext('2d');c.clearRect(0,0,d.width,d.height);c.drawImage(src,0,0,d.width,d.height);return true}catch(_){return false}
- }
- function capture(){
-   const c=liveCanvases();
-   snap={balance:balance(),route:freeze(c.route),elev:freeze(c.elev)};
- }
- function paint(){
-   if(!snap)return;
-   const b=snap.balance;
-   if(E('asm22Y'))E('asm22Y').textContent=b.y;
-   if(E('asm22X'))E('asm22X').textContent=b.x;
-   if(E('asm22Z'))E('asm22Z').textContent=b.z;
-   if(E('asm22Stable'))E('asm22Stable').textContent=b.stability;
-   copy(snap.route,'asm22Route'); copy(snap.elev,'asm22Elev');
- }
+ function paint(){drawElev();balanceText()}
  stop.addEventListener('click',()=>{capture();setTimeout(paint,90)},true);
-
- // Save the same direct balance snapshot into the newest mission record.
- E('mark2Summary12Save')?.addEventListener('click',()=>setTimeout(()=>{try{
-   const key='ayalog_mark2_walk_records_v1', a=JSON.parse(localStorage.getItem(key)||'[]');
-   if(a[0]&&snap){a[0].balance=snap.balance;localStorage.setItem(key,JSON.stringify(a))}
- }catch(_){}},0),false);
-
- window.AYALOG_MARK2_ASM294={capture,paint,balance};
- document.documentElement.dataset.assembly294='result-data-bus-repair';
+ const save=E('mark2Summary12Save');
+ save?.addEventListener('click',()=>setTimeout(()=>{try{
+   const key='ayalog_mark2_walk_records_v1',a=JSON.parse(localStorage.getItem(key)||'[]');
+   if(a[0]&&snap){
+     const b=snap.balance;
+     a[0].balance=b&&finite(b.stability)?{
+       y:{back:Math.round(b.back),front:Math.round(b.front)},
+       x:{left:Math.round(b.left),right:Math.round(b.right)},
+       z:{down:Math.round(b.down),up:Math.round(b.up)},
+       stability:Math.round(b.stability)
+     }:null;
+     a[0].elevation=snap.elev;
+     localStorage.setItem(key,JSON.stringify(a));
+   }
+ }catch(_){}},30),false);
+ window.AYALOG_MARK2_ASM294={capture,paint};
 })();
 </script>
 </body></html>
