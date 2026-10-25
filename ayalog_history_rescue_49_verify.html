@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>歩ログ｜歩行履歴・非破壊バックアップ</title>
+<style>body{margin:0;background:#09191c;color:#eafffb;font:16px/1.65 system-ui,-apple-system,sans-serif}main{max-width:640px;margin:auto;padding:24px 18px 55px}h1{font-size:24px;color:#7cf1df}section{background:#153136;border:1px solid #31595a;border-radius:15px;padding:16px;margin:16px 0}button{background:#15a99b;color:#fff;border:0;border-radius:12px;padding:14px 16px;font-size:17px;font-weight:700;width:100%;margin:8px 0}button:disabled{background:#456264;color:#c4d4d2}small{color:#b7d0cf}#status{white-space:pre-wrap;overflow-wrap:anywhere}strong{color:#9af7c8}.warn{color:#ffd596}</style></head><body><main>
+<h1>歩ログ｜49件の履歴救出</h1><section><strong>非破壊・読み取り専用</strong><p>歩ログの保存領域を読み取るだけです。履歴の追加・変更・削除、外部へのデータ送信は行いません。</p><small>GitHub Pages の旧歩ログと同じオリジンで開いた場合のみ実行できます。</small></section>
+<section><button id="inspect">① 保存履歴を検査（読み取りのみ）</button><div id="status" role="status">まだ検査していません。</div></section>
+<section><button id="save" disabled>② 全件をJSONでバックアップ</button><p><small>ファイルはスマホのダウンロードフォルダへ保存されます。GPS軌跡が含まれる可能性があるため、ファイルは公開しないでください。</small></p></section>
+<section><strong>③ ダウンロードファイルを照合</strong><p><small>保存したJSONファイルを選ぶと、保存前に読み取ったデータと全文一致するかを検査します。元の履歴には書き込みません。</small></p><input id="verifyFile" type="file" accept=".json,application/json" disabled style="width:100%;margin:10px 0"><div id="verifyStatus" role="status" style="white-space:pre-wrap;overflow-wrap:anywhere">保存後にファイルを選択してください。</div></section><section><strong>注意</strong><p class="warn">49件と表示されない場合は保存せず、結果の画面だけを共有してください。Chromeのサイトデータ削除や履歴の削除はしないでください。</p><small>検査対象キー: ayalog_mark2_walk_records_v1</small></section>
+</main><script>
+(()=>{'use strict';
+const KEY='ayalog_mark2_walk_records_v1', EXPECTED_ORIGIN='https://janreno2012-hue.github.io';
+const status=document.getElementById('status'),save=document.getElementById('save'),verifyFile=document.getElementById('verifyFile'),verifyStatus=document.getElementById('verifyStatus');let raw=null;
+function msg(s){status.textContent=s}
+document.getElementById('inspect').addEventListener('click',()=>{
+  save.disabled=true;verifyFile.disabled=true;verifyFile.value='';verifyStatus.textContent='保存後にファイルを選択してください。';raw=null;
+  if(location.origin!==EXPECTED_ORIGIN){msg('停止：旧GitHub Pagesのアドレスではありません。\n現在のオリジン: '+location.origin+'\nこのファイルをスマホで直接開いたりCodespacesで開いた場合、旧版の履歴は参照できません。');return}
+  try{
+    const value=localStorage.getItem(KEY);
+    if(value===null){msg('履歴キーが見つかりません。旧版のURLやChromeの利用状況を確認してください。');return}
+    const parsed=JSON.parse(value);
+    if(!Array.isArray(parsed)){msg('停止：履歴データが配列ではありません。変更は行っていません。');return}
+    const n=parsed.length;
+    const withRoute=parsed.filter(x=>x&&typeof x==='object'&&(Array.isArray(x.routePoints)||Array.isArray(x.gpsPoints)||Array.isArray(x.trackPoints))).length;
+    msg('読み取り成功：'+n+'件\n保存文字数：'+value.length.toLocaleString('ja-JP')+'文字\n配列形式：正常\n軌跡候補フィールドを持つ記録：'+withRoute+'件（参考値）\n\n'+(n===49?'期待した49件を確認しました。JSON保存に進めます。':'⚠ 事前確認の49件と一致しません。原因確認まで保存操作は停止します。'));
+    if(n===49){raw=value;save.disabled=false}
+  }catch(e){msg('読み取りエラー：'+String(e.message||e)+'\nデータは変更していません。')}
+});
+save.addEventListener('click',()=>{
+  if(raw===null)return;
+  if(localStorage.getItem(KEY)!==raw){save.disabled=true;verifyFile.disabled=true;msg('停止：検査後に履歴が更新されました。もう一度①から検査してください。');return;}
+  const blob=new Blob([raw],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='ayalog_walk_history_49_backup_'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+  verifyFile.disabled=false;
+  msg('49件のJSON保存操作を実行しました。\nChromeのダウンロード完了表示とファイル名を確認してください。\n元データは変更していません。次に③で保存したファイルを照合してください。');
+});
+verifyFile.addEventListener('change',async()=>{
+  if(raw===null||!verifyFile.files||!verifyFile.files[0])return;
+  try{const f=verifyFile.files[0],got=await f.text(),parsed=JSON.parse(got);
+    if(!Array.isArray(parsed)){verifyStatus.textContent='不合格：JSONが履歴配列ではありません。';return;}
+    if(got===raw&&parsed.length===49){verifyStatus.textContent='合格：49件、保存前のJSON全文と完全一致しました。\nファイル名：'+f.name+'\nサイズ：'+f.size.toLocaleString('ja-JP')+'バイト\n元データは変更していません。';}
+    else{verifyStatus.textContent='不合格：件数または内容が一致しません（読み込み件数 '+parsed.length+'件）。保存ファイルを再確認してください。';}
+  }catch(e){verifyStatus.textContent='照合エラー：'+String(e.message||e);}
+});
+})();
+</script></body></html>
