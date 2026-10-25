@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>歩ログ｜歩行履歴・非破壊バックアップ</title>
+<style>body{margin:0;background:#09191c;color:#eafffb;font:16px/1.65 system-ui,-apple-system,sans-serif}main{max-width:640px;margin:auto;padding:24px 18px 55px}h1{font-size:24px;color:#7cf1df}section{background:#153136;border:1px solid #31595a;border-radius:15px;padding:16px;margin:16px 0}button{background:#15a99b;color:#fff;border:0;border-radius:12px;padding:14px 16px;font-size:17px;font-weight:700;width:100%;margin:8px 0}button:disabled{background:#456264;color:#c4d4d2}small{color:#b7d0cf}#status{white-space:pre-wrap;overflow-wrap:anywhere}strong{color:#9af7c8}.warn{color:#ffd596}</style></head><body><main>
+<h1>歩ログ｜48件の履歴救出</h1><section><strong>非破壊・読み取り専用</strong><p>歩ログの保存領域を読み取るだけです。履歴の追加・変更・削除、外部へのデータ送信は行いません。</p><small>GitHub Pages の旧歩ログと同じオリジンで開いた場合のみ実行できます。</small></section>
+<section><button id="inspect">① 保存履歴を検査（読み取りのみ）</button><div id="status" role="status">まだ検査していません。</div></section>
+<section><button id="save" disabled>② 全件をJSONでバックアップ</button><p><small>ファイルはスマホのダウンロードフォルダへ保存されます。GPS軌跡が含まれる可能性があるため、ファイルは公開しないでください。</small></p></section>
+<section><strong>注意</strong><p class="warn">48件と表示されない場合は保存せず、結果の画面だけを共有してください。Chromeのサイトデータ削除や履歴の削除はしないでください。</p><small>検査対象キー: ayalog_mark2_walk_records_v1</small></section>
+</main><script>
+(()=>{'use strict';
+const KEY='ayalog_mark2_walk_records_v1', EXPECTED_ORIGIN='https://janreno2012-hue.github.io';
+const status=document.getElementById('status'),save=document.getElementById('save');let raw=null;
+function msg(s){status.textContent=s}
+document.getElementById('inspect').addEventListener('click',()=>{
+  save.disabled=true;raw=null;
+  if(location.origin!==EXPECTED_ORIGIN){msg('停止：旧GitHub Pagesのアドレスではありません。\n現在のオリジン: '+location.origin+'\nこのファイルをスマホで直接開いたりCodespacesで開いた場合、旧版の履歴は参照できません。');return}
+  try{
+    const value=localStorage.getItem(KEY);
+    if(value===null){msg('履歴キーが見つかりません。旧版のURLやChromeの利用状況を確認してください。');return}
+    const parsed=JSON.parse(value);
+    if(!Array.isArray(parsed)){msg('停止：履歴データが配列ではありません。変更は行っていません。');return}
+    const n=parsed.length;
+    const withRoute=parsed.filter(x=>x&&typeof x==='object'&&(Array.isArray(x.routePoints)||Array.isArray(x.gpsPoints)||Array.isArray(x.trackPoints))).length;
+    msg('読み取り成功：'+n+'件\n保存文字数：'+value.length.toLocaleString('ja-JP')+'文字\n配列形式：正常\n軌跡候補フィールドを持つ記録：'+withRoute+'件（参考値）\n\n'+(n===48?'期待した48件を確認しました。JSON保存に進めます。':'⚠ 事前確認の48件と一致しません。原因確認まで保存操作は停止します。'));
+    if(n===48){raw=value;save.disabled=false}
+  }catch(e){msg('読み取りエラー：'+String(e.message||e)+'\nデータは変更していません。')}
+});
+save.addEventListener('click',()=>{
+  if(raw===null)return;
+  const blob=new Blob([raw],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='ayalog_walk_history_48_backup_'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+  msg('48件のJSON保存操作を実行しました。\nChromeのダウンロード完了表示とファイル名を確認してください。\n元データは変更していません。');
+});
+})();
+</script></body></html>
